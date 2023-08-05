@@ -14,21 +14,25 @@
 进入宝塔控制面板-----计划任务  填写计划任务
 
 1. 解冻任务 设置时间每小时第2分钟 执行
+
     **`cd /www/wwwroot/website`**
 
     **`php think UnfreezeMoney`**
 
 2. 提现任务 设置时间每小时第5分钟 执行
+
    **`cd /www/wwwroot/website`**
 
    **`php think AutoCash`**
 
 3. 3天没有支付的订单视为无效 建议执行时间为 1天一次
+
    **`cd /www/wwwroot/website`**
 
    **`php think AutoClearExpireOrder`**
 
 4. 自动清理删除超过十五天的商品 建议执行时间1天一次
+
    **`cd /www/wwwroot/website`**
 
    **`php think AutoEmptyGoodsTrash`**
