@@ -1,0 +1,148 @@
+<form class="layui-form layui-box" style='padding:25px 30px 20px 0' action="__SELF__" data-auto="true" method="post">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">上级商户</label>
+        <div class="layui-input-block">
+            <select class="layui-input" style="display:block;" name="parent_id" required>
+                <option value="">不选择</option>
+                {foreach $users as $v}
+                <option value="{$v.id}" {if isset($user) && $v.id==$user.parent_id}selected{/if}>{$v.username}</option>
+                {/foreach}
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">结算周期</label>
+        <div class="layui-input-block">
+            <select class="layui-input" style="display:block;" name="settlement_type" required>
+                <!--{if isset($user) && $user['settlement_type']=='-1'}-->
+                <option value="-1" selected>跟随系统</option>
+                <!--{else/}-->
+                <option value="-1">跟随系统</option>
+                <!--{/if}-->
+                <!--{if isset($user) && $user['settlement_type']=='1'}-->
+                <option value="1" selected>T1结算</option>
+                <!--{else/}-->
+                <option value="1">T1结算</option>
+                <!--{/if}-->
+                <!--{if isset($user) && $user['settlement_type']=='0'}-->
+                <option value="0" selected>T0结算</option>
+                <!--{else/}-->
+                <option value="0">T0结算</option>
+                <!--{/if}-->
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-block">
+            <input type="text" name="username" value="{$user.username|default=''}" required="required" title="请输入用户名" placeholder="请输入用户名" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">邮箱</label>
+        <div class="layui-input-block">
+            <input type="text" name="email" value="{$user.email|default=''}" required="required" title="请输入邮箱" placeholder="请输入邮箱" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">手机号</label>
+        <div class="layui-input-block">
+            <input type="text" name="mobile" value="{$user.mobile|default=''}" required="required" title="请输入紧急联系手机号" placeholder="请输入紧急联系手机号" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">QQ</label>
+        <div class="layui-input-block">
+            <input type="text" name="qq" value="{$user.qq|default=''}" required="required" title="请输入QQ" placeholder="请输入QQ" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">子域名</label>
+        <div class="layui-input-block">
+            <input type="text" name="subdomain" value="{$user.subdomain|default=''}" title="请输入子域名" placeholder="请输入子域名" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">店铺名</label>
+        <div class="layui-input-block">
+            <input type="text" name="shop_name" value="{$user.shop_name|default=''}" title="请输入店铺名" placeholder="请输入店铺名" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">统计代码</label>
+        <div class="layui-input-block">
+            <textarea name="statis_code" id="" cols="30" rows="5" class="layui-textarea" title="请输入统计代码" placeholder="请输入统计代码" >{$user.statis_code|default=''}</textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">支付页风格</label>
+        <div class="layui-input-block">
+            <select class="layui-input" style="display:block;" name="pay_theme" required>
+                {foreach :config('pay_themes') as $v}
+                <option value="{$v.alias}" {if isset($user) && $v.alias==$user.pay_theme}selected{/if}>{$v.name}</option>
+                {/foreach}
+            </select>
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">支付API功能</label>
+        <div class="layui-input-block">
+            <select class="layui-input" style="display:block;" name="payapi" required>
+                <option value="0" {if !isset($user) || 0==$user.payapi}selected{/if}>关闭</option>
+                <option value="1" {if isset($user) && 1==$user.payapi}selected{/if}>开启</option>
+            </select>
+        </div>
+    </div>
+
+    {if isset($user)}
+    <div class="layui-form-item">
+        <label class="layui-form-label">支付商户号</label>
+        <div class="layui-input-block">
+            <input type="text" readonly="readonly" name="payid" value="{$user.id+10000}" style="background: #e9e9e9" title="支付商户号" placeholder="支付商户号" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">支付API秘钥</label>
+        <div class="layui-input-block">
+            <input type="text"  readonly="readonly" name="paykey"  style="background: #e9e9e9" value="{$user.paykey|default=''}" title="支付秘钥" placeholder="支付秘钥" class="layui-input">
+        </div>
+    </div>
+    {/if}
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">登录密码</label>
+        <div class="layui-input-block">
+            <input type="password" name="password" value="" title="请输入密码" placeholder="请输入密码" class="layui-input">
+        </div>
+    </div>
+
+    <div class="hr-line-dashed"></div>
+
+    <div class="layui-form-item text-center">
+        <input type="hidden" name="user_id" value="{$user.id|default='0'}">
+        <button class="layui-btn" type='submit'>保存</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消吗？" data-close>取消</button>
+    </div>
+
+</form>
+
+<script>
+    // layui.use('form', function(){
+    //     var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+    //     form.render();
+    // });
+</script>

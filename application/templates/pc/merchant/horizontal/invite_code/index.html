@@ -1,0 +1,175 @@
+{extend name="base"}
+{block name="content"}
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row mb-2">
+                            <div class="col-sm-auto">
+                                <a href="{:url('invite_code/add')}" class="pull-right btn btn-primary waves-effect waves-light"><i class='bx bx-plus mr-1'></i>生成邀请码</a>
+                            </div>
+
+                            <div class="col-sm-auto">
+
+                                <form class="form-inline" role="form" action="" method="get">
+                                    <div class="form-group">
+                                        <select name="status" class="form-control select2">
+                                            <option value="">全部</option>
+                                            <option value="2" {if $Think.get.status === '2'}selected{/if}>已过期</option>
+                                            <option value="1" {if $Think.get.status === '1'}selected{/if}>已使用</option>
+                                            <option value="0" {if $Think.get.status === '0'}selected{/if}>未使用</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group ml-1">
+                                        <select name="status" class="form-control select2">
+                                            <option value="" {if $Think.get.status==''}selected{/if}>全部状态</option>
+                                            <option value="1" {if $Think.get.status=='1'}selected{/if}>未使用</option>
+                                            <option value="2" {if $Think.get.status=='2'}selected{/if}>已使用</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group ml-2">
+                                        添加时间：<input class="form-control input-daterange-datepicker"  type="text" name="create_at" value="{:urldecode($Think.get.create_at)}" placeholder="点击选择查询日期">
+                                    </div>
+
+                                    <div class="form-group ml-2">
+                                        过期时间：<input class="form-control input-daterange-datepicker"  type="text" name="expire_at" value="{:urldecode($Think.get.expire_at)}" placeholder="点击选择查询日期">
+                                    </div>
+
+                                    <button type="submit" class="btn btn-light waves-effect waves-light ml-1"><i class="bx bx-search mr-1"></i>搜索</button>
+                                </form>
+                            </div>
+
+                        </div>
+
+
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>邀请码</th>
+                                        <th>状态</th>
+                                        <th>邀请时间</th>
+                                        <th>添加时间	</th>
+                                        <th>有效期</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {foreach $codes as $v}
+                                    <tr>
+                                        <td>{$v.code}</td>
+                                        <td>
+                                            {switch name="v.status"}
+                                            {case value="0"}<font class="text-dark">未使用</font>{/case}
+                                            {case value="1"}<font class="text-success">已使用</font>{/case}
+                                            {case value="2"}<font class="text-danger">已过期</font>{/case}
+                                            {/switch}
+                                        </td>
+                                        <td>
+                                            {if $v.status==1}
+                                            {$v.invite_at|date="Y-m-d H:i:s",###}
+                                            {else/}
+                                            -
+                                            {/if}
+                                        </td>
+                                        <td>
+                                            {$v.create_at|date="Y-m-d H:i:s",###}
+                                        </td>
+                                        <td>
+                                            {if $v.status==1}
+                                            <span class="badge badge-dark">已使用</span>
+                                            {else/}
+                                            {$v.expire_day}
+                                            {if $v.expire_at!=0}
+                                            {if $v.create_at>=$v.expire_at}
+                                            <span class="badge badge-danger">已过期</span>
+                                            {else/}
+                                            <span class="badge badge-success">{$v.expire_days}天</span>
+
+                                            {/if}
+                                            {/if}
+                                            {/if}
+                                        </td>
+                                        <td>
+                                            {if $v.status!=1}
+                                            <a href="javascript:void(0);" onclick="del('{$v.id}')">删除</a>
+                                            {/if}
+                                        </td>
+                                    </tr>
+                                    {/foreach}
+                                </tbody>
+                            </table>
+                        </div>
+                        <nav aria-label="...">
+                            {$page}
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+{/block}
+{block name="js"}
+<script>
+
+    function del(id)
+    {
+        $.confirm({
+            title: '提示！',
+            content: '确认删除该邀请码？',
+            type: 'red',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: '确定',
+                    btnClass: 'btn-red',
+                    action: function () {
+                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                        $.post("{:url('invite_code/del')}", {
+                            id: id
+                        }, function (res) {
+                            if (res.code != 1) {
+                                $.alert(res.msg);
+                            } else {
+                                $.alert("删除成功");
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 200);
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+    }
+
+</script>
+{/block}

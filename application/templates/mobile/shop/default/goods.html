@@ -1,0 +1,42 @@
+{extend name="./layout"}
+
+{block name="content"}
+
+<input type="hidden" name="goodid" id="goodid" value="{$goods.id}"/>
+<input type="hidden" name="cateid" id="cateid" value="{$goods.cate_id}"/>
+<section class="category">
+    <div class="category_title d-flex align-content-center">
+        <span>选择分类</span>
+    </div>
+    <div class="category_list">
+        <div class="category_box_bak active">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAMAAAANIilAAAABDlBMVEX////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////uKVtWAAAAWnRSTlMAAgMEBQYHCBAREhMWHR4gJicqKywtLi8xMjM0NTY5Ojs9Pj9AQUJDREVGR0hJSktMTU5PUVJTVFVWV1laW11gYmNkZWZoaWpsbm9wcXJzdHV3eHl6e3x9fn8hmsUDAAACRElEQVR4Xq3XbVfaMBjH4ZvVYhkoYhWsFcfK+i+iU+Z0Pk11m49zE1ER8/2/yBxrThJaSNuz6/0vzemL5A7FM4pl2200gWbDtctFgxLLzy77UPjLs9OUhFXlpdpXLdIpOBjLKdAk5jwmmjdprJIHDa9E8XJzSGAuRzHeLCERZ4oiplaQUD1SG6LVWjFIkVuCVut0LayXciSrQGury64QqpCkBK2DPmPsGKGSaPMeNILv7K/Bdhh7eeIWofHxF/un1w7rRd4WoLH3xLhrhAph7Cgfud2HKvjGJDth7NCQBcmXJ9bfhGzjlgn9PXDWMK6KNDh9YYzdBRB2H5nwW1q3Sq9MH9z6DRs6V1YTfgQQfJOIZsB9emChQ7Ga0D+AYkb5Xe0ej587w3bngQndLagcIsMHh+0Br7stACfyli9aGOEbVITkmHGXaF8zYXCEqCKVIbti3FmPCfcdxCiTDdnaPYtxuYY4NrlQdAaRdPAV8VxqQHU02vY+Y4wGNTHiQm2v2xinSRjV6spbPsEEhIjOs2bL3AdqIuKQtzfrmOQ9NRB1PkxfTgNM9I5cRAV3r+3jLjRcshFjs89+bkDHpjLi7J8F0CpTEZkVyfCRkW8QOcjI4cdQFjP8AExHHIBUQyY1fuhnYfHrJgNHXHTpvRVXbGqL8uWekpeXx4qUSupAk0ol9SglODlSTNWB7COgmbiumxRhJB5cs4/Mldx/HNYF08ZEtpn5gbJcIB2rFv80qlmUxHTWR5l4Di64q57ve6vuwtjn4B94/uYnspcNGwAAAABJRU5ErkJggg==">
+            <div class="cate_name">{$goods.category.name}</div>
+            <div class="cate_desc">包含{$goods.category.count}种商品</div>
+        </div>
+    </div>
+</section>
+
+
+<section class="goods">
+    <div class="goods_title d-flex align-content-center">
+        <span>选择商品</span>
+    </div>
+    <div class="goods_list" style="max-height: 380px;overflow-x: auto;">
+
+        <div style="cursor:pointer" class="goods_box active" data-goods_id="{$goods.id}">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAwCAMAAABdTmjTAAABU1BMVEUzaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf8zaf////9hi//b5f/d5v/z9v81av84bf9Acv9Bc/9Edf9Jef9Me/9NfP9Wg/9Xg/81a/9rkv9tlP9ulf92mv99oP9/of+Gpv+Nq/+Qrf+UsP+fuP+huv+uxP+vxP+yx//B0f/C0v/J2P/M2f83bP8+cf/i6v/t8v/u8//x9P88b//5+v/6+//8/f/9/f/+/v89cf+QnoDYAAAAQHRSTlMAAQIDBgoMDxMVFhwfIiQsLS83PkJDTlFUW2Nma3Z4f4KHiJSWmZykq66xtLy9wcPEyNDS09vg4+rs8PP1+fz+e7c8kwAAATpJREFUeF6V0ldPAlEYhGGRRcQu9t7FrqgIImUO1d672Hv3/1cP0Q3Z8EGG9/q5mkxZCblKsJWzvHV4g7Q1pkBj+xhobBsBjwfA4x7wuDPK47YIaNwcBo3dK6BxfQA0rvGDxi4faOycB40dM6CxMQEa2zzg8RB43Aced4PHHVEet4ZB46YQaNwYBI3rAhaTXi2Cq5dg6TKxVRC7Fq32VKnnWAFc4bXa/S+l1LGMjWmr3U5qm4GI7eOmekS29Sdtb3ZFbBs17cHrHoD0vbbxH4h40LQ7SfV5Alxp+7IJEffC7FbpMmfafsQg4q7cedbu1H9HEHF7BLkerv/sBUTcEoal8+/sECkRu/OOdviu4m+QcMMy8oolNiDhWj+EUpBwlQ9iEnYugCmUtY45cGlrTILG5R7weBg87gffL8pDCUuj0TqxAAAAAElFTkSuQmCC" class="icon"> 
+            <div></div>
+            <div class="goods_name">{$goods.name}</div>
+            <div class="goods_price">{$goods.price}</div> 
+            <div class="goods_remark">{$goods.stockStr}</div>
+        </div>
+
+    </div>
+</section>
+<script>
+    $(function () {
+        selectgoodid();
+    });
+</script>
+{/block}

@@ -1,0 +1,83 @@
+{extend name="base"}
+
+{block name="css"}
+
+{/block}
+{block name="content"}
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row mb-2">
+                            <div class="col-lg-12">
+                                <div class="alert alert-info" role="alert">
+                                    推广链接： <span>__PUBLIC__/register?user_id={$_user.id}</span>&nbsp;&nbsp;
+                                    {if sysconf('spread_reward')==1}使用邀请码或推广链接注册奖励{:sysconf('spread_reward_money')}元，{/if}
+                                    返利比例{:get_spread_rebate_rate($_user.id)*100}%
+                                </div>
+                                <div class="alert alert-info" role="alert">
+                                    推广二维码： <a href="{$spread_url}" target="_blank" >查看</a>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>下级商户ID</th>
+                                        <th>商户账号</th>
+                                        <th>注册时间</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {foreach $subUsers as $v}
+                                    <tr>
+                                        <td>{$v.id}</td>
+                                        <td>{$v.username}</td>
+                                        <td>{$v.create_at|date="Y-m-d H:i:s",###}</td>
+                                    </tr>
+                                    {/foreach}
+                                </tbody>
+                            </table>
+                        </div>
+                        <nav aria-label="...">
+                            {$page}
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- container-fluid -->
+</div>
+
+{/block}
+{block name="js"}
+
+{/block}

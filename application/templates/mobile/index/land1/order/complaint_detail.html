@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <title>{:sysconf('site_name')} - {:sysconf('site_subtitle')}</title>
+        <meta name="keywords" content="{:sysconf('site_keywords')}" />
+        <meta name="description" content="{:sysconf('site_desc')}" />
+        <link rel="shortcut icon" href="{:sysconf('browser_icon')}" />
+        <link rel="stylesheet" href="__RES__/app/css/main.css">
+        <link rel="stylesheet" href="__RES__/app/css/main_mobile.css">
+        <link rel="stylesheet" href="__RES__/app/css/iconfont.css">
+        <link rel="stylesheet" href="__RES__/app/css/animate.min.css">
+        <link rel="stylesheet" href="__RES__/app/css/swiper.min.css">
+        <link rel="stylesheet" href="__RES__/plugs/layui/css/layui.css">
+        <script src="__RES__/app/js/jquery-2.2.1.min.js"></script>
+        <script src="__RES__/app/js/swiper.min.js"></script>
+        <script src="__RES__/app/js/formvalidator_min.js"></script>
+        <script src="__RES__/app/js/formvalidatorregex.js"></script>
+        <script src="__RES__/app/js/layer.js"></script>
+        <style>
+            .main {
+                width: 80%;
+                margin: 2rem auto;
+            }
+
+            .clock-area {
+                margin: .5rem;
+            }
+
+            .clock {
+                display: inline-block;
+            }
+
+            #clock {
+                font-size: 1.3rem;
+            }
+
+            .text-orange {
+                color: #ef7e85;
+            }
+
+            .title {
+                font-size: 1.1rem;
+                font-weight: bold;
+            }
+
+            .ts-main {
+                padding: 0 1rem;
+            }
+
+            .complaint-box {
+                color: #888;
+            }
+
+            .complaint-box a {
+                color: blue;
+            }
+
+            .complaint-box li {
+                margin: .5rem 0;
+            }
+
+            #message-box {
+                width: 100%;
+                height: 20rem;
+                overflow: auto;
+                margin: 1rem auto;
+            }
+
+            .message {
+                margin: 2rem 0;
+            }
+
+            .message-title {
+                margin: 1rem 0;
+            }
+
+            .message-content {
+                line-height: 30px;
+                margin: 0;
+                padding: 5px 10px;
+                border: 1px solid #eee;
+                border-radius: 4px;
+                background: rgb(245, 245, 245);
+            }
+
+            #content {
+                width: 100%;
+                resize: none;
+                border: 1px solid #eee;
+                padding: 10px;
+                box-sizing: border-box;
+            }
+
+            .tag {
+                padding: 2px 5px;
+                color: white;
+                border-radius: 4px;
+            }
+
+            .tag-dl {
+                background:#093;
+            }
+            .tag-sj {
+                background: #0099da;
+            }
+
+            .tag-mj {
+                background: #838eea;
+            }
+
+            .tag-admin {
+                background: #ef7e85;
+            }
+
+
+            .btn {
+                display: block;
+                border: none;
+                height: 48px;
+                width: 100%;
+                line-height: 48px;
+                color: #fff;
+                margin: 1rem auto;
+                border-radius: 4px;
+                font-weight: bold;
+            }
+
+            .btn-ts {
+                background: #409ccf;
+            }
+
+            .btn-cx {
+                background: #ef7e89;
+            }
+
+            .btn-xs {
+                width: 15%;
+            }
+        </style>
+    </head>
+    <body>
+
+
+        <div class="main">
+            <div class="ts_title">
+                <div class="clock-area">
+                    <img src="__RES__/app/images/clock.png" alt="">
+                    <div class="clock">
+                        <p>投诉沟通倒计时</p>
+                        <!-- {if condition="$complaint.expire_at > time() && $complaint.status == 0"} -->
+                        <p id="clock" class="text-orange"></p>
+                        <!-- {elseif condition="$complaint.status == 0"/} -->
+                        <p class="text-orange">举证期已结束，请等待管理员进行裁决</p>
+                        <!-- {else} -->
+                        <p class="text-orange">已裁决</p>
+                        <!-- {/if} -->
+                    </div>
+                </div>
+            </div>
+            <div class="ts-main">
+                <p class="title">投诉信息</p>
+                <hr>
+                <!-- {if condition="!empty($complaint)"} -->
+                <ul class="complaint-box">
+                    <li>订单编号 ：{$complaint->trade_no}</li>
+                    <li>举报原因 ：{$complaint->type}</li>
+                    <li>联系方式 ：<a target="_blank"
+                                 href="//wpa.qq.com/msgrd?v=3&amp;uin={$complaint->qq}&amp;site=qq&amp;menu=yes">{$complaint->qq}</a>
+                    </li>
+                    <li>投诉时间 ：{$complaint.create_at|date='Y-m-d H:i:s', ###}</li>
+                    <li>投诉状态 ：
+                        <!-- {if condition="$complaint->status == 0"} -->
+                        处理中
+                        <!-- {elseif condition="$complaint->status == -1"} -->
+                        已撤销
+                        <!-- {else/} -->
+                        已处理
+                        <!-- {/if} -->
+                    </li>
+                    <!-- {if condition="$complaint->status != -1"} -->
+                    <li>投诉结果 ：
+                        <!-- {if condition="$complaint->result == 0"} -->
+                        处理中
+                        <!-- {elseif condition="$complaint->result == 1"} -->
+                        商家胜诉
+                        <!-- {else/} -->
+                        买家胜诉
+                        <!-- {/if} -->
+                    </li>
+                    <!-- {/if} -->
+                </ul>
+
+                <hr>
+
+                <div id="message-box">
+                    <!-- {foreach name="messages" item="message" key="k"} -->
+                    <div class="message">
+                        <div class="message-title">
+                            <!-- {if condition="$message['from'] neq 0"} -->
+                            <!-- {if condition="$message['from'] eq $complaint->proxy_parent_user_id "} -->
+                            <span class="tag tag-dl">商家</span>
+                            <!-- {else /} -->
+
+                            <!-- {if condition="$message['from'] eq 1"} -->
+                            <span class="tag tag-admin">管理员</span>
+                            <!-- {else /} -->
+                            <!-- {if condition="$complaint->proxy_parent_user_id neq 0"} -->
+                            <span class="tag tag-sj">代理</span>
+                            <!-- {else /} -->
+                            <span class="tag tag-dl">商家</span>
+                            <!-- {/if} --> 
+                            <!-- {/if} --> 
+
+                            <!-- {/if} --> 
+                            <!-- {else /} -->
+                            <span class="tag tag-mj">买家</span>
+                            <!-- {/if} -->
+                            {$message.create_at|date='Y-m-d H:i:s', ###}
+                        </div>
+                        <!-- {if $message.content_type == 0} -->
+                        <span class="message-content">{$message.content}</span>
+                        <!-- {elseif $message.content_type == 1} -->
+                        <div class="message-content">
+                            <img style="width: 80%;height: auto;display: inline-block;" src="{$message.content}" alt="举证图片">
+                        </div>
+                        <!-- {/if} -->
+                    </div>
+                    <!-- {if condition="$k == 0"} -->
+                    <div class="message">
+                        <div class="message-title">
+                            <span class="tag tag-admin">管理员</span>
+                            {$message.create_at|date='Y-m-d H:i:s', ###}
+                        </div>
+                        <span class="message-content">我们已收到您的投诉请求,并通知了商家,请耐心等待</span>
+                    </div>
+                    <!-- {/if} -->
+                    <!-- {/foreach} -->
+                </div>
+
+                <hr>
+
+
+                <!-- {if $complaint.status == 0} -->
+                <!-- {if $complaint.expire_at > time() && $complaint.status == 0} -->
+                <div class="content-box">
+                    <textarea name="content" id="content" cols="30" rows="10" placeholder="请输入沟通内容"></textarea>
+                </div>
+                <div>
+                    <input id="file_content" type="file" name="image" style="display: none;"/> <br>
+                    <button class="btn btn-ts btn-xs" style="float:left;" onclick="javascript:$('#file_content').click();"
+                            type="button">上传图片
+                    </button>
+                </div>
+                <!-- {/if} -->
+
+                <div style="text-align: center;">
+                    <!-- {if $complaint.expire_at > time() && $complaint.status == 0} -->
+                    <button type="button" class="btn btn-ts" onclick="send()">发送内容</button>
+                    <!-- {/if} -->
+                    <button type="button" class="btn btn-cx" onclick="cancel()">撤销投诉</button>
+                </div>
+                <!-- {/if} -->
+                <!-- {else /} -->
+                <script>
+                    alert('投诉不存在，请重新查询');
+                    location.href = '/';
+                </script>
+                <!-- {/if} -->
+
+            </div>
+        </div>
+
+        <script src="__RES__/app/js/main.js"></script>
+        <script src="__RES__/app/js/main_mobile.js"></script>
+        <script>
+                    var mySwiper = new Swiper('.swiper-container', {
+                        slidesPerView: 'auto',
+                        autoplay: 3000,
+                        direction: 'horizontal',
+                        loop: true,
+                        nextButton: '.swiper-button-next',
+                        prevButton: '.swiper-button-prev',
+                    })
+        </script>
+        <script src="__RES__/app/js/jquery.countdown.min.js"></script>
+        <script>
+                    function send() {
+                        var content = $('#content').val();
+                        if (content.length === 0) {
+                            layer.msg('请输入沟通内容');
+                            return false;
+                        }
+
+                        $.post("{:url('index/Order/complaintSend')}", {
+                            token: "{$token}",
+                            'content': content
+                        }, function (data) {
+                            var extra = {
+                                icon: 1
+                            }
+                            if (data.code != '200') {
+                                extra = {
+                                    icon: 2
+                                }
+                            }
+                            layer.msg(data.msg, extra, function () {
+                                location.reload();
+                            })
+                        });
+                    }
+
+                    function cancel() {
+                        layer.prompt({
+                            title: '请输入投诉密码'
+                        }, function (pwd) {
+                            $.post("{:url('Index/Order/complaintCancel')}", {
+                                token: "{$token}",
+                                trade_no: "{$complaint->trade_no}",
+                                pwd: pwd
+                            }, function (data) {
+                                var extra = {
+                                    icon: 1
+                                }
+                                if (data.code != '200') {
+                                    extra = {
+                                        icon: 2
+                                    }
+                                }
+                                layer.msg(data.msg, extra, function () {
+                                    location.reload();
+                                })
+                            });
+                        });
+                    }
+
+                    $(function () {
+                        $('#clock').countdown('{$complaint->expire_at|date="Y/m/d H:i:s",###}', function (event) {
+                            $(this).html(event.strftime('%d天%H小时%M分%S秒'));
+                        });
+
+                        $('#message-box').scrollTop($('#message-box')[0].scrollHeight);
+
+                        $('#file_content').change(function (e) {
+                            var url = "{:url('index/order/complaintImg')}";
+
+                            var that = this;
+                            var files = e.target.files
+                            var formData = new FormData();
+                            formData.append('image', files[0]);
+                            formData.append('token', '{$token}');
+                            $.ajax({
+                                url: url,
+                                data: formData,
+                                dataType: 'json',
+                                type: 'POST',
+                                processData: false,
+                                contentType: false,
+                                success: function (data) {
+                                    debugger
+                                    var extra = {
+                                        icon: 1
+                                    }
+                                    if (data.code != '200') {
+                                        extra = {
+                                            icon: 2
+                                        }
+                                    }
+                                    layer.msg(data.msg, extra, function () {
+                                        location.reload();
+                                    })
+                                }
+                            })
+                        })
+                    })
+        </script>
+    </body>
+</html>

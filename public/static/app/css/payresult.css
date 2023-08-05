@@ -1,0 +1,59 @@
+﻿body,html {
+    font-size: 12px;
+    font-family: "微软雅黑","Microsoft YaHei",sans-serif;
+    line-height: 1.8em;
+    border-collapse: collapse;
+    background: #fff
+}
+
+a {
+    text-decoration: none
+}
+
+
+.notice_page {
+    margin: 0 auto;
+    height: 100%
+}
+
+.notice_404_p {
+    text-align: center;
+    width: 100%;
+}
+
+.notice_page .home_page {
+    margin: 0 auto;
+    height: 40px;
+    width: 300px;
+    padding-left: 82px
+}
+
+.notice_page .home_page .notice_retun {
+    background: #e8e8e8 url('../images/return.png') no-repeat 5px center;
+    margin-right: 20px
+}
+div.notice_page .notice_success{height:470px;background:url('../images/pay_success.png') center 70px no-repeat}
+div.notice_page .notice_fail{height:470px;background:url('../images/pay_fail.png') center 70px no-repeat}
+.notice_page .home_page a {
+    display: block;
+    padding: 5px 5px 5px 30px;
+    color: #676767;
+    float: left;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    border-radius: 3px
+}
+
+.notice_page .home_page .notice_home {
+    background: #e8e8e8 url('../images/home.png') no-repeat 5px center
+}
+
+@media screen and (max-width:800px){
+    .notice_page {
+        margin: 0 auto;
+        width: 100%;
+    }
+    .notice_404_p img {
+        width: 100%;
+    }
+}

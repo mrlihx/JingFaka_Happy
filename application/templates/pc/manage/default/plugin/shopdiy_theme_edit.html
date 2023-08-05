@@ -1,0 +1,63 @@
+<style>
+    #account_id,#weight{
+        display: none;
+    }
+</style>
+<form class="layui-form layui-box" style='padding:25px 30px 20px 0' action="__SELF__" data-auto="true" method="post">
+
+    <input type="hidden" name="id"  value="{$shopdiy.id|default=''}">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">素材名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="name" placeholder="主题名称" autocomplete="off" class="layui-input" value="{$shopdiy.name|default=''}">
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">素材类型</label>
+        <div class="layui-input-block">
+            <select class="layui-input" style="display:block;" name="resource_type">
+                {if !$shopdiy||(isset($shopdiy) && $shopdiy['resource_type']=='0')}
+                <option value="0" selected>视频</option>
+                <option value="1" >图片</option>
+                {else/}
+                <option value="0" >视频</option>
+                <option value="1" selected>图片</option>
+                {/if}
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">背景素材链接</label>
+        <div class="layui-input-block">
+            <input type="text" name="resource" placeholder="视频格式为mp4视频链接，图片格式为png、jpg格式图片链接" autocomplete="off" class="layui-input" value="{$shopdiy.resource|default=''}">
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">状态</label>
+        <div class="layui-input-block">
+            <select class="layui-input" style="display:block;" name="status">
+                {if !$shopdiy||(isset($shopdiy) && $shopdiy['status']=='1')}
+                <option value="1" selected>正常</option>
+                <option value="0" >禁用</option>
+                {else/}
+                <option value="1">正常</option>
+                <option value="0" selected>禁用</option>
+                {/if}
+            </select>
+        </div>
+    </div>
+
+    <div class="hr-line-dashed"></div>
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type="submit">保存</button>
+        <button class="layui-btn layui-btn-danger" type="button" data-confirm="确定要取消吗？" data-close="">取消</button>
+    </div>
+</form>
+<script>
+</script>

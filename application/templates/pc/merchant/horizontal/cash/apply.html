@@ -1,0 +1,133 @@
+{extend name="base"}
+{block name="css"}
+{/block}
+{block name="content"}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+
+                    <div class="card-body">
+
+
+
+                        <div class="row mb-2">
+                            <div class="col-lg-12">
+
+                                {if sysconf('cash_status')==1}
+                                {if sysconf('auto_cash')==1}
+                                <div class="alert alert-success" role="alert">
+                                    自动提现：每日{:sysconf('auto_cash_time')}点系统自动提现，最低自动提现金额{:sysconf('auto_cash_money')}元，{if sysconf('auto_cash_fee')==0}无手续费。{else/} {if sysconf('auto_cash_fee_type')==1}每笔手续费{:sysconf('auto_cash_fee')}元。{else/}手续费{:sysconf('auto_cash_fee')}%。{/if}{/if}当前您的账户结算周期为T{$settlement_type}结算。
+                                </div>
+                                {/if}
+
+                                <div class="alert alert-primary" role="alert">
+                                    手动提现：允许提现时间每日{:sysconf('cash_limit_time_start')}点到{:sysconf('cash_limit_time_end')}点，最低提现{:sysconf('cash_min_money')}元，{if sysconf('cash_fee')==0}无手续费。{else/} {if sysconf('cash_fee_type')==1}每笔手续费{:sysconf('cash_fee')}元。{else/}手续费{:sysconf('cash_fee')}%。{/if}{/if}
+                                </div>
+
+
+
+                                {else/}
+                                <div class="alert alert-danger" role="alert">
+                                    提现功能已关闭
+                                </div>
+                                {/if}
+                            </div>
+                        </div>
+
+
+                        <form class="form-horizontal" role="form" action="" method="post" onsubmit="return beforeSubmit()">
+                            {:token()}
+
+                            <div class="form-group row">
+                                <label class="col-md-2 col-form-label">今日可提现次数</label>
+                                <div class="col-md-4">
+                                    <input  type="text" class="form-control border-0 font-weight-bold" value="{$todayCanCashNum}次" readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-2 col-form-label">可提现金额</label>
+                                <div class="col-md-4">
+                                    <input  type="text" class="form-control border-0" value="{$_user.money}" readonly>
+                                </div>
+                                <div class="col-md-6 d-flex align-items-center">
+                                    <p class="text-muted mb-0">不可提现金额：<span class="text-danger">{$_user.freeze_money}</span>元</p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label for="fee" class="col-md-2 col-form-label">手续费</label>
+                                <div class="col-md-4">
+                                    <input name="fee" type="text" class="form-control border-0" value="{if sysconf('cash_fee_type')==100}{:sysconf('cash_fee')}%{else/}{:sysconf('cash_fee')}元{/if}" readonly>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label for="money" class="col-md-2 col-form-label">提现金额</label>
+                                <div class="col-md-4">
+                                    <input name="money" type="text" class="form-control" placeholder="提现金额" value="">
+                                </div>
+                                <div class="col-md-6 d-flex align-items-center">
+                                    <p class="text-muted mb-0">注：最低提现金额{:sysconf('cash_min_money')}元</p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label class="col-md-2  col-form-label"></label>
+                                <div class="col-md-4">
+                                    <button type="submit" class="btn btn-primary waves-effect waves-light">申请提现</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+
+
+{/block}
+{block name="js"}
+<script>
+    var canSubmit = true;
+
+    function beforeSubmit() {
+        if (canSubmit) {
+            canSubmit = false;
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
+
+{/block}

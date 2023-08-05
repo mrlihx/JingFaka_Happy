@@ -1,0 +1,127 @@
+{extend name='./content'}
+
+{block name="button"}
+{/block}
+
+{block name="content"}
+
+<!-- 表单搜索 开始 -->
+<form class="layui-form layui-form-pane form-search" action="__SELF__" onsubmit="return false" method="get">
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">商户UID</label>
+        <div class="layui-input-inline">
+            <input name="user_id" value="{$Think.get.user_id|default=''}" placeholder="请输入商户UID" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">商户账号</label>
+        <div class="layui-input-inline">
+            <input name="username" value="{$Think.get.username|default=''}" placeholder="请输入商户账号" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">业务类型</label>
+        <div class="layui-input-inline">
+            <select name="business_type">
+                <option value="">全部</option>
+<option value="unfreeze" {if $Think.get.business_type=='unfreeze'}selected{/if}>解冻金额</option>
+<option value="freeze" {if $Think.get.business_type=='freeze'}selected{/if}>冻结金额</option>
+<option value="sub_sold_rebate" {if $Think.get.business_type=='sub_sold_rebate'}selected{/if}>下级卖出商品返佣</option>
+<option value="sub_fee_rebate" {if $Think.get.business_type=='sub_fee_rebate'}selected{/if}>下级手续费返佣</option>
+<option value="cash_notpass" {if $Think.get.business_type=='cash_notpass'}selected{/if}>提现未通过</option>
+<option value="cash_success" {if $Think.get.business_type=='cash_success'}selected{/if}>提现成功</option>
+<option value="apply_cash" {if $Think.get.business_type=='apply_cash'}selected{/if}>申请提现</option>
+<option value="admin_inc" {if $Think.get.business_type=='admin_inc'}selected{/if}>后台操作加钱</option>
+<option value="admin_dec" {if $Think.get.business_type=='admin_dec'}selected{/if}>后台操作扣钱</option>
+<option value="goods_sold" {if $Think.get.business_type=='goods_sold'}selected{/if}>卖出商品</option>
+<option value="fee" {if $Think.get.business_type=='fee'}selected{/if}>手续费</option>
+<option value="sub_register" {if $Think.get.business_type=='sub_register'}selected{/if}>推广注册赠送</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">变动类型</label>
+        <div class="layui-input-inline">
+            <select name="type">
+                <option value="">全部</option>
+                <option value="-1" {if $Think.get.type == -1}selected{/if}>减少</option>
+                <option value="0" {if $Think.get.type === '0'}selected{/if}>无变化</option>
+                <option value="1" {if $Think.get.type == 1}selected{/if}>增加</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">时间范围</label>
+        <div class="layui-input-inline">
+            <input name="date_range" id="date_range" value="{:urldecode($Think.get.date_range)}" placeholder="请选择时间范围" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <button type="submit" class="layui-btn layui-btn-primary"><i class="fa fa-search"></i> 搜 索</button>
+    </div>
+</form>
+<!-- 表单搜索 结束 -->
+
+<div class="layui-form-item layui-inline">
+    <label class="layui-form-label">统计金额</label>
+    <div class="layui-input-inline">
+        <input type="text" class="layui-input" value="{$sum_money|default="0"} 元" readonly>
+    </div>
+</div>
+<div class="layui-form-item layui-inline">
+    <label class="layui-form-label">交易笔数</label>
+    <div class="layui-input-inline">
+        <input type="text" class="layui-input" value="{$sum_order|default="0"} 笔" readonly>
+    </div>
+</div>
+
+<form onsubmit="return false;" data-auto="true" method="post">
+    <input type="hidden" value="resort" name="action"/>
+    <table class="layui-table" lay-skin="line" lay-size="sm">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>商户UID</th>
+            <th>商户账号</th>
+            <th>变动金额</th>
+            <th>商户余额</th>
+            <th>原因</th>
+            <th>操作时间</th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $logs as $v}
+        <tr>
+            <td>{$v.id}</td>
+            <td>{$v.user_id}</td>
+            <td>{$v.user.username}</td>
+            <td>
+                {if $v.money < 0}<font color="red">- {:abs($v.money)}</font>{/if}
+                {if $v.money == 0}{$v.money}{/if}
+                {if $v.money > 0}<font color="green">+ {$v.money}</font>{/if}
+            </td>
+            <td>{$v.balance}</td>
+            <td>{$v.reason}</td>
+            <td>{$v.create_at|date="Y-m-d H:i:s",###}</td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+</form>
+{$page}
+<script>
+    layui.use('form', function(){
+        var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+        form.render();
+    });
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+        //日期范围
+        laydate.render({
+            elem: '#date_range',
+            range: true
+        });
+    });
+</script>
+{/block}

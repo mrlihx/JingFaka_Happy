@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>在线授权 - 蓝鲸安全</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <link href="__RES__/auth/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <script src=__RES__/auth/vendor.bundle.base.js"></script> 
+        <style>
+            body.authentication-bg {
+                background-image: url(__RES__/auth/bg1.jpg);
+                background-size: cover;
+                background-position: center;
+            }
+            body {
+                padding-bottom: 60px;
+                overflow-x: hidden;
+            }
+            .form-control.domain {
+                background-color: #e9ecef;
+                opacity: 1;
+            }
+            #domain {
+                border: 1px solid #f3f3f3;
+                font-weight: 400;
+            }
+        </style>
+    </head>
+
+
+    <body class="authentication-bg">
+
+
+
+        <div class="account-pages mt-5 mb-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-8 col-lg-6 col-xl-5">
+                        <div class="text-center">
+                            <a href="index.html">
+                                <span><img src="__RES__/auth/autholtitle.png" alt="" height="72"></span>
+                            </a>
+                            <p class="text-muted mt-2 mb-4"></p>
+                        </div>
+                        <div class="card">
+
+                            <div class="card-body p-4">
+
+                                {if $overstream}
+                                <div class="text-center mb-3">
+                                    <h4 class="text-uppercase mt-0">您的日流水超过系统免费计划，请升级正式版</h4>
+                                </div>
+                                {else/}
+                                <div class="text-center mb-3">
+                                    <h4 class="text-uppercase mt-0">您的系统未授权</h4>
+                                </div>
+                                {/if}
+
+                                <form method="post">
+                                    <div class="form-group mb-2">
+                                        <label for="domain">授权域名</label>
+                                        <input class="form-control " type="text" name="domain" required value="{$domain}" readonly="">
+                                    </div>
+                                    <div class="form-group mb-2">
+                                        <label for="authkey">授权码</label>
+                                        <input class="form-control" type="text" required="" name="authkey" placeholder="输入授权码">
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-primary btn-block" type="submit" id="ljsubmit"> 确 定 </button>
+                                    </div>
+                                    <h5>购买授权：</h5>
+                                    <p>官方网站：<a target="_blank" href="http://www.jingfaka.com">http://www.jingfaka.com</a></p>
+                                    <p>支持年付、终身（配套免签支付平台、客服系统免费使用）</p>
+                                    <h5>授权须知：</h5>
+                                    <p>1.本发卡系统属于本地授权，一旦授权不受我公司控制。</p>
+                                    <p>2.请遵守国家法律法规禁止用于违法用途，一切后果自负。</p>
+                                    <p>3.本程序是后台一键升级，客服不会管你要备份等内容。</p>
+                                    <p class="text-center">Copyright @ 2017~2022 鲸发卡 版权所有</p>
+                                </form>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+        </div>
+        <script src="__RES__/auth/vendor.bundle.addons.js"></script>
+        <script src="__RES__/auth/template.js"></script>
+    </body>
+</html>

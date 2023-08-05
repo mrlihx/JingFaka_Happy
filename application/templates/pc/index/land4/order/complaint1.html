@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8" />
+        <title>投诉订单 - {:sysconf('site_name')}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <meta name="keywords" content="{:sysconf('site_keywords')}" />
+        <meta name="description" content="{:sysconf('site_desc')}" />
+        <link rel="shortcut icon" href="{:sysconf('browser_icon')}" />
+        <!-- Bootstrap -->
+        <link href="__RES__/theme/landrick/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <!-- Icons -->
+        <link href="__RES__/theme/landrick/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
+        <!-- Slider -->               
+        <link rel="stylesheet" href="__RES__/theme/landrick/css/owl.carousel.min.css"/> 
+        <link rel="stylesheet" href="__RES__/theme/landrick/css/owl.theme.default.min.css"/> 
+        <!-- Main Css -->
+        <link href="__RES__/theme/landrick/css/land1.css" rel="stylesheet" type="text/css" id="theme-opt" />
+        <link href="__RES__/theme/landrick/css/colors/default.css" rel="stylesheet" id="color-opt">
+    </head>
+
+    <body>
+        {include file="./default_header"}
+
+        <!-- Hero Start -->
+        <section class="bg-half bg-light d-table w-100">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-12 text-center">
+                        <div class="page-next-level">
+                            <div class="alert alert-light alert-pills shadow" role="alert">
+                                <span class="badge badge-pill badge-danger mr-1">投诉订单</span>
+                                <span class="content"> 轻松投诉订单，保障您的消费权益</span>
+                            </div>
+
+
+
+                            <div class="page-next">
+                                <nav aria-label="breadcrumb" class="d-inline-block">
+                                    <ul class="breadcrumb bg-white rounded shadow mb-0">
+                                        <li class="breadcrumb-item"></li>
+                                        <li class="breadcrumb-item" aria-current="page">投诉订单</li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div><!--end col-->
+                </div><!--end row-->
+            </div> <!--end container-->
+        </section><!--end section-->
+        <!-- Hero End -->
+
+
+        <!-- Start Section -->
+        <section class="section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12">
+                        <div class="section-title text-center mb-4 pb-2">
+
+
+                            <div class="col mt-4 pt-2" id="forms">
+                                <div class="component-wrapper rounded shadow">
+                                    <div class="p-4 border-bottom">
+                                        <h5 class="mb-0"> 投 诉 订 单 </h5>
+                                    </div>
+
+                                    <div class="p-4">
+                                        <form name='report'  action='' method='post' enctype="multipart/form-data">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group position-relative">
+                                                        <label>订单编号</label>
+                                                        <i data-feather="user" class="fea icon-sm icons"></i>
+                                                        <input name="trade_no" type="text" value="{$Think.get.trade_no|htmlentities}" class="form-control pl-5">
+                                                    </div>
+                                                </div><!--end col-->
+                                                <div class="col-md-6">
+                                                    <div class="form-group position-relative">
+                                                        <label>举报原因</label>
+                                                        <select name="type" class="form-control custom-select">
+                                                            <option value="无效卡密">无效卡密</option>
+                                                            <option value="虚假商品">虚假商品</option>
+                                                            <option value="非法商品">非法商品</option>
+                                                            <option value="侵权商品">侵权商品</option>
+                                                            <option value="不能购买">不能购买</option>
+                                                            <option value="恐怖色情">恐怖色情</option>
+                                                            <option value="其他投诉">其他投诉</option>
+                                                        </select>
+                                                    </div> 
+                                                </div><!--end col-->
+                                                <div class="col-md-6">
+                                                    <div class="form-group position-relative">
+                                                        <label>联系QQ</label>
+                                                        <i data-feather="slack" class="fea icon-sm icons"></i>
+                                                        <input name="qq" type="text" placeholder="先将常用QQ设置为任何人可以添加，卖家会主动联系你解决" class="form-control pl-5">
+                                                    </div> 
+                                                </div><!--end col-->
+                                                <div class="col-md-6">
+                                                    <div class="form-group position-relative">
+                                                        <label>手机号码</label>
+                                                        <i data-feather="at-sign" class="fea icon-sm icons"></i>
+                                                        <input  name="mobile" type="text" placeholder="用于接收撤诉查看进度短信密码，填错将无法查看投诉处理进度，后果自负" class="form-control pl-5">
+                                                    </div>
+                                                </div>
+
+                                                {if sysconf('complaint_qrcode')==1}
+                                                <div class="col-md-6">
+                                                    <div class="form-group position-relative">
+                                                        <label>收款二维码</label>
+                                                        <input  name="buyer_qrcode" type="file" placeholder="用于如果胜诉将会把资金退回此收款账号" class="form-control">
+                                                    </div>
+                                                </div>
+                                                {/if}
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group position-relative">
+                                                        <label>选择售后卡密</label>
+                                                        <input name="select_cards" type="hidden" value="">
+                                                        <input readonly="readonly" name="select_text" type="text" placeholder="请选择售后卡密" class="form-control">
+                                                        <button id="selectBtn" style="position: absolute;top: 36px;right: 18px;" class="btn btn-primary btn-sm">选择卡密</button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <div class="form-group position-relative">
+                                                        <label>详情说明</label>
+                                                        <i data-feather="message-circle" class="fea icon-sm icons"></i>
+                                                        <textarea name="desc" rows="4" class="form-control pl-5" placeholder="订单有问题请第一时间联系卡密页面的卖家客服QQ，卖家客服QQ长时间不回复联系卡密下方的平台客服QQ，平台为24点解冻卖家资金，卡密有问题的请在24点前点击投诉按钮，否则我们将打款给卖家。防骗提醒：1.卡密内容为联系QQ的 2.以各种理由推脱到第二天发货 3.商品有问题，卖家不售后 4.承诺充值返现 5.购买的商品为实物，需要快递发货的。以上问题请在此处投诉订单。（卖家会在24小时内联系你解决，超过24小时没联系解决的请联系平台客服QQ退款"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div><!--end row-->
+                                            <div class="row">
+
+                                                <div class="col-sm-12">
+                                                    <input type="hidden" name="token" value="{$token|htmlentities}">
+                                                    <button type="submit" class="btn btn-soft-secondary mt-2 mr-2">提交投诉</button>
+
+                                                </div><!--end col-->
+                                            </div><!--end row-->
+                                        </form><!--end form-->
+                                    </div>
+                                </div>
+                            </div><!--end col-->
+                            <!-- Forms End -->
+
+                        </div><!--end col-->
+                    </div><!--end row-->
+
+
+
+
+
+                </div><!--end container-->
+
+
+
+
+            </div><!--end container-->
+
+
+        </section><!--end section-->
+        <!-- End Section -->
+
+        {include file="./default_footer"}
+
+        <!-- javascript -->
+        <script src="__RES__/theme/landrick/js/jquery-3.5.1.min.js"></script>
+        <script src="__RES__/theme/landrick/js/bootstrap.bundle.min.js"></script>
+        <script src="__RES__/theme/landrick/js/jquery.easing.min.js"></script>
+        <script src="__RES__/theme/landrick/js/scrollspy.min.js"></script>
+        <!-- SLIDER -->
+        <script src="__RES__/theme/landrick/js/owl.carousel.min.js "></script>
+        <script src="__RES__/theme/landrick/js/owl.init.js "></script>
+        <!-- Icons -->
+        <script src="__RES__/theme/landrick/js/feather.min.js"></script>
+        <script src="__RES__/theme/landrick/js/bundle.js"></script>
+        <!-- Main Js -->
+        <script src="__RES__/theme/landrick/js/app.js"></script>
+        <script src="/static/app/js/layer.js"></script>
+        <script>
+
+            var select_card_form;
+
+            function closeSelectForm()
+            {
+                layer.close(select_card_form);
+            }
+
+            $("#selectBtn").click(function ()
+            {
+                var trade_no='';
+                if('{$Think.get.trade_no|htmlentities}'!='')
+                {
+                    trade_no='{$Think.get.trade_no|htmlentities}';
+                }else if($("input[name='trade_no']").val()!='')
+                {
+                    trade_no=$("input[name='trade_no']").val();
+                }
+                select_card_form = layer.open({
+                    type: 2,
+                    fix: false,
+                    maxmin: true,
+                    shadeClose: false,
+                    area: ['420px', 'auto'],
+                    shade: 0.4,
+                    title: "请选择需要售后的卡密",
+                    content: '/index/plugin/complaintCard?trade_no=' + trade_no,
+                    success: function (layero, index) {
+                        layer.iframeAuto(index);
+                    }
+                });
+                return false;
+            });
+
+            var select_lable;
+            function selectLable(ids, num)
+            {
+                $("[name=select_cards]").val(ids);
+                $("[name=select_text]").val("已选择" + num + "张");
+            }
+        </script>
+    </body>
+</html>

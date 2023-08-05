@@ -1,0 +1,71 @@
+{extend name="simple_base"}
+
+{block name="content"}
+
+<div class="container">
+    <div class="card">
+        <div class="card-body p-3">
+
+            {foreach $lists as $v}
+
+            <div class="single-search-result mb-3 border-bottom pb-3 order-wrap">
+                <div class="d-flex align-items-center justify-content-between">
+                    <h6 class="mb-0 float-left d-inline">{$v['name']}</h6>
+                </div>
+                <div class="d-flex align-items-center mt-1 justify-content-between">
+                    <div class="order-wrap-text">
+                        <span>库存：</span>
+                        <span>
+                            {if $v['count'] > 0}
+                            {$v['count']}张
+                            {elseif $v['count']==0}
+                            <span style="color: #ff0000;">断货</span>
+                            {elseif $v['count']==-1}
+                            <span style="color: #c38432;">人工充值</span>
+                            {elseif $v['count']==-2}
+                            <span style="color: #c38432;">充足</span>
+                            {/if}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center mt-1 justify-content-between">
+                    <div class="order-wrap-text">
+                        <span>供货价格：</span>
+                        <span>
+                            {$v['price']}元
+                        </span>
+                    </div>
+                </div>
+
+                <div class="goods-warp d-flex align-items-center mt-1 justify-content-end">
+                    {if hasCrossAdd($_user->id, $cross.id,$v['goods_id'])==1}
+                    <span class="badge badge-pill bg-light text-danger font-size-12">已对接</span>
+                    {else/}
+
+                    {if $v['type']==1}
+                    <a class="btn btn-outline-success waves-effect waves-light  btn-sm font-size-10 me-1" href="{:url('cross/add',['cross_id'=>$cross.id,'goods_id'=>$v['goods_id']])}">立即对接</a>
+                    <a class="btn btn-outline-success waves-effect waves-light  btn-sm font-size-10 me-1" href="javascript:void(0)" onclick="$.x_show('快速对接', '{:url(\'cross/addLite\',[\'cross_id\'=>$cross.id,\'goods_id\'=>$v[\'goods_id\']])}', '90%')">快速对接</a>
+                    {else/}
+                    <span class="badge badge-pill bg-light text-warning font-size-12">非卡密类商品不支持对接</span>
+                    {/if}
+                    {/if}
+                </div>
+            </div>
+
+            {/foreach}
+
+
+
+        </div>
+
+    </div>
+</div>
+
+{/block}
+{block name="js"}
+<script>
+
+
+</script>
+{/block}

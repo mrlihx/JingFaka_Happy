@@ -1,0 +1,270 @@
+﻿.h-header-wp{
+	height: 652px;
+	background: url(../images/banner_1.jpg) no-repeat center #00b8b3;
+	background-size: cover;
+}
+.header{
+	padding-top: 16px;
+	overflow: hidden;
+}
+.h-bg{
+	height: 235px;
+	background: url(../images/h_bg.jpg) no-repeat center;
+	background-size: cover;
+}
+.h-bg .txt{
+	margin-top:55px;
+	font-size: 30px;
+	color: #fff;
+	text-align: center;
+	letter-spacing: 4px;
+}
+img{
+	max-width: 100%;
+}
+
+/*logo*/
+.header .logo{
+	float: left;
+	width: 144px;
+	height: 36px;
+}
+.header .logo img{
+	width: 100%;
+}
+ /*导航*/
+.header .nav{
+	margin-left: 69px;
+	float: left;
+}
+.header .nav a{
+	color: #fff;
+	line-height: 36px;
+}
+.header .nav li{
+	float: left;
+	margin-right: 50px;
+}
+
+/*登录注册按钮*/
+.header .btn{
+	position: absolute;
+	top: 16px;
+	right: 4%;
+ 	font-size: 0;
+}
+.header .btn a{
+	display: inline-block;
+	font-size: 16px;
+	width: 108px;
+	line-height: 36px;
+	color: #ffffff;
+	border: 1px solid #fff;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	text-align: center;
+}
+.header .btn .btn-login{
+	margin-right: 30px;
+}
+.header .btn .btn-resg{
+	background: #fff;
+	color: #0eb597;
+}
+
+/*底部*/
+.footer{
+	padding: 30px 0 30px;
+	background: #1f2431;
+	overflow: hidden;
+	color: #acc2d8;
+}
+.footer .wrapper{
+	position: relative;
+}
+.footer .wrapper:before{
+	content: "";
+	position: absolute;
+	top: 70px;
+	left: 0;
+	right: 0;
+	height: 1px;
+	background: rgba(255,255,255,0.3);
+}
+.footer .hd{
+	font-size: 14px;
+	color: #acc2d8;
+}
+.footer .bd{
+	font-size: 14px;
+	margin-top: 55px;
+	line-height: 36px;
+}
+.footer .bd a{
+	color: #d9e5f0;
+}
+.footer .bd a:hover{
+	color: #fff;
+}
+ 
+.flogo{
+	margin-right: 92px;
+	float: left;
+}
+.flogo .hd{
+	width: 184px;
+	height: 47px;
+}
+.flogo .bd{
+
+	font-size: 14px;
+	line-height: 30px;
+}
+.flogo .bd li a{
+	color: #00b8b3;
+}
+.flogo .bd li small{
+	font-size: 14px;
+	color: #00b8b3;
+}
+.flogo .bd p{
+	margin-top: 5px;
+	font-size: 14px;
+	line-height: 36px;
+}
+.fnav{
+	margin-right: 149px;
+	float: left;
+}
+.fnav .hd,
+.fwx .hd{
+	margin-top: 9px;
+}
+.fwx{
+	float: left;
+	
+}
+ 
+.fwx img{
+	padding: 6px;
+	background-color: #f7f9ff;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+ 
+}
+.copyright{
+	padding: 20px 0 10px;
+	background: #191d27;
+	text-align: center;
+}
+.copyright p{
+	font-size: 12px;
+	color: #5d768f;
+}
+.copyright p:last-child{
+	margin-top: 10px;
+}
+
+/*侧边栏*/
+.htop{
+	position: fixed;
+	top: 50%;
+	right: 20px;
+	width: 40px;
+	z-index: 999;
+}
+.htop ul{
+	overflow: visible;
+}
+.htop  li{
+	margin-bottom: 5px; height: 40px;
+}
+.htop  li a{
+	display: block;
+	padding:10px;
+	/*width:  ;*/
+	line-height: 1;
+	background-color: #acc2d8;
+	border-radius: 40px;
+	-webkit-border-radius: 40px;
+	-moz-border-radius: 40px;
+	font-size: 18px;
+	color: #fff;
+	transition: all .5s;
+	-webkit-transition: all .5s;
+	-moz-transition: all .5s;
+	white-space: nowrap;
+	float: right;
+}
+.qr-img{
+	display: none;
+	position: absolute;
+	top: -12px;
+	left: -150px;
+ 	padding-top: 20px;
+	width: 129px;
+	background-color: #ffffff;
+	box-shadow: 0px 0px 10px 0px rgba(172, 194, 216, 0.3);
+	-webkit-box-shadow: 0px 0px 10px 0px rgba(172, 194, 216, 0.3);
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	font-size: 0;
+	color: #244362;
+	text-align: center;
+}
+.qr-img:before{
+	content: '';
+	position: absolute;
+	top: 20px;
+	right: -24px;
+	border: 12px solid transparent;
+	border-left-color: #fff;
+}
+.qr-img img{
+	display: block;
+	margin: 0 auto;
+}
+.qr-img p{
+	font-size: 14px;
+	line-height: 2.2;
+}
+ 
+.htop  li span{
+	display: inline-block;
+ 	width: 0;
+ 	overflow: hidden;
+ 	transition: all .5s;
+ 	-webkit-transition: all .5s;
+ 	-moz-transition: all .5s;
+ 	-ms-transition: all .5s;
+ 	vertical-align: -3px;
+}
+.htop i{
+	font-size: 20px;
+	color: #fff;
+ 
+}
+.htop  li:hover a{
+	background: #00b8b3;
+}
+.htop  li.qr:hover .qr-img{
+ 
+}
+.htop  .htop-open:hover a{
+ 	border-radius: 22px;
+}
+
+.htop .htop-open:hover a span{
+	margin-left: 12px;
+	width: 90px;
+} 
+.htop .htop-open:nth-child(3):hover span{
+  width: 130px;
+}
+.go-top{
+  display: none;
+}
+/*侧边栏End*/

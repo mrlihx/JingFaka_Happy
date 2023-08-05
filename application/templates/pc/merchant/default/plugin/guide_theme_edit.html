@@ -1,0 +1,80 @@
+{extend name="lite_base" /}
+
+{block name="content"}
+<div class="card mb-0">
+
+    <div class="card-content">
+        <div class="card-body">
+            <form id="form1" class="form form-vertical">
+                <div class="form-body">
+                    <div class="row">
+                        <input type="hidden" name="id" value="{$theme.id|default=''}">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="name">主题名称</label>
+                                <input id="name" type="text"  class="form-control" name="name" placeholder="请输入主题名称" value="{$theme.name|default=''}">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="video">视频链接(MP4格式视频)</label>
+                                <input type="text" class="form-control" name="video"  placeholder="请输入视频链接" value="{$theme.video|default=''}">
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="background">背景图片链接</label>
+                                <input type="text" class="form-control" name="background"  placeholder="请输入背景图片链接"  value="{$theme.background|default=''}">
+                            </div>
+                        </div>
+
+                        <div class="col-12 d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary mr-1 mb-1 btn-submit">保存主题</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+{/block}
+
+{block name="js"}
+<!-- BEGIN: Page JS-->
+
+<script>
+
+    $(".btn-submit").click(function ()
+    {
+        var loading = layer.load(1, {shade: [0.1, '#fff']});
+        $.ajax({
+            url: "{:url('plugin/guideThemeEdit')}",
+            type: 'post',
+            data: $('#form1').serialize(),
+            success: function (info) {
+                layer.close(loading);
+                if (info.code == 1)
+                {
+                    parent.$.alert(info.msg);
+                    setTimeout(function () {
+                        parent.location.reload();
+                    }, 200);
+                } else {
+                    $.alert({
+                        title: '提示!',
+                        content: info.msg
+                    });
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                layer.close(loading);
+            }
+        });
+        return false;
+    });
+</script>
+
+<!-- END: Page JS-->
+{/block}

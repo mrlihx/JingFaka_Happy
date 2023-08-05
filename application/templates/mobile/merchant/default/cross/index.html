@@ -1,0 +1,230 @@
+{extend name="simple_base"}
+
+{block name="content"}
+
+<div class="container">
+    <div class="card">
+        <div class="card-body p-3">
+            <div class="row">
+
+                <div class="col-12 mt-2">
+                    <div class="alert alert-success pt-0" style="white-space: pre-line;" role="alert">
+                        TIP：{:plugconf('cross','tip')}
+                    </div>
+                </div>
+
+                <div class="col-6 mb-2">
+                    <button onclick="$.x_show('添加新平台', '{:url(\'cross/platformEdit\')}', '90%')" class="btn btn-primary w-100 d-flex align-items-center justify-content-center">
+                        <i class="bx bx-plus me-1"></i>添加新平台
+                    </button>
+                </div>
+                <div class="col-6 mb-2">
+                    <a href="{:url('cross/supplygoods')}" class="btn btn-primary w-100 d-flex align-items-center justify-content-center">
+                        <i class="bx bxl-dropbox me-1"></i>对接的商品
+                    </a>
+                </div>
+
+            </div>
+            <div class="divider border-light"></div>
+            {if $crossauth_status==true}
+
+            {foreach $list as $v}
+
+            <div class="single-search-result mb-3 border-bottom pb-3 order-wrap">
+                <div class="d-flex align-items-center justify-content-between">
+                    <h6 class="text-truncate mb-0 float-left d-inline">{$v.name}</h6>
+
+
+                    {switch name="$v.platform"}
+                    {case value="kaduoduo"}<span class="badge badge-pill bg-light text-primary font-size-12">卡多多</span>{/case}
+                    {case value="kaduoduoapi"}<span class="badge badge-pill bg-light text-primary font-size-12">卡多多API</span>{/case}
+                    {case value="taoka"}<span class="badge badge-pill bg-light text-primary font-size-12">淘卡</span>{/case}
+                    {case value="taokaapi"}<span class="badge badge-pill bg-light text-primary font-size-12">淘卡API</span>{/case}
+
+                    {case value="xinkashou"}<span class="badge badge-pill bg-light text-primary font-size-12">新卡售</span>{/case}
+                    {case value="xingouka"}<span class="badge badge-pill bg-light text-primary font-size-12">新购卡</span>{/case}
+                    {case value="xingoukaapi"}<span class="badge badge-pill bg-light text-primary font-size-12">新购卡API</span>{/case}
+                    {case value="xinkagou"}<span class="badge badge-pill bg-light text-primary font-size-12">新卡购</span>{/case}
+                    {case value="kayixiao"}<span class="badge badge-pill bg-light text-primary font-size-12">卡易销</span>{/case}
+                    {case value="kayixin"}<span class="badge badge-pill bg-light text-primary font-size-12">卡易信</span>{/case}
+                    {case value="ukashou"}<span class="badge badge-pill bg-light text-primary font-size-12">U卡售</span>{/case}
+                    {/switch}
+
+
+                </div>
+                <div class="d-flex align-items-center mt-1 justify-content-between">
+                    <div class="order-wrap-text">
+                        <span>域名：</span>
+                        <span>
+                            {$v.domain}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center mt-1 justify-content-between">
+                    <div class="order-wrap-text">
+                        <span>商品额度：</span>
+                        <span>
+                            {$v.goods_count}（已添加<b>{$v.have_goods_count}</b>个）<button onclick="$.x_show('增加额度', '{:url(\'cross/renewCount\',[\'cross_id\'=>$v.id])}', '90%')" class="btn btn-outline-light text-primary btn-sm">增加</button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center mt-1 justify-content-between">
+                    <div class="order-wrap-text">
+                        <span>有效天数：</span>
+                        <span>
+                            剩余：{$v.surplus_time} <button onclick="$.x_show('续费时长', '{:url(\'cross/renewTime\',[\'cross_id\'=>$v.id])}', '90%')" class="btn btn-outline-light text-primary btn-sm">续时</button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center mt-1 justify-content-between">
+                    <div class="order-wrap-text">
+                        <span>余额：</span>
+                        <span>
+                            {if $v.balance<0}未刷新{else/}{$v.balance}元{/if}
+                            <button onclick="refreshBalance('{$v.id}')" class="btn btn-light text-primary waves-effect waves-success  btn-sm font-size-10">刷新</button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="goods-warp d-flex align-items-center mt-1 justify-content-end">
+                    <button onclick="$.x_show('编辑平台', '{:url(\'cross/platformEdit\',[\'id\'=>$v.id])}', 450)" class="btn btn-light text-primary btn-sm me-1">编辑</button>
+                    <button onclick="del(this, '{$v.id}')" class="btn btn-light waves-effect waves-light text-danger btn-sm me-1">删除</button>
+                    <a class="btn btn-success waves-effect waves-light  btn-sm font-size-10 me-1" href="{:url('cross/crossPool',['id'=>$v.id])}">对接商品</a>
+
+                </div>
+            </div>
+
+            {/foreach}
+
+            <nav aria-label="Page navigation">
+                {$page}
+            </nav>
+
+            {else/}
+
+            <div class="row justify-content-center mt-lg-5">
+                <div class="col-xl-5 col-sm-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <div class="row justify-content-center">
+                                    <div class="col-lg-10">
+                                        <h4 class="mt-4 font-weight-semibold">温馨提示</h4>
+                                        <p class="text-muted mt-3">{:plugconf('cross','crossauth_tip')}</p>
+                                        <div class="mt-4">
+                                            {if $crossauth&&$crossauth->status==0}
+                                            <p class="text-danger mt-3">正在审核中，请耐心等待！</p>
+                                            {elseif $crossauth&&$crossauth->status==-1/}
+                                            <p class="text-danger mt-3">审核拒绝！</p>
+                                            {else/}
+                                            <button type="button" class="btn btn-primary" onclick="crossauthApply()">立即申请</button>
+                                            {/if}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center mt-5 mb-2">
+                                    <div class="col-sm-6 col-8">
+                                        <div>
+                                            <img src="__STATIC__/merchant/default/images/verification-img.png" alt="" class="img-fluid">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/if}
+
+
+        </div>
+
+    </div>
+</div>
+
+{/block}
+{block name="js"}
+<script>
+
+    function refreshBalance(id)
+    {
+        var loading = layer.load(1, {shade: [0.1, '#fff']});
+
+        $.ajax({
+            url: "{:url('cross/refreshBalance')}",
+            type: 'post',
+            data: {id: id},
+            success: function (data) {
+                layer.close(loading);
+                if (data.code == 1) {
+                    layer.msg(data.msg, {time: 1000, icon: 6}, function () {
+                        location.reload();
+                    });
+                } else {
+                    layer.msg(data.msg, {time: 1000, icon: 5});
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                layer.close(loading);
+            }
+        });
+
+    }
+
+    function crossauthApply()
+    {
+        var loading = layer.load(1, {shade: [0.1, '#fff']});
+        $.post("{:url('cross/crossauthApply')}", {},
+                function (data) {
+                    if (data.code == 1) {
+                        layer.msg(data.msg, {time: 1000, icon: 6}, function () {
+                            location.reload();
+                        });
+                    } else {
+                        layer.msg(data.msg, {time: 1000, icon: 5});
+                    }
+                }, "json");
+    }
+
+
+    function del(obj, id)
+    {
+        $.confirm({
+            title: '确定删除吗？',
+            content: '确定要删除此平台吗？对接的商品会自动删除',
+            type: 'red',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: '确定',
+                    btnClass: 'btn-red',
+                    action: function () {
+                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                        $.post("{:url('cross/platformDel')}", {
+                            id: id
+                        }, function (res) {
+                            if (res.code != 1) {
+                                $.alert(res.msg);
+                            } else {
+                                $.alert("删除成功");
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 200);
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+    }
+
+</script>
+{/block}
+
+

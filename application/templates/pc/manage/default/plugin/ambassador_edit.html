@@ -1,0 +1,44 @@
+<style>
+    #account_id,#weight{
+        display: none;
+    }
+</style>
+<form class="layui-form layui-box" style='padding:25px 30px 20px 0' action="{:url('ambassadorEdit')}" data-auto="true" method="post">
+    <input type="hidden" name="id" value="{$ambassador.id}">
+
+    {if !$ambassador}
+    <div class="layui-form-item">
+        <label class="layui-form-label">输入用户ID</label>
+        <div class="layui-input-block">
+            <input  type="text" name="user_id" placeholder="请输入用户ID" value="{$ambassador.user_id}" autocomplete="off" class="layui-input" >
+        </div>
+    </div>
+    {/if}
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">邀请注册奖励金额</label>
+        <div class="layui-input-block">
+            <input type="text" name="spread_reward_money" placeholder="邀请注册奖励金额" autocomplete="off" value="{$ambassador.spread_reward_money}" class="layui-input" >
+            <p class="help-block">单位：元</p>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">推广返佣比例</label>
+        <div class="layui-input-block">
+            <input type="text" name="spread_rebate_rate" placeholder="推广返佣比例" value="{$ambassador.spread_rebate_rate}" autocomplete="off" class="layui-input" >
+            <p class="help-block">单位（%），推广返佣比例</p>
+        </div>
+
+    </div>
+
+
+    <div class="hr-line-dashed"></div>
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type="submit">确定</button>
+        <button class="layui-btn layui-btn-danger" type="button" data-confirm="确定要取消吗？" data-close="">取消</button>
+    </div>
+</form>
+<script>
+
+</script>

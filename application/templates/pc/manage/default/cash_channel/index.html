@@ -1,0 +1,72 @@
+{extend name='./content'}
+{block name="content"}
+<form onsubmit="return false;" data-auto="" method="POST">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th class='text-center'>编号</th>
+                <th class='text-center'>渠道名称</th>
+                <th class='text-center'>渠道类型</th>
+                <th class='text-center'>渠道状态</th>
+                <th class='text-center'>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {volist name="channelList" id="v"}
+            <tr>
+                <td class='text-center'>{$v.id}</td>
+                <td class='text-center'>{$v.title}</td>
+                <td class='text-center'>
+                    {if $v.type == 1}支付宝{/if}
+                    {if $v.type == 2}微信{/if}
+                    {if $v.type == 3}银行{/if}
+                </td>
+                {if condition="$v.status == 1"}
+                <td class='text-center'>启用</td>
+                {else/}
+                <td class='text-center'>禁用</td>
+                {/if}
+                <td class='text-center'>
+                    <div class="layui-btn-group">
+                        <button type="button" class='layui-btn layui-btn-small' data-modal='{:url("CashChannelAccount/add")}?channel_id={$v.id}'
+                            data-title="添加账号">添加账号</button>
+                        <button type="button" class='layui-btn layui-btn-small' data-open='{:url("CashChannelAccount/index")}?channel_id={$v.id}'
+                            data-title="账号列表">账号列表</button>
+                        {if condition="$v.status == 1"}
+                        <button type="button" class='layui-btn layui-btn-danger layui-btn-small' onclick="changeStatus('{$v.id}','0')"
+                            data-title="禁用">禁用
+                        </button>&nbsp;
+                        {else/}
+                        <button type="button" class='layui-btn layui-btn-small' onclick="changeStatus('{$v.id}','1')"
+                            data-title="启用">启用
+                        </button>&nbsp;
+                        {/if}
+                    </div>
+                </td>
+            </tr>
+            {/volist}
+        </tbody>
+    </table>
+</form>
+<script>
+    //更新接口状态
+    function changeStatus(id, status) {
+        $.ajax({
+            url: '{:url("change_status")}',
+            type: 'post',
+            dataType: 'json',
+            data: {
+                channel_id: id,
+                status: status
+            },
+            success: function (res) {
+                if (res.code == 200) {
+                    location.reload();
+                } else {
+                    alert(res.msg);
+                }
+            }
+        });
+    }
+</script>
+{/block}

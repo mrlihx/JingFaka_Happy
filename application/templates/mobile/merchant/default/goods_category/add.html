@@ -1,0 +1,77 @@
+{extend name="lite_base"}
+
+{block name="content"}
+<div class="container my-3">
+    <!-- Timeline Content-->
+    <div class="card">
+        <div class="card-body">
+            <form id="form1" class="form form-vertical">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="name" class="form-label">分类名称</label>
+                            <input id="name" type="text"  class="form-control" name="name" placeholder="请输入分类名称">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="sort" class="form-label">排序编号（值越大越排前）</label>
+                            <input type="number" id="sort" class="form-control" name="sort"  min="0" value="0">
+                        </div>
+                    </div>
+
+
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="theme" class="form-label">分类页面风格</label>
+                            <select class="form-select" id="theme" name="theme">
+                                {foreach :config('pay_themes') as $theme}
+                                <option value="{$theme.alias|htmlentities}">{$theme.name}</option>
+                                {/foreach} 
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-12 d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary mr-1 mb-1 btn-submit">保存分类</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+{/block}
+
+{block name="js"}
+
+<script>
+
+    $(".btn-submit").click(function ()
+    {
+        var loading = layer.load(1, {shade: [0.1, '#fff']});
+        $.ajax({
+            url: "{:url('goods_category/add')}",
+            type: 'post',
+            data: $('#form1').serialize(),
+            success: function (info) {
+                layer.close(loading);
+                if (info.code ==1)
+                {
+                    parent.location.reload();
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
+                } else {
+                    layer.msg(info.msg);
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                layer.close(loading);
+            }
+        });
+        return false;
+    });
+</script>
+
+{/block}

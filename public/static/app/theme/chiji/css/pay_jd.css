@@ -1,0 +1,337 @@
+body{
+    margin:0;
+    padding:0;
+    font-family: Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Noto Sans CJK SC,WenQuanYi Micro Hei,Arial,sans-serif;
+    letter-spacing:1.2px;
+    color:#555;
+}
+ul,li,p,h1,h2,h3,h4,h5,h6{
+    list-style:none;
+    margin:0;
+    padding:0;
+}
+img{
+    border:none;
+}
+a{
+    text-decoration:none;
+    text-align:center;
+    cursor:pointer;
+}
+.container{
+    width:1200px;
+    margin:0 auto;
+    position:relative;
+}
+.clear{
+    clear:both;
+}
+.bg1{
+    background: url("../images/main_bg.jpg") center;
+    height: 960px;
+}
+.top{
+    background: rgba(255,255,255,0.1);
+    height: 80px;
+    line-height: 80px;
+}
+.logo{
+    float: left;
+}
+.logo img{
+	max-width:220px;
+    vertical-align: middle;
+}
+.menu{
+    float: right;
+}
+.menu li{
+    float: left;
+    height: 80px;
+    margin-left: 80px;
+}
+.menu li a{
+    display: block;
+    color: #fff;
+    transition: .2s;
+}
+.menu li a:hover{
+    border-bottom: 2px solid #fff;
+}
+.user_info{
+    margin-top: 60px;
+    padding: 40px;
+    width: 320px;
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    text-align: center;
+    box-shadow: 0 0 40px rgba(0,0,0,0.1);
+    border-radius: 8px;
+}
+.user_info h1{
+    font-size: 24px;
+    font-weight: lighter;
+    text-align: center;
+    margin-bottom: 40px;
+}
+.user_info p{
+    text-align: left;
+    font-size: 16px;
+    line-height: 36px;
+    margin-bottom: 40px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.lx_btn{
+    display: block;
+    width: 320px;
+    height: 50px;
+    line-height: 50px;
+    color: #fff;
+    border-radius: 25px;
+    background: #e2c119;
+    transition: .2s;
+}
+.lx_btn img{
+    vertical-align: text-bottom;
+    margin-right: 20px;
+}
+.lx_btn:hover{
+    background: #d1b217;
+    box-shadow: 0 0 30px rgba(0,0,0,0.2);
+}
+.ewm{
+    display: inline-block;
+    padding: 15px;
+    background: #fff;
+    margin-top: 40px;
+}
+.ewm img{
+    height: 140px;
+}
+.down_btn{
+    display: block;
+    margin: -20px auto 20px auto;
+    width: 36px;
+    height: 36px;
+    background: url("../images/scroll-down-icon.png") top;
+    transition: .2s;
+}
+.down_btn:hover{
+    background: url("../images/scroll-down-icon.png") bottom;
+}
+.gg_bg{
+    position: absolute;
+    right: 0;
+    top: -100px;
+    background: url("../images/gg_bg.jpg");
+    height: 800px;
+    width: 500px;
+}
+.gg_bg span{
+    display: block;
+    text-align: center;
+    font-size: 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+.gg_bg p{
+    position: absolute;
+    left: 80px;
+    width: 340px;
+    bottom: 80px;
+    color: #fff;
+    font-size: 14px;
+    line-height: 30px;
+}
+.step1{
+    margin-bottom: 20px;
+}
+/*表单*/
+.choose_good_form{
+    width: 640px;
+}
+.my_box{
+    height:48px;
+    line-height:48px;
+    border-bottom: 2px solid #f3f3f3;
+    overflow:hidden;
+    margin-bottom:12px;
+    clear:both;
+}
+.my_left{
+    float:left;
+    height:48px;
+    width:118px;
+    line-height:48px;
+    text-align:center;
+}
+.my_right{
+    width: calc(100% - 126px);
+    display:inline-block;
+    padding: 0 4px;
+}
+.my_right select{
+    height:42px;
+    padding:0 8px;
+    border-radius:3px;
+    background:#fff;
+    border:none;
+    width:506px;
+    color: #555;
+    font-size:16px;
+    font-family: Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Noto Sans CJK SC,WenQuanYi Micro Hei,Arial,sans-serif;
+}
+.my_right select:focus,.my_right input[type=text]:focus{
+    outline:1px solid #e69800;
+    transition: linear 0.2s;
+}
+.big_text{
+    font-size:18px;
+    color:#e69800;
+}
+.my_right input[type=text]{
+    height:42px;
+    background:#fff;
+    border-radius:3px;
+    border:none;
+    width:490px;
+    color: #555;
+    padding:0 8px;
+    font-size:16px;
+    font-family: Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Noto Sans CJK SC,WenQuanYi Micro Hei,Arial,sans-serif;
+}
+.lab1{
+    display:inline-block;
+    height:36px;
+    line-height:36px;
+    padding:0px 16px;
+    text-align:center;
+    border:1px solid #ddd;
+    cursor:pointer;
+    font-size:16px;
+    color:#999;
+    transition:ease 0.3s;
+}
+.lab1 input[type=checkbox]{
+    display:none;
+}
+.lab1:hover{
+    border:1px solid #e69800;
+    color:#e69800;
+}
+.checked{
+    border:1px solid #e69800;
+    color:#e69800;
+}
+input::-webkit-input-placeholder {
+    color: #999;
+    letter-spacing:1px;
+}
+.choose_pay{
+    padding: 20px 0;
+    min-height: 500px;
+}
+.second{
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.second_bg{
+    position: absolute;
+    top: 200px;
+    right: -160px;
+}
+.bg2{
+    position: relative;
+    background: url("../images/bg2.jpg") center;
+    height: 860px;
+}
+.che{
+    position: absolute;
+    bottom: -100px;
+    left: 0;
+    background: url("../images/che.png");
+    width: 700px;
+    height: 535px;
+}
+/*选项卡*/
+.pay_box{
+    position: absolute;
+    right: 0;
+    top: 140px;
+    background: rgba(255,255,255,0.3);
+    border-radius:8px;
+    overflow:hidden;
+    width: 750px;
+    padding: 20px;
+}
+.pay_menu{
+    height:50px;
+    line-height:50px;
+    background:#fff;
+    overflow:hidden;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+.pay{
+    float:left;
+    height:50px;
+    padding:0 50px;
+    text-align:center;
+    cursor:pointer;
+}
+.checked1{
+    background:#e69800;
+    color:#fff;
+}
+.pay_list1,.pay_list2{
+    padding:20px 0 0 10px;
+    border-top:none;
+}
+.check_pay{
+    display:block;
+    width:200px;
+    line-height:50px;
+    height:50px;
+    text-align:center;
+    border:none;
+    border-radius:25px;
+    color:#fff;
+    background:#e69800;
+    margin:40px auto 20px auto;
+    cursor:pointer;
+    font-size:16px;
+}
+.lab3{
+    display:inline-block;
+    width:157px;
+    padding:16px 6px;
+    text-align:center;
+    background: #fff;
+    cursor:pointer;
+    border-radius:3px;
+    font-size:14px;
+    margin:0 10px 20px 0;
+    transition:ease 0.2s;
+}
+.lab3 input[type=radio]{
+    display:none;
+}
+.lab3:hover{
+    box-shadow: 0 13px 24px -10px rgba(0,0,0,0.6);
+}
+.checked2{
+    background:url(../images/gougou_cj.png) top left no-repeat #fff;
+    box-shadow: 0 13px 24px -10px rgba(0,0,0,0.6);
+}
+.foot{
+    background: #313131;
+    height: 100px;
+    line-height: 100px;
+    color: #ccc;
+    font-size: 12px;
+    text-align: center;
+}

@@ -1,0 +1,101 @@
+{extend name="lite_base"}
+
+{block name="content"}
+<div class="container my-3">
+    <!-- Timeline Content-->
+    <div class="card">
+        <div class="card-body">
+            <div class="alert alert-success alert-dismissable">
+                提示：如果添加多个账号系统自动轮询
+            </div>
+
+
+            {foreach $accounts as $v}
+            <div class="single-search-result mb-3 border-bottom pb-3 order-wrap">
+                <div class="d-flex align-items-center justify-content-between">
+                    <h6 class="text-truncate mb-0 float-left d-inline">{$v.name}</h6>
+                    <div class="form-check form-switch mb-2">
+                        <input onchange="change_status(this, '{$v.id}')" name="customSwitchsizemd{$v.id}" {if $v.status==1}checked{/if} class="form-check-input" type="checkbox" id="customSwitchsizemd{$v.id}">
+                               <label class="form-check-label" for="customSwitchsizemd{$v.id}"></label>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center mt-1 justify-content-end">
+                    <a href="{:url(\"customChannelAccountAdd\")}?account_id={$v.id}&channel_id={$v.channel_id}" class="btn btn-light waves-effect waves-light text-primary btn-sm">编辑</a>
+                    <button onclick="delAccount('{$v.id}')" class="btn btn-light waves-effect waves-light text-danger btn-sm">删除</button>
+                </div>
+            </div>
+
+            {/foreach}
+
+        </div>
+    </div>
+
+</div>
+
+{/block}
+
+{block name="js"}
+<script>
+    function change_status(obj, account_id)
+    {
+        var status = $(obj).prop('checked');
+        if (status) {
+            status = 1;
+        } else {
+            status = 0;
+        }
+        $.post("{:url('customChannelAccountList')}", {
+            act: 'changestatus',
+            account_id: account_id,
+            status: status
+        }, function (res) {
+            if (res.code != 1) {
+                $.alert(res.msg);
+            }
+        });
+    }
+
+    function delAccount(account_id)
+    {
+        $.confirm({
+            title: '温馨提示？',
+            content: '确定删除吗！',
+            type: 'red',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: '确定',
+                    btnClass: 'btn-red',
+                    action: function () {
+                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                        $.ajax({
+                            url: "{:url('customChannelAccountList')}",
+                            data: {
+                                act: 'del',
+                                account_id: account_id,
+                            },
+                            type: 'post',
+                            dataType: 'json',
+                            success: function (res) {
+                                console.log(res);
+                                if (res.code == 1) {
+                                    // alert(res.msg);
+                                    location.reload();
+                                } else {
+                                    alert(res.msg);
+                                }
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+        return false;
+    }
+</script>
+
+{/block}

@@ -1,0 +1,67 @@
+{extend name="lite_base" /}
+
+{block name="content"}
+<div class="card mb-0">
+
+    <div class="card-content">
+        <div class="card-body">
+            <form id="form1" class="form form-vertical">
+                <div class="form-body">
+                    <div class="row">
+                        <input type="hidden" name="id" value="{$pool.id|default=''}">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="title">商品池标题</label>
+                                <input id="title" type="text"  class="form-control" name="title" placeholder="请输入商品池标题" value="{$pool.title|default=''}">
+                            </div>
+                        </div>
+
+                        <div class="col-12 d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary mr-1 mb-1 btn-submit">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+{/block}
+
+{block name="js"}
+<!-- BEGIN: Page JS-->
+
+<script>
+
+    $(".btn-submit").click(function ()
+    {
+        var loading = layer.load(1, {shade: [0.1, '#fff']});
+        $.ajax({
+            url: "{:url('agent/myPoolEdit')}",
+            type: 'post',
+            data: $('#form1').serialize(),
+            success: function (info) {
+                layer.close(loading);
+
+                if (info.code ==1)
+                {
+                    parent.location.reload();
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
+                } else {
+                    $.alert({
+                        title: '提示!',
+                        content: info.msg
+                    });
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                layer.close(loading);
+            }
+        });
+        return false;
+    });
+</script>
+
+<!-- END: Page JS-->
+{/block}

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>{:sysconf('site_name')} - {:sysconf('site_subtitle')}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="keywords" content="{:sysconf('site_keywords')}" />
+        <meta name="description" content="{:sysconf('site_desc')}" />
+        <link rel="shortcut icon" href="{:sysconf('browser_icon')}" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="theme-color" content="#1E78FF">	
+        <meta name="msapplication-navbutton-color" content="#1E78FF">		
+        <meta name="apple-mobile-web-app-status-bar-style" content="#1E78FF">
+        <link rel="stylesheet" type="text/css" href="__RES__/theme/maowang51/css/style.css" media="all">		
+        <link rel="stylesheet" type="text/css" href="__RES__/theme/maowang51/css/responsive.css" media="all">	
+        <link href="__RES__/plugs/clicaptcha/css/captcha.css" rel="stylesheet" id="color-opt">
+
+    </head>
+
+    <body>
+        <div class="main-page-wrapper">
+
+            {include file="./default_her"}
+
+
+            <div class="offcanvas offcanvas-top theme-search-form justify-content-center" tabindex="-1" id="offcanvasTop">
+                <button type="button" class="close-btn tran3s" data-bs-dismiss="offcanvas" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+                <div class="form-wrapper">
+                    <form action="orderquery">
+                        <input type="text" name="orderid" placeholder="请输入您的订单号...">
+                        <input type="hidden" name="querytype" value="3">      
+                        <button class="btn-eight">开始查询</button>
+                    </form>
+                </div> <!-- /.form-wrapper -->
+            </div>
+
+
+
+            <header class="theme-main-menu sticky-menu theme-menu-two">
+                {include file="./default_header"}
+            </header>
+            <div class="hero-banner-four">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-8 col-xl-7 col-lg-8 col-md-11 m-auto">
+                            <a href="#" class="slogan"><strong> 订 单 查 询  </strong> ----轻松查询订单，即刻享受卡密自动交易 <i class="fas fa-chevron-right"></i></a>
+
+                            <p class="mb-50 lg-mb-30"></p>
+                            <form  action="/orderquery" onsubmit="return formCheck();">
+                                <input type="text" value=""  placeholder="请输入订单编号/联系方式" id="orderid_input" autocomplete="off">
+                                <input type="hidden" id="clicaptcha-submit-info" name="clicaptcha-submit-info">
+
+
+
+
+
+
+                                <button type="submit" onclick="orderid_or_contact()">查询订单</button>
+                            </form>
+
+
+
+
+
+
+                        </div>
+                    </div>
+                </div> <!-- /.container -->
+
+                <div class="illustration-holder-oneee">
+                    <img src="__RES__/theme/maowang51/picture/ils_10.svg" alt="">
+                    <img src="__RES__/theme/maowang51/picture/ils_10_1.svg" alt="" class="shapes shape-one">
+                    <img src="__RES__/theme/maowang51/picture/ils_10_2.svg" alt="" class="shapes shape-two">
+                </div> <!-- /.illustration-holder-one -->
+                <div class="illustration-holder-tee">
+                    <img src="__RES__/theme/maowang51/picture/ils_11.svg" alt="">
+                    <img src="__RES__/theme/maowang51/picture/ils_10_1.svg" alt="" class="shapes shape-one">
+                </div>
+            </div> 
+
+
+
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-6 col-lg-5 col-md-7 m-auto aos-init aos-animate" data-aos="fade-up">
+                        <div class="title-style-one text-center mb-55 lg-mb-30">
+                            <div class="sc-title-five">商品详情(请看下面)</div>
+
+                        </div> 
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="section-title mb-4 pb-2">
+
+                        <!-- Card Start -->
+                        <div class="component-wrapper rounded shadow">
+                            <div class="p-4 border-bottom text-center">
+                                <h5 class="mb-0"> 订 单 详 情 </h5>
+                            </div>
+                            <div class="p-4">
+                                {if $trade_no!==null}
+                                {if empty($order)}
+                                {if $is_verify}<div class="q-invalid"><div class="wrapper"><div class="q-invalid-bd q-remind-bd"><i class="iconfont icon-cuowutishi"></i><p>没有查询到订单信息</p></div></div></div>{/if}
+                                {else/}
+                                <!-- 商品信息 -->
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <p class="text-left"><b>订单号：</b>{$order.trade_no}</p>
+                                        <p class="text-left"><b>付款时间：</b>{$order.create_at|date="Y-m-d H:i:s",###}</p>		
+                                        <p class="text-left"> <b>商品名称：</b>{$order.goods.name}</p>	
+                                        <p class="tips0 text-left"></p>
+                                        <p class="text-left"><b>商家QQ：</b><a class="text-primary" href="tencent://message/?uin={$order.user.qq}&Site={$order.user.qq}&Menu=yes" title="联系商家,请先加好友" target="_blank">{$order.user.qq}</a></p>
+                                    </div>
+                                    <div>  
+                                        <p>使用{:get_paytype_name($order.paytype)}付款 <b class="text-primary" style="font-size:24px">{$order.total_price}</b> 元<p>
+                                        <p><a class="btn btn-pills btn-outline-danger mt-2 mr-2" href="/index/order/dumpCards?trade_no={$order.trade_no}">导出卡密</a></p>
+                                        <p><button class="btn btn-pills btn-outline-danger mt-2 mr-2" data-clipboard-action="copy" data-clipboard-target=".cardslite" >一键复制</button></p>
+                                        {if condition="isset($canComplaint) && $canComplaint" }
+                                        <p><a class="btn btn-pills btn-outline-danger mt-2 mr-2" href="/complaint?trade_no={$order.trade_no}">投诉订单</a></p>
+                                        {/if}
+                                    </div>
+                                </div>
+                                <div style="opacity:0;width:0px;height: 0px">
+                                    <textarea  class="cardslite text-center"></textarea>
+                                </div>
+                                <h4 class="text-center text-center">↓&nbsp;&nbsp;您购买的卡密&nbsp;&nbsp;↓</h4>
+                                <div class="border text-center"></div>
+                                {/if}
+                                {/if}         
+                            </div>
+
+
+                            <!--<div class="kami">-->
+                            <div id="cardinfo0" class="text-center pb-4">
+
+                            </div><!--end col-->
+                            <!-- BG Color End -->
+
+                        </div>
+                    </div>
+
+
+
+
+
+
+                </div>
+
+
+            </div>  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div class="fancy-feature-fifteen position-relative mt-65">
+                <div class="container">
+                    <div class="title-style-one text-center mb-90 lg-mb-30" data-aos="fade-up">
+                        <div class="sc-title-five">防止诈骗</div>
+                        <h2 class="main-title">订单查询小助手</h2>
+                    </div> <!-- /.title-style-one -->
+
+                    <div class="bg-wrapper">
+                        <div class="row justify-content-center gx-xxl-5">
+                            <div class="col-md-4 col-sm-6" data-aos="fade-right">
+                                <div class="block-style-eleven position-relative mt-50">
+                                    <div class="icon d-flex align-items-center justify-content-center">
+                                        <img src="__RES__/theme/maowang51/picture/icon_28.svg" alt="">
+                                        <div class="num">1</div>
+                                    </div>
+                                    <h5>不知道什么是订单号？ <br> 支付记录 T开头的就是订单号</h5>
+                                </div> <!-- /.block-style-eleven -->
+                            </div>
+                            <div class="col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="100">
+                                <div class="block-style-eleven position-relative mt-50 shape-arrow">
+                                    <div class="icon d-flex align-items-center justify-content-center">
+                                        <img src="__RES__/theme/maowang51/picture/icon_29.svg" alt="">
+                                        <div class="num">2</div>
+                                    </div>
+                                    <h5>商品无法使用/需要售后？<br>请联系卖家处理或平台客服</h5>
+                                </div> <!-- /.block-style-eleven -->
+                            </div>
+                            <div class="col-md-4 col-sm-6" data-aos="fade-left" data-aos-delay="200">
+                                <div class="block-style-eleven position-relative mt-50">
+                                    <div class="icon d-flex align-items-center justify-content-center">
+                                        <img src="__RES__/theme/maowang51/picture/icon_30.svg" alt="">
+                                        <div class="num">3</div>
+                                    </div>
+                                    <h5>遇到交易诈骗？ <br> 点击投诉订单 当天24点前投诉.</h5>
+                                </div> <!-- /.block-style-eleven -->
+                            </div>
+                        </div>
+                    </div> <!-- /.bg-wrapper -->
+                </div> <!-- /.container -->
+                <img src="__RES__/theme/maowang51/picture/shape_33.svg" alt="" class="shapes shape-one">
+            </div> <!-- /.fancy-feature-fifteen -->
+
+
+            <div class="fancy-short-banner-three position-relative mt-160 lg-mt-80">
+                <div class="container">
+                    <div class="bg-wrapper">
+                        <div class="row align-items-center">
+                            <div class="col-lg-8 m-auto" data-aos="fade-up">
+                                <div class="title-style-one text-center white-vr mb-30" data-aos="fade-up">
+                                    <h2 class="main-title">入驻我们，即刻赚钱 <br>24小时监控订单资金无忧</h2>
+                                </div> <!-- /.title-style-one -->
+                                <a href="contact-us.html" class="btn-six ripple-btn">立即入驻，成为商户 <i class="fas fa-chevron-right"></i></a>
+                            </div>
+                        </div>
+                    </div> <!-- /.bg-wrapper -->
+                </div> <!-- /.container -->
+            </div> <!-- /.fancy-short-banner-three -->
+
+
+
+
+            <!--
+            =====================================================
+                    Footer
+            =====================================================
+            -->
+            <div class="footer-style-one theme-basic-footer">
+                <div class="container">
+                    <div class="inner-wrapper">
+
+                        {include file="./default_footer"}
+
+                    </div> <!-- /.inner-wrapper -->
+                </div>
+            </div> <!-- /.footer-style-one -->
+
+
+            <button class="scroll-top">
+                <i class="bi bi-arrow-up-short"></i>
+            </button>
+
+
+
+
+            <!-- Optional JavaScript _____________________________  -->
+
+            <!-- jQuery first, then Bootstrap JS -->
+            <!-- jQuery -->
+            <script src="__RES__/theme/maowang51/js/jquery.min.js"></script>
+            <!-- Bootstrap JS -->
+            <script src="__RES__/theme/maowang51/js/bootstrap.bundle.min.js"></script>
+            <!-- AOS js -->
+            <script src="__RES__/theme/maowang51/js/aos.js"></script>
+            <!-- Slick Slider -->
+            <script src="__RES__/theme/maowang51/js/slick.min.js"></script>
+            <!-- js Counter -->
+            <script src="__RES__/theme/maowang51/js/jquery.counterup.min.js"></script>
+            <script src="__RES__/theme/maowang51/js/jquery.waypoints.min.js"></script>
+            <!-- Fancybox -->
+            <script src="__RES__/theme/maowang51/js/jquery.fancybox.min.js"></script>
+            <!-- Progress Bar js -->
+            <script src="__RES__/theme/maowang51/js/jquery.skills.js"></script>
+
+            <!-- Theme js -->
+            <script src="__RES__/theme/maowang51/js/theme.js"></script>
+
+
+            <script src="__RES__/app/js/clipboard.js"></script>
+            <script src="__RES__/app/js/layer.js"></script>
+            <script src="__RES__/plugs/clicaptcha/cookie.min.js"></script>
+            <script src="__RES__/plugs/clicaptcha/CryptoJS.js"></script>
+            <script src="__RES__/plugs/clicaptcha/clicaptcha.js"></script>
+            <script>
+                                    var flag = true;
+                                    var loading = '';
+                                    var stop = false;
+                                    var order_query_captcha_type = "{:sysconf('order_query_captcha_type')}";
+                                    $(function () {
+                                        getgoods('{$order.trade_no}', '0');
+                                        /*{eq name = "order.status" value = "0"}*/
+                                        layer.msg('正在获取支付状态 ...', function () {
+                                            loading = layer.load(1, {
+                                                shade: [0.1, '#fff'] //0.1透明度的白色背景
+                                            });
+                                        });
+                                        setTimeout('oderquery(1)', 3000);
+                                        window.setTimeout("request_stop()", 30000);
+                                        /*{/eq}*/
+                                    });
+                                    function formCheck() {
+                                        var obj = $('[name="orderid"]');
+                                        if (!obj.val()) {
+                                            obj.focus();
+                                            return false;
+                                        }
+                                        return true;
+                                    }
+                                    function getgoods(orderid, id) {
+                                        setTimeout(function () {
+                                            $.getJSON('/checkgoods', {
+                                                orderid: orderid,
+                                                t: new Date().getTime(),
+                                                token: '{$token}'
+                                            }, function (data) {
+                                                if (data) {
+                                                    $('.cardslite').val(data.cardslite);
+                                                    $('#cardinfo' + id).html(data.msg);
+                                                    if (data.status == 1) {
+                                                        $('.tips' + id).html('<b>已发卡密：</b><span class="kamiok">' + data.quantity + '</span>张' + '，未发卡密0张。');
+                                                    }
+                                                }
+                                            });
+                                        }, 1000);
+                                    }
+                                    function orderid_or_contact() {
+                                        var input_val = $('#orderid_input').val();
+
+                                        if (input_val === "") {
+                                            layer.msg('请输入订单号或联系方式！', {icon: 6, time: 1000});
+                                            return false;
+                                        } else {
+                                            var queryType = '';
+                                            if (input_val.length == '16' || input_val.length == '17' || input_val.length == '18' || input_val.length == '21' || input_val.length == '19' || input_val.length == '20') {
+                                                queryType = '2';
+                                            } else {
+                                                queryType = '3';
+                                            }
+                                            var needChkcode = "{:sysconf('order_query_chkcode')}";
+                                            if (needChkcode == 1) {
+                                                chkcode(input_val, queryType);
+                                            } else {
+                                                window.location.href = '/orderquery?orderid=' + input_val + '&querytype=' + queryType;
+                                            }
+                                        }
+                                    }
+
+                                    function oderquery(t) {
+                                        if (flag == false)
+                                            return false;
+                                        var orderid = '{$Think.get.orderid}';
+                                        $.post('/pay/getOrderStatus', {
+                                            orderid: orderid,
+                                            token: '{$token}'
+                                        }, function (ret) {
+                                            if (ret == 1) {
+                                                layer.close(loading);
+                                                flag = false;
+                                                stop = true;
+                                                $('#paystatus').html('付款成功');
+                                                getgoods('{$order.trade_no}', '0');
+                                            }
+                                        });
+                                        t = t + 1;
+                                        setTimeout('oderquery(' + t + ')', 3000);
+                                    }
+
+                                    function request_stop() {
+                                        if (stop == true)
+                                            return false;
+                                        flag = false;
+                                        layer.close(loading);
+                                        layer.alert('<font color="#000000">系统未接收到付款信息，如您已付款请联系客服处理！！</font>');
+                                    }
+                                    function chkcode(input_val, queryType) {
+
+                                        if (order_query_captcha_type == 0)
+                                        {
+                                            layer.prompt({
+                                                title: '请输入验证码',
+                                                formType: 3
+                                            }, function (chkcode) {
+                                                $.post('/orderquery/checkverifycode', {
+                                                    chkcode: chkcode,
+                                                    token: '{$token}'
+                                                }, function (data) {
+                                                    if (data == 'ok') {
+                                                        layer.msg('<font color="#000000">验证码正确！</font>', {
+                                                            icon: 1
+                                                        }, function () {
+                                                            window.location.href = '/orderquery?orderid=' + input_val + '&chkcode=' + chkcode + '&querytype=' + queryType;
+                                                        });
+                                                    } else {
+                                                        layer.msg('<font color="#000000">验证码错误！</font>', {
+                                                            icon: 2,
+                                                            time: 3000
+                                                        }, function () {
+                                                        });
+                                                    }
+
+                                                });
+                                            });
+                                            $('.layui-layer-prompt .layui-layer-content').prepend($(
+                                                    '<img style="cursor:pointer;height: 60px;" id="chkcode_img" src="/chkcode" onclick="javascript:this.src=\'/chkcode\'+\'?time=\'+Math.random()">'
+                                                    ))
+                                        } else {
+                                            $('#clicaptcha-submit-info').clicaptcha({
+                                                src: "{:url('/chkcode',['token'=>$token])}",
+                                                checksrc: "{:url('/orderquery/checkverifycode',['token'=>$token])}",
+                                                token: "{$token}",
+                                                callback: function (chkcode) {
+                                                    layer.msg('<font color="#000000">验证码正确！</font>', {
+                                                        icon: 1
+                                                    }, function () {
+                                                        window.location.href = '/orderquery?orderid=' + input_val + '&chkcode=' + encodeURIComponent(chkcode) + '&querytype=' + queryType;
+                                                    });
+                                                }
+                                            });
+                                        }
+                                    }
+                                    var clipboard = new ClipboardJS('.btn');
+                                    clipboard.on('success', function (e) {
+                                        layer.msg('<font color="red">复制成功</font>', {
+                                            icon: 1
+                                        });
+                                    });
+                                    clipboard.on('error', function (e) {
+                                        layer.msg('<font color="red">手动复制,复制失败</font>！', {
+                                            icon: 2
+                                        });
+                                    });
+
+            </script>
+
+
+
+
+
+
+
+
+
+        </div> <!-- /.main-page-wrapper -->
+    </body>
+</html>

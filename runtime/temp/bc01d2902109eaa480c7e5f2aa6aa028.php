@@ -1,0 +1,33 @@
+<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:98:"/www/wwwroot/shop.paozf.com/application/templates/pc/manage/default/plugin/publish_settlement.html";i:1646323578;}*/ ?>
+
+<form class="layui-form layui-box" style='padding:25px 30px 20px 0' action="<?php echo url('publishSettlement'); ?>" data-auto="true" method="post" onsubmit="return false;">
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">标题</label>
+        <div class="layui-input-block">
+            <input id='title' type="text" name="title" placeholder="请输入标题" autocomplete="off" class="layui-input"  value="<?php echo date('Y年m月d日'); ?>系统自动结算已完毕">
+        </div>
+    </div>
+
+
+    <div class="layui-form-item ">
+        <label class="layui-form-label">公告内容</label>
+        <div class="layui-input-block">
+            <textarea name="content"  cols="30" rows="10" class="layui-textarea">尊敬的商户您好：
+<?php echo date('Y年m月d日'); ?>系统自动结算已完毕
+自动提现：
+收款为<?php if(in_array(1, (array)json_decode((string)sysconf('cash_type'), true))): ?>支付宝商户、<?php endif; if(in_array(2, (array)json_decode((string)sysconf('cash_type'), true))): ?>微信商户、<?php endif; if(in_array(2, (array)json_decode((string)sysconf('cash_type'), true))): ?>银行卡商户、<?php endif; ?>人工打款已操作完毕，请核对您的结算账号账单！
+手动提现：
+提现后请耐心等待我们财务进行打款！
+其他问题请联系平台客服QQ<?php echo sysconf('site_info_qq'); ?>进行咨询！
+</textarea>
+        </div>
+    </div>
+
+    <div class="hr-line-dashed"></div>
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type="submit">确定</button>
+        <button class="layui-btn layui-btn-danger" type="button" data-confirm="确定要取消吗？" data-close="">取消</button>
+    </div>
+</form>

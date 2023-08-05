@@ -1,0 +1,48 @@
+{extend name="base"}
+
+{block name="content"}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$article.title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">公告</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        {$article.content|htmlspecialchars_decode|removeXSS}
+                        {$article.create_at|date="Y-m-d H:i:s",###}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+
+
+{/block}
+{block name="js"}
+<script>
+
+</script>
+{/block}

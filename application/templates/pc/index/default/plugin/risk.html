@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8" />
+        <title>风控展示 - {:sysconf('site_name')}</title>
+        <meta name="keywords" content="{:sysconf('site_keywords')}" />
+        <meta name="description" content="{:sysconf('site_desc')}" />
+        <link rel="shortcut icon" href="{:sysconf('browser_icon')}" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Bootstrap -->
+        <link href="__RES__/theme/landrick/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <!-- Icons -->
+        <link href="__RES__/theme/landrick/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
+        <!-- Magnific -->
+        <link href="__RES__/theme/landrick/css/magnific-popup.css" rel="stylesheet" type="text/css" />
+        <!-- Main Css -->
+        <link href="__RES__/theme/landrick/css/land1.css" rel="stylesheet" type="text/css" id="theme-opt" />
+        <link href="__RES__/theme/landrick/css/colors/default.css" rel="stylesheet" id="color-opt">
+        <link href="__RES__/merchant/default/css/icons.min.css" rel="stylesheet" type="text/css">
+
+        <style>
+            .badge{
+                color:#fff;
+            }
+            #topnav.nav-sticky .buy-button .login-btn-light,#topnav .buy-button .login-btn-light{
+                display: inline-block;
+            }
+        </style>
+
+    </head>
+
+    <body>
+        <!-- Loader-->
+        <div id="preloader">
+            <div id="status">
+                <div class="spinner">
+                    <div class="double-bounce1"></div>
+                    <div class="double-bounce2"></div>
+                </div>
+            </div>
+        </div> 
+        <!-- Loader -->
+
+        <!-- Navbar STart -->
+        <header id="topnav" class="defaultscroll sticky">
+            <div class="container">
+                <div>
+                    <a class="logo" href="/">
+                        <img src="{:sysconf('site_logo')}" height="24" alt="">
+                    </a>
+                </div>                 
+                <div class="buy-button">
+                    <a href="/">  <div class="btn btn-light login-btn-light"  style="font-size: 13px;padding: 6px 20px;">首页</div></a>
+                </div>
+            </div>
+        </header>
+
+        <section class="mt-3  section d-table w-100">
+            <div class="container">
+
+                <div class="row justify-content-center">
+                    <div class="col-12">
+                        <div class="section-title text-center mb-4 pb-2">
+                            <h4 class="title mb-4">风控展示</h4>
+                            <p class="text-muted para-desc mb-0 mx-auto">{:sysconf('site_name')}倡导绿色合规交易，保障买卖绿色、便捷、合法一直是我们的初衷，为积极响应落实 <a class="text-primary" href="https://duxiaofa.baidu.com/detail?cid=f66f830e45c0490d589f1de2fe05e942_law&searchType=statute" target="_blank">《中华人民共和国网络安全法》</a>
+                                ， {:sysconf('site_name')}将依据平台服务协议对用户行为进行规范管理，同时为保障风控数据的公正、公开、透明，我们特此将平台风控数据作出公示。</p>
+                        </div>
+                    </div><!--end col-->
+                </div>
+
+
+                <div class="row">
+                    <div class="col-lg-2 col-md-6 col-12">
+                        <div class="media  align-items-center p-3 rounded shadow ">
+                            <div class="media-body">
+                                <h6 class="title mb-0 text-dark">累计风控次数</h6>
+                                <p class="text-muted mb-0">{$all_count|default=0}次</p>    
+                            </div>
+                        </div>
+                    </div><!--end col-->
+
+                    <div class="col-lg-2 col-md-6 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
+                        <div class="media align-items-center p-3 rounded shadow">
+                            <div class="media-body">
+                                <h6 class="title mb-0 text-dark">手动风控次数</h6>
+                                <p class="text-muted mb-0">{$manual_count|default=0}</p>    
+                            </div>
+                        </div>
+                    </div><!--end col-->
+
+                    <div class="col-lg-2 col-md-6 col-12 mt-4 mt-lg-0 pt-2 pt-lg-0">
+                        <div class="media  align-items-center p-3 rounded shadow">
+                            <div class="media-body">
+                                <h6 class="title mb-0 text-dark">AI风控次数</h6>
+                                <p class="text-muted mb-0">{$ai_count|default=0}</p>    
+                            </div>
+                        </div>
+                    </div><!--end col-->
+
+                    <div class="col-lg-2 col-md-6 col-12 mt-4 mt-lg-0 pt-2 pt-lg-0">
+                        <div class="media  align-items-center p-3 rounded shadow">
+                            <div class="media-body">
+                                <h6 class="title mb-0 text-dark">关闭商家次数</h6>
+                                <p class="text-muted mb-0">{$close_count|default=0}</p>    
+                            </div>
+                        </div>
+                    </div><!--end col-->
+                    <div class="col-lg-2 col-md-6 col-12 mt-4 mt-lg-0 pt-2 pt-lg-0">
+                        <div class="media  align-items-center p-3 rounded shadow">
+                            <div class="media-body">
+                                <h6 class="title mb-0 text-dark">系统全局投诉率</h6>
+                                <p class="text-muted mb-0">{$complaint_rate}%</p>    
+                            </div>
+                        </div>
+                    </div><!--end col-->
+
+                    <div class="col-lg-2 col-md-6 col-12 mt-4 mt-lg-0 pt-2 pt-lg-0">
+                        <div class="media  align-items-center p-3 rounded shadow">
+                            <div class="media-body">
+                                <h6 class="title mb-0 text-dark">NPL处理数</h6>
+                                <p class="text-muted mb-0">{$npl_count|default=0}</p>    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--border-radius: 5px;
+                box-shadow: 0 0 10px 0 rgba(0,0,0,.05);
+                border-left: 7px solid #ff5f4f;
+                padding: 19px 30px 16px 23px;-->
+                <div class="row">
+                    {foreach $list as $v}
+                    <div class="col-lg-4 col-md-6 col-12 mt-4 pt-2 filter-box business show">
+                        <div class="card blog border-0 work-container work-classic shadow rounded-md overflow-hidden">
+                            <div class="card-body" style="padding: 10px 23px 12px 23px;">
+                                <div class="content">
+
+                                    <div class="mt-3 text-dark d-flex align-items-center justify-content-between">
+                                        <div> 
+                                            <img src="{:url('resource/userAvatar',['id'=>$v.user_id])}" class="shadow bg-light avatar avatar-md-sm rounded-circle mr-3" alt="">
+                                            {$v.user.username|user_name_hide=###}  
+                                        </div>
+                                        {switch name="v.risk_type"}
+                                        {case value="0"}<span class="badge badge-link bg-info">系统警告</span>{/case}
+                                        {case value="1"}<span class="badge badge-link bg-warning">下架警告</span>{/case}
+                                        {case value="2"}<span class="badge badge-link bg-dark">关闭交易</span>{/case}
+                                        {case value="3"}<span class="badge badge-link bg-danger">封禁</span>{/case}
+                                        {/switch}
+                                    </div>
+                                    <p class="text-muted pt-2">{$v.desc}</p>
+                                    <p class="text-muted mb-0" style="font-size:13px">风控时间：{$v.update_at|date='Y-m-d H:i:s',###}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {/foreach}
+                </div>
+
+                <div class="row justify-content-center mt-4">
+                    <nav  aria-label="...">
+                        {$page}
+                    </nav>
+                </div>
+            </div><!--ed container-->
+
+        </section>
+
+
+        <!-- javascript -->
+        <script src="__RES__/theme/landrick/js/jquery-3.5.1.min.js"></script>
+        <script src="__RES__/theme/landrick/js/bootstrap.bundle.min.js"></script>
+        <script src="__RES__/theme/landrick/js/jquery.easing.min.js"></script>
+        <script src="__RES__/theme/landrick/js/scrollspy.min.js"></script>
+        <!-- Magnific -->
+        <script src="__RES__/theme/landrick/js/jquery.magnific-popup.min.js"></script>
+        <script src="__RES__/theme/landrick/js/isotope.js"></script>
+        <script src="__RES__/theme/landrick/js/portfolio.init.js"></script>
+        <!-- Icons -->
+        <script src="__RES__/theme/landrick/js/feather.min.js"></script>
+        <script src="__RES__/theme/landrick/js/bundle.js"></script>
+        <!-- Main Js -->
+        <script src="__RES__/theme/landrick/js/app.js"></script>
+
+    </body>
+</html>

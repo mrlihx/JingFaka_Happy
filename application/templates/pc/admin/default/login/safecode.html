@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no">
+        <link rel="shortcut icon" href="{:sysconf('browser_icon')}" />
+        <title>{block name="title"}{$title|default=''}{if !empty($title)} · {/if}{:sysconf('site_name')}{/block}</title>
+        <!-- Stylesheet
+        ========================= -->
+        <link rel="stylesheet" href="__STATIC__/admin/login/bootstrap.min.css"/>
+        <link rel="stylesheet" href="__STATIC__/admin/login/login_new.css"/>
+        <!-- Colors Css -->
+    </head>
+    <body>
+
+        <!-- Preloader -->
+        <div class="preloader preloader-dark">
+            <div class="lds-ellipsis">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+        <!-- Preloader End -->
+
+        <div id="main-wrapper" class="oxyy-login-register bg-dark">
+            <div class="container">
+                <div class="row no-gutters min-vh-100 py-5"> 
+                    <!-- Welcome Text
+                    ========================= -->
+                    <div class="col-lg-7 shadow-lg">
+                        <div class="hero-wrap d-flex align-items-center rounded-lg rounded-right-0 h-100">
+                            <div class="hero-mask opacity-9 bg-primary"></div>
+                            <div class="hero-bg hero-bg-scroll" style="background-image:url('__STATIC__/admin/login/login-bg.jpg');"></div>
+                            <div class="hero-content mx-auto w-100 h-100 d-flex flex-column">
+                                <div class="row no-gutters">
+                                    <div class="col-10 col-lg-10 mx-auto">
+                                        <div class="logo mt-5 mb-5 mb-lg-0"> <a href="index.html" title="Oxyy"><img src="__STATIC__/admin/login/logo-light.png" alt="Oxyy"></a> </div>
+                                    </div>
+                                </div>
+                                <div class="row no-gutters my-auto">
+                                    <div class="col-10 col-lg-10 mx-auto">
+                                        <h1 class="text-11 text-white mb-3">欢迎回来!</h1>
+                                        <p class="text-5 text-white line-height-4 mb-4" id="yiyan"></p>
+                                        <a class="btn btn-dark rounded-pill shadow-none video-btn py-1 px-3 d-inline-flex align-items-center mb-5 " style='font-size: 12px' >来源 ： <span id="yiyan-form" >第三方</span></a> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Welcome Text End --> 
+
+                    <!-- Login Form
+                    ========================= -->
+                    <div class="col-lg-5 shadow-lg d-flex align-items-center rounded-lg rounded-left-0 bg-dark">
+                        <div class="container my-auto py-5">
+                            <div class="row">
+                                <div class="col-11 col-lg-10 mx-auto">
+                                    <h3 class="text-white text-center mb-4">后台登录</h3>
+                                    <form id="loginForm" class="form-dark"  data-time="0.001" data-auto="true" method="post">
+                                        <input name="action_type" type="hidden" value="{$action_type}">
+                                        {if $safecode==""}
+                                        <p class="text-center text-danger">用户{:session('user')['username']}未设置安全认证码，请进行设置。</p>
+                                        <div class="form-group">
+                                            <label class="text-light" for="safecode">安全认证码</label>
+                                            <input type="password" class="form-control" name="safecode" autofocus="autofocus" autocomplete="off" id="safecode" required placeholder="请输入安全认证码">
+                                        </div>
+
+                                        <button class="btn btn-primary btn-block my-4" type="submit">立即设置</button>
+                                        {else/}
+                                        <p style="color:red">请输入设置的认证码</p>
+                                        <div class="form-group">
+                                            <label class="text-light" for="safecode">安全认证码</label>
+                                            <input type="password" class="form-control" name="safecode" autofocus="autofocus" autocomplete="off" id="safecode" required placeholder="请输入安全认证码">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="text-light" for="captcha_code">验证码</label>
+                                            <div class="input-group">
+                                                <input  name="captcha_code" id="captcha_code" class="form-control col-lg-8" required="" type="text" placeholder="请输入验证码" autocomplete="off">
+                                                <img style="font-size:16px;padding:0px" src="{:url('admin/login/verifycode',['t'=>time()])}" class="form-control col-lg-4" id="vercodeImg"  onclick="this.src = '{:url(\'admin/login/verifycode\')}?d=' + Math.random();"  title="点击刷新验证码">      
+                                            </div>
+                                        </div>
+                                        <button class="btn btn-primary btn-block my-4" type="submit">立即验证</button>
+                                        <p class="text-center">忘记认证码？请使用系统工具箱关闭认证进入后台后修改，<a target="_blank"  href="http://docs.jingfaka.com">http://docs.jingfaka.com</a></p>
+                                        {/if}
+                                    </form>
+
+                                    <p class="text-2 text-center text-light mb-0">{:sysconf('site_copy')}&nbsp;V{:getVersion()}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Login Form End --> 
+                </div>
+            </div>
+        </div>
+
+        <!-- Styles Switcher -->
+        <div id="styles-switcher" class="left">
+            <h5>Color Switcher</h5>
+            <hr>
+            <ul class="mb-0">
+                <li class="blue" data-toggle="tooltip" title="Blue" data-path="#"></li>
+            </ul>
+            <button class="btn switcher-toggle"><svg  class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"  width="20" height="20"><path d="M715 752.3c-29 23.8-61.9 42.3-97.3 54.6v69.6c0 28.7-23.2 51.9-51.9 51.9H458.5c-28.7 0-51.9-23.2-51.9-51.9v-69.6c-35.4-12.3-68.4-30.8-97.3-54.6l-58.9 34c-24.8 14.3-56.5 5.8-70.9-19l-53.6-93c-14.3-24.8-5.9-56.5 18.9-70.9l56.1-32.4c-7.3-38.2-7.3-77.4 0-115.6L144.8 423c-24.8-14.3-33.3-46.1-19-70.9l53.6-93c14.3-24.8 46.1-33.3 70.9-19l58.9 34c29-23.8 61.9-42.4 97.4-54.7v-69.5c0-28.7 23.2-51.9 51.9-51.9h107.3c28.7 0 51.9 23.2 51.9 51.9v69.6c35.9 12.5 68.7 31.1 97.3 54.6l58.9-34c24.8-14.3 56.5-5.8 70.9 19l53.6 93c14.3 24.8 5.8 56.5-19 70.9l-56.1 32.4c7.3 38.2 7.3 77.4 0 115.6l56.1 32.4c24.8 14.3 33.3 46.1 19 70.9l-53.6 93c-14.3 24.8-46.1 33.3-70.9 19l-58.9-34zM512.1 669c87.4 0 158.3-69.7 158.3-155.7s-70.9-155.7-158.3-155.7-158.3 69.7-158.3 155.7S424.7 669 512.1 669z" fill="#ffffff"></path></svg></button>
+        </div>
+        <!-- Styles Switcher End --> 
+
+        <!-- Script --> 
+        <script src="__STATIC__/admin/login/jquery.min.js"></script> 
+        <script src="__STATIC__/admin/login/bootstrap.bundle.min.js"></script> 
+        <!-- Style Switcher --> 
+        <script src="__STATIC__/admin/login/switcher.min.js"></script> 
+        <script src="__STATIC__/admin/login/theme.js"></script>
+        <script src="__STATIC__/plugs/layui/layui.js"></script>
+        <script>
+                                                    layui.use('layer', function () {
+                                                        var $ = layui.jquery, layer = layui.layer;
+                                                    });
+                                                    if (window.location.href.indexOf('#') > -1) {
+                                                        window.location.href = window.location.href.split('#')[0];
+                                                    }
+                                                    $.ajax({
+                                                        type: 'GET',
+                                                        url: 'https://v1.hitokoto.cn/?encode=json',
+                                                        dataType: 'json',
+                                                        success(data) {
+                                                            $('#yiyan').text(data.hitokoto);
+                                                            $('#yiyan-form').text(data.from);
+                                                        },
+                                                        error(jqXHR, textStatus, errorThrown) {
+                                                            // 错误信息处理
+                                                            console.error(textStatus, errorThrown)
+                                                        }
+                                                    })
+
+
+        </script>
+    </body>
+</html>

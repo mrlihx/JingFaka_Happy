@@ -1,0 +1,47 @@
+
+/* Basic Input Css */
+/* -------------- */
+.form-control-position {
+    position: absolute;
+    top: 2px;
+    right: 0;
+    display: block;
+    width: 2.5rem;
+    height: 2.5rem;
+    line-height: 2.5rem;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.4);
+}
+
+/* Input Icon Positioning */
+.position-relative .form-control {
+    padding-right: calc(1.4em + 0.94rem + 3.7px);
+}
+
+.position-relative .form-control.form-control-lg ~ .form-control-position {
+    top: 6px;
+}
+
+.position-relative .form-control.form-control-sm ~ .form-control-position {
+    top: -4px;
+}
+
+/* Input Icon Left */
+.has-icon-left .form-control {
+    padding-right: 1.6rem;
+    padding-left: 2.5rem;
+}
+
+.has-icon-left .form-control-position {
+    right: auto;
+}
+
+.has-icon-left .form-control-position i {
+    position: relative;
+    left: 2px;
+    top: 1px;
+    color: rgba(0, 0, 0, 0.4);
+}
+
+
+

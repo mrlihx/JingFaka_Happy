@@ -1,0 +1,181 @@
+{extend name="simple_base"}
+
+{block name="content"}
+
+<div class="container">
+    <div class="card">
+        <div class="card-body p-3">
+            <!-- Search Form Wrapper-->
+            <div class="search-form-wrapper">
+
+                <form class="mb-3 pb-4 mt-2" action="{:url('agent/poolGoods')}" method="get">
+                    <div class="input-group mb-2 input-group-sm">
+                        <span class="input-group-text input-group-sm" id="basic-addon1">搜索方式</span>
+                        <select name="type" id="type" class="form-select form-select-sm">
+                            <option value="1" {if $Think.get.type=='1'}selected{/if}>按对接码搜索</option>
+                            <option value="2" {if $Think.get.type=='2'}selected{/if}>按商品名称搜索</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group mb-2  input-group-sm">
+                        <span class="input-group-text input-group-sm" id="basic-addon1">商品搜索</span>
+                        <input class="form-control  form-control-sm"  name="key" type="search" placeholder="请输入对接码或商品名称" value="{$Think.get.key|default=''|htmlentities}">
+                    </div>
+
+                    <button class="btn btn-primary w-100 d-flex align-items-center justify-content-center btn-sm" type="submit">
+                        <i class="bx bx-search me-2"></i>查询
+                    </button>
+                </form>
+            </div>
+
+            {foreach $lists as $v}
+
+            <div class="single-search-result mb-3 border-bottom pb-3 order-wrap">
+                <div class="d-flex align-items-center justify-content-between">
+                    <h6 class="text-truncate mb-0 float-left d-inline">商品名称：{$v.name}</h6>
+                </div>
+                <div class="d-flex align-items-center mt-1 justify-content-between">
+                    <div class="order-wrap-text">
+                        <span>商品分类：</span>
+                        <span>{$v.category.name|default="未分类"}</span>
+                    </div>
+                    <div class="order-wrap-text">
+                        <span>店铺名称：</span>
+                        <span>
+                            {$v.user.shop_name}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center mt-1 justify-content-between">
+                    <div class="order-wrap-text">
+                        <span>供货价格：</span>
+                        <span>
+                            {$v.proxy_price}元
+                        </span>
+                    </div>
+                    <div class="order-wrap-text">
+                        <span>联系方式：</span>
+                        <span>
+                            <a href="//wpa.qq.com/msgrd?v=3&uin={$v.user.qq}&Site=" target="_blank"><i class="iconfont icon-qq-white"></i>{$v.user.qq}</a>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center mt-1 justify-content-between">
+                    <div class="order-wrap-text">
+                        <span>上架时间：</span>
+                        <span>{$v.create_at|date="Y-m-d H:i:s",###}</span>
+                    </div>
+                    <div class="order-wrap-text">
+                        <span>库存：</span>
+                        <span>  
+                            {if $v->cards_stock_count > 0}
+                            {$v->cards_stock_count}张
+                            {else}
+                            <span class="text-danger">断货</span>
+                            {/if}
+                        </span>
+                    </div>
+
+                </div>
+
+                <div class="d-flex align-items-center mt-1 justify-content-between">
+                    <div class="order-wrap-text">
+                        <span>代理审核：</span>
+                        <span>
+                            {switch name=":proxyStatus($v->user->id, $_user->id)"}
+                            {case value="-2"}
+                            {if $v.user.need_check_agent==1}
+                            <span class="text-danger">需要审核</span>
+                            {else/}
+                            <span class="text-success">免审</span>
+                            {/if}
+                            {/case}
+                            {case value="-1"}<span class="text-danger">申请拒绝</span>{/case}
+                            {case value="0"}<span class="text-info">申请中</span>{/case}
+                            {case value="1"}<span class="text-success">已通过</span>{/case}
+                            {/switch}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="goods-warp d-flex align-items-center mt-1 justify-content-end">
+                    {if hasAgentAdd($_user->id, $v->id)==1 }
+                    <p> <span class="text-warning">已对接</span></p>
+                    {else}
+                    <a class="me-1" href="javascript:void(0)" onclick="add('{:url(\'agent/add\',[\'proxy_code\'=>$v.proxy_code])}', '{:proxyStatus($v->user->id, $_user->id)}', '{$v.user.need_check_agent}', '{$v.user.id}')"><span class="goods-warp-btn">正常对接</span></a>
+                    <a class="me-1" href="javascript:void(0)" onclick="$.x_show('快速对接', '{:url(\'agent/addLite\',[\'proxy_code\'=>$v.proxy_code])}', '90%')"><span class="goods-warp-btn">快速对接</span></a>
+                    {/if}
+                </div>
+            </div>
+
+            {/foreach}
+
+            <nav aria-label="Page navigation">
+                {$page}
+            </nav>
+        </div>
+    </div>
+</div>
+
+{/block}
+{block name="js"}
+
+<script>
+    function add(url, status, need_check_agent, user_id)
+    {
+        if (status == "-2")
+        {
+            if (need_check_agent == "1")
+            {
+                //需要审核
+                $.confirm({
+                    title: '温馨提示',
+                    content: '成为此商家代理需要申请，确定要申请吗？',
+                    type: 'red',
+                    typeAnimated: true,
+                    buttons: {
+                        tryAgain: {
+                            text: '确定',
+                            btnClass: 'btn-red',
+                            action: function () {
+                                var loading = layer.load(1, {shade: [0.1, '#fff']});
+                                $.post("{:url('Agent/applyProxy')}", {
+                                    user_id: user_id
+                                }, function (res) {
+                                    layer.close(loading);
+                                    if (res.code != 1) {
+                                        $.alert(res.msg);
+                                    } else {
+                                        $.alert(res.msg);
+                                        setTimeout(function () {
+                                            location.reload();
+                                        }, 200);
+                                    }
+                                });
+                            }
+                        },
+                        cancel: {
+                            text: '取消'
+                        }
+                    }
+                });
+            } else {
+                location.href = url;
+            }
+        } else if (status == "-1")
+        {
+            layer.msg("申请代理拒绝，您无法对接！");
+        } else if (status == "0")
+        {
+            layer.msg("申请代理审核中，请耐心等待!");
+        } else if (status == "1")
+        {
+            location.href = url;
+        }
+    }
+</script>
+{/block}
+
+

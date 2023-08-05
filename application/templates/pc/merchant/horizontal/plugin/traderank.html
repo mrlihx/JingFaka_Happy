@@ -1,0 +1,78 @@
+{extend name="base"}
+
+{block name="content"}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-lg-12">
+                <div class="alert alert-success" role="alert">
+                    提示：排行榜每周刷新，周日23:59分进行重置
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+            {foreach $topStatis as $k=> $v}
+            <div class="col-xl-12 col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-2">
+                                <div class="text-lg-center">
+                                    <img src="{:url('index/resource/useravatar',['id'=>$v.user_id])}" class="avatar-sm rounded-circle mb-2 float-left float-lg-none" alt="img">
+                                    <p  class="text-muted mb-0">排名：{$k+1}</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-10">
+                                <div>
+                                    <h5 class="mb-1 font-size-14 text-truncate mb-3">{if $v.shop_name!=""}【{$v.shop_name}】{/if}{$v.username}</h5>
+                                    <h5 class="font-size-13 text-truncate mb-3">对接码：{$v.agent_key}<a href="{:url('merchant/agent/poolgoods',['type'=>1,'key'=>$v.agent_key])}" class="ml-2 text-primary">去对接</a></h5>
+                                    <ul class="list-inline mb-0">
+                                        <li class="list-inline-item mr-3">
+                                            <h5 class="font-size-14" data-toggle="tooltip" data-placement="top" title="" data-original-title="交易金额"><i class="bx bx-money mr-1 text-primary"></i> ￥{$v.transaction_money}</h5>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <h5 class="font-size-14" data-toggle="tooltip" data-placement="top" title="" data-original-title="可代理商品数"><i class="bx bx-archive  mr-1 text-primary"></i>{$v.goods_count}个可代理商品</h5>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/foreach}
+
+        </div>
+
+    </div>
+    <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+
+
+{/block}
+{block name="js"}
+<script>
+
+</script>
+
+{/block}

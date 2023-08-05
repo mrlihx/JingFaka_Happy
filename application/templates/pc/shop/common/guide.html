@@ -1,0 +1,40 @@
+<html>
+    <head> 
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" /> 
+        <title>{$guide.title}</title> 
+        <script src="//lib.baomitu.com/jquery/3.3.1/jquery.js"></script> 
+        <link rel="stylesheet" href="__RES__/app/theme/guide/css.css" /> 
+        <style>
+            @media screen and (max-width: 980px) {
+                .copyright{display: none;}
+                .Vidage{display: none;}
+            }
+        </style>
+        <script type="text/javascript">
+            var title = "{$guide.title|htmlspecialchars_decode|removeXSS}"
+            var subtitle = "{$guide.subtitle|htmlspecialchars_decode|removeXSS}"
+            var subtitle_line1 = "{$guide.subtitle_line1|htmlspecialchars_decode|removeXSS}"
+            var subtitle_line2 = "{$guide.subtitle_line2|htmlspecialchars_decode|removeXSS}"
+            var logo = "{$guide.logo|default=url('index/resource/userAvatar', ['id' =>$guide.user_id])}"
+            var logo_open = "{$guide.logo_open|default=1}"
+            var buttons = '{if $guide.buttons!=""}{foreach :json_decode($guide.buttons,true) as $v}{if $v!=""} <li><a href="{:isset(explode(\'|\',$v)[1])?removeXSS(htmlspecialchars_decode(explode(\'|\',$v)[1])):\'\'}">{:isset(explode(\'|\',$v)[0])?removeXSS(htmlspecialchars_decode(explode(\'|\',$v)[0])):\'\'}</a></li>{/if}{/foreach}{/if}';
+            var video = "{$guide.theme.video|htmlspecialchars_decode|removeXSS}"
+            var background = "{$guide.theme.background|htmlspecialchars_decode|removeXSS}"
+            var site_info_copyright = "{:removeXSS(sysconf('site_info_copyright'))}"
+        </script>
+
+    </head> 
+    <body class="Vidage--allow">
+        <script src="__RES__/app/theme/guide/js.js"></script> 
+        <script>
+            if (logo_open == 1)
+            {
+                $(".logo").show();
+            } else {
+                $(".logo").hide();
+            }
+        </script>
+    </body>
+</html>
+<!-- 当前网站使用【鲸发卡】强力驱动。 http://www.jingfaka.com  QQ:76889352-->

@@ -1,0 +1,328 @@
+﻿body{
+    margin:0;
+    padding:0;
+    font-family: Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Noto Sans CJK SC,WenQuanYi Micro Hei,Arial,sans-serif;
+    letter-spacing:1.2px;
+    color:#555;
+    background: url("/static/muban/lanse/images/geometry2.png");
+}
+ul,li,p,h1,h2,h3,h4,h5,h6{
+    list-style:none;
+    margin:0;
+    padding:0;
+}
+img{
+    border:none;
+}
+a{
+    text-decoration:none;
+    text-align:center;
+    cursor:pointer;
+}
+.container{
+    width:1200px;
+    margin:0 auto;
+    position:relative;
+}
+.clear{
+    clear:both;
+}
+.top_bg{
+    background: url("/static/muban/lanse/images/top_bg.png") top center no-repeat;
+    min-width: 1200px;
+    background-attachment: fixed;
+}
+.top{
+    height: 80px;
+    color: #fff;
+}
+.logo{
+    float: left;
+    line-height: 80px;
+    font-size: 24px;
+    margin-left: 20px;
+}
+.main_menu{
+    float: right;
+    margin-right: 20px;
+}
+.main_menu li{
+    float: left;
+    height: 80px;
+    line-height: 80px;
+    margin-left: 70px;
+}
+.main_menu li a{
+    display: block;
+    color: #ffffff;
+    transition: .2s;
+}
+.main_menu li a:hover{
+    border-bottom: 1px solid #fbd530;
+}
+/*联系卖家*/
+.seller_name{
+    margin: 20px 0 0 20px;
+    color: rgba(255,255,255,0.8);
+}
+.seller_name b{
+    color: #fff;
+}
+.seller_name a{
+    display: inline-block;
+    margin-left: 20px;
+    border-radius: 18px;
+    border:2px solid #fbd530;
+    background: #fbd530;
+    height: 32px;
+    line-height: 32px;
+    padding: 0 16px;
+    font-size: 14px;
+    color: #fff;
+    box-shadow: 0 6px 10px -2px rgba(0,0,0,0.1);
+    transition: .2s;
+}
+.seller_name a img{
+    vertical-align: text-bottom;
+    height: 18px;
+    margin-right: 8px;
+}
+/*font-weight: bold;*/
+.seller_name a:hover{
+    border:2px solid #fff;
+    font-weight: normal;
+}
+/*公告*/
+.gg_bg{
+    width: 1160px;
+    margin-top: 20px;
+    padding: 15px 20px;
+    background: rgba(78,191,252,0.1);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius: 3px;
+    color: rgba(255,255,255,0.8);
+}
+.gg_bg b{
+    color: #fff;
+}
+/*选择商品*/
+.main_bg{
+    background: #fff;
+    margin: 40px auto;
+    padding: 40px;
+    border-radius: 20px;
+    width: 1120px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    position: relative;
+}
+.title{
+    float: left;
+}
+.seller_info{
+    position: absolute;
+    right: 40px;
+    top:0;
+    background: #168bd8;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding: 20px;
+    width: 240px;
+    line-height: 32px;
+}
+.seller_info h3{
+    text-align: center;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    font-size: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    color: #fff;
+}
+.seller_info p{
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.ewm{
+    display: block;
+    width: 120px;
+    margin: 0 auto;
+    padding: 10px 0;
+    text-align: center;
+    background: #fff;
+    box-shadow: 0 4px 10px -2px rgba(0,0,0,0.2);;
+}
+.ewm img{
+    margin-bottom: -10px;
+}
+/*表单*/
+.choose_good_form{
+    width: 570px;
+    float: left;
+    margin: 0 0 40px 40px;
+}
+.my_box{
+    height:48px;
+    line-height:48px;
+    border-bottom: 1px solid #f3f3f3;
+    overflow:hidden;
+    margin-bottom:12px;
+    clear:both;
+}
+.my_left{
+    float:left;
+    height:48px;
+    width:118px;
+    line-height:48px;
+    text-align:center;
+}
+.my_right{
+    width: calc(100% - 126px);
+    display:inline-block;
+    padding: 0 4px;
+}
+.my_right select{
+    height:42px;
+    padding:0 8px;
+    border-radius:3px;
+    background:#fff;
+    border:none;
+    width:446px;
+    color: #555;
+    font-size:16px;
+    font-family: Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Noto Sans CJK SC,WenQuanYi Micro Hei,Arial,sans-serif;
+}
+.my_right select:focus,.my_right input[type=text]:focus{
+    outline:1px solid #e69800;
+    transition: linear 0.2s;
+}
+.big_text{
+    font-size:18px;
+    color:#e69800;
+}
+.my_right input[type=text]{
+    height:42px;
+    background:#fff;
+    border-radius:3px;
+    border:none;
+    width:430px;
+    color: #555;
+    padding:0 8px;
+    font-size:16px;
+    font-family: Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Noto Sans CJK SC,WenQuanYi Micro Hei,Arial,sans-serif;
+}
+.lab1{
+    display:inline-block;
+    height:36px;
+    line-height:36px;
+    padding:0px 16px;
+    text-align:center;
+    border:1px solid #ddd;
+    cursor:pointer;
+    font-size:16px;
+    color:#999;
+    transition:ease 0.3s;
+}
+.lab1 input[type=checkbox]{
+    display:none;
+}
+.lab1:hover{
+    border:1px solid #e69800;
+    color:#e69800;
+}
+.checked{
+    border:1px solid #e69800;
+    color:#e69800;
+}
+input::-webkit-input-placeholder {
+    color: #999;
+    letter-spacing:1px;
+}
+/*选项卡*/
+.pay_box{
+    float: left;
+    margin-left: 40px;
+    border:1px solid #eee;
+    border-radius:8px;
+    overflow:hidden;
+    width: 847px;
+    padding: 20px;
+}
+.pay_menu{
+    height:50px;
+    line-height:50px;
+    background:#f8f8f8;
+    overflow:hidden;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+.pay{
+    float:left;
+    height:50px;
+    padding:0 50px;
+    text-align:center;
+    cursor:pointer;
+}
+.checked1{
+    background:#e69800;
+    color:#fff;
+}
+.pay_list1,.pay_list2{
+    padding:20px 0 0 10px;
+    border-top:none;
+}
+.check_pay{
+    display:block;
+    width:180px;
+    line-height:50px;
+    height:50px;
+    text-align:center;
+    border-radius:25px;
+    font-weight: bold;
+    color:#e69800;
+    border:1px solid #e69800;
+    margin:40px auto 20px auto;
+    cursor:pointer;
+    font-size:16px;
+    background: none;
+    box-shadow: 0 2px 5px #eee;
+    transition: .2s;
+}
+.check_pay:hover{
+    background: #e69800;
+    color: #fff;
+}
+.lab3{
+    display:inline-block;
+    width:157px;
+    padding:16px 6px;
+    text-align:center;
+    background: #fff;
+    cursor:pointer;
+    border-radius:3px;
+    font-size:14px;
+    margin:0 30px 20px 0;
+    transition:ease 0.2s;
+    border: 1px solid transparent;
+}
+.lab3 input[type=radio]{
+    display:none;
+}
+.lab3:hover{
+    border: 1px solid rgba(230,152,0,0.5);
+}
+.checked2{
+    border: 1px solid rgba(230,152,0,0.5);
+}
+.foot{
+    background: #168bd8;
+    height: 60px;
+    line-height: 60px;
+    color: #fff;
+    font-size: 12px;
+    text-align: center;
+}

@@ -1,0 +1,154 @@
+{extend name="simple_base"}
+
+{block name="content"}
+
+<div class="container">
+    <div class="card">
+        <div class="card-body p-3">
+
+            <div class="row mb-2">
+
+                <div class="col-lg-12">
+                    <div class="alert alert-warning" role="alert">
+                        店铺风格、分类风格、商品风格设置为“★动态DIY★”，以下设置才会生效。
+                    </div>
+                </div>
+
+                <div class="col-lg-12">
+                    <div class="alert alert-success" role="alert">
+                        注意部分视频自带音频，如果没有声音可与店铺设置【支付页背景音乐】搭配使用。
+                    </div>
+                </div>
+
+
+                <div class="col-sm-auto">
+                    <button  onclick="$.x_show('自定义素材', '{:url(\'plugin/shopdiyThemeEdit\')}', '90%')" class="btn btn-primary glow invoice-create" role="button" aria-pressed="true"><i class="bx bx-plus mr-1"></i>自定义素材</button>
+                </div>
+            </div>
+            <div class="row">
+                <table class="table m-0">
+                    <thead>
+                        <tr>
+                            <th>素材名称</th>
+                            <th class="text-center">状态</th>
+                            <th class="text-center">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {foreach $shopdiyTheme as $k=> $v}
+                        <tr>
+                            <td>
+                                {if $v.resource_type==0}
+                                <i class="bx bx-movie mr-1"></i>
+                                {elseif $v.resource_type==1/}
+                                <i class="bx bx-image mr-1"></i>
+                                {/if}
+
+                                <b>{$v.name}</b>
+                                {if $v.user_id==$_user.id}
+                                <span class="badge badge-pill bg-warning  font-weight-bold">自定义</span>
+                                {else/}
+                                <span class="badge badge-pill bg-success  font-weight-bold">官方</span>
+                                {/if}
+
+                                {if $v.status==0}
+                                <span class="badge badge-pill bg-danger font-weight-bold">已被禁用</span>
+                                {/if}
+                            </td>
+                            <td class="text-center">
+                                {if $shopdiy.theme_id==$v.id}
+                                <span class="badge badge-pill bg-success  font-weight-bold">正在使用</span>
+                                {else/}
+                                -
+                                {/if}
+                            </td>
+                            <td class="text-center">
+                                <div class="btn-group btn-group-sm " role="group" aria-label="Basic group">
+
+                                    {if $v.id!=$shopdiy.theme_id}
+                                    <button onclick="usetheme('{$v.id}')"  class="btn btn-light waves-effect waves-light text-success">使用</button>
+                                    {/if}
+
+                                    <a target="_blank" href="{$_user->link}?dev=1&theme_id={$v.id}&go=1" class="btn btn-light waves-effect text-primary">预览</a>
+                                    {if $v.user_id==$_user.id}
+                                    <button onclick="$.x_show('编辑', '{:url(\'plugin/shopdiyThemeEdit\',[\'id\'=>$v.id])}', '90%')" class="btn btn-light waves-effect text-primary" role="button" aria-pressed="true">编辑</button>
+                                    <button onclick="del('{$v.id}')" class="btn btn-light waves-effect text-danger" role="button" aria-pressed="true">删除</button>
+                                    {/if}
+                                </div>
+                            </td>
+                        </tr>
+                        {/foreach}
+                    </tbody>
+                </table>
+
+            </div>
+            <nav aria-label="...">
+                {$page}
+            </nav>
+
+        </div>
+
+    </div>
+</div>
+
+{/block}
+{block name="js"}
+<script src="__RES__/merchant/default/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script>
+                                        function usetheme(id)
+                                        {
+                                            var loading = layer.load(1, {shade: [0.1, '#fff']});
+                                            $.post("{:url('plugin/shopdiy')}", {
+                                                act: "settheme",
+                                                id: id
+                                            }, function (res) {
+                                                layer.closeAll();
+                                                $.alert(res.msg);
+                                                if (res.code == 1) {
+                                                    setTimeout(function () {
+                                                        location.reload();
+                                                    }, 200);
+                                                }
+                                            });
+                                        }
+
+                                        function del(id)
+                                        {
+
+                                            $.confirm({
+                                                title: '温馨提示',
+                                                content: '确定删除吗？',
+                                                type: 'red',
+                                                typeAnimated: true,
+                                                buttons: {
+                                                    tryAgain: {
+                                                        text: '确定',
+                                                        btnClass: 'btn-red',
+                                                        action: function () {
+                                                            var loading = layer.load(1, {shade: [0.1, '#fff']});
+                                                            $.post("{:url('plugin/shopdiy')}", {
+                                                                act: "del",
+                                                                id: id
+                                                            }, function (res) {
+                                                                layer.closeAll();
+                                                                $.alert(res.msg);
+                                                                if (res.code == 1) {
+                                                                    setTimeout(function () {
+                                                                        location.reload();
+                                                                    }, 200);
+                                                                }
+                                                            });
+                                                        }
+                                                    },
+                                                    cancel: {
+                                                        text: '取消'
+                                                    }
+                                                }
+                                            });
+                                        }
+
+
+</script>
+{/block}
+
+

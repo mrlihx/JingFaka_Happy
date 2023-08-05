@@ -1,0 +1,77 @@
+{extend name="simple_base"}
+{block name="css"}
+
+{/block}
+
+
+{block name="content"}
+
+<div class="container">
+    <div class="card">
+        <div class="card-body  p-3">
+
+            {foreach $goodsList as $k=>$v}
+            <div class="single-search-result mb-3 border-bottom pb-3 order-wrap">
+                <div class="">
+                    <h6 class="text-truncate mb-1">商品名称：&nbsp;&nbsp;{$v.name}</h6>
+                    <p style='font-size:.75rem'>删除时间：{$v.delete_at|date="Y-m-d H:i:s",###}</p>
+                </div>
+                <div class="goods-warp d-flex align-items-center mt-3 justify-content-end">
+                    <a class="me-1" href="javascript:void(0);" onclick="restore(this, '{$v.id}')"><span class="goods-warp-btn" >恢复</span></a>
+                    <a href="{:url('goods/edit',['id'=>$v.id])}" ><span class="goods-warp-btn">编辑</span></a>
+                </div>
+            </div>
+            {/foreach}
+
+
+            <nav aria-label="Page navigation">
+                {$page}
+            </nav>
+        </div>
+    </div>
+</div>
+
+{/block}
+{block name="js"}
+
+<script>
+
+    function restore(obj, id)
+    {
+        $.confirm({
+            title: '提示！',
+            content: '确定恢复吗？',
+            type: 'green',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: '确定',
+                    btnClass: 'btn-green',
+                    action: function () {
+                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                        $.post("{:url('goods/restore')}", {
+                            id: id
+                        }, function (res) {
+                            if (res.code != 1) {
+                                $.alert("恢复失败");
+                            } else {
+                                $.alert(res.msg);
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 200);
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+
+    }
+
+</script>
+{/block}
+
+

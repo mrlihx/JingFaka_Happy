@@ -1,0 +1,42 @@
+{extend name="simple_base"}
+
+{block name="content"}
+<div class="container">
+    <div class="row mb-2">
+        <div class="col-lg-12">
+            <div class="alert alert-success" role="alert">
+                提示：排行榜每周刷新，周日23:59分进行重置
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-12">
+            {foreach $topStatis as $k=> $v}
+            <div class="card user-info-card mb-3">
+                <div class="card-body d-flex align-items-center">
+                    <div class="me-3"><img style="width:50px" class="avatar-xs rounded-circle" src="{:url('index/resource/useravatar',['id'=>$v.user_id])}" alt=""></div>
+                    <div class="user-info">
+                        <div class="d-flex align-items-center">
+                            <p class="mb-1">{if $v.shop_name!=""}【{$v.shop_name}】{/if}{$v.username}</p><span class="badge bg-primary ms-2 rounded-pill">第{$k+1}名</span>
+                        </div>
+                        <p class="mb-0">对接码：{$v.agent_key}<a href="{:url('merchant/agent/poolgoods',['type'=>1,'key'=>$v.agent_key])}" class="text-primary mx-1">去对接</a></p>
+
+                        <ul class="list-inline mb-0">
+                            <li class="list-inline-item mr-3">
+                                <span style="font-size:12px"><i class="bx bx-money me-1 text-primary"></i> ￥{$v.transaction_money}</span>
+                            </li>
+                            <li class="list-inline-item">
+                                <span style="font-size:12px"><i class="bx bx-archive me-1 text-primary"></i>{$v.goods_count}个可代理商品</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {/foreach}
+        </div>
+    </div>
+
+</div>
+{/block}
+
+

@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>{:sysconf('site_name')} - {:sysconf('site_subtitle')}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="keywords" content="{:sysconf('site_keywords')}" />
+        <meta name="description" content="{:sysconf('site_desc')}" />
+        <link rel="shortcut icon" href="{:sysconf('browser_icon')}" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="theme-color" content="#1E78FF">	
+        <meta name="msapplication-navbutton-color" content="#1E78FF">		
+        <meta name="apple-mobile-web-app-status-bar-style" content="#1E78FF">
+        <link rel="stylesheet" type="text/css" href="__RES__/theme/maowang51/css/style.css" media="all">		
+        <link rel="stylesheet" type="text/css" href="__RES__/theme/maowang51/css/responsive.css" media="all">	
+    </head>
+
+    <body>
+        <div class="main-page-wrapper">
+            <!-- ===================================================
+                    Loading Transition
+                    
+                    default_her.html
+                    
+            ==================================================== -->
+
+
+
+            {include file="./default_her"}
+
+
+            <!-- 
+            =============================================
+                    Search
+            ============================================== 
+            -->
+            <div class="offcanvas offcanvas-top theme-search-form justify-content-center" tabindex="-1" id="offcanvasTop">
+                <button type="button" class="close-btn tran3s" data-bs-dismiss="offcanvas" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+                <div class="form-wrapper">
+                    <form action="#">
+                        <input type="text" placeholder="Search Keyword....">
+                    </form>
+                </div> <!-- /.form-wrapper -->
+            </div>
+
+
+            <!-- 
+            =============================================
+                    Theme Main Menu
+            ============================================== 
+            -->
+            <header class="theme-main-menu sticky-menu theme-menu-two">
+                {include file="./default_header"}
+            </header> <!-- /.theme-main-menu -->
+
+
+
+            <!-- 
+            =============================================
+                    Theme Hero Banner
+            ============================================== 
+            -->
+            <div class="hero-banner-two">
+                <div class="bg-wrapper">
+                    <div class="container container-xl">
+                        <div class="row">
+                            <div class="col-xl-6 col-md-7">
+                                <h1 class="hero-heading">{:sysconf('site_name')}<br> 打造优质服务<br></h1>
+                                <p class="text-lg pt-25 pb-40 lg-pb-20 sm-pt-10">{:sysconf('site_name')}为您提供最专业的平台服务,不同于市面上同类saas商城平台,为您的商城之旅保驾护航</p>
+                                <ul class="style-none button-group d-sm-flex align-items-center">
+                                    <li class="me-4 mt-10"><a href="/login" class="btn-one ripple-btn">商户登录</a></li>
+                                    <li><a class="demo-btn tran3s mt-10" href="/register">成为商户</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div> <!-- /.container -->
+                    <div class="illustration-holder">
+                        <img src="__RES__/theme/maowang51/picture/ils_04.svg" alt="" class="main-illustration w-100">
+                        <img src="__RES__/theme/maowang51/picture/ils_04_1.svg" alt="" class="shapes shape-one">
+                        <img src="__RES__/theme/maowang51/picture/ils_04_2.svg" alt="" class="shapes shape-two">
+                        <img src="__RES__/theme/maowang51/picture/ils_04_2.svg" alt="" class="shapes shape-three">
+                        <img src="__RES__/theme/maowang51/picture/ils_04_3.svg" alt="" class="shapes shape-four">
+                        <img src="__RES__/theme/maowang51/picture/ils_04_4.svg" alt="" class="shapes shape-five">
+                        <img src="__RES__/theme/maowang51/picture/ils_04_5.svg" alt="" class="shapes shape-six">
+                        <img src="__RES__/theme/maowang51/picture/ils_04_6.svg" alt="" class="shapes shape-seven">
+                        <div class="card-one shapes d-flex align-items-center justify-content-center">
+                            <div class="icon"><i class="bi bi-check-lg"></i></div>
+                            <h6>强大的研发能力</h6>
+                        </div> <!-- /.card-one -->
+                        <div class="card-two shapes text-center">
+                            <div class="icon"><i class="bi bi-check-lg"></i></div>
+                            <div class="main-count"><span class="counter">20</span>万+</div>
+                            <div class="info">服务商家</div>
+                            <ul class="style-none d-flex justify-content-center rating">
+                                <li><i class="bi bi-star-fill"></i></li>
+                                <li><i class="bi bi-star-fill"></i></li>
+                                <li><i class="bi bi-star-fill"></i></li>
+                                <li><i class="bi bi-star-fill"></i></li>
+                                <li><i class="bi bi-star-fill"></i></li>
+                            </ul>
+                        </div> <!-- /.card-two -->
+                    </div> <!-- /.illustration-holder -->
+                </div> <!-- /.bg-wrapper -->
+            </div> <!-- /.hero-banner-two -->
+
+
+
+            <!--
+            =====================================================
+                    Counter Section One
+            =====================================================
+            -->
+            <div class="counter-section-one fancy-bg">
+                <div class="container">
+                    <div class="inner-container">
+                        <div class="row justify-content-center">
+                            <div class="col-md-4 col-sm-6" data-aos="fade-up">
+                                <div class="counter-block-one text-center mb-20">
+                                    <div class="main-count"><span class="counter">100</span>%</div>
+                                    <p>10年虚拟商城领域技术沉淀 <br>赋能行业数字化转型
+                                    </p>
+                                </div> <!-- /.counter-block-one -->
+                            </div>
+                            <div class="col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="100">
+                                <div class="counter-block-one text-center mb-20">
+                                    <div class="main-count"><span class="counter">99</span>%</div>
+                                    <p>强大的研发能力<br>大数据、人工智能等技术搭建自动商城saas平台</p>
+                                </div> <!-- /.counter-block-one -->
+                            </div>
+                            <div class="col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="200">
+                                <div class="counter-block-one text-center mb-20">
+                                    <div class="main-count"><span class="counter">24</span>H</div>
+                                    <p>多场景适用 <br>产品汇聚的生态融合商城
+                                    </p>
+                                </div> <!-- /.counter-block-one -->
+                            </div>
+                        </div>
+                    </div> <!-- /.inner-container -->
+                </div>
+                <img src="__RES__/theme/maowang51/picture/shape_04.svg" alt="" class="shapes shape-one">
+                <img src="__RES__/theme/maowang51/picture/shape_05.svg" alt="" class="shapes shape-two">
+            </div> <!-- /.counter-section-one -->
+
+
+
+            <!--
+            =====================================================
+                    Partner Section Two
+            =====================================================
+            -->
+            <div class="partner-section-two mt-110">
+                <div class="container">
+                    <div class="title-style-one text-center" data-aos="fade-up">
+                        <div class="sc-title-three">收费模式</div>
+                        <h2 class="main-title md">平 台 支 持 渠 道 </h2>
+                    </div> <!-- /.title-style-one -->
+
+                    <div class="row">
+                        <div class="col-12 m-auto">
+                            <ul class="style-none text-center">
+                                <li class="partner-logo-block-one d-inline-block" data-aos="fade-up"><a href="#" class="d-flex align-items-center justify-content-center"><img style="height:53px" src="__RES__/theme/maowang51/picture/Plogo-13.png" alt=""></a></li>
+                                <li class="partner-logo-block-one d-inline-block" data-aos="fade-up" data-aos-delay="100"><a href="#" class="d-flex align-items-center justify-content-center"><img style="height:53px" src="__RES__/theme/maowang51/picture/Plogo-12.png" alt=""></a></li>
+                                <li class="partner-logo-block-one d-inline-block" data-aos="fade-up" data-aos-delay="200"><a href="#" class="d-flex align-items-center justify-content-center"><img style="height:53px" src="__RES__/theme/maowang51/picture/Plogo-9.png" alt=""></a></li>
+
+                                <li class="partner-logo-block-one d-inline-block" data-aos="fade-up" data-aos-delay="400"><a href="#" class="d-flex align-items-center justify-content-center"><img style="height:53px" src="__RES__/theme/maowang51/picture/Plogo-8.png" alt=""></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div> <!-- /.container -->
+            </div> <!-- /.partner-section-two -->
+
+
+
+
+            <!-- 
+            =============================================
+                    Feature Section Four
+            ============================================== 
+            -->
+            <div class="fancy-feature-four position-relative mt-110 lg-mt-50">
+                <div class="bg-wrapper">
+                    <div class="inner-container">
+                        <div class="container">
+                            <div class="row gx-xxl-5">
+                                <div class="col-lg-4 mt-40 d-flex" data-aos="fade-up">
+                                    <div class="d-flex justify-content-center flex-column">
+                                        <div class="title-style-one">
+                                            <div class="sc-title-three">平台优势</div>
+                                            <h2 class="main-title">产品特色</h2>
+                                        </div> <!-- /.title-style-one -->
+                                        <div><div class="btn-three rev mt-35 lg-mt-20">更多内容  <a href="/login">产品特色 <i class="fas fa-chevron-right"></i></a></div></div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-sm-6 mt-40 d-flex" data-aos="fade-up" data-aos-delay="100">
+                                    <div class="block-style-four">
+                                        <div class="icon d-flex align-items-end justify-content-center"><img src="__RES__/theme/maowang51/picture/icon_08.svg" alt=""></div>
+                                        <a href="/login"><h5>丰富功能</h5></a>
+                                        <p>提供多种类型的运营营销方案功能让您的运营活动多样.</p>
+                                        <a href="/login" class="more-btn"><img src="__RES__/theme/maowang51/picture/icon_13.svg" alt="" class="tran3s"></a>
+                                    </div> <!-- /.block-style-four -->
+                                </div>
+                                <div class="col-lg-4 col-sm-6 mt-40 d-flex" data-aos="fade-up" data-aos-delay="200">
+                                    <div class="block-style-four">
+                                        <div class="icon d-flex align-items-end justify-content-center"><img src="__RES__/theme/maowang51/picture/icon_09.svg" alt=""></div>
+                                        <a href="/login"><h5>多端口适用</h5></a>
+                                        <p>移动/pc各种端口无障碍让用户随时随地轻松购买</p>
+                                        <a href="/login" class="more-btn"><img src="__RES__/theme/maowang51/picture/icon_13.svg" alt="" class="tran3s"></a>
+                                    </div> <!-- /.block-style-four -->
+                                </div>
+                                <div class="col-lg-4 col-sm-6 mt-40 d-flex" data-aos="fade-up" data-aos-delay="100">
+                                    <div class="block-style-four">
+                                        <div class="icon d-flex align-items-end justify-content-center"><img src="__RES__/theme/maowang51/picture/icon_10.svg" alt=""></div>
+                                        <a href="/login"><h5>极速开店</h5></a>
+                                        <p>一分钟轻松注册成为商家,认证即可开始售卖盈利</p>
+                                        <a href="/login" class="more-btn"><img src="__RES__/theme/maowang51/picture/icon_13.svg" alt="" class="tran3s"></a>
+                                    </div> <!-- /.block-style-four -->
+                                </div>
+                                <div class="col-lg-4 col-sm-6 mt-40 d-flex" data-aos="fade-up" data-aos-delay="200">
+                                    <div class="block-style-four">
+                                        <div class="icon d-flex align-items-end justify-content-center"><img src="__RES__/theme/maowang51/picture/icon_11.svg" alt=""></div>
+                                        <a href="/login"><h5>数据分析</h5></a>
+                                        <p>对您用户数据AI智能数据分析, 让您实时掌握用户喜好.</p>
+                                        <a href="/login" class="more-btn"><img src="__RES__/theme/maowang51/picture/icon_13.svg" alt="" class="tran3s"></a>
+                                    </div> <!-- /.block-style-four -->
+                                </div>
+                                <div class="col-lg-4 mt-40 d-flex" data-aos="fade-up" data-aos-delay="300">
+                                    <div class="block-style-four">
+                                        <div class="icon d-flex align-items-end justify-content-center"><img src="__RES__/theme/maowang51/picture/icon_12.svg" alt=""></div>
+                                        <a href="/login"><h5>数据安全</h5></a>
+                                        <p>统一安全认证访问控制，确保消数据安全访问；支持TLS加密，确保数据传输安全</p>
+                                        <a href="/login" class="more-btn"><img src="__RES__/theme/maowang51/picture/icon_13.svg" alt="" class="tran3s"></a>
+                                    </div> <!-- /.block-style-four -->
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- /.inner-container -->
+                </div> <!-- /.bg-wrapper -->
+                <img src="__RES__/theme/maowang51/picture/shape_06.svg" alt="" class="shapes shape-one">
+                <img src="__RES__/theme/maowang51/picture/shape_07.svg" alt="" class="shapes shape-two">
+            </div> <!-- /.fancy-feature-four -->
+
+
+
+            <!-- 
+            =============================================
+                    Feature Section Two
+            ============================================== 
+            -->
+            <div class="fancy-feature-two position-relative mt-200 lg-mt-120">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xxl-5 col-lg-6 col-md-7 ms-auto">
+                            <div class="block-style-two" data-aos="fade-left">
+                                <div class="title-style-one">
+                                    <div class="sc-title-three">提升服务体验</div>
+                                    <h2 class="main-title">倾力满足行业所需</h2>
+                                </div> <!-- /.title-style-one -->
+                                <p class="pt-10 pb-20 lg-pb-10">销售数据流向分析, 各种详细数据分析展示, 让你掌握店铺流向
+                                </p>
+                                <ul class="style-none list-item color-rev">
+                                    <li>一分钟极速入驻,迅速卖货</li>
+                                    <li>支持高并发数据,轻松无卡顿</li>
+                                    <li>支持所有购买场景,让客户轻松购</li>
+                                    <li>不间断更新,持续为你店铺续航</li>
+                                </ul>
+                                <div class="btn-three rev mt-55 lg-mt-30">想了解更多相关的信息? <a href="/login">点击这里 <i class="fas fa-chevron-right"></i></a></div>
+                            </div> <!-- /.block-style-two -->
+                        </div>
+                    </div>
+                </div> <!-- /.container -->
+                <div class="illustration-holder-two sm-mt-40">
+                    <img src="__RES__/theme/maowang51/picture/ils_05.svg" alt="" class="main-illustration w-100">
+                    <img src="__RES__/theme/maowang51/picture/ils_05_1.svg" alt="" class="shapes shape-one">
+                    <img src="__RES__/theme/maowang51/picture/ils_05_2.svg" alt="" class="shapes shape-two" data-aos="fade-up" data-aos-anchor=".fancy-feature-two" data-aos-delay="100" data-aos-duration="2000">
+                    <img src="__RES__/theme/maowang51/picture/ils_05_3.svg" alt="" class="shapes shape-three" data-aos="fade-up" data-aos-anchor=".fancy-feature-two" data-aos-delay="150" data-aos-duration="2000">
+                    <img src="__RES__/theme/maowang51/picture/ils_05_4.svg" alt="" class="shapes shape-four">
+                    <img src="__RES__/theme/maowang51/picture/ils_05_5.svg" alt="" class="shapes shape-five">
+                </div> <!-- /.illustration-holder-two -->
+            </div> <!-- /.fancy-feature-two -->
+
+
+
+
+
+
+            <div class="feedback-section-two mt-170 xl-mt-100 md-mt-60" data-aos="fade-up">
+                <img src="__RES__/theme/maowang51/picture/shape_08.svg" alt="" class="shapes shape-one">
+                <img src="__RES__/theme/maowang51/picture/shape_09.svg" alt="" class="shapes shape-two">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-xl-5 col-lg-4 col-md-5 col-sm-8">
+                            <div class="title-style-one text-center text-sm-start xs-pb-20">
+                                <h2 class="main-title">提升服务体验</h2>
+                            </div> <!-- /.title-style-one -->
+                        </div>
+                        <div class="col-xl-6 col-lg-8 col-md-7 col-sm-4 ms-auto d-flex justify-content-center justify-content-sm-end">
+                            <ul class="slider-arrows slick-arrow-two d-flex style-none">
+                                <li class="prev_f1 slick-arrow ripple-btn" style=""><i class="bi bi-arrow-left"></i></li>
+                                <li class="next_f1 slick-arrow ripple-btn" style=""><i class="bi bi-arrow-right"></i></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div> <!-- /.container -->
+                <div class="inner-content mt-60 md-mt-40">
+                    <div class="slider-wrapper">
+                        <div class="feedback_slider_two">
+                            <div class="item">
+                                <div class="feedback-block-two d-sm-flex">
+                                    <div class="img-meta">
+                                        <img src="__RES__/theme/maowang51/picture/img_012.jpg" alt="">
+                                        <a class="fancybox video-icon" data-fancybox="" href="javascript:;">
+                                            <i class="bi bi-play-fill"></i>
+                                        </a>
+                                    </div>
+                                    <div class="text-wrapper">
+                                        <div class="icon d-flex align-items-end">系统安全</div>
+                                        <div class="camp-name">实时备份</div>
+                                        <p>实时备份, 让您的数据免于丢失, 保障数据安全</p>
+                                        <a href="#" class="read-btn d-flex align-items-center justify-content-between">
+                                            <span>加入我们 </span>
+                                            <img src="__RES__/theme/maowang51/picture/icon_13.svg" alt="" class="arrow">
+                                        </a>
+                                    </div> <!-- /.text-wrapper -->
+                                </div> <!-- /.feedback-block-two -->
+                            </div>
+                            <div class="item">
+                                <div class="feedback-block-two d-sm-flex">
+                                    <div class="img-meta">
+                                        <img src="__RES__/theme/maowang51/picture/img_022.jpg" alt="">
+                                        <a class="fancybox video-icon" data-fancybox="" href="javascript:;">
+                                            <i class="bi bi-play-fill"></i>
+                                        </a>
+                                    </div>
+                                    <div class="text-wrapper">
+                                        <div class="icon d-flex align-items-end">大数据</div>
+                                        <div class="camp-name">销售数据分析</div>
+                                        <p>销售数据流向分析, 各种详细数据分析展示, 让你掌握店铺流向</p>
+                                        <a href="#" class="read-btn d-flex align-items-center justify-content-between">
+                                            <span>加入我们 </span>
+                                            <img src="__RES__/theme/maowang51/picture/icon_13.svg" alt="" class="arrow">
+                                        </a>
+                                    </div> <!-- /.text-wrapper -->
+                                </div> <!-- /.feedback-block-two -->
+                            </div>
+                            <div class="item">
+                                <div class="feedback-block-two d-sm-flex">
+                                    <div class="img-meta">
+                                        <img src="__RES__/theme/maowang51/picture/img_032.jpg" alt="">
+                                        <a class="fancybox video-icon" data-fancybox="" href="javascript:;">
+                                            <i class="bi bi-play-fill"></i>
+                                        </a>
+                                    </div>
+                                    <div class="text-wrapper">
+                                        <div class="icon d-flex align-items-end">多端入口</div>
+                                        <div class="camp-name">多重场景</div>
+                                        <p>登录购买、免登购买, 多重购买场景让您有更多选择</p>
+                                        <a href="#" class="read-btn d-flex align-items-center justify-content-between">
+                                            <span>加入我们 </span>
+                                            <img src="__RES__/theme/maowang51/picture/icon_13.svg" alt="" class="arrow">
+                                        </a>
+                                    </div> <!-- /.text-wrapper -->
+                                </div> <!-- /.feedback-block-two -->
+                            </div>
+                            <div class="item">
+                                <div class="feedback-block-two d-sm-flex">
+                                    <div class="img-meta">
+                                        <img src="__RES__/theme/maowang51/picture/img_042.jpg" alt="">
+                                        <a class="fancybox video-icon" data-fancybox="" href="javascript:;">
+                                            <i class="bi bi-play-fill"></i>
+                                        </a>
+                                    </div>
+                                    <div class="text-wrapper">
+                                        <div class="icon d-flex align-items-end">平台优势</div>
+                                        <div class="camp-name">超高并发</div>
+                                        <p>超高并发设计, 超秒级/20w下单峰值设计, 让您用户的下单无忧</p>
+                                        <a href="#" class="read-btn d-flex align-items-center justify-content-between">
+                                            <span>加入我们 </span>
+                                            <img src="__RES__/theme/maowang51/picture/icon_13.svg" alt="" class="arrow">
+                                        </a>
+                                    </div> <!-- /.text-wrapper -->
+                                </div> <!-- /.feedback-block-two -->
+                            </div>
+                        </div> <!-- /.feedback_slider_two -->
+                    </div> <!-- /.slider-wrapper -->
+                </div> <!-- /.inner-content -->
+            </div> <!-- /.feedback-section-two -->
+
+
+
+            <!-- 
+            =============================================
+                    Feature Section Five
+            ============================================== 
+            xxxxxxxxxxxxxxxxxxxxxxxx-->
+            <div class="fancy-feature-five position-relative mt-50 xs-mt-20">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-xxl-4 col-lg-5 col-md-6">
+                            <div class="block-style-five pt-60 md-pt-20" data-aos="fade-right">
+                                <div class="title-style-one">
+                                    <div class="sc-title-three">平台优势</div>
+                                    <h2 class="main-title">平台优势 服务安全</h2>
+                                </div> <!-- /.title-style-one -->
+                                <p class="pt-10 pb-70">采用前沿AI技术为您的电商之旅, 保驾护航 , 高并发防护护让您的用户购买体验无忧 , 多种特色运营功能让您永远快同行一步</p>
+                                <div class="skills-progress skills">
+                                    <div class="habilidades_contenedor">
+                                        <div class="codeconSkills">
+                                            <div class="codeconSkillbar mb-80 md-mb-60">
+                                                <div class="skill-text">
+                                                    <span class="codeconSkillArea">低成本 入驻0费用 无收益无需服务费</span>
+                                                </div>
+                                                <div class="skillBar" data-percent="100%" style="background: #F25DFF;">
+                                                    <span class="PercentText">100%</span>
+                                                </div>
+                                            </div>
+                                            <div class="codeconSkillbar">
+                                                <div class="skill-text">
+                                                    <span class="codeconSkillArea ">高性能、低时延 支持百万级处理能力</span>
+
+                                                </div>
+                                                <div class="skillBar" data-percent="100%" style="background: #00E8FA;">
+                                                    <span class="PercentText">100%</span>
+                                                </div>
+                                            </div>
+                                        </div> <!-- /.codeconSkills -->
+                                    </div> <!-- /.habilidades_contenedor -->
+                                </div> <!-- /.skills-progress -->
+                                <a href="/login" class="btn-five ripple-btn mt-60 lg-mt-50">加入我们</a>
+                            </div> <!-- /.block-style-five -->
+                        </div>
+
+                        <div class="col-xxl-8 col-lg-7 col-md-6 text-end">
+                            <div class="illustration-holder d-inline-block position-relative xs-mt-20">
+                                <img src="__RES__/theme/maowang51/picture/ils_06.svg" alt="" class="main-illustration w-100">
+                                <img src="__RES__/theme/maowang51/picture/ils_06_1.svg" alt="" class="shapes shape-one">
+                                <img src="__RES__/theme/maowang51/picture/ils_06_2.svg" alt="" class="shapes shape-two">
+                                <img src="__RES__/theme/maowang51/picture/ils_06_3.svg" alt="" class="shapes shape-three" data-aos="fade-down" data-aos-duration="1800">
+                                <img src="__RES__/theme/maowang51/picture/ils_06_4.svg" alt="" class="shapes shape-four" data-aos="fade-left" data-aos-duration="1800">
+                                <img src="__RES__/theme/maowang51/picture/ils_06_5.svg" alt="" class="shapes shape-five">
+                            </div><!--  /.illustration-holder -->
+                        </div>
+                    </div>
+                </div> <!-- /.container -->
+            </div> <!-- /.fancy-feature-five -->
+
+
+
+            <!-- 
+            =============================================
+                    Feature Section Six
+            ============================================== 
+            -->
+            <div class="fancy-feature-six position-relative mt-80">
+                <div class="container">
+                    <div class="bg-wrapper">
+                        <div class="row gx-xxl-5 justify-content-center">
+                            <div class="col-lg-4 col-sm-6" data-aos="fade-up">
+                                <div class="block-style-six text-center mt-40">
+                                    <div class="icon" style="background: rgba(68, 109, 255, 0.07); color: #446DFE;"><i class="bi bi-check-lg"></i></div>
+                                    <h6>10年虚拟商城领域技术沉淀</h6>
+                                    <p>赋能行业数字化转型</p>
+                                </div> <!-- /.block-style-six -->
+                            </div>
+                            <div class="col-lg-4 col-sm-6" data-aos="fade-up" data-aos-delay="100">
+                                <div class="block-style-six text-center mt-40">
+                                    <div class="icon" style="background: rgba(253, 232, 255, 1); color: #F36EFF;"><i class="bi bi-check-lg"></i></div>
+                                    <h6>强大的研发能力</h6>
+                                    <p>大数据、人工智能等技术搭建自动发saas平台</p>
+                                </div> <!-- /.block-style-six -->
+                            </div>
+                            <div class="col-lg-4 col-sm-6" data-aos="fade-up" data-aos-delay="200">
+                                <div class="block-style-six text-center mt-40">
+                                    <div class="icon" style="background: rgba(255, 122, 65, 0.12); color: #FF7A41;"><i class="bi bi-check-lg"></i></div>
+                                    <h6>多场景适用</h6>
+                                    <p>产品汇聚的生态融合商城</p>
+                                </div> <!-- /.block-style-six -->
+                            </div>
+                        </div>
+                    </div> <!-- /.bg-wrapper -->
+                </div> <!-- /.container -->
+                <img src="__RES__/theme/maowang51/picture/shape_10.svg" alt="" class="shapes shape-one">
+                <img src="__RES__/theme/maowang51/picture/shape_11.svg" alt="" class="shapes shape-two">
+            </div> <!-- /.fancy-feature-six -->
+
+            <div class="fancy-feature mt-140 lg-mt-50 sm-mt-20">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xxl-4 col-lg-5">
+                            <div class="block-style-five md-pb-50" data-aos="fade-right">
+                                <div class="title-style-one">
+                                    <div class="sc-title-three">常见问题</div>
+                                    <h2 class="main-title">常见问题不知道如何处理？ </h2>
+                                </div> <!-- /.title-style-one -->
+                                <p class="pt-10 pb-15">加入我们的时事通讯并获得更新</p>
+                                <a href="/company/contact" class="btn-five ripple-btn">联系我们</a>
+                            </div> <!-- /.block-style-five -->
+                        </div>
+
+                        <div class="col-lg-7 col-lg-6 ms-auto" data-aos="fade-left">
+                            <div class="accordion accordion-style-one" id="accordionOne">
+                                <div class="accordion-item">
+                                    <div class="accordion-header" id="headingOne">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                            如何查询到退款，款项进度？
+                                        </button>
+                                    </div>
+                                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionOne">
+                                        <div class="accordion-body">
+                                            <p>PC端1.1、{:sysconf('site_name')}点击右上角买家登录1.2、通过商家店铺链接点击顶部买家登录
+                                                2、进入个人中心,点击售后退款会显示当前退款进度移动端1.1、{:sysconf('site_name')}点击右上角登录/注册并选择买家角色1.2、通过商家店铺链接点击顶部点击个人中心点击登录/注册-登录账号2、点击 退款/售后 进入订单列表3、点击退款/售后 进入订单列表, 找到要查询的订单并-点击查看详情</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <div class="accordion-header" id="headingTwo">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                            如何联系到平台客服?
+                                        </button>
+                                    </div>
+                                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionOne">
+                                        <div class="accordion-body">
+                                            <p>{:sysconf('site_name')}不参与经营商品, 
+                                                商品是商家个人售卖(与{:sysconf('site_name')}无关)1、平台在线客服- QQ:168574407平台客服上班时间 周一至周日 8:30-21:30祝您有愉快的购买体验 </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <div class="accordion-header" id="headingThree">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                            登录密码忘记了如何找回?
+                                        </button>
+                                    </div>
+                                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionOne">
+                                        <div class="accordion-body">
+                                            <p>PC端1.1、{:sysconf('site_name')}进入{:sysconf('site_name')}点击右上角买家登录
+                                                1.2、通过商家店铺链接点击顶部买家登录
+                                                2、出现登录弹框,点击下方找回密码(提示:需要之前账号邮箱方能找回)移动端1.1、{:sysconf('site_name')}点击右上角登录/注册并选择买家角色1.2、通过商家店铺链接点击顶部点击个人中心点击登录/注册-登录账号2、出现登录页面, 点击找回密码(提示:需要之前账号邮箱方能找回) </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <div class="accordion-header" id="headingFour">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                                            买家订单信息丢失怎么解决?
+                                        </button>
+                                    </div>
+                                    <div id="collapseFour" class="accordion-collapse collapse show" aria-labelledby="headingFour" data-bs-parent="#accordionOne">
+                                        <div class="accordion-body">
+                                            <p>如出现订单信息丢失问题, 请联系平台客服,平台客服上班时间 周一至周日 8:30-21:30祝您有愉快的购买体验</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <div class="accordion-header" id="headingFive">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                            无效/虚假商品如何处理，怎么投诉?
+                                        </button>
+                                    </div>
+                                    <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionOne">
+                                        <div class="accordion-body">
+                                            <p>PC端投诉(登录购买的订单请登录个人中心-订单中心页面进行投诉)1.1、进入{:sysconf('site_name')}点击右上角
+                                                搜索订单/投诉订单1.2、或者在商家店铺右上角处点击 投诉订单2、点击击右上角投诉订单3、输入要投诉的订单号,点击 查询订单4、出现订单信息后,点击 投诉订单
+                                                5、未有注册买家账号,需先注册方能投诉,如已有注册账号请点击登陆投诉6、输入投诉信息, 请准确填写投诉信息, 此投诉信息将会影响你们投诉是否成功, 投诉成功后可在买家个人中心查看投诉进度移动端投诉(登录购买的订单请登录个人中心-订单中心页面进行投诉)1.1、打开商家店铺通过底部导航条点击进入查询/投诉1.2、或者进入有谱猫移动官网点击投诉订单2、点击右上角投诉订单3、输入要投诉的订单号, 点击 查询4、出现订单信息, 点击 投诉订单5、未有注册买家账号,需先注册方能投诉,如已有注册账号请点击登陆投诉6、输入投诉信息, 请准确填写投诉信息, 此投诉信息将会影响你们投诉是否成功, 投诉成功后可在买家个人中心查看投诉进度
+
+                                                如有咨询问题请联系平台客服咨询 </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- /.container -->
+
+            </div> <!-- /.fancy-feature-seven -->
+
+
+            <div class="fancy-short-banner-one position-relative mt-160 lg-mt-100 md-mt-80">
+                <div class="container">
+                    <div class="bg-wrapper">
+                        <div class="row align-items-center gx-xxl-5">
+                            <div class="col-lg-6 text-center text-lg-start" data-aos="fade-right">
+                                <div class="sub-title">合作伙伴计划</div>
+                                <h3 class="pe-xl-5 md-pb-20">{:sysconf('site_name')}助力业务快速增长 期待于您合作</h3>
+                            </div>
+                            <div class="col-lg-6 text-center text-lg-end" data-aos="fade-left">
+                                <a href="/company/contact" class="msg-btn tran3s">联系我们</a>
+                            </div>
+                        </div>
+                    </div> <!-- /.bg-wrapper -->
+                </div> <!-- /.container -->
+                <img src="__RES__/theme/maowang51/picture/shape_10.svg" alt="" class="shapes shape-one">
+                <img src="__RES__/theme/maowang51/picture/shape_11.svg" alt="" class="shapes shape-two">
+            </div> <!-- /.fancy-short-banner-one -->
+
+
+
+
+            <!--
+            =====================================================
+                    Footer
+            =====================================================
+            -->
+            <div class="footer-style-two theme-basic-footer">
+                <img src="__RES__/theme/maowang51/picture/shape_16.svg" alt="" class="shapes shape-one">
+                <img src="__RES__/theme/maowang51/picture/shape_17.svg" alt="" class="shapes shape-two">
+                <div class="container">
+                    <div class="inner-wrapper">
+                        {include file="./default_footer"}
+                    </div> <!-- /.inner-wrapper -->
+                </div>
+            </div> <!-- /.footer-style-two -->
+
+
+            <button class="scroll-top">
+                <i class="bi bi-arrow-up-short"></i>
+            </button>
+
+
+
+            <script> console.log('\n' + ' %c  by CoCo  https://coco.0v7.cn/' + '\n\n\n', "color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;");
+
+            </script>
+            <!-- Optional JavaScript _____________________________  -->
+
+            <!-- jQuery first, then Bootstrap JS -->
+            <!-- jQuery -->
+            <script src="__RES__/theme/maowang51/js/jquery.min.js"></script>
+            <!-- Bootstrap JS -->
+            <script src="__RES__/theme/maowang51/js/bootstrap.bundle.min.js"></script>
+            <!-- AOS js -->
+            <script src="__RES__/theme/maowang51/js/aos.js"></script>
+            <!-- Slick Slider -->
+            <script src="__RES__/theme/maowang51/js/slick.min.js"></script>
+            <!-- js Counter -->
+            <script src="__RES__/theme/maowang51/js/jquery.counterup.min.js"></script>
+            <script src="__RES__/theme/maowang51/js/jquery.waypoints.min.js"></script>
+            <!-- Fancybox -->
+            <script src="__RES__/theme/maowang51/js/jquery.fancybox.min.js"></script>
+            <!-- Progress Bar js -->
+            <script src="__RES__/theme/maowang51/js/jquery.skills.js"></script>
+
+            <!-- Theme js -->
+            <script src="__RES__/theme/maowang51/js/theme.js"></script>
+        </div> <!-- /.main-page-wrapper -->
+    </body>
+</html>

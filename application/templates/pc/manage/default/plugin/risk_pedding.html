@@ -1,0 +1,119 @@
+{extend name='./content'}
+
+{block name="content"}
+
+<!-- 表单搜索 开始 -->
+<div class="layui-form-item">
+
+    <button {if plugconf('risk','mode')=='0'}style="display:none"{/if} type="button" class="layui-btn layui-btn-normal" data-modal="{:url('riskKeyword')}" data-title="关键词风控设置">关键词风控设置</button>
+    <button {if plugconf('risk','mode')=='0'}style="display:none"{/if} type="button" class="layui-btn layui-btn-normal" data-modal="{:url('riskComplaint')}" data-title="投诉风控设置">投诉风控设置</button>
+    <button type="button" onclick="search(this)" class="layui-btn"><i class="fa fa-search"></i> 智能筛选</button>
+
+    <button  type="button" class="layui-btn layui-btn-primary pull-right" data-open="{:url('riskWhite')}" data-title="风控白名单">风控白名单</button>
+    <button  type="button" class="layui-btn layui-btn-primary pull-right" data-modal="{:url('riskDefault')}" data-title="默认提示语">默认提示语</button>
+</div>
+
+<div class="layui-form-item layui-inline">
+    <label class="layui-form-label">待处理</label>
+    <div class="layui-input-inline">
+        <input type="text" class="layui-input" value="{$peddingCount} 个" readonly="">
+    </div>
+</div>
+
+
+<form onsubmit="return false;" data-auto="true" method="post">
+    <input type="hidden" value="resort" name="action"/>
+    <table class="layui-table" lay-skin="line" lay-size="sm">
+        <thead>
+            <tr>
+                <th class='text-center'>ID</th>
+                <th class='text-center'>商户账号</th>
+                <th class='text-center'>风控原因</th>
+                <th class='text-center'>风控来源</th>
+                <th class='text-center'>创建时间</th>
+                <th class='text-center'>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {foreach $list as $v}
+            <tr>
+                <td class='text-center'>{$v.id}</td>
+                <td class='text-center'><a data-open="{:url('manage/user/index')}?field=1&keyword={$v.user_id}"  href="javascript:void(0)">{$v.user.username}</a></td>
+                <td class='text-center'>{$v.reason}</td>
+
+                <td class='text-center'>
+                    {switch name="$v.from_type"}
+                    {case value="0"}商品名 <a data-open="{:url('manage/goods/index',['id'=>$v.from_id])}" href="javascript:void(0)">查看</a>{/case}
+                    {case value="1"}<font color="blue">商品描述</font>{/case}
+                    {case value="2"}<font color="blue">投诉信息</font>{/case}
+                    {case value="3"}<font color="blue">投诉率</font>{/case}
+                    {case value="4"}<font color="red">手动添加</font>{/case}
+                    {/switch}
+                </td>
+                <td class='text-center'>{$v.create_at|date="Y-m-d H:i:s",###}</td>
+                <td class='text-center'>
+                    <a href="javascript:;"  data-modal="{:url('riskManage',['id'=>$v.id])}" data-title="风控操作">风控操作</a>
+                    <a href="javascript:;" onclick="white(this, '{$v.id}')">忽略加白</a>
+                </td>
+            </tr>
+            {/foreach}
+        </tbody>
+    </table>
+</form>
+{$page}
+
+<script>
+    layui.use('form', function () {
+        var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+        form.render();
+    });
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        //日期范围
+        laydate.render({
+            elem: '#date_range',
+            range: true
+        });
+    });
+
+
+
+    /*订单-删除*/
+    function search(obj) {
+        $.ajax({
+            url: "{:url('riskAction')}",
+            type: 'post',
+            data: 'act=search',
+            success: function (res) {
+                if (res.code == 1) {
+                    layer.msg("刷新成功");
+                    setTimeout(function () {
+                        location.reload();
+                    }, 200);
+                } else {
+                    layer.alert(res.msg);
+                }
+            }
+        });
+    }
+    function white(obj, id) {
+        layer.confirm('确认要忽略加白此项吗？', function (index) {
+            $.ajax({
+                url: "{:url('riskAction')}",
+                type: 'post',
+                data: 'act=addwhite&id=' + id,
+                success: function (res) {
+                    if (res.code == 1) {
+                        layer.msg("操作成功");
+                        setTimeout(function () {
+                            location.reload();
+                        }, 200);
+                    } else {
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+        });
+    }
+</script>
+{/block}

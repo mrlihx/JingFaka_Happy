@@ -1,0 +1,196 @@
+{extend name="base"}
+
+{block name="content"}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">微信通知</h4>
+                        <p class="card-title-desc">绑定后，您可获得微信通知。微信公众号上提示绑定成功，刷新本页面</p>
+
+                        {if sysconf("wechat_notify")==0}
+                        <div class="alert alert-info" role="alert">
+                            平台暂未开启微信通知
+                        </div>
+                        {else/}
+
+                        <div class="form-group row mb-4">
+                            <label for="wxewm" class="col-md-2 col-form-label">绑定微信</label>
+                            <div class="col-md-10">
+                                {if $_user.openid==''}
+                                <img src="{:wxewm('bind_'.$_user['id'])}" width="150"/>
+                                {else/}
+                                <span class="badge badge-pill badge-soft-success font-size-12">已绑定</span>
+                                <button onclick="unBindWechat()"  class="btn btn-danger btn-sm waves-effect waves-light">解除绑定</button>
+                                {/if}
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-4">
+                            <label for="shop_name" class="col-md-2 col-form-label">登录提醒</label>
+                            <div class="col-md-10 d-flex align-items-center">
+                                <div class="custom-control custom-switch custom-switch-md mb-3" dir="ltr">
+                                    <input  onchange="change_status(this, 'wechat_signin_notify')" name="wechat_signin_notify" {if $_user.wechat_signin_notify==1}checked{/if} type="checkbox" class="custom-control-input" id="customSwitchsizemd1">
+                                            <label class="custom-control-label" for="customSwitchsizemd1"></label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row mb-4">
+                            <label for="shop_name" class="col-md-2 col-form-label">收到投诉</label>
+                            <div class="col-md-10 d-flex align-items-center">
+                                <div class="custom-control custom-switch custom-switch-md mb-3" dir="ltr">
+                                    <input  onchange="change_status(this, 'wechat_signin_notify')" name="wechat_signin_notify" {if $_user.wechat_complaint_notify==1}checked{/if} type="checkbox" class="custom-control-input" id="customSwitchsizemd2">
+                                            <label class="custom-control-label" for="customSwitchsizemd2"></label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-4">
+                            <label for="shop_name" class="col-md-2 col-form-label">库存不足</label>
+                            <div class="col-md-10 d-flex align-items-center">
+                                <div class="custom-control custom-switch custom-switch-md mb-3" dir="ltr">
+                                    <input  onchange="change_status(this, 'wechat_stock_notify')" name="wechat_stock_notify" {if $_user.wechat_stock_notify==1}checked{/if} type="checkbox" class="custom-control-input" id="customSwitchsizemd3">
+                                            <label class="custom-control-label" for="customSwitchsizemd3"></label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-4">
+                            <label for="shop_name" class="col-md-2 col-form-label">结算成功</label>
+                            <div class="col-md-10 d-flex align-items-center">
+                                <div class="custom-control custom-switch custom-switch-md mb-3" dir="ltr">
+                                    <input  onchange="change_status(this, 'wechat_cash_notify')" name="wechat_cash_notify" {if $_user.wechat_cash_notify==1}checked{/if} type="checkbox" class="custom-control-input" id="customSwitchsizemd4">
+                                            <label class="custom-control-label" for="customSwitchsizemd4"></label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-4">
+                            <label for="shop_name" class="col-md-2 col-form-label">交易成功</label>
+                            <div class="col-md-10 d-flex align-items-center">
+                                <div class="custom-control custom-switch custom-switch-md mb-3" dir="ltr">
+                                    <input  onchange="change_status(this, 'wechat_sell_notify')" name="wechat_sell_notify" {if $_user.wechat_sell_notify==1}checked{/if} type="checkbox" class="custom-control-input" id="customSwitchsizemd5">
+                                            <label class="custom-control-label" for="customSwitchsizemd5"></label>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/if}
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+
+
+{/block}
+{block name="js"}
+<script src="__RES__/app/js/clipboard.js"></script>
+<script>
+                                        function change_status(obj, option)
+                                        {
+                                            var status = $(obj).prop('checked');
+                                            if (status) {
+                                                status = 1;
+                                            } else {
+                                                status = 0;
+                                            }
+                                            $.post("{:url('user/editNotify')}", {
+                                                option: option,
+                                                status: status
+                                            }, function (res) {
+                                                if (res.code != 1) {
+                                                    $.alert(res.msg);
+                                                }
+                                            });
+                                        }
+
+                                        function unBindWechat()
+                                        {
+                                            $.confirm({
+                                                title: '提示！',
+                                                content: '确定要解除绑定吗？',
+                                                type: 'red',
+                                                typeAnimated: true,
+                                                buttons: {
+                                                    tryAgain: {
+                                                        text: '确定',
+                                                        btnClass: 'btn-red',
+                                                        action: function () {
+                                                            var loading = layer.load(1, {shade: [0.1, '#fff']});
+                                                            $.post("{:url('user/unBindWechat')}", {
+                                                            }, function (res) {
+                                                                if (res.code != 1) {
+                                                                    $.alert("解绑失败");
+                                                                } else {
+                                                                    $.alert(res.msg);
+                                                                    setTimeout(function () {
+                                                                        location.reload();
+                                                                    }, 200);
+                                                                }
+                                                            });
+                                                        }
+                                                    },
+                                                    cancel: {
+                                                        text: '取消'
+                                                    }
+                                                }
+                                            });
+                                        }
+
+
+</script>
+{if $_user.openid==""}
+<script>
+    var check = setInterval("CheckStatus()", 2500);
+    function CheckStatus()
+    {
+        $.ajax({
+            url: "{:url('user/checkBind')}",
+            success: function (ret) {
+                if (ret.code == 1) {
+                    if (ret.data.status == 1)
+                    {
+                        $.alert("绑定成功");
+                        setTimeout(function () {
+                            location.reload();
+                        }, 2000);
+                    }
+                }
+            }
+        });
+
+    }
+</script>
+{/if}
+{/block}

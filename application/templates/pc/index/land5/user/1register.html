@@ -1,0 +1,737 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8" />
+        <title>用户注册 - {:sysconf('site_name')}</title>
+        <meta name="keywords" content="{:sysconf('site_keywords')}" />
+        <meta name="description" content="{:sysconf('site_desc')}" />
+        <link rel="shortcut icon" href="{:sysconf('browser_icon')}" />
+        <!-- Bootstrap -->
+		    <link rel="stylesheet" type="text/css" href="/static/theme/coco/css2/style.css">
+
+    <!-- Reponsive -->
+    <link rel="stylesheet" type="text/css" href="/static/theme/coco/css2/responsive.css">
+		
+		
+        <link rel="stylesheet" type="text/css" href="/static/theme/coco/css/style.css">
+
+<link rel="stylesheet" type="text/css" href="/static/theme/coco/css/responsive.css">
+<style>
+   .flat-form {
+    margin: 0;
+} 
+.flat-login .wrap-login .box-login {
+    border: 0;
+}
+</style>
+
+</head>
+<body class="body header-fixed is_dark">
+
+<div class="preload preload-container">
+<div class="preload-logo"></div>
+</div>
+
+<div id="wrapper">
+<div id="page" class="clearfix">
+
+<header id="header_main" class="header_1 js-header">
+                <div class="themesflat-container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="site-header-inner">
+                                <div class="wrap-box flex">
+                                    <div id="site-logo" class="clearfix">
+                                        <div id="site-logo-inner">
+                                            
+                                            
+                                            
+                                            
+                                            <a href="/" rel="home" class="main-logo">
+                                                
+                                                
+                                                
+                                                <img id="logo_header" src="{:sysconf('site_logo')}" alt="nft-gaming" width="133" height="56" data-retina="{:sysconf('site_logo')}" data-width="133" data-height="56">
+                                            </a>
+                                            
+                                            
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="mobile-button"><span></span></div>
+                                    
+                                    
+                                    <nav id="main-nav" class="main-nav">
+                                        <ul id="menu-primary-menu" class="menu">
+                                            <li class="menu-item current-menu-item menu-item-has-children">
+                                                <a href="/">平台首页</a>
+                                                
+                                            </li>
+                                            <li class="menu-item menu-item-has-children">
+                                                <a href="#">订单处理</a>
+                                                <ul class="sub-menu">
+                                                    <li class="menu-item"><a href="/orderquery">订单查询</a></li>
+                                                    <li class="menu-item"><a href="/complaintquery">投诉查询</a></li>
+                                                    <li class="menu-item"><a href="/complaint.html">订单投诉</a></li>
+                                                    
+                                                </ul>
+                                            </li>
+                                            <li class="menu-item menu-item-has-children">
+                                                <a href="/company/faq">常见问题</a>
+                                                <ul class="sub-menu">
+                                                    <li class="menu-item"><a href="/company/faq">常见问题</a></li>
+                                                    
+                                                </ul>
+                                            </li>
+                                            <li class="menu-item menu-item-has-children">
+                                                <a href="#">官方动态</a>
+                                                <ul class="sub-menu">
+                                                    <li class="menu-item"><a href="/company/notice">平台公告</a></li>
+                                                    <li class="menu-item"><a href="/company/news">新闻动态</a></li>
+                                                    <li class="menu-item"><a href="/company/settlement">结算公告</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="menu-item menu-item-has-children">
+                                                <a href="#">联系我们</a>
+                                                <ul class="sub-menu">
+                                                    <li class="menu-item"><a href="/company/contact">平台客服</a></li>
+                                                    <li class="menu-item"><a href="/article/60.html">禁售商品</a></li>
+                                                    <li class="menu-item"><a href="/complaint">投诉举报</a></li>
+                                                    
+                                            </ul>
+                                            </li>
+                                            <!--<li class="menu-item menu-item-has-children">-->
+                                            <!--    <a href="https://shop.988u.cn/index/index/content.html?id=109">系统授权查询</a>-->
+                                                    
+                                                    
+                                            <!--    </ul>-->
+                                            <!--</li>-->
+                                            
+                                        </ul>
+                                    </nav>
+                                    <div class="flat-search-btn flex">
+                                        <div class="header-search flat-show-search" id="s1">
+                                            <a href="#" class="show-search header-search-trigger">
+                                                <svg width="20" height="20" viewbox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_334_638" style="mask-type:alpha" maskunits="userSpaceOnUse" x="1" y="1" width="18" height="17">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M1.66699 1.66666H17.6862V17.3322H1.66699V1.66666Z" fill="white" stroke="white"></path>
+</mask>
+<g mask="url(#mask0_334_638)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M9.67711 2.87312C5.9406 2.87312 2.90072 5.84505 2.90072 9.49903C2.90072 13.153 5.9406 16.1257 9.67711 16.1257C13.4128 16.1257 16.4527 13.153 16.4527 9.49903C16.4527 5.84505 13.4128 2.87312 9.67711 2.87312ZM9.67709 17.3322C5.26039 17.3322 1.66699 13.8182 1.66699 9.49902C1.66699 5.17988 5.26039 1.66666 9.67709 1.66666C14.0938 1.66666 17.6864 5.17988 17.6864 9.49902C17.6864 13.8182 14.0938 17.3322 9.67709 17.3322Z" fill="white"></path>
+<path d="M9.67711 2.37312C5.67512 2.37312 2.40072 5.55836 2.40072 9.49903H3.40072C3.40072 6.13174 6.20607 3.37312 9.67711 3.37312V2.37312ZM2.40072 9.49903C2.40072 13.4396 5.67504 16.6257 9.67711 16.6257V15.6257C6.20615 15.6257 3.40072 12.8664 3.40072 9.49903H2.40072ZM9.67711 16.6257C13.6784 16.6257 16.9527 13.4396 16.9527 9.49903H15.9527C15.9527 12.8664 13.1472 15.6257 9.67711 15.6257V16.6257ZM16.9527 9.49903C16.9527 5.5584 13.6783 2.37312 9.67711 2.37312V3.37312C13.1473 3.37312 15.9527 6.1317 15.9527 9.49903H16.9527ZM9.67709 16.8322C5.52595 16.8322 2.16699 13.5316 2.16699 9.49902H1.16699C1.16699 14.1048 4.99484 17.8322 9.67709 17.8322V16.8322ZM2.16699 9.49902C2.16699 5.46656 5.52588 2.16666 9.67709 2.16666V1.16666C4.9949 1.16666 1.16699 4.8932 1.16699 9.49902H2.16699ZM9.67709 2.16666C13.8282 2.16666 17.1864 5.46649 17.1864 9.49902H18.1864C18.1864 4.89327 14.3593 1.16666 9.67709 1.16666V2.16666ZM17.1864 9.49902C17.1864 13.5316 13.8282 16.8322 9.67709 16.8322V17.8322C14.3594 17.8322 18.1864 14.1047 18.1864 9.49902H17.1864Z" fill="white"></path>
+</g>
+<mask id="mask1_334_638" style="mask-type:alpha" maskunits="userSpaceOnUse" x="13" y="13" width="6" height="6">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M14.2012 14.2999H18.3333V18.3333H14.2012V14.2999Z" fill="white" stroke="white"></path>
+</mask>
+<g mask="url(#mask1_334_638)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M17.7166 18.3333C17.5596 18.3333 17.4016 18.2746 17.2807 18.1572L14.3823 15.3308C14.1413 15.0952 14.1405 14.7131 14.3815 14.4774C14.6217 14.2402 15.0123 14.2418 15.2541 14.4758L18.1526 17.303C18.3935 17.5387 18.3944 17.9199 18.1534 18.1556C18.0333 18.2746 17.8746 18.3333 17.7166 18.3333Z" fill="white"></path>
+<path d="M17.7166 18.3333C17.5595 18.3333 17.4016 18.2746 17.2807 18.1572L14.3823 15.3308C14.1413 15.0952 14.1405 14.7131 14.3815 14.4774C14.6217 14.2402 15.0123 14.2418 15.2541 14.4758L18.1526 17.303C18.3935 17.5387 18.3944 17.9199 18.1534 18.1556C18.0333 18.2746 17.8746 18.3333 17.7166 18.3333" stroke="white"></path>
+</g>
+</svg>
+                                            </a>
+                                            <div class="top-search">
+                                                <form action="#" method="get" role="search" class="search-form">
+                                                    <input type="search" id="s" class="search-field" placeholder="Search..." value="" name="s" title="Search for" required="">
+                                                    <button class="search search-submit" type="submit" title="Search">
+<i class="icon-fl-search-filled"></i>
+</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        
+                                        
+                                        
+                                        <div class="sc-btn-top mg-r-12" id="site-header">
+                                            <a href="/login" class="sc-button header-slider style style-1 wallet fl-button pri-1"><span>商户中心
+</span></a>
+                                        </div>
+                                        <div class="admin_active" id="header_admin">
+                                            <div class="header_avatar">
+                                                <div class="price">
+                                                    <span>2.45 <strong>ETH</strong> </span>
+                                                </div>
+                                                <img class="avatar" src="https://cocoimg.0v7.cn/LightPicture/2023/03/9e6ef4dadeb047a8.jpg" alt="avatar">
+                                                <div class="avatar_popup mt-20">
+                                                    <div class="d-flex align-items-center copy-text justify-content-between">
+                                                        <span> 13b9ebda035r178... </span>
+                                                        <a href="index1.html" class="ml-2">
+                                                            <i class="fal fa-copy"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div class="d-flex align-items-center mt-10">
+                                                        <img class="coin" src="https://cocoimg.0v7.cn/LightPicture/2023/03/7fd2be11d4eb7dbc.svg" alt="/">
+                                                        <div class="info ml-10">
+                                                            <p class="text-sm font-book text-gray-400">Balance</p>
+                                                            <p class="w-full text-sm font-bold text-green-500">16.58 ETH</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="hr"></div>
+                                                    <div class="links mt-20">
+                                                        <a href="#">
+                                                            <i class="fab fa-accusoft"></i> <span> My items</span>
+                                                        </a>
+                                                        <a class="mt-10" href="profile.html">
+                                                            <i class="fas fa-pencil-alt"></i> <span> Edit Profile</span>
+                                                        </a>
+                                                        <a class="mt-10" href="login.html" id="logout">
+                                                            <i class="fal fa-sign-out"></i> <span> Logout</span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mode_switcher">
+                    <h6>背景切换<strong><br>炫彩/黑暗</strong></h6>
+                    <a href="#" class="light d-flex align-items-center">
+                        <img src="https://cocoimg.0v7.cn/LightPicture/2023/03/801e7c7fb0dd3d20.png" alt="">
+                    </a>
+                    <a href="#" class="dark d-flex align-items-center is_active">
+                        <img src="https://cocoimg.0v7.cn/LightPicture/2023/03/a3c61246453a5186.png" alt="">
+                    </a>
+                </div>
+            </header>
+
+
+
+
+    <!-- title page -->
+            <section class="flat-title-pp inner"> 
+                  
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="page-title-heading">
+                                <h1 class="heading"><span class="text-color-3">.</span></h1>
+                            </div>                        
+                        </div>
+                    </div>
+                </div>                    
+            </section>
+
+            <div class="tf-section flat-register flat-login flat-auctions-details">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="wrap-login">
+                                <div class="box-login post">
+                                    <img class="absolute mark-page3" src="https://cocoimg.0v7.cn/LightPicture/2023/03/d7c75b9e7e2dc329.png" alt="">
+                                    <img class="absolute mark-login1" src="https://cocoimg.0v7.cn/LightPicture/2023/03/85d0e2bc823b4d1b.png" alt="">
+                                    <img class="absolute mark-login2 animate-rotate" src="https://cocoimg.0v7.cn/LightPicture/2023/03/b08165b0f8d7d136.png" alt="">
+                                    <img class="absolute mark-login3" src="https://cocoimg.0v7.cn/LightPicture/2023/03/6e7868cca26740a7.png" alt="">
+                                    <img class="absolute mark-login" src="https://cocoimg.0v7.cn/LightPicture/2023/03/41684a87337ee37e.png" alt=""> 
+                                    <div class="heading-login">
+                                        <h2 class="fw-5">商户注册</h2>
+                                        <div class="flex"><p>已有平台账户? </p><a href="/login" class="text-p text-color-3 fw-6">直接登录</a></div>
+                                    </div>
+                                <!-- <form action="#" class="form-profile">  -->
+                                    <form method="post" action="/register/regsave" id="reg" name="reg">                            
+                                        <div class="form-login flat-form flex-one">
+                                            <div class="info-login"> 
+                                                <fieldset>
+                                                    <p class="title-infor-account">用户名</p>
+                                            
+                                                    <input class="tb-my-input" id="newusername" name="reginfo[username]" type="text" placeholder="请输入用户名" required="">
+                                                </fieldset>  
+                                                <fieldset>
+                                                    <p class="title-infor-account">密码</p>
+                                                    <input class="tb-my-input" type="password" id="password1" name="reginfo[password]"  placeholder="请输入密码"  required="">
+                                                </fieldset>                                                                                     
+                                                <fieldset class="style-pass">
+                                                    <p class="title-infor-account">确认密码</p>
+                                                     <input class="tb-my-input" type="password" id="password2" name="reginfo[confirmpassword]"  placeholder="请输入确定密码"  required="">
+                                                </fieldset> 
+                                                
+                                             
+                                                <fieldset class="style-pass">
+                                                    <p class="title-infor-account">手机号</p>
+                                                     <input class="tb-my-input" type="text" id="newmobile" name="reginfo[mobile]" placeholder="请输入手机号"  required="">
+                                                </fieldset> 
+                                                <fieldset class="style-pass">
+                                                    <p class="title-infor-account">邮箱</p>
+                                                     <input class="tb-my-input" type="text" id="newemail" name="reginfo[email]" placeholder="请输入邮箱"  required="">
+                                                </fieldset> 
+                                                <fieldset class="style-pass">
+                                                    <p class="title-infor-account">QQ号</p>
+                                                     <input class="tb-my-input" type="text" id="newqq" name="reginfo[qq]" placeholder="请输入QQ号" required="">
+                                                </fieldset> 
+                                                                         
+                                                {if sysconf('site_register_smscode_status')==1&&sysconf('site_register_code_type')=='sms'}                         
+                                                <fieldset class="style-pass">
+                                                    <p class="title-infor-account">手机验证码</p>
+                                                     <input class="tb-my-input" type="text" name="reginfo[chkcode]"  placeholder="请输入短信验证码" required="">
+                                                     <input  type="button" value="获取验证码"  id="click_checkcode_phone">
+                                                </fieldset>
+                                                 {/if}
+                                                
+                                                
+                                                {if sysconf('site_register_smscode_status')==1&&sysconf('site_register_code_type')=='email'}
+                                                <fieldset class="style-pass">
+                                                    <p class="title-infor-account">邮箱验证码</p>
+                                                     <input class="tb-my-input" type="text" name="reginfo[chkcode]"  placeholder="请输入邮箱验证码" required="">
+                                                     <input  type="button" value="获取验证码"  id="click_checkcode_email">
+                                                </fieldset>
+                                                {/if}
+                                                
+                                                
+
+												 	{if sysconf('spread_invite_code')==1}											 
+                                                     <fieldset class="style-pass">
+                                                    <p class="title-infor-account">邀请码</p>
+                                                     <input class="tb-my-input" type="text" name="reginfo[invite_code]"  placeholder="邀请码{if sysconf('is_need_invite_code')==1}（必填）{else}（选填）{/if}">
+                                                     {if sysconf('invite_code_get_url')!=""}
+													  <input class="form-control col-lg-4 ver_btn float-left" type="button" value="获取邀请码"  id="get_invite_code" >
+													  {/if}
+                                                      </fieldset> 
+                                                       {/if}
+                                                
+                                                                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                <div class="row-form style-1 flex-two">
+                                                    <label class="flex align" for="customCheck1">
+                                                        <input type="checkbox"  id="customCheck1" checked>
+                                                        <span class="btn-checkbox flex-two"></span>
+                                                        <span class="text-p text-color-7">同意平台协议</span>
+                                                        <a href="javascript:void(0)" data-toggle="modal" data-target="#LoginForm"> 服务条款和条件</a>
+                                                    </label>
+                                                    <a href="/login/retpwd" class="forgot-pass text-p text-color-7">忘记密码 点击找回?</a>
+                                                </div>
+                                                
+                                                
+                                                
+                                                <button id="regBtn" class="submit button-login">注 册</button>                                                                                                          
+                                            </div>
+                                            <div class="box-button">
+                                                <div class="button-social">                            
+                                                    <a href="/login" class="sc-button"><i class="fab fa-facebook-f"></i><span class="font">商户登录</span></a>
+                                                    <a href="/register" class="sc-button style-4"><i class="fab fa-google-plus-g"></i><span class="font">商户注册</span></a>
+                                                    <a href="/login/retpwd" class="sc-button"><i class="fab fa-facebook-f"></i><span class="font">找回密码</span></a>
+                                                    
+                                                    <a href="/company/contact" class="sc-button style-4"><i class="fab fa-instagram"></i><span class="font">平台客服</span></a>
+                                                </div>
+                                            </div>                                 
+                                        </div>                            
+                                    </form>   
+                                </div>
+                            </div>
+                        </div>
+                    </div>               
+                </div>
+            </div>
+			
+			
+			
+			
+ <footer id="footer" class="footer-light-style clearfix bg-style">
+                <div class="themesflat-container">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-12 col-12">
+                            <div class="widget widget-logo">
+                                <div class="logo-footer" id="logo-footer">
+                                    <a href="index1.html">
+                                        <img src="{:sysconf('site_logo')}" height="150" width="150" alt="">
+
+                                    </a>
+                                </div>
+                                <h3 class="heading mb-3">{:sysconf('app_name')}</h3>
+                                <h5>为客户提供全方位价值服务, 为您的寄售之旅保驾护航, 如有需要了解请联系我们客服</h5>
+                                <span id="showsectime" style="color:#FF0000;"></span>
+                            
+<script type="text/javascript">
+function NewDate(str) { 
+str = str.split('-'); 
+var date = new Date(); 
+date.setUTCFullYear(str[0], str[1] - 1, str[2]); 
+date.setUTCHours(0, 0, 0, 0); 
+return date; 
+} 
+function showsectime() {
+var birthDay =NewDate("2023-01-01");
+var today=new Date();
+var timeold=today.getTime()-birthDay.getTime();
+var sectimeold=timeold/1000
+var secondsold=Math.floor(sectimeold);
+var msPerDay=24*60*60*1000; var e_daysold=timeold/msPerDay;
+var daysold=Math.floor(e_daysold);
+var e_hrsold=(daysold-e_daysold)*-24;
+var hrsold=Math.floor(e_hrsold);
+var e_minsold=(hrsold-e_hrsold)*-60;
+var minsold=Math.floor((hrsold-e_hrsold)*-60); var seconds=Math.floor((minsold-e_minsold)*-60).toString();
+document.getElementById("showsectime").innerHTML = "本站已稳定运营 "+daysold +" 天 "+hrsold +" 小时 "+minsold +" 分 "+ seconds +" 秒";
+setTimeout(showsectime, 1000);
+}showsectime();
+</script>
+       
+
+    <!-- <dl>-->
+    <!--     <h3>官方微信公众号</h3>-->
+    <!--     <dt><img style="width: 120px;height: 120px;" src="https://cocoimg.0v7.cn/LightPicture/2023/03/715fb4ac39b0ad69.jpg" alt=""></dt>-->
+    <!--</dl>-->
+
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-4 col-sm-5 col-5">
+                            <div class="widget widget-menu style-1">
+                                <h5 class="title-widget">快速通道</h5>
+                                <ul>
+                                    <li><a href="/merchant">个人中心</a></li>
+                                    <li><a href="/orderquery">订单查询</a></li>
+                                    <li><a href="/complaintquery">投诉查询</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-4 col-sm-7 col-7">
+                            <div class="widget widget-menu style-2">
+                                <h5 class="title-widget">帮助中心</h5>
+                                <ul>
+                                    <li><a href="/company/notice">最新公告</a></li>
+                                    <li><a href="/index/index/content/id/20.html">免责声明</a></li>
+                                    <li><a href="/company/faq">使用帮助</a></li>
+                                    <li><a href="/index/index/content/id/13.html">用户协议</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-4 col-sm-5 col-5">
+                            <div class="widget widget-menu fl-st-3">
+                                <h5 class="title-widget">联系我们</h5>
+                                <ul>
+                                    <!--<a href="http://wpa.qq.com/msgrd?v=3&uin={:sysconf('site_info_qq')}&site=qq&menu=yes" class="btn btn-primary mt-4"><i class="mdi mdi-email"></i> 客服QQ：{:sysconf('site_info_qq')}</a>-->
+                                    <li><a href="http://wpa.qq.com/msgrd?v=3&uin={:sysconf('site_info_qq')}&site=qq&menu=yes">客服QQ：{:sysconf('site_info_qq')}</a></li>
+                                    <li><a href="#"</a>企业邮箱：wangyun@qnywl1.wecom.work</li>
+                                    <li><a href="#">工作时间：早10:00 ~ 晚上10:00</a></li>
+                                    <li><a href="/company/contact">联系我们</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-7 col-12">
+                            <div class="widget widget-subcribe">
+                                <h5 class="title-widget">商业合作</h5>
+                                <div class="form-subcribe">
+                                    <form id="subscribe-form" action="#" method="GET" accept-charset="utf-8" class="form-submit">
+                                        <input name="email" value="" class="email" type="email" placeholder="" required="">
+                                        <button id="submit" name="submit" type="submit"><i class="icon-fl-send"></i></button>
+                                    </form>
+                                </div>
+                                <div class="widget-social style-1 mg-t32">
+                                    <ul>
+                                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                        <li><a href="#"><i class="fab fa-facebook"></i></a></li>
+                                        <li class="style-2"><a href="#"><i class="fab fa-telegram-plane"></i></a></li>
+                                        <li><a href="#"><i class="fab fa-youtube"></i></a></li>
+                                        <li class="mgr-none"><a href="#"><i class="icon-fl-tik-tok-2"></i></a></li>
+                                        <li class="mgr-none"><a href="#"><i class="icon-fl-vt"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+</div>
+
+</div>
+<a id="scroll-top"></a>
+
+
+
+
+  <!-- javascript -->
+        <script src="/static/theme/landrick/js/jquery-3.5.1.min.js"></script>
+        <script src="/static/theme/landrick/js/bootstrap.bundle.min.js"></script>
+        <script src="/static/theme/landrick/js/jquery.easing.min.js"></script>
+        <script src="/static/theme/landrick/js/scrollspy.min.js"></script>
+        <!-- Icons -->
+        <script src="/static/theme/landrick/js/feather.min.js"></script>
+        <script src="/static/theme/landrick/js/bundle.js"></script>
+        <!-- Main Js -->
+        <script src="/static/theme/landrick/js/1.js"></script>
+
+
+
+
+
+
+
+
+
+<script src="/static/theme/coco/js2/jquery.min.js"></script>
+<script src="/static/theme/coco/js2/jquery.easing.js"></script>
+<script src="/static/theme/coco/js2/wow.min.js"></script>
+<script src="/static/theme/coco/js2/jquery-validate.js"></script>
+<script src="/static/theme/coco/js2/plugin.js"></script>
+<script src="/static/theme/coco/js2/shortcodes.js"></script>
+<script src="/static/theme/coco/js2/main.js"></script>
+<script src="/static/app/js/layer2.js"></script>
+      <script type="text/javascript">
+
+            $('#agreement').click(function () {
+                layer.open({
+                    type: 1,
+                    title: '服务协议',
+                    area: ['60%', '50%'],
+                    anim: 1,
+                    content: ['/index/index/agreement']
+
+                });
+            })
+            var token = "{$sms_token}";
+
+            $(function () {
+                $("#click_checkcode_phone").click(function () {
+                    if (validCode) {
+                        send_sms();
+                    }
+                })
+                $("#click_checkcode_email").click(function () {
+                    if (validCode) {
+                        send_email();
+                    }
+                })
+                $("#get_invite_code").click(function () {
+
+                    window.open("{:sysconf('invite_code_get_url')}");
+                })
+            })
+
+            var validCode = true;
+            var token = "{$sms_token}";
+            function send_sms() {
+                var phone = $('#newmobile').val();
+                var reg = /\d{11}/;
+                if (phone == '' || !reg.test(phone)) {
+                    layer.msg('请填写正确的手机号码！');
+                    $('#mobile').focus();
+                    return false;
+                }
+                layer.prompt({
+                    title: '请输入验证码',
+                    formType: 3
+                }, function (chkcode) {
+                    $.post('/register/sms', {chkcode: chkcode, token: token, phone: phone, t: new Date().getTime()}, function (data) {
+                        if (data.code === 1) {
+                            layer.closeAll();
+                            layer.msg(data.msg);
+                            token = data.data.token;
+                            var time = 60;
+                            validCode = false;
+                            $("#click_checkcode_phone").val("已发送(60)");
+                            var t = setInterval(function () {
+                                time--;
+                                $("#click_checkcode_phone").val('已发送(' + time + ')');
+                                if (time == 0) {
+                                    clearInterval(t);
+                                    $("#click_checkcode_phone").val("重新获取");
+                                    validCode = true;
+                                }
+                            }, 1000);
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                    }, 'json');
+                });
+                $('.layui-layer-prompt .layui-layer-content').prepend($('<img style="cursor:pointer;height: 60px;" id="chkcode_img" src="{:url(\'index/user/verifycode\',[\'t\'=>time()])}" onclick="javascript:this.src=\'/index/user/verifycode\'+\'?time=\'+Math.random()">'))
+            }
+
+
+            function send_email() {
+                var email = $('#newemail').val();
+                var reg = /^([\w-.]+)@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.)|(([\w-]+.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(]?)$/;
+                if (email == '' || !reg.test(email)) {
+                    layer.msg('请填写正确的邮箱！');
+                    $('#newemail').focus();
+                    return false;
+                }
+
+                $.post('/register/email', {email: email, t: new Date().getTime()}, function (data) {
+                    if (data.code === 1) {
+                        layer.closeAll();
+                        layer.msg(data.msg);
+                        token = data.data.token;
+                        var time = 60;
+                        validCode = false;
+                        $("#click_checkcode_email").val("已发送(60)");
+                        var t = setInterval(function () {
+                            time--;
+                            $("#click_checkcode_email").val('已发送(' + time + ')');
+                            if (time == 0) {
+                                clearInterval(t);
+                                validCode = true;
+                                $("#click_checkcode_email").val("重新获取");
+                            }
+                        }, 1000);
+                    } else {
+                        layer.msg(data.msg);
+                    }
+
+                }, 'json');
+            }
+
+
+
+            $(function () {
+                $("#newusername").focus();
+
+                $("#r2").click(function () {
+                    $(".btn-code").attr("disabled", true);
+                    $(".btn-code").addClass('notallowsubmit');
+                });
+
+                $("#r1").click(function () {
+                    $(".btn-code").attr("disabled", false);
+                    $(".btn-code").removeClass('notallowsubmit');
+                });
+
+                $.formValidator.initConfig({
+                    formid: "reg", onerror: function (msg) {
+                        layer.msg(msg)
+                        return false;
+                    }, onsuccess: function () {
+                        return true;
+                    }
+                });
+                $("#newusername").formValidator({
+                    onshow: " ",
+                    onfocus: "请输入正确的用户名",
+                    onempty: "用户名是您登录账户的凭证，一定要填写哦",
+                    oncorrect: "<font color=green>√该用户名可以注册</font>"
+                }).ajaxValidator({
+                    type: "get",
+                    url: "/register/checkuser",
+                    success: function (data) {
+                        if (data == 0) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    },
+                    buttons: $(".btn_zc"),
+                    error: function () {
+                        layer.msg("服务器没有返回数据，可能服务器忙，请重试！");
+                    },
+                    onerror: "<font color=red> * 该用户名已被使用，请更换！</font>",
+                    onwait: "正在对用户名进行合法性校验，请稍候..."
+                });
+
+                $("#newemail").formValidator({
+                    onshow: " ",
+                    onfocus: "用于找回密码、接收校验信息等操作",
+                    oncorrect: "<font color=green> √ 邮箱地址填写完成</font>",
+                    defaultvalue: ""
+                }).inputValidator({
+                    min: 6,
+                    max: 100,
+                    onerror: "你填写的邮箱地址长度不正确,请确认"
+                }).regexValidator({
+                    regexp: "^([\\w-.]+)@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.)|(([\\w-]+.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(]?)$",
+                    onerror: "你填写的邮箱格式不正确"
+                });
+                $("#newqq").formValidator({
+                    onshow: " ",
+                    onfocus: "请填写联系QQ号码",
+                    oncorrect: "<font color=green> √ QQ填写完成</font>",
+                    onempty: "QQ一定填写哦"
+                }).inputValidator({min: 5, max: 12, onerror: "QQ号最少5位，最多11位数字"}).regexValidator({
+                    regexp: "qq",
+                    datatype: "enum",
+                    onerror: "您输入的QQ帐号不正确"
+                });
+                $("#password1").formValidator({
+                    onshow: " ",
+                    onfocus: "密码不能为空",
+                    oncorrect: "<font color=green> √ 密码填写完成</font>"
+                }).inputValidator({
+                    min: 8,
+                    empty: {leftempty: false, rightempty: false, emptyerror: "密码两边不能有空符号"},
+                    onerror: "密码长度为8-16位,请确认"
+                });
+                $("#password2").formValidator({
+                    onshow: " ",
+                    onfocus: "两次密码必须一致哦",
+                    oncorrect: "<font color=green> √ 密码一致</font>"
+                }).inputValidator({
+                    min: 8,
+                    empty: {leftempty: false, rightempty: false, emptyerror: "重复密码两边不能有空符号"},
+                    onerror: "密码长度为8-16位,请确认"
+                }).compareValidator({desid: "password1", operateor: "=", onerror: "2次密码不一致,请确认"});
+                $('#regBtn').click(function () {
+                    if ($(".onError").length > 0) {
+                        layer.msg($(".onError").first().text());
+                        return false;
+                    }
+                    if (false === $("#check").is(':checked')) {
+                        layer.msg('请先同意服务协议');
+                        return false;
+                    }
+                    $usernameLength = getStrLeng($('#newusername').val());
+                    if ($usernameLength < 4) {
+                        layer.msg('用户名长度错误，长度不得小于4个字符');
+                        return false;
+                    }
+                    if ($usernameLength > 20) {
+                        layer.msg('用户名长度错误，长度不得大于20个字符');
+                        return false;
+                    }
+                    var loading = '';
+                    $.ajax({
+                        type: 'post',
+                        url: '/index/user/doRegister',
+                        dataType: "json",
+                        data: $("form").serialize(),
+                        beforeSend: function (xhr) {
+                            loading = layer.load()
+                        },
+                        success: function (res) {
+                            layer.close(loading);
+                            if (res.code == 1) {
+                                layer.msg(res.msg);
+                                setTimeout(function () {
+                                    window.location.href = '/merchant';
+                                }, 2000);
+                            } else {
+                                layer.msg(res.msg);
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            layer.close(loading);
+                            layer.msg('连接错误');
+                        }
+                    });
+                })
+            });
+            function getStrLeng(str) {
+                var realLength = 0;
+                var len = str.length;
+                var charCode = -1;
+                for (var i = 0; i < len; i++) {
+                    charCode = str.charCodeAt(i);
+                    if (charCode >= 0 && charCode <= 128) {
+                        realLength += 1;
+                    } else {
+                        // 如果是中文则长度加3
+                        realLength += 3;
+                    }
+                }
+                return realLength;
+            }
+        </script>
+
+    </body>
+</html>

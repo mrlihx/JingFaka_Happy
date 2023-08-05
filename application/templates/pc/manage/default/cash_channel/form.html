@@ -1,0 +1,57 @@
+<style>
+    #account_id,#weight{
+    display: none;
+}
+</style>
+<form class="layui-form layui-box" style='padding:25px 30px 20px 0' action="__SELF__" data-auto="true" method="post">
+    <div class="layui-form-item">
+        <label class="layui-form-label">接口名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="title" placeholder="接口名称" autocomplete="off" class="layui-input" value="{$channel.title|default=''}">
+        </div>
+        <label class="layui-form-label">英文名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="code" placeholder="英文名称" autocomplete="off" class="layui-input" {if $development !=1}readonly="readonly"
+                {/if} value="{$channel.code|default=''}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">备注标记</label>
+        <div class="layui-input-inline">
+            <input type="text" name="show_name" placeholder="备注标记" autocomplete="off" class="layui-input" value="{$channel.show_name|default=''}">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">申请地址</label>
+        <div class="layui-input-block">
+            <input type="text" name="applyurl" placeholder="申请地址" autocomplete="off" class="layui-input" value="{$channel.applyurl|default=''}">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">分类</label>
+        <div class="layui-input-inline">
+            <select class="layui-input" name="paytype" style="display:inline">
+                <option value="">请选择</option>
+                <!-- {foreach $paytype as $key => $value} -->
+                <option value="{$value['id']}" {if isset($channel) && $value['id']==$channel['paytype']}selected{/if}>{$value.name}
+                    </option> <!-- {/foreach} -->
+            </select>
+        </div>
+        <label class="layui-form-label">状态</label>
+        <div class="layui-input-inline">
+            <select class="layui-input" name="status" style="display:inline">
+                <option value="1" {if isset($channel) && 1==$channel['status']}selected{/if}>开启 </option> <option value="0"
+                    {if isset($channel) && 0==$channel['status']}selected{/if}>关闭 </option> </select> </div> </div>
+                    <div class="layui-form-item">
+        </div>
+        <div class="hr-line-dashed"></div>
+        <div class="layui-form-item text-center">
+            <input type="hidden" name="channel_id" value="{$channel_id|default=''}">
+            <button class="layui-btn" type="submit">保存</button>
+            <button class="layui-btn layui-btn-danger" type="button" data-confirm="确定要取消吗？" data-close="">取消</button>
+        </div>
+</form>
+<script>
+</script>

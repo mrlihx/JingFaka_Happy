@@ -1,0 +1,67 @@
+{extend name="simple_base"}
+
+{block name="content"}
+
+<div class="container">
+    <div class="card">
+        <div class="card-body p-3">
+            <!-- Search Form Wrapper-->
+            <div class="search-form-wrapper">
+                <div class="row">
+
+                    <div class="col-lg-12">
+                        <div class="alert alert-primary" role="alert">
+                            推广链接： <span>__PUBLIC__/register?user_id={$_user.id}</span>&nbsp;&nbsp;
+                            {if sysconf('spread_reward')==1}使用邀请码或推广链接注册奖励{:sysconf('spread_reward_money')}元，{/if}
+                            返利比例{:get_spread_rebate_rate($_user.id)*100}%
+                        </div>
+
+                        <div class="alert custom-alert-1 shadow-sm alert-primary alert-dismissible fade show" role="alert">
+                            推广二维码： <a href="{$spread_url}" class='text-danger' target="_blank" >查看</a>
+                        </div>
+
+                    </div>
+                    <div class="col-12">
+                        <a href="{:url('spread/rebate')}" class="btn btn-primary w-100 d-flex align-items-center justify-content-center">
+                            <i class="bx bx-dollar-circle me-1"></i>返利列表
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            {foreach $subUsers as $v}
+
+            <div class="single-search-result my-3 border-bottom pb-3 order-wrap">
+                <div class="d-flex align-items-center justify-content-between">
+                    <h6 class="text-truncate mb-0 float-left d-inline">{$v.username}</h6>
+                </div>
+                <div class="d-flex align-items-center mt-1 justify-content-between">
+                    <div class="order-wrap-text">
+                        <span>下级商户ID：</span>
+                        <span>{$v.id}</span>
+                    </div>
+                    <div class="order-wrap-text">
+                        <span>注册时间：</span>
+                        <span>
+                            {$v.create_at|date="Y-m-d H:i:s",###}
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+            {/foreach}
+
+            <nav aria-label="Page navigation">
+                {$page}
+            </nav>
+        </div>
+    </div>
+</div>
+
+{/block}
+{block name="js"}
+
+{/block}
+
+

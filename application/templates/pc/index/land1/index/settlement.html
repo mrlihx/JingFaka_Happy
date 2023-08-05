@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8" />
+        <title>系统公告 - {:sysconf('site_name')}</title>
+        <meta name="keywords" content="{:sysconf('site_keywords')}" />
+        <meta name="description" content="{:sysconf('site_desc')}" />
+        <link rel="shortcut icon" href="{:sysconf('browser_icon')}" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Bootstrap -->
+        <link href="__RES__/theme/landrick/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <!-- Icons -->
+        <link href="__RES__/theme/landrick/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
+        <!-- Magnific -->
+        <link href="__RES__/theme/landrick/css/magnific-popup.css" rel="stylesheet" type="text/css" />
+        <!-- Main Css -->
+        <link href="__RES__/theme/landrick/css/land1.css" rel="stylesheet" type="text/css" id="theme-opt" />
+        <link href="__RES__/theme/landrick/css/colors/default.css" rel="stylesheet" id="color-opt">
+        <link href="__RES__/merchant/default/css/icons.min.css" rel="stylesheet" type="text/css">
+    </head>
+
+    <body>
+        {include file="./default_header"}
+
+        <!-- Hero Start -->
+        <section class="bg-half d-table w-100" style="background: url('__RES__/theme/landrick/xiu.jpg') center center;">
+            <div class="bg-overlay"></div>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-12 text-center">
+                        <div class="page-next-level">
+                            <h4 class="title text-white title-dark"> 结算公告 </h4>
+                            <div class="page-next">
+                                <nav aria-label="breadcrumb" class="d-inline-block">
+                                    <ul class="breadcrumb bg-white rounded shadow mb-0">
+                                        <li class="breadcrumb-item"><a href="/">帮助中心</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page"><a href="/company/settlement">结算公告</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div><!--end col-->
+                </div><!--end row-->
+            </div> <!--end container-->
+        </section><!--end section-->
+        <div class="position-relative">
+            <div class="shape overflow-hidden text-white">
+                <svg viewBox="0 0 2880 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z" fill="currentColor"></path>
+                </svg>
+            </div>
+        </div>
+        <!-- Hero End -->
+
+
+        <section class="section">
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 col-12">
+                        <a href="/company/notice">
+                            <div class="media key-feature align-items-center p-3 rounded shadow ">
+                                <div class="media-body ml-3">
+                                    <h4 class="title mb-0 text-dark">平台公告</h4>
+                                    <p class="text-muted mb-0">Notice</p>    
+                                </div>
+                            </div>
+                        </a>
+                    </div><!--end col-->
+
+                    <div class="col-lg-3 col-md-6 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
+                        <a href="/company/settlement">
+                            <div class="media key-feature align-items-center p-3 rounded shadow active">
+                                <div class="media-body ml-3">
+                                    <h4 class="title mb-0 text-dark">结算公告</h4>
+                                    <p class="text-muted mb-0">Settlement</p>    
+                                </div>
+                            </div>
+                        </a>
+                    </div><!--end col-->
+
+                    <div class="col-lg-3 col-md-6 col-12 mt-4 mt-lg-0 pt-2 pt-lg-0">
+                        <a href="/company/news">
+                            <div class="media key-feature align-items-center p-3 rounded shadow">
+                                <div class="media-body ml-3">
+                                    <h4 class="title mb-0 text-dark">新闻动态</h4>
+                                    <p class="text-muted mb-0">News</p>    
+                                </div>
+                            </div>
+                        </a>
+                    </div><!--end col-->
+
+                    <div class="col-lg-3 col-md-6 col-12 mt-4 mt-lg-0 pt-2 pt-lg-0">
+                        <a href="/company/faq">
+                            <div class="media key-feature align-items-center p-3 rounded shadow">
+                                <div class="media-body ml-3">
+                                    <h4 class="title mb-0 text-dark">常见问题</h4>
+                                    <p class="text-muted mb-0">Faq</p>    
+                                </div>
+                            </div>
+                        </a>
+                    </div><!--end col-->
+                </div>
+
+
+                <div class="row projects-wrapper"> 
+                    {foreach $articles as $v}
+                    <div class="col-lg-4 col-md-6 col-12 mt-4 pt-2 business">
+                        <div class="card blog border-0 work-container work-classic shadow rounded-md overflow-hidden">
+                            <div class="card-body">
+                                <div class="content">
+                                    <a href="/article/{$v.id}.html" class="badge badge-primary">结算公告</a>
+                                    <h5 class="mt-3"><a href="/article/{$v.id}.html" class="text-dark title">{$v.title}</a></h5>
+                                    <p class="text-muted">{:date('Y-m-d',$v.create_at)}<a href="/article/{$v.id}.html" class="text-primary h6">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i data-feather="arrow-right" class="fea icon-sm"></i></a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {/foreach}
+                </div><!--end row-->
+                <div class="row justify-content-center mt-4">
+                    <nav  aria-label="...">
+                        {$page}
+                    </nav>
+                </div>
+            </div><!--end container-->
+        </section><!--end section-->
+
+
+        {include file="./default_footer"}
+
+        <!-- javascript -->
+        <script src="__RES__/theme/landrick/js/jquery-3.5.1.min.js"></script>
+        <script src="__RES__/theme/landrick/js/bootstrap.bundle.min.js"></script>
+        <script src="__RES__/theme/landrick/js/jquery.easing.min.js"></script>
+        <script src="__RES__/theme/landrick/js/scrollspy.min.js"></script>
+        <!-- Magnific -->
+        <script src="__RES__/theme/landrick/js/jquery.magnific-popup.min.js"></script>
+        <script src="__RES__/theme/landrick/js/isotope.js"></script>
+        <script src="__RES__/theme/landrick/js/portfolio.init.js"></script>
+        <!-- Icons -->
+        <script src="__RES__/theme/landrick/js/feather.min.js"></script>
+        <script src="__RES__/theme/landrick/js/bundle.js"></script>
+        <!-- Main Js -->
+        <script src="__RES__/theme/landrick/js/app.js"></script>
+        <script>
+            $(function () {
+                $('.navigation-menu').addClass("nav-light");
+            })
+        </script>
+    </body>
+</html>

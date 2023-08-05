@@ -1,0 +1,658 @@
+{extend name="base"}
+
+{block name="content"}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">控制台</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">控制台</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+
+        <div class="row">
+            <div class="col-xl-4">
+                <div class="card overflow-hidden">
+                    <div class="bg-soft-primary">
+                        <div class="row">
+                            <div class="col-7">
+                                <div class="text-primary p-3">
+                                    <h5 class="text-primary font-weight-bold">欢迎回来</h5>
+                                    <p class='one-show'></p>
+                                </div>
+                            </div>
+                            <div class="col-5 align-self-end">
+                                <img src="__RES__/merchant/default/images/profile-img.png" alt="" class="img-fluid">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body pt-0">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="avatar-md profile-user-wid mb-3">
+                                    <img src="//q1.qlogo.cn/g?b=qq&nk={$_user.qq}&s=100&t=" alt="" class="img-thumbnail rounded-circle">
+                                </div>
+                                <h5 class="font-size-15 text-truncate">{$_user.username}</h5>
+                                <p class="text-muted mb-0 text-truncate">{$_user.mobile}</p>
+                            </div>
+
+                            <div class="col-sm-8">
+                                <div class="pt-4">
+
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <h5 class="font-size-15">{$goods_count}个</h5>
+                                            <p class="text-muted mb-0">商品</p>
+                                        </div>
+                                        <div class="col-4">
+                                            <h5 class="font-size-15">{$_user.money + 0|sprintf="%.3f",###}</h5>
+                                            <p class="text-muted mb-0">账户余额</p>
+                                        </div>
+                                        <div class="col-4">
+                                            <h5 class="font-size-15">{$_user.freeze_money}</h5>
+                                            <p class="text-muted mb-0">未结余额</p>
+                                        </div>
+                                    </div>
+                                    <div class="mt-4">
+                                        <a href="{:url('cash/apply')}" class="btn btn-primary waves-effect waves-light btn-sm"><i class="bx bx-wallet  mr-1 align-middle"></i>去结算</a>
+                                        {if plugconf("chat", "status")}
+                                        <a href="{:url('plugin/chat')}" class="btn btn-primary waves-effect waves-light btn-sm ml-2"><i class="bx bx-message-dots  mr-1 align-middle"></i>客服平台</a>
+                                        {/if}
+                                        {if plugconf("airpayx", "status")}
+                                        <a href="{:url('plugin/airpayx')}" class="btn btn-primary waves-effect waves-light btn-sm ml-2">⚡闪电安全结算</a>
+                                        {/if}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">生意罗盘</h4>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <p class="text-muted">今日店铺访问量</p>
+                                <h3>{$ip_analysis['today_uv']}<span class="font-size-14 ml-1">UV</span></h3>
+                                <p class="text-muted">
+                                    {if $ip_analysis['compare_uv']>=0}
+                                    <span class="text-success mr-2">{$ip_analysis['compare_uv']}% <i class="mdi mdi-arrow-up"></i> </span>与昨日同比增长
+                                    {else/}
+                                    <span class="text-danger mr-2">{$ip_analysis['compare_uv']}% <i class="mdi mdi-arrow-up"></i> </span>与昨日同比降低
+                                    {/if}
+                                </p>
+
+                                <div class="mt-4">
+                                    <a href="{:url('charts/iplist')}" class="btn btn-primary waves-effect waves-light btn-sm">查看详情<i class="mdi mdi-arrow-right ml-1"></i></a>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="mt-4 mt-sm-0">
+                                    <div id="radialBar-chart" class="apex-charts"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-8">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card mini-stats-wid">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <p class="text-muted font-weight-medium">今日订单</p>
+                                        <h4 class="mb-0">{$today['count'] + 0}笔</h4>
+                                    </div>
+
+                                    <div class="mini-stat-icon avatar-sm rounded-circle bg-primary align-self-center">
+                                        <span class="avatar-title">
+                                            <i class="bx bx-copy-alt font-size-24"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card mini-stats-wid">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <p class="text-muted font-weight-medium">今日流水</p>
+                                        <h4 class="mb-0">￥{$today['transaction_money']|sprintf="%.2f",###}</h4>
+                                    </div>
+
+                                    <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
+                                        <span class="avatar-title rounded-circle bg-primary">
+                                            <i class="bx bx-archive-in font-size-24"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card mini-stats-wid">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <p class="text-muted font-weight-medium">今日利润</p>
+                                        <h4 class="mb-0">￥{$today['profit']|sprintf="%.2f",###}</h4>
+                                    </div>
+
+                                    <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
+                                        <span class="avatar-title rounded-circle bg-primary">
+                                            <i class="bx bx-dollar-circle font-size-24"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card mini-stats-wid">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <p class="text-muted font-weight-medium">待结算</p>
+                                        <h4 class="mb-0">￥{$_user.freeze_money|sprintf="%.2f",###}</h4>
+                                    </div>
+
+                                    <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
+                                        <span class="avatar-title rounded-circle bg-primary">
+                                            <i class="bx bx-credit-card font-size-24"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-4">
+                        <div class="card mini-stats-wid">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <p class="text-muted font-weight-medium">昨日流水</p>
+                                        <h4 class="mb-0">￥{$yesterday['transaction_money']|sprintf="%.2f",###}</h4>
+                                    </div>
+
+                                    <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
+                                        <span class="avatar-title rounded-circle bg-primary">
+                                            <i class="bx bx-archive-in font-size-24"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card mini-stats-wid">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <p class="text-muted font-weight-medium">昨日利润</p>
+                                        <h4 class="mb-0">￥{$yesterday['profit']|sprintf="%.2f",###}</h4>
+                                    </div>
+
+                                    <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
+                                        <span class="avatar-title rounded-circle bg-primary">
+                                            <i class="bx bx-dollar-circle font-size-24"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- end row -->
+
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4 float-sm-left">交易统计</h4>
+                        <div class="float-sm-right chart-btn">
+                            <ul class="nav nav-pills"  role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="#chart_week" data-options="chart_week"  role="tab" data-toggle="tab">七日统计</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#chart_month" data-options="chart_month"  role="tab" data-toggle="tab">月度统计</a>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <div class="clearfix"></div>
+
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="chart_week" role="tabpanel">
+                                <div id="column_chart_week" class="apex-charts" dir="ltr"></div>
+                            </div>
+                            <div class="tab-pane" id="chart_month" role="tabpanel">
+                                <div id="column_chart_month" class="apex-charts" dir="ltr"></div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+
+        <div class="row">
+
+
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">最新订单</h4>
+                        <div class="table-responsive">
+                            <table class="table table-centered table-nowrap mb-0">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>
+                                            订单号
+                                        </th>
+                                        <th>
+                                            商品名称
+                                        </th>
+                                        <th>
+                                            交易金额
+                                        </th>
+                                        <th>
+                                            下单时间
+                                        </th>
+                                        <th>
+                                            状态
+                                        </th>
+                                        <th>
+                                            操作
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {foreach $orders as $v}
+                                    <tr>
+                                        <td class="text-body font-weight-bold">
+                                            {if $v.is_proxy==1}
+
+                                            {if $v.proxy_parent_user_id==$_user->id}
+                                            {$v.trade_no}(代理订单)
+                                            {else/}
+                                            {$v.trade_no}(对接订单)
+                                            {/if}
+
+                                            {else/}
+                                            {$v.trade_no}
+                                            {/if}
+                                        </td>
+                                        <td>
+                                            {$v.goods_name}（{$v.quantity}张）
+                                        </td>
+                                        <td>
+                                            {$v.total_price}
+                                        </td>
+                                        <td>
+                                            {$v.create_at|date="m/d H:i:s",###}
+                                        </td>
+                                        <td>
+                                            {if $v.status==1}
+                                            <span class="badge badge-pill badge-success font-size-12">{$v.status_text}</span>
+                                            {elseif $v.status==0/}
+                                            <span class="badge badge-pill badge-danger font-size-12">{$v.status_text}</span>
+                                            {else/}
+                                            <span class="badge badge-pill badge-light font-size-12">{$v.status_text}</span>
+                                            {/if}
+                                        </td>
+
+                                        <td>
+                                            {if $v.is_proxy==1&&$v.proxy_parent_user_id==$_user->id}
+                                            <a href="{:url('agent/proxyOrder',['type'=>0,'keywords'=>$v.trade_no])}" class="btn btn-link btn-sm btn-rounded waves-effect waves-light">
+                                                订单详情
+                                            </a>
+                                            {else/}
+                                            <a href="{:url('order/index',['type'=>0,'keywords'=>$v.trade_no])}" class="btn btn-link btn-sm btn-rounded waves-effect waves-light">
+                                                订单详情
+                                            </a>
+                                            {/if}                           
+                                        </td>
+                                    </tr>
+                                    {/foreach}
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- end table-responsive -->
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-xl-4">
+                <div class="card" style='min-height: 385px;'>
+                    <div class="card-body">
+                        <h4 class="card-title mb-5">系统公告</h4>
+                        <ul class="verti-timeline list-unstyled">
+
+                            {foreach $articles as $v}
+                            <li class="event-list {if date('Y-m-d',$v.create_at)==date('Y-m-d')}active{/if}">
+                                <div class="event-timeline-dot">
+                                    <i class="bx bx-right-arrow-circle font-size-18"></i>
+                                </div>
+                                <div class="media">
+                                    <div class="mr-3">
+                                        <h5 class="font-size-14">{$v.create_at|date="m/d",###}<i class="bx bx-right-arrow-alt font-size-16 text-primary align-middle ml-2"></i></h5>
+                                    </div>
+                                    <div class="media-body">
+                                        <div>
+                                            {$v.title}
+                                            <a href="{:url('merchant/index/notice',['article_id'=>$v.id])}" >查看详情</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            {/foreach}
+                        </ul>
+                        <div class="text-center mt-4"><a href="{:url('index/noticeList')}" class="btn btn-primary waves-effect waves-light btn-sm">查看更多<i class="mdi mdi-arrow-right ml-1"></i></a></div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <!-- end row -->
+
+    </div>
+    <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+
+
+{/block}
+{block name="js"}
+<!-- apexcharts -->
+<script src="__RES__/merchant/default/libs/apexcharts/apexcharts.min.js"></script>
+<script>
+
+    var res_week = {$res_week | json_encode
+    }
+    , res_month = {$res_month | json_encode}
+    ;
+
+    var week = new Array();
+    var day_amount = new Array();
+    var finally_amount = new Array();
+
+    var month = new Array();
+    var month_amount = new Array();
+    var month_finally_amount = new Array();
+
+    $.each(res_week, function (index, value) {
+        week[index] = value['week'];
+        day_amount[index] = value['day_amount'];
+        finally_amount[index] = value['finally_amount'];
+    });
+
+    $.each(res_month, function (index, value) {
+        month[index] = value['month'];
+        month_amount[index] = value['month_amount'];
+        month_finally_amount[index] = value['month_finally_amount'];
+    });
+
+    options_week = {
+        chart: {
+            height: 247,
+            type: "bar",
+            toolbar: {
+                show: !1
+            }
+        },
+        plotOptions: {
+            bar: {
+                horizontal: !1,
+                columnWidth: "45%",
+                endingShape: "rounded"
+            }
+        },
+        dataLabels: {
+            enabled: !1
+        },
+        stroke: {
+            show: !0,
+            width: 2,
+            colors: ["transparent"]
+        },
+        series: [{
+                name: "交易额",
+                data: day_amount
+            },
+            {
+                name: "结算额",
+                data: finally_amount
+            }],
+        colors: ["#556ee6", "#34c38f"],
+        xaxis: {
+            categories: week
+        },
+        yaxis: {
+            title: {
+                text: "￥ 单位元",
+                style: {
+                    fontWeight: "500"
+                }
+            }
+        },
+        grid: {
+            borderColor: "#f1f1f1"
+        },
+        fill: {
+            opacity: 1
+        },
+        tooltip: {
+            y: {
+                formatter: function (e) {
+                    return "￥ " + e + "元"
+                }
+            }
+        }
+    };
+
+    options_month = {
+        chart: {
+            height: 247,
+            type: "bar",
+            toolbar: {
+                show: !1
+            }
+        },
+        plotOptions: {
+            bar: {
+                horizontal: !1,
+                columnWidth: "45%",
+                endingShape: "rounded"
+            }
+        },
+        dataLabels: {
+            enabled: !1
+        },
+        stroke: {
+            show: !0,
+            width: 2,
+            colors: ["transparent"]
+        },
+        series: [{
+                name: "交易额",
+                data: month_amount
+            },
+            {
+                name: "结算额",
+                data: month_finally_amount
+            }],
+        colors: ["#556ee6", "#34c38f"],
+        xaxis: {
+            categories: month
+        },
+        yaxis: {
+            title: {
+                text: "￥ 单位元",
+                style: {
+                    fontWeight: "500"
+                }
+            }
+        },
+        grid: {
+            borderColor: "#f1f1f1"
+        },
+        fill: {
+            opacity: 1
+        },
+        tooltip: {
+            y: {
+                formatter: function (e) {
+                    return "￥ " + e + "元"
+                }
+            }
+        }
+    };
+
+    (new ApexCharts(document.querySelector("#column_chart_week"), options_week)).render();
+    (new ApexCharts(document.querySelector("#column_chart_month"), options_month)).render();
+
+    var series = Math.ceil(parseInt("{$ip_analysis['today_uv']}") / 5);
+    var options = {
+        chart: {
+            height: 200,
+            type: "radialBar",
+            offsetY: -10
+        },
+        plotOptions: {
+            radialBar: {
+                startAngle: -135,
+                endAngle: 135,
+                dataLabels: {
+                    name: {
+                        fontSize: "13px",
+                        color: void 0,
+                        offsetY: 60
+                    },
+                    value: {
+                        offsetY: 22,
+                        fontSize: "16px",
+                        color: void 0,
+                        formatter: function (e) {
+                            return "{$ip_analysis['today_uv']}";
+                        }
+                    }
+                }
+            }
+        },
+        colors: ["#556ee6"],
+        fill: {
+            type: "gradient",
+            gradient: {
+                shade: "dark",
+                shadeIntensity: .15,
+                inverseColors: !1,
+                opacityFrom: 1,
+                opacityTo: 1,
+                stops: [0, 50, 65, 91]
+            }
+        },
+        stroke: {
+            dashArray: 4
+        },
+        series: [series],
+        labels: ["今日访问量PV"]
+    };
+    (chart = new ApexCharts(document.querySelector("#radialBar-chart"), options)).render();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    $.ajax({
+        type: 'GET',
+        url: 'https://v1.hitokoto.cn/?encode=json',
+        dataType: 'json',
+        success(data) {
+            $('.one-show').text(data.hitokoto + " - " + data.from);
+        },
+        error(jqXHR, textStatus, errorThrown) {
+            // 错误信息处理
+            console.error(textStatus, errorThrown)
+        }
+    })
+</script>
+<script>
+    function complaintToast()
+    {
+        $.ajax({
+            type: 'get',
+            url: "{:url('Plugin/complaintToast')}",
+            dataType: 'json',
+            success: function (info) {
+                if (info.code == 1 && info.data.count > 0)
+                {
+                    var url = "http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&text=" + encodeURI("您有投诉订单待回复，请及时查看！");        // baidu文字转语音
+                    var audio = new Audio(url);
+                    audio.src = url;
+                    audio.play();
+
+                    toastr.clear();
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": false,
+                        "progressBar": false,
+                        "positionClass": "toast-bottom-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": 300,
+                        "hideDuration": 1000,
+                        "timeOut": 5000,
+                        "extendedTimeOut": 1000,
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    toastr.info('<div><p>您有投诉订单待回复，请及时查看！</p></div><div><a href="{:url(\"merchant/complaint/index\")}" class="btn text-light">立即查看</a></div>');
+                }
+            }
+        });
+    }
+    complaintToast();
+    setInterval(function () {
+        complaintToast();
+    }, 30000);
+</script>
+{/block}

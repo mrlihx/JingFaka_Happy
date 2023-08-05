@@ -1,0 +1,127 @@
+{extend name="lite_base" /}
+
+{block name="content"}
+
+<div class="container my-3">
+    <div class="card">
+        <div class="card-body">
+
+            <form id="form1" class="form-horizontal" role="form" action="" method="post">
+                <input type="hidden" name="id" value="{$goods.id|default=''|htmlentities}">
+                <input type="hidden" name="act" value="diy">
+                <div class="form-group row">
+                    <label for="name" class="col-md-2 col-form-label">请输入代理成本价</label>
+                    <div class="col-md-10">
+                        <input id="cost_price" name="cost_price" type="text" data-price="{$goods.price}" class="form-control" placeholder="请输入代理成本价" value="{$goods.cost_price|default=''|htmlentities}">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <button class="btn btn-primary waves-effect waves-light btn-submit"><i class="bx bx-check-square mr-1"></i>确认提交</button>
+                        <button class="btn btn-success waves-effect waves-light btn-reset mt-2"><i class="bx bx-reset mr-1"></i>重置为正常代理价</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<!-- End Page-content -->
+{/block}
+
+{block name="js"}
+
+<script>
+
+    $('.btn-reset').click(function () {
+        var id = $("input[name=id]").val();
+        var loading = layer.load(1, {shade: [0.1, '#fff']});
+        $.ajax({
+            url: "{:url('Agent/proxyPrice')}",
+            type: 'post',
+            data: {act: 'reset', id: id},
+            success: function (info) {
+                layer.close(loading);
+                if (info.code != 1) {
+                    layer.msg(info.msg);
+                } else {
+                    layer.msg(info.msg);
+                    setTimeout(function () {
+                        parent.location.reload();
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                    }, 1000);
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                layer.close(loading);
+            }
+        });
+        return false;
+    });
+
+    function sumbit()
+    {
+        var loading = layer.load(1, {shade: [0.1, '#fff']});
+        $.ajax({
+            url: "{:url('Agent/proxyPrice')}",
+            type: 'post',
+            data: $('#form1').serialize(),
+            success: function (info) {
+                layer.close(loading);
+                if (info.code != 1) {
+                    layer.msg(info.msg);
+                } else {
+                    layer.msg(info.msg);
+                    setTimeout(function () {
+                        parent.location.reload();
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                    }, 1000);
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                layer.close(loading);
+            }
+        });
+    }
+
+    $('.btn-submit').click(function () {
+
+        var cost_price = parseFloat($("#cost_price").val());
+        var price = parseFloat($("#cost_price").data("price"));
+        var a = /^[0-9]*(\.[0-9]{1,2})?$/;
+        if (!a.test(cost_price))
+        {
+            layer.msg("请输入正确的金额");
+            return false;
+        }
+        if (price < cost_price)
+        {
+            layer.msg('当前设置的成本价大于代理销售价，代理商品将会自动下架！确定要继续操作？', {
+                time: 0
+                , btn: ['确定', '取消']
+                , yes: function (index) {
+                    sumbit();
+                }
+            });
+        } else if (price < (cost_price + price / 1000 * parseFloat("{:plugconf('agentsetting', 'min_rate')}"))) {
+            layer.msg("根据当前成本价，代理加价低于代理销售价格" + "{:plugconf('agentsetting', 'min_rate')/10}" + "%，代理商品将会自动下架！确定要继续操作？", {
+                time: 0
+                , btn: ['确定', '取消']
+                , yes: function (index) {
+                    sumbit();
+                }
+            });
+        } else {
+            sumbit();
+        }
+        return false;
+    })
+</script>
+{/block}

@@ -1,0 +1,345 @@
+{extend name="lite_base" /}
+
+{block name="content"}
+<div class="card mb-0">
+
+    <div class="card-content">
+        <div class="card-body">
+            <div class="form-body">
+                <div class="row">
+
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label >APPID</label>
+                            <input type="text" autocomplete="off" class="form-control" value="{$app.appid|default=''}" style="background: #e9e9e9">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="sort">APPKEY</label>
+                            <input type="text"  autocomplete="off" class="form-control" value="{$app.appkey|default=''}" style="background: #e9e9e9">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="tabbable">
+
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#alipay" role="tab">
+                                        <span><b>支付宝</b></span>    
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#weixin" role="tab">
+                                        <span><b>微信</b></span>    
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#qq" role="tab">
+                                        <span><b>QQ</b></span>    
+                                    </a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content p-3 text-muted">
+                                <div class="tab-pane active" id="alipay" role="tabpanel">
+                                    <form class="form form-vertical"  action="__SELF__"  method="post">
+                                        <input type="hidden" name="type" value="alipay">
+                                        <div class="form-group">
+                                            <label class="form-label">支付宝开启状态</label>
+                                            <select name="alipay_open" class="form-control" style="display:inline">
+                                                <option value="0" {if $app.alipay_open=='0'}selected{/if}>关闭</option>
+                                                <option value="1" {if $app.alipay_open=='1'}selected{/if}>开启</option>
+                                            </select>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <label class="form-label">监听方式</label>
+                                            <select name="alipay_type" class="form-control" style="display:inline">
+                                                <option value="0" {if $app.alipay_type=='0'}selected{/if}>APP挂机监听</option>
+                                                <option value="1" {if $app.alipay_type=='1'}selected{/if}>云端监听</option>
+                                            </select>
+
+                                            <p class="help-block alipay_type_0" {if $app.alipay_type=='1'}style="display:none"{/if}><a target="_blank" class="btn btn-sm btn-warning" href="{$gateway}/index/User/download">监控下载</a><a target="_blank" class="btn btn-sm btn-warning ml-1" href="{$gateway}/index/User/help">使用帮助</a></p>
+
+                                            <p class="help-block alipay_type_1" {if $app.alipay_type=='0'}style="display:none"{/if}><button type="button" class="btn btn-sm btn-warning alipay_getqrcode" onclick="getqrcode('alipay');">点击扫码登录</button></p>
+
+                                            <p class="help-block alipay_qrcode" style="display: none;">
+                                                <img alt="请重新获取" src="" width="150" height="150">
+                                            </p>
+                                            <p class="help-block alipay_qrcode_tip"  style="display: none;">请点击上面扫码登录，扫描二维码后自动活动获取CK</p>
+                                        </div>
+
+                                        <div class="form-group alipay_type_1" {if $app.alipay_type=='0'}style="display:none"{/if}>
+                                             <label class="form-label">支付宝CK</label>
+                                            <div>
+                                                <textarea id="alipay_ck" name="alipay_ck"  cols="30" rows="2" class="form-control">{$app.alipay_ck|default=''|htmlspecialchars_decode}</textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="form-label">支付宝UID</label>
+
+                                            <input id="alipay_uid" type="text" name="alipay_uid" placeholder="支付宝UID" autocomplete="off" class="form-control" value="{$app.alipay_uid|default=''}">
+                                            <p class="help-block">使用支付宝必须填写，<a target="_blank" href="https://www.cdollar.cn/code">获取连接1</a>&nbsp;&nbsp;<a target="_blank" href="https://www.dedemao.com/alipay/authorize.php?scope=auth_base">获取连接2</a></p>
+                                        </div>
+
+                                        <div class="form-group alipay_type_0" {if $app.alipay_type=='1'}style="display:none"{/if}>
+                                             <label class="form-label">配置口令</label>
+                                            <input type="text" name="wordkey" placeholder="配置口令" autocomplete="off" class="form-control" value="{$app.wordkey|default=''|htmlspecialchars_decode}">
+                                            <p class="help-block">自定义填写（至少6位），用于用于监控端快速配置参数，快速配置口令请勿泄露他人</p>
+                                        </div>
+
+                                        <div class="form-item text-center">
+                                            <input type="hidden" name="id" value="{$app.id|default=''}">
+                                            <button class="btn btn-primary" type="submit">保存支付宝配置</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="tab-pane" id="weixin" role="tabpanel">
+
+                                    <form class="form form-vertical"  action="__SELF__"  method="post">
+
+                                        <input type="hidden" name="type" value="weixin">
+                                        <div class="form-group">
+                                            <label class="form-label">微信开启状态</label>
+                                            <select name="weixin_open" class="form-control" style="display:inline">
+                                                <option value="0" {if $app.weixin_open=='0'}selected{/if}>关闭</option>
+                                                <option value="1" {if $app.weixin_open=='1'}selected{/if}>开启</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="form-label">监听方式(支持云端)</label>
+                                            <select name="weixin_type" class="form-control" style="display:inline">
+                                                <option value="0" {if $app.weixin_type=='0'}selected{/if}>APP挂机监听</option>
+                                                <option value="1" {if $app.weixin_type=='1'}selected{/if}>云端监听</option>
+                                            </select>
+                                            <p class="help-block weixin_type_0" {if $app.weixin_type!='0'}style="display:none"{/if}><a target="_blank" class="btn btn-sm btn-warning" href="{$gateway}/index/User/download">监控下载</a><a target="_blank" class="btn btn-sm btn-warning ml-1" href="{$gateway}/index/User/help">使用帮助</a></p>
+                                            <p class="help-block weixin_type_1" {if $app.weixin_type!=1}style="display:none"{/if}><a target="_blank" class="btn btn-sm btn-warning" href="{$gateway}/index/User/wxhelp">下载微信小助手获取CK</a></p>
+                                        </div>
+
+                                        <div class="form-group weixin_type_0" {if $app.weixin_type!='0'}style="display:none"{/if}>
+                                             <label class="form-label">配置口令</label>
+                                            <input type="text" name="wordkey" placeholder="配置口令" autocomplete="off" class="form-control" value="{$app.wordkey|default=''|htmlspecialchars_decode}">
+                                            <p class="help-block">自定义填写（至少6位），用于用于监控端快速配置参数，快速配置口令请勿泄露他人</p>
+                                        </div>
+
+                                        <div class="form-group weixin_type_1" {if $app.weixin_type!='1'}style="display:none"{/if}>
+                                             <label class="form-label">微信CK</label>
+                                            <div>
+                                                <textarea id="alipay_ck" name="weixin_ck"  cols="30" rows="2" class="form-control">{$app.weixin_ck|default=''|htmlspecialchars_decode}</textarea>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group weixin_type_1" {if $app.weixin_type!='1'}style="display:none"{/if}>
+                                             <label class="form-label">微信收款固码</label>
+                                            <input type="text" id='weixin_qrcode' name="weixin_qrcode" placeholder="微信收款固码" autocomplete="off" class="form-control" value="{$app.weixin_qrcode|default=''|htmlspecialchars_decode}">
+                                            <p class="help-block weixin_type_1" {if $app.weixin_type!=1}style="display:none"{/if}><button type="button" class="btn btn-sm btn-warning" onclick='$("#weixin_upload").click();' >上传收款固码自动解析</button></p>
+                                            <input style='display:none' id="weixin_upload" name="file" type="file" onchange="upload_cover('weixin', this)"/>
+                                        </div>
+
+                                        <div class="form-item text-center">
+                                            <input type="hidden" name="id" value="{$app.id|default=''}">
+                                            <button class="btn btn-primary" type="submit">保存微信配置</button>
+                                        </div>
+                                    </form>
+
+                                </div>
+                                <div class="tab-pane" id="qq" role="tabpanel">
+
+
+                                    <form class="form form-vertical"  action="__SELF__"  method="post">
+
+                                        <input type="hidden" name="type" value="qq">
+
+                                        <div class="form-group">
+                                            <label class="form-label">QQ开启状态</label>
+                                            <select name="qq_open" class="form-control" style="display:inline">
+                                                <option value="0" {if $app.qq_open=='0'}selected{/if}>关闭</option>
+                                                <option value="1" {if $app.qq_open=='1'}selected{/if}>开启</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="form-label">监听方式</label>
+                                            <select name="qq_type" class="form-control" style="display:inline">
+                                                <option value="1" {if $app.qq_type=='1'}selected{/if}>云端监听</option>
+                                            </select>
+
+                                            <p class="help-block qq_type_1" {if $app.qq_type=='0'}style="display:none"{/if}><button type="button" class="btn btn-sm btn-warning qq_getqrcode" onclick="getqrcode('qq');">点击扫码登录</button></p>
+
+                                            <p class="help-block qq_qrcode" style="display: none;">
+                                                <img alt="请重新获取" src="" width="150" height="150">
+                                            </p>
+                                            <p class="help-block qq_qrcode_tip"  style="display: none;">请点击上面扫码登录，扫描二维码后自动活动获取CK</p>
+                                        </div>
+
+                                        <div class="form-group qq_type_1" {if $app.qq_type!='1'}style="display:none"{/if}>
+                                             <label class="form-label">QQ CK</label>
+                                            <div>
+                                                <textarea id="qq_ck" name="qq_ck"  cols="30" rows="2" class="form-control">{$app.qq_ck|default=''|htmlspecialchars_decode}</textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group qq_type_1" {if $app.qq_type!='1'}style="display:none"{/if}>
+                                             <label class="form-label">QQ收款固码</label>
+                                            <input type="text" id='qq_qrcode' name="qq_qrcode" placeholder="QQ收款固码" autocomplete="off" class="form-control" value="{$app.qq_qrcode|default=''|htmlspecialchars_decode}">
+                                            <p class="help-block qq_type_1" {if $app.qq_type!=1}style="display:none"{/if}><button type="button" class="btn btn-sm btn-warning" onclick='$("#qq_upload").click();' >上传收款固码自动解析</button></p>
+                                            <input style='display:none' id="qq_upload" name="file" type="file" onchange="upload_cover('qq', this)"/>
+                                        </div>
+
+                                        <div class="form-item text-center">
+                                            <input type="hidden" name="id" value="{$app.id|default=''}">
+                                            <button class="btn btn-primary" type="submit">保存QQ配置</button>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{/block}
+
+{block name="js"}
+<!-- BEGIN: Page JS-->
+<script src="/static/plugs/ajaxfileupload/ajaxfileupload.js?ver={:date('YmdH')}"></script>
+
+<script>
+
+                                                var loading = '';
+                                                function upload_cover(paytype) {
+                                                    loading = layer.load()
+                                                    ajax_upload(paytype);
+                                                }
+                                                function ajax_upload(paytype) { //具体的上传图片方法
+                                                    $.ajaxFileUpload({
+                                                        fileElementId: paytype + "_upload", //需要上传的文件域的ID，即<input type="file">的ID。
+                                                        url: "{:url('uploadImg')}", //后台方法的路径
+                                                        type: 'post', //当要提交自定义参数时，这个参数要设置成post
+                                                        dataType: 'json', //服务器返回的数据类型。可以为xml,script,json,html。如果不填写，jQuery会自动判断。
+                                                        secureuri: false, //是否启用安全提交，默认为false。
+                                                        async: true, //是否是异步
+                                                        success: function (data) {   //提交成功后自动执行的处理函数，参数data就是服务器返回的数据。
+
+                                                            $.getJSON('{:url("index/plugin/qrcodeToText")}', {
+                                                                img: data.data.src,
+                                                            }, function (res) {
+                                                                layer.close(loading);
+                                                                if (res.code === 1) {
+                                                                    layer.msg("解析成功", {icon: 1, anim: 6});
+                                                                    $("#" + paytype + "_qrcode").val(res.data.text);
+                                                                } else {
+                                                                    layer.msg(res.msg, {icon: 2, anim: 6});
+                                                                }
+                                                            });
+                                                        },
+                                                        error: function (data, status, e) {  //提交失败自动执行的处理函数。
+                                                            layer.close(loading);
+                                                            layer.msg("上传失败", {icon: 2, anim: 6});
+                                                        }
+                                                    });
+                                                }
+
+                                                $('[name="alipay_type"]').change(function () {
+                                                    if ($(this).val() == 0) {
+                                                        $('.alipay_type_1').slideUp();
+                                                        $('.alipay_type_0').slideDown();
+                                                    } else if ($(this).val() == 1) {
+                                                        $('.alipay_type_1').slideDown();
+                                                        $('.alipay_type_0').slideUp();
+                                                    }
+                                                });
+
+                                                $('[name="weixin_type"]').change(function () {
+                                                    if ($(this).val() == 0) {
+                                                        $('.weixin_type_1').slideUp();
+                                                        $('.weixin_type_0').slideDown();
+                                                    } else if ($(this).val() == 1) {
+                                                        $('.weixin_type_1').slideDown();
+                                                        $('.weixin_type_0').slideUp();
+                                                    }
+                                                });
+
+                                                $('[name="qq_type"]').change(function () {
+                                                    if ($(this).val() == 0) {
+                                                        $('.qq_type_1').slideUp();
+                                                        $('.qq_type_0').slideDown();
+                                                    } else if ($(this).val() == 1) {
+                                                        $('.qq_type_1').slideDown();
+                                                        $('.qq_type_0').slideUp();
+                                                    }
+                                                });
+
+                                                function getqrcode(paytype) {
+                                                    $.post('{:url("codepayLogin")}', {
+                                                        act: "qrcode",
+                                                        type: paytype,
+                                                    }, function (res) {
+
+
+                                                        if (res.code === 1) {
+                                                            console.log(res);
+                                                            $("." + paytype + "_getqrcode").html('重新获取二维码');
+                                                            if (res.data.qrcode_type == "url")
+                                                            {
+                                                                var url = "/index/resource/generateQrcode?padding=5&str=" + encodeURIComponent(encodeURI(res.data.qrcode));
+                                                            } else if (res.data.qrcode_type == "base64")
+                                                            {
+                                                                var url = "data:image/png;base64, " + res.data.qrcode;
+                                                            }
+
+                                                            $("." + paytype + "_qrcode img").attr("src", url);
+                                                            $("." + paytype + "_qrcode").show();
+                                                            $("." + paytype + "_qrcode_tip").show();
+                                                            query(paytype, res.data.data);
+                                                            layer.msg("获取成功", {icon: 1, anim: 6});
+                                                        } else {
+                                                            layer.msg(res.msg, {icon: 2, anim: 6});
+                                                        }
+                                                    }, 'json');
+                                                }
+
+                                                function query(paytype, data) {
+                                                    $.post('{:url("codepayLogin")}', {
+                                                        act: "query",
+                                                        type: paytype,
+                                                        data: data,
+                                                    }, function (res) {
+                                                        if (res.code == 1) {
+                                                            $("." + paytype + "_qrcode").hide();
+                                                            $("." + paytype + "_qrcode_tip").hide();
+                                                            layer.msg("扫码成功", {icon: 1, anim: 6});
+                                                            if (paytype == "alipay")
+                                                            {
+                                                                $("#alipay_ck").val(res.data.cookie);
+                                                                $("#alipay_uid").val(res.data.alipay_uid);
+                                                            } else if (paytype == "qq")
+                                                            {
+                                                                $("#qq_ck").val(res.data.cookie);
+                                                            }
+
+                                                        } else {
+                                                            setTimeout(function () {
+                                                                query(paytype, data)
+                                                            }, 2500);
+                                                        }
+                                                    }, 'json');
+                                                }
+</script>
+
+<!-- END: Page JS-->
+{/block}

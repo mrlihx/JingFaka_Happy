@@ -1,0 +1,244 @@
+{extend name="base"}
+{block name="css"}
+<link href="__RES__/merchant/default/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+{/block}
+{block name="content"}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">店铺链接</h4>
+                        <div class="table-responsive">
+                            <table class="table table-nowrap mb-0">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">链接状态</th>
+                                        <td>
+                                            {if $_user.link_status==1}
+                                            <span class="badge badge-pill badge-soft-success font-size-12">已开启</span>
+                                            {else/}
+                                            <span class="badge badge-pill badge-soft-danger font-size-12">已关闭</span>
+                                            {/if}
+                                        </td>
+                                    </tr>
+                                    {if sysconf('site_domain_short')!=""}
+                                    <tr>
+                                        <th scope="row">短链接<span class="badge badge-pill badge-soft-success font-size-12">推荐</span></th>
+                                        <td>
+                                            <!--<a href="{$_user.short_link}" target="_blank">{$_user.short_link}?????????????</a>-->
+                                            <a href="" target="_blank" id='my-link'></a>
+                                           <a href="javascript:;" class="btn btn-primary btn-sm waves-effect waves-light clipboard" data-clipboard-text="">复制链接</a>
+                                            <button  onclick="myFunction()" class="btn btn-primary  btn-sm waves-effect waves-light">单独重置</button>
+                                        </td>
+                                    </tr>
+                                         <script>
+function myFunction() {
+var result = confirm("确定要重置链接吗，重置链接后，之前的链接将不能访问！");
+if (result == true) {
+ event.preventDefault(); // 阻止链接的默认行为
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', '/sc.php?url={$_user.link}', true);
+  xhr.onload = function() {
+  };
+  xhr.send();
+   location.reload();
+} else {
+  console.log("取消");
+}
+  
+}
+              const xhr = new XMLHttpRequest();
+              xhr.open("GET", "/api.php?url={$_user.link}");
+              xhr.onload = function() {
+               if (xhr.status === 200) {
+                const response = xhr.responseText;
+                const link = document.getElementById("my-link");
+                 link.href = response;  // 设置 href 属性为返回的内容
+                 link.innerHTML = response; // 设置标签显示的内容为返回的内容
+                 let ne = response;
+                 let copyLinkBtn = document.querySelector('[data-clipboard-text=""]');
+                 copyLinkBtn.dataset.clipboardText = ne;
+                 }
+              };
+                  xhr.send();
+                    </script>
+                                    
+                                    
+                                    {/if}
+                                    {if plugconf('subdomain','status')=='1'&&plugconf('subdomain','top_domain')!=""}
+                                    <tr>
+                                        <th scope="row">二级域名</th>
+                                        <td>
+                                            <a href="{$_user.full_subdomain}" target="_blank">{$_user.full_subdomain}</a>
+                                            <a href="javascript:;" class="btn btn-primary btn-sm waves-effect waves-light clipboard  ml-2" data-clipboard-text="{$_user.full_subdomain}">复制二级域名</a>
+                                            <button onclick="editsubdomain()"  class="btn btn-primary  waves-effect waves-light btn-sm  ml-2">自定义</button>
+                                        </td>
+                                    </tr>
+                                    {/if}
+
+                                    <tr>
+                                        <th scope="row">店铺链接</th>
+                                        <td>
+                                            <a href="{$_user.link}"  target="_blank">{$_user.link}</a>
+                                            <a href="javascript:;" class="btn btn-primary btn-sm waves-effect waves-light clipboard" data-clipboard-text="{$_user.link}">复制链接</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">店铺二维码</th>
+                                        <td>
+                                            <img src="{:generate_qrcode_link($_user.link)}" alt="">
+                                        </td>
+                                    </tr>
+
+
+
+                                    <tr>
+                                        <th scope="row"></th>
+                                        <td>
+                                            <button  onclick="reset_link(1)" class="btn btn-warning  btn-sm waves-effect waves-light">链接重置</button>
+                                            {if $_user.link_status==1}
+                                            <button onclick="close_link('links', 0)" class="btn btn-danger btn-sm waves-effect waves-light">关闭链接</button>
+                                            {else/}
+                                            <button onclick="close_link('links', 1)"  class="btn btn-success btn-sm waves-effect waves-light">开启链接</button>
+                                            {/if}
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+
+
+{/block}
+{block name="js"}
+<script src="__RES__/app/js/clipboard.js"></script>
+<script src="__RES__/merchant/default/libs/sweetalert2/sweetalert2.min.js"></script>
+<script>
+                                                var clipboard = new ClipboardJS('.btn');
+                                                clipboard.on('success', function (e) {
+                                                    layer.msg('链接复制成功！', {
+                                                        icon: 1
+                                                    });
+                                                });
+
+                                                clipboard.on('error', function (e) {
+                                                    layer.msg('链接复制失败，请手动复制！', {
+                                                        icon: 2
+                                                    });
+                                                });
+
+                                                function close_link(type, status)
+                                                {
+                                                    var loading = layer.load(1, {shade: [0.1, '#fff']});
+                                                    $.post(
+                                                            "{:url('user/closelink')}", {type: type, status: status},
+                                                            function (data) {
+                                                                if (data.code == 1) {
+                                                                    layer.msg(data.msg, {time: 1000, icon: 6}, function () {
+                                                                        location.reload();
+                                                                    });
+                                                                } else {
+                                                                    layer.msg(data.msg, {time: 1000, icon: 5});
+                                                                }
+                                                            }, "json");
+                                                }
+
+                                                function reset_link(target) {
+
+                                                    $.confirm({
+                                                        title: '温馨提示',
+                                                        content: '确定要重置链接吗，重置链接后，之前的链接将不能访问！',
+                                                        type: 'red',
+                                                        typeAnimated: true,
+                                                        buttons: {
+                                                            tryAgain: {
+                                                                text: '确定',
+                                                                btnClass: 'btn-red',
+                                                                action: function () {
+                                                                    var loading = layer.load(1, {shade: [0.1, '#fff']});
+                                                                    $.post(
+                                                                            "{:url('user/relink')}", {type: "links", target: target},
+                                                                            function (data) {
+                                                                                if (data.code == 1) {
+                                                                                    layer.msg(data.msg, {time: 1000, icon: 6}, function () {
+                                                                                        location.reload();
+                                                                                    });
+                                                                                } else {
+                                                                                    layer.msg(data.msg, {time: 1000, icon: 5});
+                                                                                }
+                                                                            }, "json");
+                                                                }
+                                                            },
+                                                            cancel: {
+                                                                text: '取消',
+                                                            }
+                                                        }
+                                                    });
+
+                                                }
+
+
+
+                                                function editsubdomain()
+                                                {
+                                                    Swal.fire({
+                                                        title: '请输入自定义二级',
+                                                        input: 'text',
+                                                        showCancelButton: true,
+                                                        confirmButtonText: '确定',
+                                                        cancelButtonText: '取消',
+                                                        showLoaderOnConfirm: true,
+                                                        confirmButtonColor: "#556ee6",
+                                                        cancelButtonColor: "#f46a6a",
+                                                    }).then(function (res) {
+                                                        if (res.isConfirmed)
+                                                        {
+                                                            var loading = layer.load(1, {shade: [0.1, '#fff']});
+                                                            $.post("{:url('user/editSubdomain')}", {subdomain: res.value}, function (res) {
+                                                                layer.closeAll();
+                                                                if (res.code != 1) {
+                                                                    $.alert(res.msg);
+                                                                } else {
+                                                                    $.alert("设置成功");
+                                                                    setTimeout(function () {
+                                                                        location.reload();
+                                                                    }, 200);
+                                                                }
+                                                            });
+                                                        }
+
+                                                    })
+                                                }
+</script>
+{/block}

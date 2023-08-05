@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>订单查询 - {:sysconf('site_name')}</title>
+        <meta name="keywords" content="{:sysconf('site_keywords')}" />
+        <meta name="description" content="{:sysconf('site_desc')}" />
+        <link rel="shortcut icon" href="{:sysconf('browser_icon')}" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Bootstrap -->
+        <link href="__RES__/theme/landrick/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <!-- Icons -->
+        <link href="__RES__/theme/landrick/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
+        <!-- Slider -->               
+        <link rel="stylesheet" href="__RES__/theme/landrick/css/owl.carousel.min.css"/> 
+        <link rel="stylesheet" href="__RES__/theme/landrick/css/owl.theme.default.min.css"/> 
+        <!-- Main Css -->
+        <link href="__RES__/theme/landrick/css/land1.css" rel="stylesheet" type="text/css" id="theme-opt" />
+        <link href="__RES__/theme/landrick/css/colors/default.css" rel="stylesheet" id="color-opt">
+        <script src="__RES__/theme/landrick/js/jquery-3.5.1.min.js"></script>
+        <link href="__RES__/plugs/clicaptcha/css/captcha.css" rel="stylesheet" id="color-opt">
+    </head>
+
+    <body>
+        {include file="./default_header"}
+        <!-- Hero Start -->
+        <section class="bg-half bg-light d-table w-100">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-12 text-center">
+                        <div class="page-next-level">
+                            <div class="alert alert-light alert-pills shadow" role="alert">
+                                <span class="badge badge-pill badge-danger mr-1">订单查询</span>
+                                <span class="content"> 轻松查询订单，即刻享受卡密自动交易</span>
+                            </div>
+
+
+                            <div class="subcribe-form mt-4 pt-2">
+                                <form  action="/orderquery" onsubmit="return formCheck();">
+                                    <div class="form-group mb-0">
+                                        <input type="text" value="" class="border bg-white rounded-pill shadow" placeholder="请输入订单编号/联系方式" id="orderid_input" autocomplete="off">
+                                        <input type="hidden" id="clicaptcha-submit-info" name="clicaptcha-submit-info">
+                                        <button type="submit" onclick="orderid_or_contact()" class="btn btn-pills btn-light">查询</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="page-next">
+                                <nav aria-label="breadcrumb" class="d-inline-block">
+                                    <ul class="breadcrumb bg-white rounded shadow mb-0">
+                                        <li class="breadcrumb-item"></li>
+                                        <li class="breadcrumb-item" aria-current="page">订单查询</li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div><!--end col-->
+                </div><!--end row-->
+            </div> <!--end container-->
+        </section><!--end section-->
+        <!-- Hero End -->
+        
+        
+        
+
+
+        <!-- Start Section -->
+        <section class="section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12">
+                        <div class="section-title text-center mb-4 pb-2">
+
+                            <!-- Card Start -->
+                            <div class="component-wrapper rounded shadow">
+
+                                <div class="p-4">
+                                    {if $trade_no!==null}
+                                    {if empty($order)}
+                                    {if $is_verify}<div class="q-invalid"><div class="wrapper"><div class="q-invalid-bd q-remind-bd"><i class="iconfont icon-cuowutishi"></i><p>没有查询到订单信息</p></div></div></div>{/if}
+                                    {else/}
+                                    <!-- 商品信息 -->
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <p class="text-left"><b>订单号：</b>{$order.trade_no}</p>
+                                            <p class="text-left"><b>付款时间：</b>{$order.create_at|date="Y-m-d H:i:s",###}</p>		
+                                            <p class="text-left"> <b>商品名称：</b>{$order.goods.name}</p>	
+                                            <p class="tips0 text-left"></p>
+                                            <p class="text-left"><b>商家QQ：</b><a class="text-primary" href="tencent://message/?uin={$order.user.qq}&Site={$order.user.qq}&Menu=yes" title="联系商家,请先加好友" target="_blank">{$order.user.qq}</a></p>
+                                        </div>
+                                        <div>  
+                                            <p>使用{:get_paytype_name($order.paytype)}付款 <b class="text-primary" style="font-size:24px">{$order.total_price}</b> 元<p>
+                                            <!--<p><a class="btn btn-pills btn-outline-danger mt-2 mr-2" href="/index/order/dumpCards?trade_no={$order.trade_no}">导出卡密</a></p>-->
+                                            <p><button class="btn btn-pills btn-outline-danger mt-2 mr-2" data-clipboard-action="copy" data-clipboard-target=".cardslite" >一键复制</button></p>
+                                            {if condition="isset($canComplaint) && $canComplaint" }
+                                            <p><a class="btn btn-pills btn-outline-danger mt-2 mr-2" href="/complaint?trade_no={$order.trade_no}">投诉订单</a></p>
+                                            {/if}
+                                        </div>
+                                    </div>
+                                    <div style="opacity:0;width:0px;height: 0px">
+                                        <textarea  class="cardslite"></textarea>
+                                    </div>
+                                    <h4 style="color: red;">↓&nbsp;&nbsp;您购买的卡密&nbsp;&nbsp;↓</h4>
+                                    <div class="border"></div>
+                                    {/if}
+                                    {/if}         
+                                </div>
+
+
+                                <!--<div class="kami">-->
+                                <div id="cardinfo0" class="pb-4">
+
+                                </div><!--end col-->
+                                <!-- BG Color End -->
+
+                            </div>
+                        </div>
+                    </div><!--end col-->
+                    <!-- Card End -->
+
+                </div>
+            </div><!--end col-->
+        </section><!--end row-->
+
+
+        <!-- End Section -->
+
+        {include file="./default_footer"}
+        <!-- javascript -->
+        <script src="__RES__/theme/landrick/js/bootstrap.bundle.min.js"></script>
+        <script src="__RES__/theme/landrick/js/jquery.easing.min.js"></script>
+        <script src="__RES__/theme/landrick/js/scrollspy.min.js"></script>
+        <!-- SLIDER -->
+        <script src="__RES__/theme/landrick/js/owl.carousel.min.js "></script>
+        <script src="__RES__/theme/landrick/js/owl.init.js "></script>
+        <!-- Icons -->
+        <script src="__RES__/theme/landrick/js/feather.min.js"></script>
+        <script src="__RES__/theme/landrick/js/bundle.js"></script>
+        <!-- Main Js -->
+        <script src="__RES__/theme/landrick/js/app.js"></script>
+        <script src="__RES__/app/js/clipboard.js"></script>
+        <script src="__RES__/app/js/layer.js"></script>
+        <script src="__RES__/plugs/clicaptcha/cookie.min.js"></script>
+        <script src="__RES__/plugs/clicaptcha/CryptoJS.js"></script>
+        <script src="__RES__/plugs/clicaptcha/clicaptcha.js"></script>
+        <script>
+                                            var flag = true;
+                                            var loading = '';
+                                            var stop = false;
+                                            var order_query_captcha_type = "{:sysconf('order_query_captcha_type')}";
+                                            $(function () {
+                                                getgoods('{$order.trade_no}', '0');
+                                                /*{eq name = "order.status" value = "0"}*/
+                                                layer.msg('正在获取支付状态 ...', function () {
+                                                    loading = layer.load(1, {
+                                                        shade: [0.1, '#fff'] //0.1透明度的白色背景
+                                                    });
+                                                });
+                                                setTimeout('oderquery(1)', 3000);
+                                                window.setTimeout("request_stop()", 30000);
+                                                /*{/eq}*/
+                                            });
+                                            function formCheck() {
+                                                var obj = $('[name="orderid"]');
+                                                if (!obj.val()) {
+                                                    obj.focus();
+                                                    return false;
+                                                }
+                                                return true;
+                                            }
+                                            function getgoods(orderid, id) {
+                                                setTimeout(function () {
+                                                    $.getJSON('/checkgoods', {
+                                                        orderid: orderid,
+                                                        t: new Date().getTime(),
+                                                        token: '{$token}'
+                                                    }, function (data) {
+                                                        if (data) {
+                                                            $('.cardslite').val(data.cardslite);
+                                                            $('#cardinfo' + id).html(data.msg);
+                                                            if (data.status == 1) {
+                                                                $('.tips' + id).html('<b>已发卡密：</b><span class="kamiok">' + data.quantity + '</span>张' + '，未发卡密0张。');
+                                                            }
+                                                        }
+                                                    });
+                                                }, 1000);
+                                            }
+                                            function orderid_or_contact() {
+                                                var input_val = $('#orderid_input').val();
+
+                                                if (input_val === "") {
+                                                    layer.msg('请输入订单号或联系方式！', {icon: 6, time: 1000});
+                                                    return false;
+                                                } else {
+                                                    var queryType = '';
+                                                    if (input_val.length == '16' || input_val.length == '17' || input_val.length == '18' || input_val.length == '21' || input_val.length == '19' || input_val.length == '20') {
+                                                        queryType = '2';
+                                                    } else {
+                                                        queryType = '3';
+                                                    }
+                                                    var needChkcode = "{:sysconf('order_query_chkcode')}";
+                                                    if (needChkcode == 1) {
+                                                        chkcode(input_val, queryType);
+                                                    } else {
+                                                        window.location.href = '/orderquery?orderid=' + input_val + '&querytype=' + queryType;
+                                                    }
+                                                }
+                                            }
+
+                                            function oderquery(t) {
+                                                if (flag == false)
+                                                    return false;
+                                                var orderid = '{$Think.get.orderid}';
+                                                $.post('/pay/getOrderStatus', {
+                                                    orderid: orderid,
+                                                    token: '{$token}'
+                                                }, function (ret) {
+                                                    if (ret == 1) {
+                                                        layer.close(loading);
+                                                        flag = false;
+                                                        stop = true;
+                                                        $('#paystatus').html('付款成功');
+                                                        getgoods('{$order.trade_no}', '0');
+                                                    }
+                                                });
+                                                t = t + 1;
+                                                setTimeout('oderquery(' + t + ')', 3000);
+                                            }
+
+                                            function request_stop() {
+                                                if (stop == true)
+                                                    return false;
+                                                flag = false;
+                                                layer.close(loading);
+                                                layer.alert('系统未接收到付款信息，如您已付款请联系客服处理！');
+                                            }
+                                            function chkcode(input_val, queryType) {
+
+                                                if (order_query_captcha_type == 0)
+                                                {
+                                                    layer.prompt({
+                                                        title: '请输入验证码',
+                                                        formType: 3
+                                                    }, function (chkcode) {
+                                                        $.post('/orderquery/checkverifycode', {
+                                                            chkcode: chkcode,
+                                                            token: '{$token}'
+                                                        }, function (data) {
+                                                            if (data == 'ok') {
+                                                                layer.msg('验证码输入正确', {
+                                                                    icon: 1
+                                                                }, function () {
+                                                                    window.location.href = '/orderquery?orderid=' + input_val + '&chkcode=' + chkcode + '&querytype=' + queryType;
+                                                                });
+                                                            } else {
+                                                                layer.msg('验证码输入错误', {
+                                                                    icon: 2,
+                                                                    time: 3000
+                                                                }, function () {
+                                                                });
+                                                            }
+
+                                                        });
+                                                    });
+                                                    $('.layui-layer-prompt .layui-layer-content').prepend($(
+                                                            '<img style="cursor:pointer;height: 60px;" id="chkcode_img" src="/chkcode" onclick="javascript:this.src=\'/chkcode\'+\'?time=\'+Math.random()">'
+                                                            ))
+                                                } else {
+                                                    $('#clicaptcha-submit-info').clicaptcha({
+                                                        src: "{:url('/chkcode',['token'=>$token])}",
+                                                        checksrc: "{:url('/orderquery/checkverifycode',['token'=>$token])}",
+                                                        token: "{$token}",
+                                                        callback: function (chkcode) {
+                                                            layer.msg('验证码输入正确', {
+                                                                icon: 1
+                                                            }, function () {
+                                                                window.location.href = '/orderquery?orderid=' + input_val + '&chkcode=' + encodeURIComponent(chkcode) + '&querytype=' + queryType;
+                                                            });
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                            var clipboard = new ClipboardJS('.btn');
+                                            clipboard.on('success', function (e) {
+                                                layer.msg('复制成功！', {
+                                                    icon: 1
+                                                });
+                                            });
+                                            clipboard.on('error', function (e) {
+                                                layer.msg('复制失败，请手动复制！', {
+                                                    icon: 2
+                                                });
+                                            });
+
+        </script>
+    </body>
+</html>

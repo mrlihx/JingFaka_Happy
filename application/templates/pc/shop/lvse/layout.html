@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="description" content="{:sysconf('site_desc')}" />
+    <meta name="keywords" content="{:sysconf('site_keywords')}" />
+    <title>{if condition="$shop['shop_name']"}{$shop.shop_name} - {/if}{:sysconf('site_name')}</title>
+    <link rel="shortcut icon" href="{:sysconf('browser_icon')}" />
+    <link rel="stylesheet" href="/static/muban/lvse/css/qietu.css">
+    <link rel="stylesheet" href="/static/muban/lvse/css/style.css">
+    <!--    点击购买遮罩弹窗开始-->
+    <script src="__RES__/app/js/jquery.min.js"></script>
+    <link href="__RES__/app/css/nyro.css" rel="stylesheet" type="text/css">
+    <script src="__RES__/app/js/nyro.js"></script>
+    <script src="__RES__/app/js/woodyapp.js?_v={:date('YmdHi')}"></script>
+    <link rel="stylesheet" href="__RES__/app/theme/geren/css/iziToast.min.css">
+    <script src="__RES__/app/js/layer.js"></script>
+    <script src="__RES__/app/theme/geren/js/iziToast.min.js"></script>
+	<!--    IE兼容提示-->
+	<script src="__RES__/app/shouka/iealert.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="__RES__/app/shouka/style.css" />
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$("body").iealert();
+	});
+    </script>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <!--    支付方式样式文件结束-->
+  <script>
+        var user_popup_message = '';
+        var is_display = '0';
+        var userid = "{$shop.id}";
+        var cateid =0;
+        var static_url = '__PUBLIC__';
+        var dis_pwd_content = '<div style="padding:10px;color:#cc3333;line-height:24px"><p style="float:left;font-size:14px;font-weight:bold;color:blue;">访问密码：</p><div style="float:right; font-size:14px; padding-left:20px;"><a href="#" style="color:#0064ff;text-decoration:none;display:inline-block;{if isset($goods)}display:none;{/if}background:url(__RES__/app/images/x.png) left no-repeat;padding-left:15px;" class="nyroModalClose" onclick="closeNyro()">关闭</a></div><p style="clear:both;font-size:12px;font-weight:bold;color:red;"><input type="password" name="pwdforbuy" class="input" maxlength="20"> <input type="submit"  onclick="verify_pwdforbuy()" id="verify_pwdforbuy" style="font-size:12px;padding:3px 3px" value="验证密码"> <span id="verify_pwdforbuy_msg" style="display:none"><img src="__RES__/app/images/load.gif"> 正在验证...</span><ul><li>1.本商品购买设置了安全密码</li><li>2.只有成功验证密码后才能继续购买</li></ul></p></div>';
+        var goodid = "{$goods.id|default=0}";
+        var is_contact_limit ='{$goods.contact_limit|default=""}';
+        var is_contact_limit_default ='{$goods.contact_limit|default=""}';
+        var limit_quantity_tip = '无法修改购买数量，是因为本商品限制了购买数量。';
+		var notice="{$shop['shop_notice']}";
+
+        /* {if !isset($goods)} */
+
+        function closeNyro(){
+            $('[name="goodid"]').val('');
+            $('[name="goodid"]').change();
+        }
+
+        /* {/if} */
+    </script>
+    <style type="text/css">
+        .lab1 input {
+            display: none !important;
+        }
+		.paytype-body .paytype-item{float:none;display: inline-block;}
+		.paytype-body .paytype-item img{position:relative;top:0;left:0;-webkit-transform:translate(0, 0);transform: translate(0, 0);margin-top:6px;}
+    </style>
+    <script type="text/javascript">
+        $(function () {
+            iziToast.settings({
+                maxWidth: '500px',
+                titleSize: '18px',
+                titleLineHeight: '22px',
+                timeout: 3000,
+                resetOnHover: false,
+                position: 'bottomLeft',
+                transitionIn: 'fadeInLeft',
+                transitionOut: 'fadeOutRight',
+                zindex: 999999999999,
+                close: false
+            });
+        });
+
+        function showToast(type, title, message) {
+            if (type == 'success') {
+                iziToast.success({ //绿色
+                    title: title,
+                    message: message,
+                });
+            }
+            if (type == 'error') {
+                iziToast.error({ //红色
+                    title: title,
+                    message: message,
+                });
+            }
+            if (type == 'info') {
+                iziToast.info({
+                    title: title,
+                    message: message,
+                });
+            }
+            if (type == 'warning') {
+                iziToast.warning({
+                    title: title,
+                    message: message,
+                });
+            }
+        }
+
+        function selectcateid2() {
+            var cateid = $('#cateid').val();
+            $('#loading').show();
+            $('#goodid').hide();
+            var option = '<option value="">请选择商品</option>';
+            if (cateid > 0) {
+                $.post('/ajax/getgoodlist', {
+                        cateid: cateid
+                    },
+                    function (data) {
+                        if (data == 'ok') {
+                            layer.msg('此分类下没有商品！');
+                        } else {
+                            showToast('info', '', '请选择商品！');
+                            $('#loading').hide();
+                            $('#goodid').show();
+                            $('#goodid').html(option + data);
+                        }
+                    });
+            } else {
+                $('#loading').hide();
+                $('#goodid').show();
+                $('#goodid').html(option);
+            }
+            getrate();
+            $('.pinfo1').show();
+            $('.pinfo2').hide();
+            $('.pinfo3').hide();
+        }
+
+
+        function selectgoodid2() {
+            var goodid = $('#goodid').val();
+            if ($('[name=couponcode]').val() != '') {
+                checkCoupon();
+            }
+            $('#price').html('<img src="' + static_url + '__RES__/app/images/load.gif" />'); //给单价正在加载
+            $.post('/ajax/getgoodinfo', {
+                    goodid: goodid
+                },
+                function (data) {
+                    if (data) {
+                        $('#price').html(data.price);
+                        $('#remark').html(data.remark);
+                        if (data.is_coupon == 0) {
+                            $('#goodCoupon').hide();
+                        }
+                        if (data.is_coupon == 1) {
+                            $('#goodCoupon').show();
+                            showToast('info', '', '如有优惠卷 可以使用哦');
+                        } else {
+                            //取消掉优惠券码
+                            $('[name=couponcode]').val('');
+                            $('#goodCoupon').hide();
+                        }
+                        if (data.is_pwdforsearch == 0) {
+                            $('#pwdforsearch2').hide();
+                            $('#pwdforsearch1').hide();
+                        }
+                        if (data.is_pwdforsearch == 1) {
+                            $('#pwdforsearch2').hide();
+                            $('#pwdforsearch1').show();
+                            showToast('info', '', '取卡密码 必填哦！');
+                        }
+                        if (data.is_pwdforsearch == 2) {
+                            $('#pwdforsearch1').hide();
+                            $('#pwdforsearch2').show();
+                            showToast('info', '', '如有需要 取卡密码 可以填哦');
+                        }
+                        if (data.limit_quantity > 0) {
+                            $('[name=quantity]').val(data.limit_quantity);
+                            $('[name=quantity]').attr({
+                                'title': limit_quantity_tip
+                            });
+                            $('#limit_quantity_tip').show();
+                        } else {
+                            $('[name=quantity]').val(1);
+                            $('[name=quantity]').removeAttr('disabled readonly title');
+                            $('#limit_quantity_tip').hide();
+                        }
+                        $('[name=danjia]').val(data.price);
+                        $('#goodInvent').html(data.goodinvent);
+                        $('[name=is_discount]').val(data.is_discount);
+                        //----显示批发优惠开始----//
+                        if (data.is_discount == 1) {
+                            var fav = " 商品原价：" + data.price + "元<br/>批发价格：<br />";
+                            $.post('/ajax/getdiscountdetails', {
+                                goodid: goodid
+                            }, function (data) { //获取数据
+                                console.log(data);
+                                fav += data;
+                                console.log(fav);
+                                $("#discountdetail").html(fav); //赋值数据前台显示用于配合使用layer弹出插件
+                            });
+                            $("#isdiscount_span").show(); //显示（查看批发价格）
+                        } else {
+                            $("#isdiscount_span").hide(); //隐藏显示（查看批发价格）
+                            $("#discountdetail").hide();
+                            $("#discountdetail").html("");
+                        }
+                        //----显示批发优惠结束----//
+                        getrate();
+                        goodDiscount();
+                        $('.pinfo1').hide();
+                        $('.pinfo2').show();
+                        $('.pinfo3').hide();
+                        if (data.is_pwdforbuy == 1) {
+                            getPwdforbuy();
+                        }
+                        if (data.card_order == 3) {
+                            selectForm();
+                        } else {
+                            $("[name=select_cards]").val("");
+                            layer.close(select_card_form);
+                            layer.close(select_lable);
+                        }
+                    }
+                },
+                'json');
+        }
+
+
+        function changequantity2() {
+            goodDiscount();
+            goodschk();
+            var quantity = $("input[name='quantity']").val();
+            var kucun = $("input[name='kucun']").val();
+            if (quantity < 1) {
+                showToast('error', '', '您忘了输入购买数量！');
+                $('[name=quantity]').focus();
+
+            } else if ((quantity - kucun) > 0) {
+                showToast('error', '', '您输入的购买数量超过库存数量，请重新输入！');
+                $('[name=quantity]').focus();
+            } else if ((quantity >= 1 && quantity - kucun) <= 0) {
+                showToast('success', '', '您输入的购买数量 填写正确^_^');
+            }
+        }
+
+        function checkcontact2() {
+            var contact = $("input[name='contact']").val();
+            if ($("input[name='is_rev_sms']").is(":checked")) {
+                var reg = /^(\d){11}$/;
+                if (contact.length < 1) {
+                    showToast('error', '', '手机号码 必填哦！');
+                    $('[name=contact]').focus();
+                }
+                if ((contact.length >= 1 && contact.length < 11) || (contact.length >= 1 && !reg.test(contact))) {
+                    showToast('error', '', '您输入的手机号码 不是11位数字！');
+                    $('[name=contact]').focus();
+                } else if (contact.length == 11 && reg.test(contact)) {
+                    showToast('success', '', '您输入的手机号码 填写正确^_^');
+                }
+            } else {
+                if (!contact || contact == null || contact == "" || contact == 0) {
+                    showToast('error', '', '联系方式 必填哦！');
+                    $('[name=contact]').focus();
+                } else if (contact.length >= 6) {
+                    showToast('success', '', '您输入的联系方式 填写正确^_^');
+                } else {
+                    showToast('error', '', '您输入的联系方式 少于6位！');
+                    $('[name=contact]').focus();
+                }
+            }
+        }
+
+        function checkis_rev_sms2() {
+            $('#email').parent().removeClass('checked');
+            var contact = $("input[name='contact']").val();
+            if ($("input[name='is_rev_sms']").is(":checked")) {
+                var reg = /^(\d){11}$/;
+                if (contact.length == 11 && reg.test(contact)) {
+                    showToast('success', '', '您输入的手机号码 填写正确^_^');
+                } else {
+                    showToast('info', '', '请重新输入11位数字 填写手机号码哦');
+                    $('[name=contact]').focus();
+                }
+            } else {
+                if (contact.length >= 6) {
+                    showToast('success', '', '您输入的联系方式 填写正确^_^');
+                } else if (!contact || contact == null || contact == "" || contact == 0) {
+                    showToast('error', '', '联系方式 必填哦！');
+                    $('[name=contact]').focus();
+                } else {
+                    showToast('error', '', '您输入的联系方式 少于6位！');
+                    $('[name=contact]').focus();
+                }
+            }
+
+        }
+
+        function checkis_email2() {
+            $('#is_rev_sms').parent().removeClass('checked');
+            $('.email_show').toggle();
+            var email = $("input[name='email']").val();
+            var reg = /^([0-9a-zA-Z_-])+@([0-9a-zA-Z_-])+((\.[0-9a-zA-Z_-]{2,3}){1,2})$/;
+            if ($("input[name='isemail']").is(":checked")) {
+                if (reg.test(email)) {
+                    showToast('success', '', '您输入的邮箱地址 填写正确^_^');
+                } else if (email.length > 0 && !reg.test(email)) {
+                    showToast('error', '', '您输入的邮箱地址 填写有误！');
+                    $('[name=email]').focus();
+                } else {
+                    showToast('info', '', '邮箱地址 必填哦！');
+                    $('[name=email]').focus();
+                }
+                $('[name=sms_price]').val(0);
+                $('.choose_sms').removeClass('on');
+                $('.choose_email').addClass('on');
+                $('.email-show').show();
+                $("#is_rev_sms").prop("checked", false);
+            } else {
+                $('.choose_email').removeClass('on');
+                $('.email-show').hide();
+            }
+            goodDiscount();
+            goodschk();
+            updateContactLimit();
+        }
+
+        function checkemail2() {
+            var email = $("input[name='email']").val();
+            var reg = /^([0-9a-zA-Z_-])+@([0-9a-zA-Z_-])+((\.[0-9a-zA-Z_-]{2,3}){1,2})$/;
+            if (!email || email == null || email == "" || email == 0) {
+                showToast('error', '', '邮箱地址 必填哦！');
+                $('[name=email]').focus();
+            } else if (reg.test(email)) {
+                showToast('success', '', '您输入的邮箱 填写正确^_^');
+            } else {
+                showToast('error', '', '您输入的邮箱地址 填写有误！');
+                $('[name=email]').focus();
+            }
+        }
+
+        function checkpwdsearch2() {
+            var pwdforsearch1 = $("input[name='pwdforsearch1']").val();
+            if (!pwdforsearch1 || pwdforsearch1 == null || pwdforsearch1 == "" || pwdforsearch1 == 0) {
+                showToast('warning', '', '取卡密码 必填哦！');
+                $('[name=pwdforsearch1]').focus();
+            } else if (pwdforsearch1.length < 6 || pwdforsearch1.length > 20) {
+                showToast('error', '', '您输入的取卡密码 不是6-20位！');
+                $('[name=pwdforsearch1]').focus();
+            }
+        }
+
+        function checkpwdsearch1() {
+            var pwdforsearch2 = $("input[name='pwdforsearch2']").val();
+            if (!pwdforsearch2 || pwdforsearch2 == null || pwdforsearch2 == "" || pwdforsearch2 == 0) {
+                showToast('info', '', '如有需要 取卡密码 可以填哦');
+            } else if ((pwdforsearch2.length >= 1 && pwdforsearch2.length < 6) || (pwdforsearch1.length > 20)) {
+                showToast('error', '', '您输入的取卡密码 不是6-20位！');
+                $('[name=pwdforsearch1]').focus();
+            } else if (pwdforsearch2.length >= 6 && pwdforsearch2.length <= 20) {
+                showToast('success', '', '您输入的取卡密码 填写正确^_^');
+            }
+        }
+
+        function checkcoupon2() {
+            var couponcode = $("input[name='couponcode']").val();
+            if (!couponcode || couponcode == null || couponcode == "" || couponcode == 0) {
+                showToast('info', '', '如有优惠卷 可以使用哦');
+            } else if (couponcode.length >= 1 && couponcode.length != 16) {
+                showToast('error', '', '您输入的优惠券 不是16位！');
+                $('[name=couponcode]').focus();
+            } else if (couponcode.length == 18) {
+                showToast('success', '', '您输入的优惠券 填写正确^_^');
+            }
+        }
+
+        function checkform2() {
+            var quantity = $("input[name='quantity']").val();
+            var kucun = $("input[name='kucun']").val();
+            if (quantity < 1) {
+                showToast('error', '', '您忘了输入购买数量！');
+                return false;
+            } else if ((quantity - kucun) > 0) {
+                showToast('error', '', '输入的购买数量超过库存数量，请重新输入！');
+                return false;
+            }
+            var contact = $("input[name='contact']").val();
+            if ($("input[name='is_rev_sms']").is(":checked")) {
+                var reg = /^(\d){11}$/;
+                if (contact.length < 11 || !reg.test(contact)) {
+                    showToast('error', '', '您输入的手机号码 不是11位数字！');
+                    return false;
+                }
+            } else {
+                if (!contact || contact == null || contact == "" || contact == 0) {
+                    showToast('error', '', '您忘了填写联系方式！');
+                    return false;
+                } else if (contact.length < 6) {
+                    showToast('error', '', '您输入的联系方式 少于6位！');
+                    return false;
+                }
+            }
+            if ($('#email').is(":checked")) {
+                var email = $("input[name='email']").val();
+                var reg = /^([0-9a-zA-Z_-])+@([0-9a-zA-Z_-])+((\.[0-9a-zA-Z_-]{2,3}){1,2})$/;
+                if (!email || email == null || email == "" || email == 0) {
+                    showToast('error', '', '\'邮箱地址 必填哦！');
+                    return false;
+                } else if (email.length >= 1 && !reg.test(email)) {
+                    showToast('error', '', '您输入的邮箱地址 填写有误！');
+                    return false;
+                }
+            }
+            if ($('#pwdforsearch1').is(":visible")) {
+                var pwdforsearch1 = $("input[name='pwdforsearch1']").val();
+                if (!pwdforsearch1 || pwdforsearch1 == null || pwdforsearch1 == "" || pwdforsearch1 == 0) {
+                    showToast('error', '', '请填写取卡密码！');
+                    return false;
+                } else if (pwdforsearch1.length < 6 || pwdforsearch1.length > 20) {
+                    showToast('error', '', '请填写6-20位取卡密码！');
+                    return false;
+                }
+            }
+            if ($('#pwdforsearch2').is(":visible")) {
+                var pwdforsearch2 = $("input[name='pwdforsearch2']").val();
+                if ((pwdforsearch2.length >= 1 && pwdforsearch2.length < 6) || (pwdforsearch2.length > 20)) {
+                    showToast('error', '', '您输入的取卡密码 不是6-20位！');
+                    return false;
+                }
+            }
+            var couponcode = $("input[name='couponcode']").val();
+            if (couponcode.length >= 1 && couponcode.length != 16) {
+                showToast('error', '', '您输入的优惠券 不是16位！');
+                return false;
+            } else {
+                showToast('success', '', '您输入全部正确^_^ 正在提交订单...');
+                return true;
+            }
+        }
+    </script>
+	<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+</head>
+
+<body class="msgGreen">
+         <style>
+            .bangz_box {
+                position: fixed;
+                left: 0;
+                top: 100px;
+                z-index: 45;
+            }
+            .bangz_box .item {
+                padding: 10px;
+                background: linear-gradient(45deg,#3798f7,#3369ff);
+                box-shadow: 0 0.093333rem 0.133333rem 0 rgb(54 144 248 / 23%);
+                border-radius: 0 7px 7px 0;
+                margin-top: 25px;
+            }
+            .bangz_box .item:first-child {
+                background: linear-gradient(45deg,#fd0b27,#ff4a4a);
+                box-shadow: 0 7px 10px 0 rgb(255 113 19 / 23%);
+            }
+            .bangz_box .item:nth-child(2) {
+                background: linear-gradient(45deg,#f737e8,#3369ff);
+                box-shadow: 0 0.093333rem 0.133333rem 0 rgb(54 144 248 / 23%);
+            }
+            .bangz_box .item a{
+                text-decoration: none;
+                text-align: center;
+                color:#FFF
+            }
+            .bangz_box span{
+                margin-left: 5px;
+                font-weight: 600;
+                font-size: 14px;
+                color: #fff;
+            }
+        </style>
+        <div class="bangz_box">
+            <div class="item">
+                <a href="/complaint">
+                    <span>投诉商家</span>
+                </a>
+            </div>
+            <div class="item">
+                <a href="//wpa.qq.com/msgrd?v=1&uin={$shop.qq}&site=&menu=yes" target="_blank"> 
+                    <span>卖家客服</span>
+                </a>
+            </div>
+
+            {if $shop.qqqun!=""}
+            <div class="item">
+                <a href="{$shop.qqqun|htmlspecialchars_decode|removeXSS}" target="_blank"> 
+                    <span>商家Q群</span>
+                </a>
+            </div>
+            {/if}
+        </div> 
+<input type="hidden" name="is_contact_limit" value="{$goods.contact_limit|default=""}">
+<input type="hidden" name="limit_quantity" value="{$goods.limit_quantity|default=1}">
+
+    <!--头部-->
+
+    <div class="header">
+        <div class="wrapper">
+            <div class="header-top">
+                <div class="logo">
+                    <a href=""><img src="{:sysconf('merchant_logo')}" style="width:130px;" /></a>
+                </div>
+                <div class="nav">
+                    <ul>
+                        <li class="nav-item"><a href="/">首页</a></li>
+                        <li class="nav-item"><a href="/complaint">投诉订单</a></li>
+                        <li class="nav-item"><a href="/orderquery">购买记录</a></li>
+                    </ul>
+                </div>
+                <div class="gh">
+                    <a href=""></a>
+                </div>
+            </div>
+            <div class="header-main">
+                <div class="subnav">
+                    <h2>{$shop.shop_name}</h2>
+                    <ul>
+                        <li class="subnav-item"><a href="{$category.url|default=$shop.website}">访问官网</a></li>
+                        <li class="subnav-item"><a href="">虚拟产品</a></li>
+                        <li class="subnav-item"><a href="">自动发货</a></li>
+                        <li class="subnav-item"><a href="">信誉店铺</a></li>
+                    </ul>
+                </div>
+                <div class="search">
+                    <form action="/orderquery" method="get">
+                        <input class="search-text" type="text" name="orderid" value="" placeholder="输入订单号查找" />
+                        <input class="search-btn" type="submit" value="" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--//头部-->
+
+    <div class="main">
+        <div class="wrapper">
+            <!--左边-->
+            <div class="main-left">
+
+                <!--先关信息-->
+                <div class="rl">
+                    <div class="g-hd">
+                        <span class="g-hd-tit">相关信息</span>
+                    </div>
+                    <div class="rl-main">
+                        <div class="rl-credit">
+                            <span>商户信誉：</span>
+                            <i class="ico-star"></i>
+                            <i class="ico-star"></i>
+                            <i class="ico-star"></i>
+                            <i class="ico-star"></i>
+                            <i class="ico-star"></i>
+                        </div>
+                        <div class="rl-qq">
+                            <span>卖家QQ： {$category.qq|default=$shop.qq}</span><a class="rl-qq-btn" href="//wpa.qq.com/msgrd?v=1&uin={$category.qq|default=$shop.qq}&site=&menu=yes'">咨询卖家</a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!--公告-->
+                <div class="notice">
+                    <div class="g-hd">
+                        <span class="g-hd-tit">商家公告</span>
+                    </div>
+                    <div class="notice-main">
+                        <p>{$shop['shop_notice']}</p>
+                    </div>
+                </div>
+
+                <div class="qrpay">
+                    <div class="g-hd">
+                        <span class="g-hd-tit">扫码支付</span>
+                    </div>
+                    <div class="qrpay-main">
+                        <div class="img">
+                            <div id="qrcode" style="width:150px;height:150px;display: block;text-align: center;margin: 0 auto;"></div>
+                        </div>
+                        <h3>手机扫码支付</h3>
+                    </div>
+                </div>
+            </div>
+            <!--//左边-->
+
+
+            <!--右边-->
+            <div class="main-right">
+                <div class="ginfo">
+                    <div c lass="g-hd">
+                        <span class="g-hd-tit">商品说明</span>
+                    </div>
+                    <div class="ginfo-main">
+                        <p id="remark"></p>
+                    </div>
+                </div>
+
+
+                <form name="p" method="post" action="/pay/order" onsubmit="return checkform2();" target="_blank" class="nyroModal">
+                    <input type="radio" style="display:none" name="paytype" value="bank" id="bank">
+                    <input type="radio" style="display:none" name="paytype" value="alipay" id="alipay" checked>
+                    <input type="hidden" name="userid" value="{$shop.id}">
+                    <input type="hidden" name="token" value="{$Request.token}">
+                    <input type="hidden" name="cardNoLength" value="0">
+                    <input type="hidden" name="cardPwdLength" value="0">
+                    <input type="hidden" name="userid" value="{$shop.id}">
+                    <input type="hidden" name="token" value="{$Request.token}">
+                    <input type="hidden" name="cardNoLength" value="0">
+                    <input type="hidden" name="cardPwdLength" value="0">
+                    <input type="hidden" name="is_discount" id="is_discount" value="0">
+                    <input type="hidden" name="coupon_ctype" value="0">
+                    <input type="hidden" name="coupon_value" value="0">
+                    <input type="hidden" name="sms_price" value="0">
+                    <input type="hidden" name="paymoney" value="">
+                    <input type="hidden" name="danjia" value="">
+                    <input type="hidden" name="select_cards" value="">
+
+
+                    <div class="choose">
+                        <div class="g-hd">
+                            <span class="g-hd-tit">选择商品</span>
+                        </div>
+
+                        <div class="choose-main">
+
+                            
+                    {block name="content"}{/block}
+
+                            <div class="choose-item">
+                                <div class="choose-left left">商品单价：</div>
+                                <div class="choose-rigt left choose-rigt-moy">
+                                    <span>
+                                        <span class="money" id="price"></span>元
+                                    </span>
+                                    <span style="display:none;color: #648ff7;" id="isdiscount_span">(查看批发价格)</span>
+                                    <div id="discountdetail" style="display: none;"></div>
+
+                                    <span style="overflow:initial;">
+                                        <font class="tit">购买数量： </font>
+                                        <input class="num" type="text" name="quantity" onkeyup="changequantity2()"
+                                            value="1" />
+                                    </span>
+                                    <span class="tip" id="goodInvent"></span>
+
+                                </div>
+                                <script>
+                        /*
+                     * 显示批发优惠价格
+                     */
+                        $("#isdiscount_span").hover(
+                            function () {
+                                //1.获取数据
+                                var discountdetail2='';
+                                var goodid = $('#goodid').val();
+                                $.post('/ajax/getdiscountdetails', {goodid: goodid}, function (data) {
+                                    console.log(data);
+                                    //2.组装数据
+                                    $('#discountdetail').html(data);
+                                });
+                                //3.显示数据
+                                var discountdetail2 = $('#discountdetail').html();
+                                if(discountdetail2!='') {
+                                    //显示样式
+                                    var index = layer.tips(discountdetail2, $('#isdiscount_span'), {
+                                        tips: [2, '#4B4B4B'],
+                                        time: 0
+                                    });
+                                    //显示数据
+                                    $(this).attr("data-index", index);
+                                }
+                            },
+                            //4.关闭显示
+                            function () {
+                                layer.close($(this).attr("data-index"));
+                            });
+                    </script>
+					
+					<script>
+                        function checkCoupon2() {
+                        var couponcode = $.trim($('[name=couponcode]').val());
+                        if (cateid == 0) {
+                            cateid = $('#cateid').val();
+                        }
+                        $.post('/ajax/checkcoupon', {
+                            couponcode: couponcode,
+                            userid: userid,
+                            cateid: cateid,
+                            t: new Date().getTime()
+                        }, function (data) {
+                            if (data) {
+                                data = eval(data);
+                                if (data.result == 0) {
+                                    layer.msg(data.msg,{icon:2,time:3000});
+                                    $('#checkcoupon').html(data.msg);
+                                    $('[name=is_coupon]').val("0");//更新部分
+                                } else if (data.result == 1) {
+                                    layer.msg('优惠卷可用',{icon:1,time:3000});
+                                    $('[name=coupon_ctype]').val(data.ctype);
+                                    $('[name=coupon_value]').val(data.coupon);
+                                    $('[name=is_coupon]').val("1");//更新部分
+                                    goodschk();
+                                } else {
+                                    layer.msg(data.msg,{icon:2,time:3000});
+                                    $('#checkcoupon').html('验证失败！');
+                                }
+                            }
+                        }, "json");
+                    }
+				</script>
+					
+					
+					
+					
+                            </div>
+
+                            <div class="choose-item">
+                                <div class="choose-left left">联系方式：</div>
+                                <div class="choose-rigt left choose-rigt-lianxi">
+                                    <input class="add-text text-tel contact-show" type="text" onmouseout="checkcontact2()"
+                                        name="contact" placeholder="推荐填写QQ号或手机号 订单查询的重要凭证!" />
+
+                                    <span class="choose-item-t choose_sms"><label class="lab1"><input type="checkbox"
+                                                name="is_rev_sms" value="1" id="is_rev_sms" onclick="checkis_rev_sms2()"
+                                                data-cost="{if isset($goods) && $goods.sms_payer==1}0{else}{:get_sms_cost()}{/if}">
+                                            短信提醒</label></span>
+                                    <span class="choose-item-t choose_email"><label class="lab1"><input type="checkbox"
+                                                name="isemail" value="1" id="email" onclick="checkis_email2()">邮箱提醒</label></span>
+                                </div>
+                            </div>
+
+
+
+                            <div class="choose-item email-show" style="display: none;">
+                                <div class="choose-left left">邮箱地址： </div>
+                                <div class="choose-rigt left choose-rigt-lianxi">
+                                    <input class="add-text text-tel" type="text" onmouseout="checkemail2()" name="email"
+                                        placeholder="填写你常用的邮箱地址" />
+                                </div>
+                                <div>
+                                    <p style="color: red;display: inline-block;font-size: 13px;">注：如果没收到邮件，请在邮件垃圾箱查找。</p>
+                                </div>
+                            </div>
+                            <div class="choose-item" id="pwdforsearch1" style="display: none;">
+                                <div class="choose-left left">取卡密码 ：</div>
+                                <div class="choose-rigt left choose-rigt-lianxi">
+                                    <input class="add-text" onmouseout=" checkpwdsearch2()" onblur="is_pwdforsearch()"
+                                        type="text" name="pwdforsearch1" placeholder="[必填]请输入取卡密码（6-20位）">
+                                </div>
+                            </div>
+                            <div class="choose-item" id="pwdforsearch2" style="display: none;">
+                                <div class="choose-left left">取卡密码 ：</div>
+                                <div class="choose-rigt left choose-rigt-lianxi">
+                                    <input class="add-text" onmouseout="checkpwdsearch1()" onblur="is_pwdforsearch2()"
+                                        type="text" name="pwdforsearch2" placeholder="[选填]请输入取卡密码（6-20位）">
+                                </div>
+                            </div>
+                            <input type="hidden" name="is_pwdforsearch2">
+                            <div class="choose-item" id="goodCoupon" style="display: none;">
+                                <div class="choose-left left">优惠券： </div>
+                                <div class="choose-rigt left choose-rigt-lianxi">
+                                    <input class="add-text" type="text" name="couponcode" placeholder="请填写你的优惠券" onblur="checkCoupon2()"
+                                        onmouseout="checkcoupon2()" style="width: 200px"><span id="checkcoupon" style="display:none; color: red"><img
+                                            src="/static/muban/lvse/picture/load.gif">
+                                        正在查询...</span>
+                                </div>
+                            </div>
+                            <div class="choose-item" id="couponcode" style="display: none;">
+                                <div class="choose-left left">优惠卷详情： </div>
+                                <div class="choose-rigt left choose-rigt-lianxi">
+                                    <span id="checkcoupon" style="display:none">正在查询...</span>
+                                </div>
+                            </div>
+                            <input type="hidden" name="is_coupon" value="">
+                            <div class="choose-item" style="display: none;">
+                                <div class="choose-left left">折价率： </div>
+                                <div class="choose-rigt left choose-rigt-lianxi">
+                                    <span class="rate">100</span><span>%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="clear:both;"></div>
+                    </div>
+                    <div class="paytype" style="height:auto">
+                        <div class="payment">
+                            <div class="g-hd">
+                                <span class="g-hd-tit">付款方式</span>
+                            </div>
+                            <div class="pay-moeny">
+                                <p><span>应付总额：</span>
+                                    <font class="tprice"></font>元
+                                </p>
+                            </div>
+                        </div>
+                        <div class="paytype-tab">
+                            <ul>
+                                <li class="paytype-tab-t on"><i class="ico-qr"></i><span>扫码支付</span></li>
+                            </ul>
+                        </div>
+                        <div class="paytype-body">
+                    <input type="hidden" name="feePayer" value="{$shop.fee_payer|default=1}">
+                    <input type="hidden" name="fee_rate" value="{$userChannels[0]['rate']|default=0}">
+                    <input type="hidden" name="min_fee" value="{:sysconf('transaction_min_fee')}">    
+                            <ul>
+<!-- {$n=0} -->
+                    <!--{foreach $userChannels as $v}-->
+                    <!--{if $v.status==1}-->
+                                								<label for="pay_item_{$v.channel_id}" data-pid="{$v.channel_id}" class="paytype-item">    	
+										<div style="background: white;">
+										<label>
+										<input id="pay_item_{$v.channel_id}" name="pid" style="display:none;border:0;"
+											value="{$v.channel_id}" type="radio"> <img src="{:get_paytype_info($v.paytype)['logo']}" />								
+										</label>
+										</div>
+								</label>
+                    <!-- {$n++} -->
+                    <!--{/if}-->
+                    <!--{/foreach}-->
+                                
+                            </ul>
+                        </div>
+
+                        <div class="paytype-foot" id="submit">
+                            <input type="submit" name="check_pay" value="确认支付" />
+                        </div>
+                        <div style="clear:both;"></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                </form>
+            </div>
+
+            <div style="clear:both;"></div>
+        </div>
+
+    </div>
+
+
+    <!--底部-->
+    <div class="footer">
+    <p>{:sysconf('site_info_copyright')}</p>
+	
+ 
+    <script src="__RES__/app/js/qrcode.min.js"></script>
+    <script>
+        $(function () {
+            $('.right_form li input,.right_form li select').focus(function () {
+                // $(this).siblings('span').addClass('span_up');
+            });
+            $('.right_form li input').blur(function () {
+                if ($(this).val() == '') {
+                    // $(this).siblings('span').removeClass('span_up');
+                }
+            });
+            $('.right_form li select').blur(function () {
+                var sel_option = $(this).find('option:selected').text();
+                if (sel_option == '') {
+                    $(this).siblings('span').removeClass('span_up');
+                }
+            });
+            $('.fz_lab').click(function () {
+                if ($(this).children("input").attr('checked')) {
+                    $(this).addClass("lab_on");
+                } else {
+                    $(this).removeClass("lab_on");
+                }
+            });
+            $('#isemail').click(function () {
+                $('#is_rev_sms').attr('checked', false);
+                $('#is_rev_sms').parent().removeClass("lab_on");
+                $('[name=sms_price]').val(0);
+                $('.email_show').stop().fadeToggle();
+                $('.email_show').find('input').focus();
+                if ($('#is_rev_sms').attr('checked')) {
+                    $('.phone_num').focus().attr('placeholder', '请填写你的手机号');
+                } else {
+                    $('.phone_num').blur().attr('placeholder', '推荐填写QQ号或手机号');
+                }
+            });
+            $('#youhui').click(function () {
+                $('.youhui_show').stop().fadeToggle();
+                $('.youhui_show').find('input').focus();
+            });
+            $('#is_rev_sms').click(function () {
+                $('#isemail').attr('checked', false);
+                $('#isemail').parent().removeClass("lab_on");
+                $('.email_show').stop().fadeOut();
+                if ($(this).attr('checked')) {
+                    $('.phone_num').focus().attr('placeholder', '请填写你的手机号');
+                } else {
+                    $('.phone_num').blur().attr('placeholder', '推荐填写QQ号或手机号');
+                }
+            });
+            $(".pay").click(function () {
+                $(this).siblings(".pay").removeClass("checked1");
+                $(this).addClass("checked1");
+            });
+            $(".lab3").click(function () {
+                $(this).children('input').attr('checked', true);
+                $(this).siblings("label").children('input').attr('checked', false);
+                $(this).siblings("label").removeClass("checked2");
+                $(this).addClass("checked2");
+                var bankid = $(this).children('input').data('bank');
+                $('input[name="bankid"]').val(bankid);
+            });
+            $('.pay_cj_1').click(function () {
+                $('.pay_list1').show();
+                $('.pay_list2').hide();
+                $('#alipay').attr('checked', true);
+                $('#bank').attr('checked', false);
+                $('.pay_list1 input').attr('checked', false);
+                $('.pay_list1 .lab3').removeClass('checked2');
+                $('.pay_list1 .lab3').eq(0).children('input').attr('checked', true);
+                $('.pay_list1 .lab3').eq(0).addClass('checked2');
+                $(this).children('img').attr('src', '__RES__/app/images/pay1.png');
+                $('.pay_cj_2').children('img').attr('src', '__RES__/app/images/pay3_menu2_cj.png');
+            });
+            $('.pay_cj_2').click(function () {
+                $('.pay_list2').show();
+                $('.pay_list1').hide();
+                $('#alipay').attr('checked', false);
+                $('#bank').attr('checked', true);
+                $('.pay_list2 input').attr('checked', false);
+                $('.pay_list2 .lab3').removeClass('checked2');
+                $('.pay_list2 .lab3').eq(0).children('input').attr('checked', true);
+                $('.pay_list2 .lab3').eq(0).addClass('checked2');
+                $(this).children('img').attr('src', '__RES__/app/images/pay2.png');
+                $('.pay_cj_1').children('img').attr('src', '__RES__/app/images/pay3_menu1_cj.png');
+            });
+
+            $('.paytype-item:eq(0)')[0].click();
+        });
+		
+		
+
+        var qrcode = new QRCode(document.getElementById("qrcode"), {
+            text: "{$qrcode}",
+            width: 150,
+            height: 150,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+    </script>
+    </div>
+    <!--//底部-->
+<script>
+
+    $('.paytype-item').click(function () {
+        $('.paytype-item').removeClass('on');
+        $('.paytype-item').prop("checked",false);
+        $(this).addClass('on');
+        $('#pay_item_'+$(this).data('pid')).prop("checked",true);
+    })
+
+    $(function(){
+        $('.paytype-item:eq(0)')[0].click();
+    })
+</script>
+        <link rel="stylesheet" href="__STATIC__/plugs/aplayer/APlayer.min.css">
+        <div id="aplayer"></div>
+        <script src="__STATIC__/plugs/aplayer/APlayer.min.js"></script>
+        <script>
+                                    $.ajax({
+                                        type: 'get',
+                                        url: "{:url('index/resource/musicDetail',['id'=>$shop.music])}",
+                                        dataType: "json",
+                                        success: function (res) {
+
+                                            var audio = [];
+
+                                            if ("{:sysconf('shop_voice')}" != "")
+                                            {
+                                                audio.push({
+                                                    title: '平台语音播报',
+                                                    author: '平台提醒',
+                                                    url: "{:sysconf('shop_voice')}",
+                                                    cover: "{:sysconf('site_logo')}",
+                                                });
+                                            }
+
+                                            if (res.code == 1)
+                                            {
+                                                audio.push({
+                                                    name: res.song,
+                                                    artist: res.singer,
+                                                    url: res.musicLink,
+                                                    cover: res.picture,
+                                                });
+                                            }
+
+                                            if (audio.length > 0)
+                                            {
+                                                const ap = new APlayer({
+                                                    container: document.getElementById('aplayer'),
+                                                    fixed: true,
+                                                    mini: true,
+                                                    autoplay: true,
+                                                    theme: '#FADFA3',
+                                                    loop: 'all',
+                                                    order: 'list',
+                                                    preload: 'auto',
+                                                    volume: 1,
+                                                    mutex: true,
+                                                    listFolded: false,
+                                                    listMaxHeight: 90,
+                                                    audio: audio
+                                                });
+                                            }
+
+                                        }
+                                    });
+        </script>
+    </body>
+
+</html>

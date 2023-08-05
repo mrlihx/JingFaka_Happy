@@ -1,0 +1,58 @@
+{extend name='./content'}
+
+{block name="content"}
+
+<button data-modal="/manage/goods/pool_span_edit" data-title="添加标签" class="layui-btn layui-btn-normal layui-btn-small"><i class="fa fa-plus"></i> 添加标签</button>
+<!-- 表单搜索 结束 -->
+<form onsubmit="return false;" data-auto="true" method="post">
+    <input type="hidden" value="resort" name="action" />
+    <table class="layui-table" lay-skin="line" lay-size="sm">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>标签名称</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {foreach $list as $v}
+            <tr>
+                <td>{$v.id}</td>
+                <td><span style="background:{$v.color}; color:#fff; padding:3px 8px; border-radius:10px;font-size: 10px">{$v.name}</span></td>
+                <td>
+                    <a data-modal='{:url("/manage/goods/pool_span_edit",["id"=>$v.id])}' href="javascript:void(0)">编辑</a>
+                    <a href="javascript:void(0)" onclick="span_del(this, '{$v.id}')">删除</a>
+                </td>
+
+            </tr>
+            {/foreach}
+        </tbody>
+    </table>
+</form>
+{$page}
+<script>
+    layui.use('form', function () {
+        var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+        form.render();
+    });
+    
+    function span_del(obj, id) {
+        layer.confirm('确定删除吗？', function (val) {
+            if (val) {
+                $.post('/manage/goods/span_del', {
+                    id: id
+                }, function (res) {
+                    if (res.code != 1) {
+                        layer.msg('删除失败');
+                    } else {
+                        layer.msg('删除成功！', function () {
+                            location.reload();
+                        });
+                    }
+                });
+            }
+        })
+    }
+
+</script>
+{/block}

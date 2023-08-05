@@ -1,0 +1,440 @@
+{extend name="base"}
+{block name="content"}
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row mb-2">
+                            <div class="col-sm-auto">
+                                <a href="{:url('goods/add')}" class="pull-right btn btn-primary waves-effect waves-light"><i class='bx bx-plus mr-1'></i>添加商品</a>
+                            </div>
+
+                            <div class="col-sm-auto">
+
+                                <form class="form-inline" role="form" action="" method="get">
+                                    <div class="form-group">
+                                        <select name="cate_id" class="form-control select2">
+                                            <option value="" {if $Think.get.cate_id=='' }selected{/if}>全部分类 </option> 
+                                            {foreach $categorys as $v}
+                                            <option value="{$v.id|htmlentities}" {if $Think.get.cate_id==$v.id}selected{/if}>{$v.name} </option> 
+                                            {/foreach}
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group ml-1">
+                                        <input name="name" type="text" class="form-control" placeholder="商品名" value="{$Think.get.name|default=''|htmlentities}">
+                                    </div>
+                                    <button type="submit" class="btn btn-light waves-effect waves-light ml-1"><i class="bx bx-search mr-1"></i>搜索</button>
+                                </form>
+                            </div>
+
+                            <div class="col-sm-auto">
+                                <button onclick="batch_del()" class="btn btn-danger" ><i class="bx bx-trash mr-1"></i>批量删除</button>
+                            </div>
+                        </div>
+
+
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th> 
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="select_all">
+                                                <label class="custom-control-label" for="select_all"></label>
+                                            </div>
+                                        </th>
+                                        <th>商品名称</th>
+                                        <th>商品分类</th>
+                                        <th>价格</th>
+                                        <th>库存</th>
+                                        <th>卖出</th>
+                                        <th>上下架</th>
+                                        <th>开启代理</th>
+                                        <th>创建时间</th>
+                                        <th>排序</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {foreach $goodsList as $k=>$v}
+                                    <tr>
+                                        <td>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input select-checkbox" id="checkbox{$k}" name="good_id" value="{$v.id|htmlentities}">
+                                                <label class="custom-control-label" for="checkbox{$k}"></label>
+                                            </div>
+                                        </td>
+                                        <th scope="row">   
+                                            {$v.name}
+                                            {if $v.wholesale_discount==1}
+                                            <span class="badge badge-pill badge-warning font-size-12" data-toggle="tooltip" data-placement="top" title="批发优惠" data-original-title="批发优惠">批</span>
+                                            {/if}
+                                            {if $v.coupon_type==1}
+                                            <span class="badge badge-pill badge-success font-size-12" data-toggle="tooltip" data-placement="top" title="支持优惠券" data-original-title="支持优惠券">券</span>
+                                            {/if}
+                                            {if $v.take_card_type!=0}
+                                            <span class="badge badge-pill badge-primary font-size-12"  data-toggle="tooltip" data-placement="top" title="提卡必填或选填取卡密码" data-original-title="提卡必填或选填取卡密码">取</span>
+                                            {/if}
+                                            {if $v.visit_type==1}
+                                            <span class="badge badge-pill badge-info font-size-12" data-toggle="tooltip" data-placement="top" title="商品购买页面需要访问密码" data-original-title="商品购买页面需要访问密码">密</span>
+                                            {/if}
+                                        </th>
+                                        <td>{$v.category.name|default="未分类"}</td>
+                                        <td>{$v.price}</td>
+
+                                        <td>
+                                            {$v->cards_stock_count}张
+                                            {if $v->cards_stock_count==0}
+                                            <span class="text-danger">缺货</span>
+                                            {else/}
+                                            <a href="{:url('goods_card/index',['goods_id'=>$v.id,'status'=>1])}">查看</a>
+                                            <a class="dumpCard" href="javascript:;" data-id="{$v.id}" data-goodsname="{$v.name}">导出</a>
+                                            <a href="javascript:void(0);" onclick="emptied(this, '{$v.id}')">清空</a>
+                                            {/if}
+                                        <td>
+                                            {$v->cards_sold_count}张
+                                            <a href="{:url('goods_card/index',['goods_id'=>$v.id,'status'=>2])}">查看</a>
+                                            <a href="{:url('goods/dumpCards',['goods_id'=>$v.id,'status'=>2])}" target="_blank">导出</a>
+                                        </td>
+                                        <td>
+                                            <div class="custom-control custom-switch  mb-3" dir="ltr">
+                                                <input onchange="change_status(this, '{$v.id}')"  {if $v.status==1}checked{/if} type="checkbox" class="custom-control-input" id="customSwitchsizemd{$k}">
+                                                       <label class="custom-control-label" for="customSwitchsizemd{$k}"></label>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            {if $v.can_proxy == 1}
+                                            <span class="badge badge-pill badge-soft-success font-size-12">是</span>
+                                            {else}
+                                            <span class="badge badge-pill badge-soft-danger font-size-12">否</span>
+                                            {/if}
+                                        </td>
+                                        <td>{$v.create_at|date="Y-m-d H:i:s",###}
+                                        </td>
+                                        <td>
+                                            {$v.sort}
+                                        </td>
+                                        <td>
+
+                                            <div class="btn-group btn-group-sm " role="group" aria-label="Basic group">
+                                                <button  onclick="$.x_show('分类链接', '{:url(\'goods/link\',[\'id\'=>$v.id])}', 560)"  class="btn btn-light waves-effect waves-light text-primary">链接</button>
+                                                <a href="{:url('goods_card/add',['goods_id'=>$v.id])}" class="btn btn-light waves-effect waves-light text-primary">加卡</a>
+                                                <a href="{:url('goods/edit',['id'=>$v.id])}" class="btn btn-light waves-effect waves-light text-primary">编辑</a>
+                                                <button onclick="del(this, '{$v.id}')" class="btn btn-light waves-effect waves-light text-danger">删除</button>
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                    {/foreach}
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <nav aria-label="...">
+                            {$page}
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+<div class="modal fade" id="exportCard" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" >导出卡密</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form id="export_form" class="form-horizontal" method="POST" action="{:url('goods/dumpCards')}" target="_blank">
+                    <input type="hidden" id="goods_id" name="goods_id" value="">
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <label class="control-label">商品名称</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <p id="goodsname" style="padding-top: 5px;"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <label class="control-label">导出范围</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="radio-inline">
+                                <input type="radio" name="range" value="0" checked> 全部库存的卡密
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="range" value="1"> 导出指定的数量
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group" id="exportNUm" style="display:none">
+                        <div class="col-sm-2">
+                            <label class="control-label">导出数量</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <input name="number" type="number" class="form-control" placeholder="请输入正整数">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <label class="control-label">是否删除</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="radio-inline">
+                                <input type="radio" name="del" value="0" checked> 仅导出不做删除
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="del" value="1"> 导出并删除卡密
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <label class="control-label">商品名称</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="radio-inline">
+                                <input type="radio" name="need_goods_name" value="1" checked> 导出商品名
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="need_goods_name" value="0"> 不需要商品名
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <label class="control-label">导出格式</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="radio-inline">
+                                <input type="radio" name="file_type" value="0" checked> EXCEL
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="file_type" value="1"> TXT
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" id="export">确定</button>
+                <button type="button" class="btn btn-light" data-dismiss="modal">关闭</button>
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+{/block}
+{block name="js"}
+<script>
+
+    $('#select_all').click(function () {
+        if ($(this).is(':checked')) {
+            $('tbody').find('.select-checkbox').each(function () {
+                $(this).prop("checked", true)
+            })
+        } else {
+            $('tbody').find('.select-checkbox').each(function () {
+                $(this).prop("checked", false)
+            })
+        }
+    });
+
+    function change_status(obj, id) {
+        var status = $(obj).prop('checked');
+        if (status) {
+            status = 1;
+        } else {
+            status = 0;
+        }
+        $.post("{:url('goods/changeStatus')}", {
+            id: id,
+            status: status
+        }, function (res) {
+            if (res.code != 1) {
+                $.alert(res.msg);
+                $(obj).prop('checked', false)
+                return false;
+            }
+            if (status == 1) {
+                $(obj).prop('checked', true)
+            } else {
+                $(obj).prop('checked', false)
+            }
+        });
+    }
+
+
+    function del(obj, id)
+    {
+        $.confirm({
+            title: '确定删除吗？',
+            content: '删除的商品将进入回收站！',
+            type: 'red',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: '确定',
+                    btnClass: 'btn-red',
+                    action: function () {
+                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                        $.post("{:url('goods/del')}", {
+                            id: id
+                        }, function (res) {
+                            if (res.code != 1) {
+                                $.alert(res.msg);
+                            } else {
+                                $.alert("删除成功");
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 200);
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+    }
+
+    function emptied(obj, id) {
+        $.confirm({
+            title: '确定清空该商品所有未售虚拟卡吗？',
+            content: '删除的虚拟卡将进入回收站！',
+            type: 'red',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: '确定',
+                    btnClass: 'btn-red',
+                    action: function () {
+                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                        $.post("{:url('goods/emptiedCards')}", {
+                            id: id
+                        }, function (res) {
+                            if (res.code != 1) {
+                                $.alert(res.msg);
+                            } else {
+                                $.alert("清空成功");
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 200);
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+    }
+
+    function batch_del() {
+        var ids = new Array();
+        $('tbody').find('input[name="good_id"]').each(function () {
+            if ($(this).is(':checked')) {
+                ids.push($(this).val());
+            }
+        })
+        if (ids.length == 0) {
+            $.alert("选择要删除的数据");
+            return false;
+        }
+        $.confirm({
+            title: '确定要批量删除吗？',
+            content: '删除的商品将进入回收站！',
+            type: 'red',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: '确定',
+                    btnClass: 'btn-red',
+                    action: function () {
+                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                        $.post("{:url('goods/batch_del')}", {
+                            ids: ids
+                        }, function (res) {
+                            if (res.code != 1) {
+                                $.alert(res.msg);
+                            } else {
+                                $.alert("删除成功");
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 200);
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+
+    }
+
+    $(document).ready(function () {
+        $("input[name='range']").change(function () {
+            var selectedvalue = $("input[name='range']:checked").val();
+            if (selectedvalue == 1) {
+                $('#exportNUm').show();
+            } else {
+                $('#exportNUm').hide();
+            }
+        });
+        $('.dumpCard').click(function () {
+            var id = $(this).data('id');
+            $('#goods_id').val(id);
+            var goodsname = $(this).data('goodsname');
+            $('#goodsname').html(goodsname);
+            $('#exportCard').modal('show')
+        });
+        $('#export').click(function () {
+            var range = $("input[name='range']");
+            var number = $("input[name='number']");
+            if (range == 1 && !number) {
+                swal('请输入导出数量', '', "error");
+                return false;
+            }
+            $('#export_form').submit();
+        });
+    });
+
+</script>
+{/block}

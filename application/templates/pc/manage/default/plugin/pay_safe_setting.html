@@ -1,0 +1,98 @@
+<style>
+    #account_id,#weight{
+        display: none;
+    }
+</style>
+<form class="layui-form layui-box" style='padding:25px 30px 20px 0' action="__SELF__" data-auto="true" method="post">
+
+    <input type="hidden" name="channel_id"  value="{$channel_id|default=''}">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">最低支付金额</label>
+        <div class="layui-input-block">
+            <input type="text" name="min_money" placeholder="最低支付金额，0不限制" autocomplete="off" class="layui-input" value="{$paysafe.min_money|default='0'}">
+            <p class="help-block">最低支付金额，0 不限制。</p>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">最高支付金额</label>
+        <div class="layui-input-block">
+            <input type="text" name="max_money" placeholder="最高支付金额，0不限制" autocomplete="off" class="layui-input" value="{$paysafe.max_money|default='0'}">
+            <p class="help-block">最高支付金额，0 不限制。</p>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">开启随机金额</label>
+        <div class="layui-input-block">
+            <select class="layui-input" style="display:block;" name="open_random">
+                {if !$paysafe||(isset($paysafe) && $paysafe['open_random']=='0')}
+                <option value="0" selected>关闭</option>
+                <option value="1">开启</option>
+                {else/}
+                <option value="0" >关闭</option>
+                <option value="1" selected>开启</option>
+                {/if}
+            </select>
+            <p class="help-block">开启随机金额后将根据随机金额上下区间调整付款金额</p>
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">随机金额方式</label>
+        <div class="layui-input-block">
+            <select class="layui-input" style="display:block;" name="random_type">
+
+                <option value="0" {if !$paysafe||(isset($paysafe) && $paysafe['random_type']=='0')}selected{/if}>随机</option>
+                <option value="1" {if (isset($paysafe) && $paysafe['random_type']=='1')}selected{/if}>只增加</option>
+                <option value="2" {if (isset($paysafe) && $paysafe['random_type']=='2')}selected{/if}>只减少</option>
+
+            </select>
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">金额凑整</label>
+        <div class="layui-input-block">
+            <select class="layui-input" style="display:block;" name="random_rounding">
+
+                <option value="0" {if !$paysafe||(isset($paysafe) && $paysafe['random_rounding']=='0')}selected{/if}>不设置</option>
+                <option value="1" {if (isset($paysafe) && $paysafe['random_rounding']=='1')}selected{/if}>凑整到角（抹掉分）</option>
+
+            </select>
+            <p class="help-block">与随机金额方式配合使用，例如如果只增加就只向上凑整</p>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">随机金额最大波动</label>
+        <div class="layui-input-block">
+            <input type="text" name="random_money" placeholder="最高支付金额，0不限制" autocomplete="off" class="layui-input" value="{$paysafe.random_money|default='0'}">
+            <p class="help-block">将会在原有订单基础上随机增加或减少区间内金额（建议0.15），</p>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">状态</label>
+        <div class="layui-input-block">
+            <select class="layui-input" style="display:block;" name="status">
+                {if !$paysafe||(isset($paysafe) && $paysafe['status']=='0')}
+                <option value="0" selected>关闭</option>
+                <option value="1">开启</option>
+                {else/}
+                <option value="0" >关闭</option>
+                <option value="1" selected>开启</option>
+                {/if}
+            </select>
+        </div>
+    </div>
+
+    <div class="hr-line-dashed"></div>
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type="submit">保存</button>
+        <button class="layui-btn layui-btn-danger" type="button" data-confirm="确定要保存吗？" data-close="">取消</button>
+    </div>
+</form>

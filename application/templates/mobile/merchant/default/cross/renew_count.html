@@ -1,0 +1,68 @@
+{extend name="lite_base" /}
+
+{block name="content"}
+<div class="card mb-0">
+
+    <div class="card-content">
+        <div class="card-body">
+            <form id="form1" class="form form-vertical" target="_blank"  method="post">
+                <div class="form-body">
+                    <div class="row">
+                        <input type="hidden" id="cross_id" class="form-control" name="cross_id"  value="{$cross_id}">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="count">增加的商品数量</label>
+                                <input type="number" id="count" class="form-control" name="count"  value="1" min=1>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <p><span class="badge badge-pill bg-success font-size-14 fee">费用：0元</span></p>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>选择支付方式</label>
+                                <div class="col-md-10 d-flex align-items-center">
+                                    {foreach $userChannels as $k=>$v}
+                                    {if $v.status==1}
+                                    <div class="custom-control custom-radio custom-control-inline mr-4">
+                                        <input {if $k==0}checked{/if} value="{$v.channel_id}" type="radio" id="channel_id{$k}" name="channel_id" class="custom-control-input">
+                                            <label class="custom-control-label" for="channel_id{$k}"> <img style="width:21px" src="{:get_paytype_info($v.paytype)['ico']}" /> {$v.show_name}</label>
+                                    </div>
+                                    {/if}
+                                    {/foreach}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 d-flex justify-content-center">
+                            <button type="submit" class="btn btn-success mr-1 mb-1 btn-submit">立即支付</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+{/block}
+
+{block name="js"}
+<!-- BEGIN: Page JS-->
+
+<script>
+    var default_goods_money = "{:plugconf('cross', 'default_goods_money')}";
+    var default_day_money = "{:plugconf('cross', 'default_day_money')}";
+    $(".fee").text("费用：" + ($("input[name=count]").val() * default_goods_money).toFixed(2) + "元")
+
+    $("input[name=count]").bind("input propertychange", function (event) {
+        var count = $(this).val();
+        $(".fee").text("费用：" + (count * default_goods_money).toFixed(2) + "元")
+    });
+
+   
+</script>
+
+<!-- END: Page JS-->
+{/block}

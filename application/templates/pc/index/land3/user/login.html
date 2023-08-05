@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>{:sysconf('site_name')} - {:sysconf('site_subtitle')}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="keywords" content="{:sysconf('site_keywords')}" />
+        <meta name="description" content="{:sysconf('site_desc')}" />
+        <link rel="shortcut icon" href="{:sysconf('browser_icon')}" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="theme-color" content="#1E78FF">	
+        <meta name="msapplication-navbutton-color" content="#1E78FF">		
+        <meta name="apple-mobile-web-app-status-bar-style" content="#1E78FF">
+        <link rel="stylesheet" type="text/css" href="__RES__/theme/maowang51/css/style.css" media="all">		
+        <link rel="stylesheet" type="text/css" href="__RES__/theme/maowang51/css/responsive.css" media="all">	
+    </head>
+
+    <body>
+        <div class="main-page-wrapper">
+            <!-- ===================================================
+                    Loading Transition
+            ==================================================== -->
+            {include file="./default_her"}
+
+
+            <!-- 
+            =============================================
+                    Sign In
+            ============================================== 
+            -->
+            <div class="user-data-page clearfix d-md-flex">
+                <div class="illustration-wrapper d-none d-md-flex align-items-center">
+                    <div class="illustration-holder">
+                        <img src="__RES__/theme/maowang51/picture/ils_04.svg" alt="" class="illustration m-auto">
+                    </div>
+                </div> <!-- /.illustration-wrapper -->
+
+                <div class="form-wrapper">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="logo"><a href="/" class="d-block"><img src="{:sysconf('site_logo')}" alt="" width="131"></a></div>
+                        <a href="/" class="go-back-button tran3s">平台首页</a>
+                    </div>
+                    <form  class="user-data-form mt-30" role="form" method="post" action="/login/userlogin">
+                        <h2>商户登录中心</h2>
+                        <p class="header-info pt-10 pb-10 lg-pt-5 lg-pb-5">你还没有账户? <a href="/register">注册账户</a></p>
+                        <input type="hidden" name="__token__" value="{$Request.token|htmlentities}" />
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="input-group-meta mb-25">
+                                    <label>用户名</label>
+                                    <input placeholder="请输入用户名" type="text" name="username" id="username" value="" required="">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="input-group-meta mb-25">
+                                    <label>密码</label>
+
+                                    <input type="password" name="password" id="password" class="pass_log_id" value="" placeholder="请输入密码" required="">
+                                    <span class="placeholder_icon"><span class="passVicon"><img src="__RES__/theme/maowang51/picture/icon_40.svg" alt=""></span></span>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="agreement-checkbox d-flex justify-content-between align-items-center">
+                                    <div>
+
+
+                                        <input type="checkbox" name="rememberme" value="1"  id="customCheck1">
+                                        <label  for="customCheck1">记住密码</label>
+
+
+
+                                    </div>
+                                    <a href="/login/retpwd">忘记密码?</a>
+                                </div> <!-- /.agreement-checkbox -->
+                            </div>
+                            <div class="col-12">
+
+
+
+
+
+                                <div class="row mt-30">
+                                    {if plugconf("oauth2", "qq_open_merchant") == 1}
+
+                                    <div class="col-6">
+                                        <div class="input-group-meta mb-20">
+                                            <a href="{:url('user/qqlogin')}" class="mr-2">
+                                                <img src="__STATIC__/theme/landrick/images/qq.svg" width="30" height="30">
+                                                <label>Q Q快捷登录</label></a>
+                                        </div>
+                                    </div>
+                                    {/if}
+                                    {if plugconf("oauth2", "wechat_open_merchant") == 1}
+                                    <div class="col-6">
+                                        <div class="input-group-meta mb-20">
+                                            <a href="{:url('user/wechatlogin')}" class="mr-2">
+                                                <img src="__STATIC__/theme/landrick/images/wx.svg" width="30" height="30">
+                                                <label>微信快捷登录</label></a>
+                                        </div>
+                                    </div>
+
+                                    {/if}
+
+                                </div>
+
+
+
+                                <button type="button" id="login_btn" class="btn-eight w-100 mb-40 lg-mt-30 lg-mb-30">提交登录</button>
+                            </div>
+                            <div class="col-12">
+                                <p class="text-center copyright-text m0">Copyright © {:sysconf('site_info_copyright')} All Rights Reserved</p>
+                            </div>
+                        </div>
+                    </form>
+                </div> <!-- /.form-wrapper -->
+            </div> <!-- /.user-data-page -->
+
+
+
+
+
+            <button class="scroll-top">
+                <i class="bi bi-arrow-up-short"></i>
+            </button>
+
+
+
+            <script> console.log('\n' + ' %c  by CoCo https://coco.0v7.cn/' + '\n\n\n', "color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;");
+
+            </script>
+            <!-- Optional JavaScript _____________________________  -->
+
+            <!-- jQuery first, then Bootstrap JS -->
+            <!-- jQuery -->
+            <script src="__RES__/theme/maowang51/js/jquery.min.js"></script>
+            <!-- Bootstrap JS -->
+            <script src="__RES__/theme/maowang51/js/bootstrap.bundle.min.js"></script>
+            <!-- AOS js -->
+            <script src="__RES__/theme/maowang51/js/aos.js"></script>
+            <!-- Slick Slider -->
+            <script src="__RES__/theme/maowang51/js/slick.min.js"></script>
+            <!-- js Counter -->
+            <script src="__RES__/theme/maowang51/js/jquery.counterup.min.js"></script>
+            <script src="__RES__/theme/maowang51/js/jquery.waypoints.min.js"></script>
+            <!-- Fancybox -->
+            <script src="__RES__/theme/maowang51/js/jquery.fancybox.min.js"></script>
+            <!-- isotop -->
+            <script src="__RES__/theme/maowang51/js/isotope.pkgd.min.js"></script>
+
+            <!-- Theme js -->
+            <script src="__RES__/theme/maowang51/js/theme.js"></script>
+
+
+            <script src="/static/app/js/layer.js"></script>
+            <script>
+                $('#login_btn').click(function () {
+                    if ($('#username').val() == '') {
+                        layer.msg('请输入用户名');
+                        return false;
+                    }
+                    if ($('#password').val() == '') {
+                        layer.msg('请输入密码');
+                        return false;
+                    }
+                    var loading = '';
+                    $.ajax({
+                        type: 'post',
+                        url: '/index/user/doLogin',
+                        dataType: "json",
+                        data: $("form").serialize(),
+                        beforeSend: function (xhr) {
+                            loading = layer.load()
+                        },
+                        success: function (res) {
+                            layer.close(loading);
+                            if (res.code == 1) {
+                                layer.msg('恭喜您，登录成功！', {icon: 6, time: 1000});
+                                window.location.href = '/merchant';
+                            } else {
+                                layer.msg(res.msg, {icon: 6, time: 1000});
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            layer.close(loading);
+                            layer.msg('请刷新页面重试');
+                        }
+                    });
+                })
+                $(document).keyup(function (event) {
+                    if (event.keyCode == 13) {
+                        $("#login_btn").trigger("click");
+                    }
+                })
+            </script>
+
+        </div> 
+    </body>
+</html>

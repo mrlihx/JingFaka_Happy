@@ -1,0 +1,251 @@
+{extend name="base"}
+{block name="content"}
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row mb-2">
+                            <div class="col-sm-auto">
+                                <form class="form-inline" role="form" action="" method="get">
+                                    <div class="form-group">
+                                        <select  name="cate_id" class="form-control select2">
+                                            <option value="" {if $Think.get.cate_id=='' }selected{/if}>全部分类 </option>
+                                            {foreach $categorys as $v}
+                                            <option value="{$v.id|htmlentities}" {if $Think.get.cate_id==$v.id}selected{/if}>{$v.name} </option>
+                                            {/foreach}
+                                        </select>
+                                    </div>
+                                    <div class="form-group ml-1">
+                                        <input name="name" type="text" class="form-control" placeholder="商品名" value="{$Think.get.name|default=''|htmlentities}">
+                                    </div>
+
+                                    <button type="submit" class="btn btn-light waves-effect waves-light ml-1"><i class="bx bx-search mr-1"></i>搜索</button>
+                                </form>
+                            </div>
+                            <div class="col-sm-auto">
+                                <button onclick="batch_del()" class="btn btn-danger" ><i class="bx bx-trash mr-1"></i>批量删除</button>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th> 
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="select_all">
+                                                <label class="custom-control-label" for="select_all"></label>
+                                            </div>
+                                        </th>
+                                        <th>店铺名称</th>
+                                        <th>商品分类</th>
+                                        <th>商品名称</th>
+                                        <th>上级商品名称</th>
+                                        <th>售价</th>
+                                        <th>成本价</th>
+                                        <th>库存</th>
+                                        <th>上下架</th>
+                                        <th>创建时间</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {foreach $goodsList as $k=> $v}
+                                    <tr>
+                                        <td>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input select-checkbox" id="checkbox{$k}" name="good_id" value="{$v.id|htmlentities}">
+                                                <label class="custom-control-label" for="checkbox{$k}"></label>
+                                            </div>
+                                        </td>
+                                        <td>{$v.pgoods.user.shop_name}     <a href="//wpa.qq.com/msgrd?v=3&uin={$v.pgoods.user.qq}&Site=" target="_blank"><i class="iconfont icon-qq-white"></i>咨询客服</a>
+                                        
+                                            <a href="{:url('agent/poolGoods',['type'=>1,'key'=>$v.pgoods.user.agent_key])}" target="_blank"><i class="iconfont icon-qq-white"></i>店铺直达</a>
+                                        </td>
+                                        <td>{$v.category.name|default="未分类"}</td>
+                                        <td>{$v.name}</td>
+                                        <td>{$v.pgoods.name}</td>
+                                        <td>{$v.price}元</td>
+                                        <td>{$v.cost_price}元</td>
+                                        <td>
+                                            {if $v->cards_stock_count > 0}
+                                            {$v->cards_stock_count}张
+                                            {else}
+                                            <span class="text-danger">断货</span>
+                                            {/if}
+                                        </td>
+                                        <td>
+                                            <div class="custom-control custom-switch  mb-3" dir="ltr">
+                                                <input onchange="change_status(this, '{$v.id}')"  {if $v.status==1}checked{/if} type="checkbox" class="custom-control-input" id="customSwitchsizemd{$k}">
+                                                       <label class="custom-control-label" for="customSwitchsizemd{$k}"></label>
+                                            </div>
+                                        </td>
+                                        <td>{$v.create_at|date="Y-m-d H:i:s",###}</td>
+                                        <td>
+                                            <div class="btn-group btn-group-sm" role="group" aria-label="Basic group">
+                                                <button  onclick="$.x_show('商品链接', '{:url(\'agent/link\',[\'id\'=>$v.id])}', 560)"  class="btn btn-light waves-effect waves-light text-primary">链接</button>
+                                                <a href="{:url('agent/edit',['id'=>$v.id])}" class="btn btn-light waves-effect waves-light text-primary">编辑</a>
+                                                <button onclick="del(this, '{$v.id}')" class="btn btn-light waves-effect waves-light text-danger">删除</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {/foreach}
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <nav aria-label="...">
+                            {$page}
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- container-fluid -->
+</div>
+
+{/block}
+{block name="js"}
+
+<script>
+    $('#select_all').click(function () {
+        if ($(this).is(':checked')) {
+            $('tbody').find('.select-checkbox').each(function () {
+                $(this).prop("checked", true)
+            })
+        } else {
+            $('tbody').find('.select-checkbox').each(function () {
+                $(this).prop("checked", false)
+            })
+        }
+    });
+
+
+    function change_status(obj, id) {
+        var status = $(obj).prop('checked');
+        if (status) {
+            status = 1;
+        } else {
+            status = 0;
+        }
+        $.post("{:url('agent/changeStatus')}", {
+            id: id,
+            status: status
+        }, function (res) {
+            if (res.code != 1) {
+                $.alert(res.msg);
+                $(obj).prop('checked', false);
+                return false;
+            }
+            if (status == 1) {
+                $(obj).prop('checked', true);
+            } else {
+                $(obj).prop('checked', false);
+            }
+        });
+    }
+
+
+    function del(obj, id)
+    {
+        $.confirm({
+            title: '确定删除吗？',
+            content: '确定要删除此代理商品吗！',
+            type: 'red',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: '确定',
+                    btnClass: 'btn-red',
+                    action: function () {
+                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                        $.post("{:url('agent/del')}", {
+                            id: id
+                        }, function (res) {
+                            if (res.code != 1) {
+                                $.alert(res.msg);
+                            } else {
+                                $.alert("删除成功");
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 200);
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+    }
+
+
+
+    function batch_del() {
+        var ids = new Array();
+        $('tbody').find('input[name="good_id"]').each(function () {
+            if ($(this).is(':checked')) {
+                ids.push($(this).val());
+            }
+        })
+        if (ids.length == 0) {
+            $.alert("选择要删除的数据");
+            return false;
+        }
+        $.confirm({
+            title: '提示！',
+            content: '确定要批量删除代理商品吗？',
+            type: 'red',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: '确定',
+                    btnClass: 'btn-red',
+                    action: function () {
+                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                        $.post("{:url('agent/batch_del')}", {
+                            ids: ids
+                        }, function (res) {
+                            if (res.code != 1) {
+                                $.alert("删除失败");
+                            } else {
+                                $.alert("删除成功");
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 200);
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+    }
+
+</script>
+
+{/block}

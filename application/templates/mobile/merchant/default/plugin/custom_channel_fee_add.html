@@ -1,0 +1,52 @@
+{extend name="lite_base"}
+
+{block name="content"}
+<div class="container my-3">
+    <!-- Timeline Content-->
+    <div class="card">
+        <div class="card-body">
+            <form id="form1" class="form form-vertical" target="_blank"  method="post">
+                <div class="form-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="form-label" for="money">充值金额（{:plugconf('custompay','fee_limit')}元起充）</label>
+                                <input type="text" id="money" class="form-control" name="money"  value="1">
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="form-label">选择支付方式</label>
+                                <div class="col-md-10 d-flex align-items-center">
+                                    {foreach $userChannels as $k=>$v}
+                                    {if $v.status==1}
+                                    <div class="custom-control custom-radio custom-control-inline mr-4">
+                                        <input {if $k==0}checked{/if} value="{$v.channel_id}" type="radio" id="channel_id{$k}" name="channel_id" class="custom-control-input">
+                                            <label class="custom-control-label" for="channel_id{$k}"> <img style="width:21px" src="{:get_paytype_info($v.paytype)['ico']}" /> {$v.show_name}</label>
+                                    </div>
+                                    {/if}
+                                    {/foreach}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 d-flex justify-content-center">
+                            <button type="submit" class="btn btn-success mr-1 mb-1 btn-submit">立即充值</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+{/block}
+
+{block name="js"}
+<script>
+
+</script>
+
+{/block}

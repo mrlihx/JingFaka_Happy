@@ -1,0 +1,91 @@
+{extend name="base"}
+
+
+{block name="content"}
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row mb-2">
+                            <div class="col-sm-12">
+
+                                <form class="form-inline" role="form" action="" method="get">
+                                    <div class="form-group">
+                                        <select name="type" class="form-control select2">
+                                            <option value="0" {if $Think.get.type=='0'}selected{/if}>订单编号搜索</option>
+                                            <option value="1" {if $Think.get.type=='1'}selected{/if}>商品名称搜索</option>
+                                            <option value="2" {if $Think.get.type=='2'}selected{/if}>联系方式搜索</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group ml-1">
+                                        <input class="form-control"  type="text" name="keywords" value="{$Think.get.keywords|htmlentities}" placeholder="请输入关键字">
+                                    </div>
+                                    <div class="form-group ml-1">
+                                        <input class="form-control input-daterange-datepicker"  type="text" name="date_range" value="{:urldecode($Think.get.date_range)}" placeholder="点击选择查询日期">
+                                    </div>
+                                    <button type="submit" class="btn btn-light waves-effect waves-light ml-1"><i class="bx bx-search mr-1"></i>搜索</button>
+                                </form>
+                            </div>
+                        </div>
+
+
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>买家</th>
+                                        <th>购买次数</th>
+                                        <th>付款总额</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {foreach $orders as $v}
+                                    <tr>
+                                        <th>{$v.contact}</th>
+                                        <td>{$v.times}</td>
+                                        <td>{$v.money}</td>
+                                    </tr>
+                                    {/foreach}
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <nav aria-label="...">
+                            {$page}
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- container-fluid -->
+</div>
+
+{/block}
+{block name="js"}
+<script>
+
+</script>
+{/block}

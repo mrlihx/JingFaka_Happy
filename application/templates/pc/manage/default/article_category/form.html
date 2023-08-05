@@ -1,0 +1,53 @@
+<form class="layui-form layui-box" style='padding:25px 30px 20px 0' action="__SELF__"  data-auto="true" method="post">
+
+    <!-- <div class="layui-form-item">
+        <label class="layui-form-label">上级分类</label>
+        <div class="layui-input-block">
+            <select class="layui-input" style="display:block;" name="pid" required>
+                <option value="0">==设为顶级==</option>
+                {foreach $categorys as $v}
+                {if !isset($category) || $v.id!==$category.id}
+                <option value="{$v.id}">{$v.name}</option>
+                {/if}
+                {/foreach}
+            </select>
+        </div>
+    </div> -->
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">分类名</label>
+        <div class="layui-input-block">
+            <input type="text" name="name" value="{$category.name|default=''}" required="required" title="请输入分类名" placeholder="请输入分类名" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">别名</label>
+        <div class="layui-input-block">
+            <input type="text" name="alias" value="{$category.alias|default=''}" title="请输入别名" placeholder="请输入别名" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">分类备注</label>
+        <div class="layui-input-block">
+            <input type="text" name="remark" value="{$category.remark|default=''}" title="请输入分类备注" placeholder="请输入分类备注" class="layui-input">
+        </div>
+    </div>
+
+    <div class="hr-line-dashed"></div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label"></label>
+        <input type="hidden" name="cate_id" value="{$category.id|default='0'}">
+        <button class="layui-btn" type="submit">保存分类</button>
+    </div>
+
+</form>
+
+<script>
+    // layui.use('form', function(){
+    //     var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+    //     form.render();
+    // });
+</script>

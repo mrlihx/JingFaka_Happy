@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="__RES__/app/theme/default/css/bootstrap-reboot.min.css">
+        <link rel="stylesheet" href="__RES__/app/theme/default/css/bootstrap-grid.css">
+        <link rel="stylesheet" href="__RES__/app/theme/default/css/pc_qrcode.css">
+        <title>收银台 - {:sysconf('site_name')}</title>
+        <meta name="keywords" content="{:sysconf('site_keywords')}" />
+        <meta name="description" content="{:sysconf('site_desc')}" />
+        <link rel="shortcut icon" href="{:sysconf('browser_icon')}" />
+        <style>
+            .paybtn{
+                display: inline-block;
+                width: 119px;
+                line-height: 35px;
+                font-weight: 700;
+                font-size: 14px;
+                border-radius: 19px;
+                text-align: center;
+                position: relative;
+                -webkit-box-shadow: 0 5px 6px 0 rgba(73,105,230,.22);
+                box-shadow: 0 5px 6px 0 rgba(73,105,230,.22);
+                background: -webkit-gradient(linear,left bottom,left top,from(#2a62ff),to(#4e7dff));
+                background: linear-gradient(0deg,#2a62ff,#4e7dff);
+                color: #fff;
+            } 
+            .paybtn:hover {
+                color: #fff;
+                text-decoration: none;
+            }
+        </style>
+    </head>
+    <body>
+
+        <header class="header">
+            <div class="header__wrap">
+                <div class="container">
+                    <div class="row ">
+                        <div class="col-12">
+                            <div class="header__content d-flex justify-content-between">
+                                <div class='header__logo d-flex align-items-center'>         
+                                    <svg t="1610806307396" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6171" width="26" height="26"><path d="M1024 199.18v410.38c0 110-89.54 199.18-200 199.18H200c-110.46 0-200-89.18-200-199.18V199.18C0 89.17 89.54 0 200 0h624c110.46 0 200 89.17 200 199.18z m-553.95 317v46.72q0.9 19.32 12 28.75t30.9 9.43q40.14 0 41.95-38.18v-47.58l86.6 0.45q11.73-0.9 18.49-8.76t7.67-19.54a33.48 33.48 0 0 0-7.67-19.32q-6.77-8.09-18.49-9h-86.6v-27.4l86.15-0.45q11.73-0.9 18.72-9a33.26 33.26 0 0 0 7.89-19.76q-0.9-11.23-7.67-18.42t-18.49-8.09h-66.3l69.91-113.2q9-11.68 9-24.71a50.37 50.37 0 0 0-4.28-15.27 24.48 24.48 0 0 0-7.22-9 27.29 27.29 0 0 0-9.92-4.49 74.75 74.75 0 0 0-12.4-1.8 43.43 43.43 0 0 0-19.4 7.19 54.51 54.51 0 0 0-14 13.48l-75.34 125.83L443 229.18A65.48 65.48 0 0 0 429 215a36.39 36.39 0 0 0-19.4-7.41q-18.49 2.25-25.26 10.11t-9 20.44a36.94 36.94 0 0 0 3.61 18.19 67.53 67.53 0 0 0 8.57 13.7l60.44 106H383q-12.18 0.9-18.72 8.09t-7.89 18.42q1.35 11.68 7.89 19.32t18.72 8.56l87.05 0.45v28.3H383q-12.18 0.9-18.72 8.09t-7.89 18.42a43.81 43.81 0 0 0 7.89 20.44q6.54 9.21 18.72 10.11h87.05z" fill="#4375ff" p-id="6172"></path><path d="M264.96 903.6m60.2 0l373.67 0q60.2 0 60.2 60.2l0 0q0 60.2-60.2 60.2l-373.67 0q-60.2 0-60.2-60.2l0 0q0-60.2 60.2-60.2Z" fill="#4375ff" p-id="6173"></path></svg>
+
+                                    <span class="ml-2">收银台</span>
+                                </div>
+                                <a href="/orderquery" class="header__order">
+                                    <svg  class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"  width="18" height="18"><path d="M455.253333 657.92c117.76 0 213.333333-95.573333 213.333334-213.333333s-95.573333-213.333333-213.333334-213.333334-213.333333 95.573333-213.333333 213.333334 95.573333 213.333333 213.333333 213.333333z m229.76-22.4l169.813334 169.813333c16.64 16.64 16.64 43.733333 0 60.373334-16.64 16.64-43.733333 16.64-60.373334 0l-172.8-172.8c-47.573333 32-104.746667 50.56-166.4 50.56-164.906667 0-298.666667-133.76-298.666666-298.666667s133.76-298.666667 298.666666-298.666667 298.666667 133.76 298.666667 298.666667c0 72.32-25.813333 138.88-68.906667 190.72z"  fill="#ffffff"></path></svg>
+                                    <span>订单查询</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <section class='section details__section section--first  section--last'>
+            <div class='container'>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="time">
+                            <span>请在<p></p>分钟内点击支付完成支付 </span> 
+                        </div>
+
+                        <div class="order">
+                            <span>订单号：{$order.trade_no}</span> 
+                            <span data-clipboard-text="{$order.trade_no}" class="copy" id="clipboard_order">复制</span>
+                        </div>
+
+                        <div class="goods_name">
+                            <span>{$order.goods_name}</span> 
+                            {if isset($order.quantity)}<span>x{$order.quantity}</span>{/if}
+                        </div>
+
+                        <div class="pay_type mt-4">
+                            <img src="{$order.channel.paytypes.ico}" /> 
+                            <span>{$order.channel.show_name}</span>
+                        </div>
+
+                        <div class="price mt-4">
+                            <span>{$order.total_price}</span> 
+                            <span>元</span>
+                        </div>
+
+                        {if $order.total_price-$order.real_price>0}
+                        <p class="mt-2" style="color:#3259ff;font-size: 13px">风控随机增加{$order.total_price-$order.real_price}元</p>
+                        {elseif $order.total_price-$order.real_price<0}
+                        <p class="mt-2" style="color:#3259ff;font-size: 13px">风控随机减少{$order.real_price-$order.total_price}元</p>
+                        {/if}
+
+                        <div class="shanxinzha">
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAACiElEQVR4nO2a0XHDIAyGGcEjZISMkBE6QkfICNmgI3QEj+ARMoIegJ9Hj9A+WNy1vcbItrCcHN8drwYJ6UcWONdoNBqNRqNRESLqvPeXGOMNwAeAAcAdwMjjDqBPKX3GGG/e+4v1mjeTjU4pfbKRXytGH0J4t7ZlEUTUAbgCoJVGPxpXa9uKeO8vHM6ahv8cdMiI4F3vKxr+d9yJqLO22znnXAjhXCHcJWMMIZxNjeeQXytwWuPNxPgQwvsBjLdxAof9UuNHAEM+50MIZyLqiKjj771hOj2GNU7YLR1Y8JYo/QjgulS02BmLHLyLMEKu9mOM8bZ1UVw9Sp0waNn5Lxym0l1Xy8slKVetTlgQ+veU0kl7/pTSSTj/qD23c06ck1XPZt6EYiTEGG8WE6uG/SO49ihuhGoUCnP/Q23CAhJhVNUCgfLvcwQxHJFUWFO/22TqOSeAK9H6YigJ/xqqX4I3pn4aCNS/bvExv7bZ1FSJTG5pHSr8M4I02K4DAgG0+R11oiNxe3SiUH1ZNiUEOrBdCEsngIUAZvZywGwFaN2bK2yQigMOmwK8vjmNUtGAYc4B1rc4/Jf47+6rrA3TVdZcnplfWHC/IEfCCGBQi0yBA3Rq7qMCQSlsLYRVkfQCDnldpUmpHFY5bo6MoOY2/SeojrQXZ30kVgXCpqhlaVydQtmZB72sEyRaoFqFHZHSv8GfsVuneDeEHdlf0fBydQLX3lIH/CqbAVz59djJ2o5NCG9oJIMwvRE8Wdu0GEUn5JLa9s3PGpQfST3nn+WKVyMPBdPalk1g+wvR53ZABsvf9+RhdstUBXaE+E3Ry1aPzk2dJb7X7zE1WnOq6PbwGo1Go9FoNIR8A0fjmlx859ePAAAAAElFTkSuQmCC"> 
+                            <span>正在检测付款状态 <p>1</p> 次</span>
+                        </div>
+
+                        <a href="{$pay_url}" target="_blank" class="paybtn">
+                            <span>立即支付</span>
+                        </a> 
+
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <script src="__RES__/app/theme/default/js/jquery-3.5.1.min.js"></script>
+        <script src="__RES__/app/js/clipboard.js"></script>
+        <script src="__RES__/app/layer/layer.js"></script>
+
+        <script>
+            var maxtime = 600 - (parseInt('{:time()-$order.create_at}'));
+            var timer = setInterval("CountDown()", 1000);
+            var check = setInterval("CheckStatus()", 2500);
+            function CountDown() {
+                if (maxtime >= 0) {
+                    minutes = Math.floor(maxtime / 60);
+                    seconds = Math.floor(maxtime % 60);
+                    msg = PrefixZero(minutes, 2) + ":" + PrefixZero(seconds, 2);
+                    $('.time p').text(msg);
+                    --maxtime;
+                } else {
+                    clearInterval(timer);
+                    clearInterval(check);
+                    $('.time span').text("支付超时，请重新选择商品支付 ");
+                    $('.pay_cs').show();
+                    $('.shanxinzha').hide();
+                    $('.paybtn').hide();
+                }
+            }
+            var i = 0;
+            function CheckStatus()
+            {
+                i++;
+                $('.shanxinzha p').text(i);
+                $.ajax({
+                    url: "{:url('pay/check_order_status')}",
+                    type: 'post',
+                    data: {out_trade_no: '{$order.trade_no}'},
+                    success: function (res) {
+                        if (res.code == 1) {
+                            clearInterval(check);
+                            layer.msg('恭喜您，付款成功。');
+                            setTimeout(function () {
+                                window.location.href = res.url;
+                            }, 500);
+                        }
+
+                    }
+                });
+
+            }
+
+            function PrefixZero(num, n) {
+                return (Array(n).join(0) + num).slice(-n);
+            }
+
+
+            $('#clipboard_order').click(function () {
+                var clipboard = new ClipboardJS('#clipboard_order');
+                clipboard.on('success', function (e) {
+                    layer.msg("复制成功！");
+                });
+                clipboard.on('error', function (e) {
+                    layer.msg("复制失败！");
+                });
+            });
+        </script>
+    </body>
+</html>

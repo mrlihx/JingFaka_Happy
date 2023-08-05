@@ -1,0 +1,419 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- CSS -->
+        <link rel="stylesheet" href="__RES__/app/theme/default/css/bootstrap-reboot.min.css">
+        <link rel="stylesheet" href="__RES__/app/theme/default/css/bootstrap-grid.css">
+        <link rel="stylesheet" href="__RES__/app/theme/default/css/pc_main.css?v=1">
+        <title>{if condition="$shop['shop_name']"}{$shop.shop_name} - {/if}{:sysconf('site_name')}</title>
+        <meta name="keywords" content="{:sysconf('site_keywords')}" />
+        <meta name="description" content="{:sysconf('site_desc')}" />
+        <link rel="shortcut icon" href="{:sysconf('browser_icon')}" />
+
+        <link href="__RES__/app/css/nyro.css" rel="stylesheet" type="text/css">
+        <script src="__RES__/app/js/jquery.min.js"></script>
+        <script src="__RES__/app/js/nyro.js"></script>
+        <script src="__RES__/app/theme/default/js/bootstrap.bundle.min.js"></script>
+        <script src="__RES__/app/layer/layer.js"></script>
+        <script src="__RES__/app/theme/default/js/woodyapp.js?_v={:date('YmdHi')}"></script>
+        <script>
+            var user_popup_message = '';
+            var is_display = '0';
+            var userid = "{$shop.id}";
+            var cateid = 0;
+            var static_url = '__PUBLIC__';
+            var dis_pwd_content = '<div style="padding:10px;color:#cc3333;line-height:24px"><p style="float:left;font-size:14px;font-weight:bold;color:blue;">访问密码：</p><div style="float:right; font-size:14px; padding-left:20px;"><a href="#" style="color:#0064ff;text-decoration:none;display:inline-block;{if isset($goods)}display:none;{/if}background:url(__RES__/app/images/x.png) left no-repeat;padding-left:15px;" class="nyroModalClose" onclick="closeNyro()">关闭</a></div><p style="clear:both;font-size:12px;font-weight:bold;color:red;"><input type="password" name="pwdforbuy" class="input" maxlength="20"> <input type="submit"  onclick="verify_pwdforbuy()" id="verify_pwdforbuy" style="font-size:12px;padding:3px 3px" value="验证密码"> <span id="verify_pwdforbuy_msg" style="display:none"><img src="__RES__/app/images/load.gif"> 正在验证...</span><ul><li>1.本商品购买设置了安全密码</li><li>2.只有成功验证密码后才能继续购买</li></ul></p></div>';
+            var goodid = "{$goods.id|default=0}";
+            var is_contact_limit = '{$goods.contact_limit|default=""}';
+            var is_contact_limit_default = '{$goods.contact_limit|default=""}';
+            var limit_quantity_tip = '无法修改购买数量，是因为本商品限制了购买数量。';
+            var notice = "{$shop['shop_notice']}";
+            /* {if !isset($goods)} */
+
+            function closeNyro() {
+                $('[name="goodid"]').val('');
+                $('[name="goodid"]').change();
+            }
+
+            /* {/if} */
+
+        </script>
+    </head>
+    <body>
+        <style>
+            .bangz_box {
+                position: fixed;
+                left: 0;
+                top: 100px;
+                z-index: 45;
+            }
+            .bangz_box .item {
+                padding: 10px;
+                background: linear-gradient(45deg,#3798f7,#3369ff);
+                box-shadow: 0 0.093333rem 0.133333rem 0 rgb(54 144 248 / 23%);
+                border-radius: 0 7px 7px 0;
+                margin-top: 25px;
+            }
+            .bangz_box .item:first-child {
+                background: linear-gradient(45deg,#fd0b27,#ff4a4a);
+                box-shadow: 0 7px 10px 0 rgb(255 113 19 / 23%);
+            }
+            .bangz_box .item:nth-child(2) {
+                background: linear-gradient(45deg,#f737e8,#3369ff);
+                box-shadow: 0 0.093333rem 0.133333rem 0 rgb(54 144 248 / 23%);
+            }
+            .bangz_box .item a{
+                text-decoration: none;
+                text-align: center;
+                color:#FFF
+            }
+            .bangz_box span{
+                margin-left: 5px;
+                font-weight: 600;
+                font-size: 14px;
+                color: #fff;
+            }
+        </style>
+        <div class="bangz_box">
+            <div class="item">
+                <a href="/complaint">
+                    <span>投诉商家</span>
+                </a>
+            </div>
+            <div class="item">
+                <a href="//wpa.qq.com/msgrd?v=1&uin={$shop.qq}&site=&menu=yes" target="_blank"> 
+                    <span>卖家客服</span>
+                </a>
+            </div>
+
+            {if $shop.qqqun!=""}
+            <div class="item">
+                <a href="{$shop.qqqun|htmlspecialchars_decode|removeXSS}" target="_blank"> 
+                    <span>商家Q群</span>
+                </a>
+            </div>
+            {/if}
+        </div> 
+        <!-- header -->
+        <header class="header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 d-flex align-items-center justify-content-between">
+
+                        <div class="header_left d-flex align-items-center">
+
+                            <div class="header_logo">
+                                <img src="__RES__/app/theme/default/img/shop_img.png"  alt="LOGO">
+                                {$shop.shop_name}
+                            </div>
+
+                            <div class="online-btn"><svg class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6561" data-spm-anchor-id="a313x.7781069.0.i5" width="16" height="16"><path d="M877.714286 170.666667v585.142857H575.463619l-282.526476 196.851809V755.809524H146.285714V170.666667h731.428572z m-97.52381 97.523809H243.809524v390.095238h146.651428l-0.024381 107.568762L544.841143 658.285714H780.190476V268.190476z m-365.714286 121.904762a73.142857 73.142857 0 1 1 0 146.285714 73.142857 73.142857 0 0 1 0-146.285714z m195.04762 0a73.142857 73.142857 0 1 1 0 146.285714 73.142857 73.142857 0 0 1 0-146.285714z" p-id="6562" fill="#ffffff"></path></svg><span>客服QQ：{$shop.qq}</span></div>
+
+                            {if $shop.website!=""}
+                            <span class="header_splt"></span>
+                            <a class="header_link" href="{$shop.website}">官方网站</a>
+                            {/if}
+
+                        </div>
+
+                        <div class="header_right d-flex align-items-center">
+                            <a class="header_button" href="/orderquery">
+                                <svg  class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"  width="22" height="22"><path d="M455.253333 657.92c117.76 0 213.333333-95.573333 213.333334-213.333333s-95.573333-213.333333-213.333334-213.333334-213.333333 95.573333-213.333333 213.333334 95.573333 213.333333 213.333333 213.333333z m229.76-22.4l169.813334 169.813333c16.64 16.64 16.64 43.733333 0 60.373334-16.64 16.64-43.733333 16.64-60.373334 0l-172.8-172.8c-47.573333 32-104.746667 50.56-166.4 50.56-164.906667 0-298.666667-133.76-298.666666-298.666667s133.76-298.666667 298.666666-298.666667 298.666667 133.76 298.666667 298.666667c0 72.32-25.813333 138.88-68.906667 190.72z"  fill="#ffffff"></path></svg>
+                                <span>订单查询</span>
+                            </a>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- end header -->
+
+
+        <form name="p" id="payform" method="post" action="/pay/order" target="_blank" class="nyroModal" autocomplete="off">
+
+            <section class='section details__section section--first  section--last'>
+                <div class='container'>
+
+                    {block name="content"}{/block}
+
+                    <hr  class="mt-4">
+                    <div class="row">
+
+                        <div class="col-12  mt-1" style='display: none' id='isdiscount_span'>
+                            <div class="d-flex mt-0 align-items-center">
+                                <svg t="1600050599385" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="61310" width="18" height="18"><path d="M988.908308 614.006154c-58.525538-29.538462-76.091077-53.208615-76.091077-100.509539 0-44.386462 17.565538-68.017231 76.091077-100.548923 32.177231-20.716308 35.091692-38.439385 35.091692-68.01723v-168.566154C1024 123.116308 980.125538 78.769231 927.468308 78.769231H96.492308C43.874462 78.769231 0 123.116308 0 176.364308v168.566154c0 26.584615 2.914462 50.254769 35.091692 68.01723 23.433846 11.815385 76.091077 41.353846 76.091077 100.548923 0 65.024-38.045538 85.740308-73.137231 97.555693H35.052308C2.914462 631.768615 0 664.300308 0 679.069538v168.566154C0 900.883692 43.874462 945.230769 96.531692 945.230769H927.507692C980.125538 945.230769 1024 900.883692 1024 847.635692v-168.566154c0-32.531692-11.697231-44.347077-35.091692-65.063384z" fill="#7FBCFF" p-id="61311"></path><path d="M670.444308 530.116923c17.723077 0 32.571077 14.572308 32.571077 32.019692a32.571077 32.571077 0 0 1-32.571077 31.980308h-124.376616v122.171077a32.571077 32.571077 0 0 1-65.142154 0v-122.171077H356.548923a32.571077 32.571077 0 0 1-32.571077-31.980308c0-17.447385 14.808615-32.019692 32.571077-32.019692h124.376615v-75.618461H347.648A32.571077 32.571077 0 0 1 315.076923 422.478769c0-17.447385 14.808615-31.980308 32.571077-31.980307h97.713231L341.740308 288.689231a31.232 31.232 0 0 1 0-43.638154 32.610462 32.610462 0 0 1 44.425846 0l127.330461 125.085538 127.330462-125.085538a32.610462 32.610462 0 0 1 44.386461 0c11.854769 11.618462 11.854769 31.980308 0 43.638154l-103.620923 101.809231h94.759385c17.762462 0 32.571077 14.572308 32.571077 31.980307a32.571077 32.571077 0 0 1-32.571077 32.019693h-133.277538v75.618461h127.369846z" fill="#007AFF" p-id="61312"></path></svg>
+                                <h2 class="section__title_2 mb-0 ml-2">
+                                    商品优惠
+                                </h2>
+                            </div>
+                            <div class="text_box sale_message">
+                                <span>
+                                </span>
+                            </div>
+                        </div>
+
+
+                        <div class="col-12  mt-2">
+                            <div class="d-flex mt-0 align-items-center">
+                                <svg t="1600050312195" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="42426" width="18" height="18"><path d="M392.7 958.9c22.5 0 40.7-18.2 40.7-40.7V630.9c0-22.5-18.2-40.7-40.7-40.7H105.4c-22.5 0-40.7 18.2-40.7 40.7v287.4c0 22.5 18.2 40.7 40.7 40.7h287.3zM860 958.9c22.5 0 40.7-18.2 40.7-40.7V630.9c0-22.5-18.2-40.7-40.7-40.7H572.7c-22.5 0-40.7 18.2-40.7 40.7v287.4c0 22.5 18.2 40.7 40.7 40.7H860zM392.7 492c22.5 0 40.7-18.2 40.7-40.7V164c0-22.5-18.2-40.7-40.7-40.7H105.4c-22.5 0-40.7 18.2-40.7 40.7v287.4c0 22.5 18.2 40.7 40.7 40.7h287.3z" fill="#1E94EE" p-id="42427"></path><path d="M948.3 336.4c15.9-15.9 15.9-41.6 0-57.5L745.1 75.7c-15.9-15.9-41.6-15.9-57.5 0L484.4 278.9c-15.9 15.9-15.9 41.6 0 57.5l203.2 203.2c15.9 15.9 41.6 15.9 57.5 0l203.2-203.2z" fill="#B4DCF5" p-id="42428"></path></svg>
+                                <h2 class="section__title_2 mb-0 ml-2">
+                                    商品描述
+                                </h2>
+                            </div>
+                            <div class="text_box mt-3" id="remark">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <hr class="mt-4">
+
+                    <div class="row mt-4">
+                        <div  class="col-12" id="order_box">
+                            <div class="ure_info_box" >
+                                <div class="ure_info_hide">
+                                    <span >填写信息/购买方式</span>
+                                </div> 
+                                <div class="ure_info">
+                                    <div class="ure_info_input_box">
+                                        <div class="ure_info_input_box_hide">
+                                            <p>*</p> 
+                                            <p> 联系方式 </p>
+                                        </div> 
+                                        <div class="input">
+                                            <input name="contact" class='phone_num' type="text" placeholder="[必填]推荐填写QQ号或手机号!" required="">
+                                        </div>
+                                        <div class="msg">
+                                            联系方式特别重要,可用来查询订单 
+                                        </div>
+                                    </div> 
+
+
+                                    <div class="ure_info_input_box d-flex">
+                                        <!--<div class="ure_info_input_box_hide btn-type">-->
+                                        <!--    <div class="sms_btn">-->
+                                        <!--        <label for='is_rev_sms'>-->
+                                        <!--            <input type="checkbox" style="display:none" name="is_rev_sms" value="1" id="is_rev_sms" data-cost="0">短信提醒-->
+                                        <!--        </label>-->
+                                        <!--    </div>-->
+                                        <!--</div> -->
+                                        <div class="ure_info_input_box_hide btn-type">
+                                            <div class="email_btn">
+                                                <label for='isemail'>
+                                                    <input type="checkbox" style="display:none" name="isemail" value="1" id="isemail">邮箱提醒
+                                                </label>
+                                            </div>
+                                        </div> 
+                                        <!--<div class="ure_info_input_box_hide btn-type">-->
+                                        <!--    <div class="coupon_btn" >-->
+                                        <!--        <label for='youhui'>-->
+                                        <!--            <input id="youhui" style="display:none" type="checkbox"  name="youhui">使用优惠券-->
+                                        <!--        </label>-->
+                                        <!--    </div>-->
+                                        <!--</div> -->
+                                    </div>
+
+                                    <div class="ure_info_input_box email_show" style="display:none">
+                                        <div class="input"><input type="text" name="email" placeholder="填写你常用的邮箱地址"></div>
+                                    </div>
+
+                                    <div class="ure_info_input_box youhui_show" id="goodCoupon" style="display:none">
+                                        <div class="input"><input type="text" name="couponcode" placeholder="请填写你的优惠券" onchange="checkCoupon2()"></div>
+                                    </div>
+
+
+                                    <div class="ure_info_input_box"  id="pwdforsearch1" style="display:none">
+                                        <div class="ure_info_input_box_hide">
+                                            <p>*</p> 
+                                            <p> 取卡密码 </p>
+                                        </div> 
+                                        <div class="input">
+                                            <input type="text"  name="pwdforsearch1" placeholder="[必填]请输入取卡密码（6-20位）">
+                                        </div> 
+                                    </div> 
+                                    <div class="ure_info_input_box" id="pwdforsearch2" style="display:none">
+                                        <div class="ure_info_input_box_hide">
+                                            <p></p> 
+                                            <p> 取卡密码 </p>
+                                        </div> 
+                                        <div class="input">
+                                            <input type="text"  onblur="is_pwd_not_need()" name="pwdforsearch2" placeholder="[选填]请输入取卡密码（6-20位）">
+                                        </div> 
+                                    </div> 
+
+                                </div> 
+                                <div class="pay_type">
+                                    <div class="pay_type_hide">
+                                        选择支付方式
+                                    </div> 
+                                    <div class="pay_type_box">
+                                        {foreach $userChannels as $k=>$v}
+                                        {if $v.status==1}
+                                        <div class="pay_type_leng" data-pid='{$v.channel_id}' data-rate="{$v.rate}">
+                                            <img style="width:21px" src="{:get_paytype_info($v.paytype)['ico']}" /> 
+                                            <span>{$v.show_name}</span> 
+                                            <img class="xiadui" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAVCAYAAABc6S4mAAABo0lEQVQ4jbXUP0gcURDH8TOgTbAQi3QK1hbCvNPgn0KEQBqxUAK2aZzZiyKKIoJuSGmKIIiIjQqCRZprBCEWSSESAiEQSMCkUJRACkEL/6H3tVgip7e3t56bhR8sPN6HeTNvN5X6Dw9QIcbbPp+qxHFZoNIpK6LQrtQkij8b5bFT1kVBFGSIusTwZo9aMbZvcAU3SGMieKtHvRg/8nFREI+WB+NukEZR9gtwhbRH14NwMdpFOQzDRcFl6C6/8gzdzjgphouCZOgvDzdeOuUyEg9moOXgk6LkSuIKaWM0Nuz7PHIes3HgmxkYfiy8z6fKGWv3wUVBjJmSeNsY1c74EFEl2S2YXg5dm4/EW4Z4IsqXqCrnsgDw/lPo+mpRPK00iLFzd9OLN+DNBu/ji5DLweef8PRVyAmUbDhuNDnjT1jFX3/B5RUsbcDpOez9hc6RoifcLMDF6HTGUbGWPJ+AnYOgLccn0DMVOeTtW7gzesU4K3U7Oobh4zcYeFfymn7Pb4vF+jrvl92gLR6vE4b/5TAlyrhTft+KsSfBX7IwMVqYl4tr5HDZyKPmZr8AAAAASUVORK5CYII=" alt=""/>
+                                        </div>
+                                        {/if}
+                                        {/foreach}
+                                    </div> 
+                                </div>
+
+                            </div> 
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+            <input type="hidden" name="is_contact_limit" value="{$goods.contact_limit|default=''}">
+            <input type="hidden" name="limit_quantity" value="{$goods.limit_quantity|default=1}">
+            <input type="hidden" name="userid" value="{$shop.id}">
+            <input type="hidden" name="token" value="{$Request.token}">
+            <input type="hidden" name="cardNoLength" value="0">
+            <input type="hidden" name="cardPwdLength" value="0">
+            <input type="hidden" name="is_discount" id="is_discount" value="0">
+            <input type="hidden" name="coupon_ctype" value="0">
+            <input type="hidden" name="coupon_value" value="0">
+            <input type="hidden" name="sms_price" value="0">
+            <input type="hidden" name="paymoney" value="">
+            <input type="hidden" name="danjia" value="">
+            <input type="hidden" name="is_pwdforsearch" id="is_pwdforsearch">
+            <input type="hidden" name="is_coupon" value="">
+            <input type="hidden" name="price" value="0">
+            <input type="hidden" name="kucun" value="0">
+
+            <input type="hidden" name="select_cards" value="">
+
+            <input type="hidden" name="feePayer" value="{$shop.fee_payer|default=1}">
+            <input type="hidden" name="fee_rate" value="{$userChannels[0]['rate']|default=0}">
+            <input type="hidden" name="min_fee" value="{:sysconf('transaction_min_fee')}">
+
+            <input type="hidden" name="rate" value="100">
+            <input type="hidden" name="pid"  value="">
+            <footer >
+                <div class='container'>
+                    <p>{:sysconf('site_info_copyright')}</p>
+                </div>
+            </footer>
+
+
+            <section class='section_buttom'>
+                <div class='container'>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="goods_name">
+                            <svg class="icon" viewBox="0 0 1024 1024"  xmlns="http://www.w3.org/2000/svg" width="28" height="28"><path d="M847.872 734.208L784.384 368.64H239.616l-63.488 365.568c-9.216 51.2 30.72 105.472 81.92 105.472h506.88c52.224 0 92.16-54.272 82.944-105.472zM512 648.192c-71.68 0-130.048-58.368-130.048-130.048 0-6.144 4.096-10.24 10.24-10.24s10.24 4.096 10.24 10.24c0 60.416 49.152 109.568 109.568 109.568s109.568-49.152 109.568-109.568c0-6.144 4.096-10.24 10.24-10.24s10.24 4.096 10.24 10.24c0 71.68-58.368 130.048-130.048 130.048z" fill="#2F8AF5" ></path><path d="M791.552 358.4l-19.456-96.256c-7.168-39.936-46.08-67.584-87.04-67.584H340.992c-40.96 0-74.752 28.672-81.92 68.608L243.712 358.4h547.84z" fill="#83C1FF"></path></svg>
+                            <span></span>
+                        </div>
+
+                        <div class="shuliang_box d-flex align-items-center">
+                            <div class="btn">
+                                <span style="background: rgb(153, 153, 153) none repeat scroll 0% 0%;"></span>
+                            </div> 
+                            <div class="input">
+                                <input name="quantity" onkeyup="changequantity()" type="text" value="1" />
+                            </div> 
+                            <div class="btn">
+                                <span></span> 
+                                <span></span>
+                            </div>
+
+                            <div class="jiage d-flex align-items-center">
+                                <span>支付金额 : </span> 
+                                <span>￥</span> 
+                                <s></s>
+                                <span></span> 
+                            </div>
+                        </div>
+
+
+                        <div class="queding_btn">
+                            <button name="check_pay" class="check_pay" type="submit" id="check_pay">确认支付</button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+        </form>
+
+        <div class="ewm">
+            <div id="qrcode" style="width:150px;height:150px;"></div><br>
+            手机扫码支付
+        </div>
+
+        <script src="__RES__/app/js/qrcode.min.js"></script>
+        <script>
+                                    var qrcode = new QRCode(document.getElementById("qrcode"), {
+                                        text: "{$qrcode}",
+                                        width: 150,
+                                        height: 150,
+                                        colorDark: "#000000",
+                                        colorLight: "#ffffff",
+                                        correctLevel: QRCode.CorrectLevel.H
+                                    });
+        </script>
+        <script src="__RES__/app/theme/default/js/app.js"></script>
+        <link rel="stylesheet" href="__STATIC__/plugs/aplayer/APlayer.min.css">
+        <div id="aplayer"></div>
+        <script src="__STATIC__/plugs/aplayer/APlayer.min.js"></script>
+        <script>
+                                    $.ajax({
+                                        type: 'get',
+                                        url: "{:url('index/resource/musicDetail',['id'=>$shop.music])}",
+                                        dataType: "json",
+                                        success: function (res) {
+
+                                            var audio = [];
+
+                                            if ("{:sysconf('shop_voice')}" != "")
+                                            {
+                                                audio.push({
+                                                    title: '平台语音播报',
+                                                    author: '平台提醒',
+                                                    url: "{:sysconf('shop_voice')}",
+                                                    cover: "{:sysconf('site_logo')}",
+                                                });
+                                            }
+
+                                            if (res.code == 1)
+                                            {
+                                                audio.push({
+                                                    name: res.song,
+                                                    artist: res.singer,
+                                                    url: res.musicLink,
+                                                    cover: res.picture,
+                                                });
+                                            }
+
+                                            if (audio.length > 0)
+                                            {
+                                                const ap = new APlayer({
+                                                    container: document.getElementById('aplayer'),
+                                                    fixed: true,
+                                                    mini: true,
+                                                    autoplay: true,
+                                                    theme: '#FADFA3',
+                                                    loop: 'all',
+                                                    order: 'list',
+                                                    preload: 'auto',
+                                                    volume: 1,
+                                                    mutex: true,
+                                                    listFolded: false,
+                                                    listMaxHeight: 90,
+                                                    audio: audio
+                                                });
+                                            }
+
+                                        }
+                                    });
+        </script>
+    </body>
+</html>

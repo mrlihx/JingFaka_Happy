@@ -1,0 +1,230 @@
+{extend name="base"}
+
+{block name="content"}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+
+                {if $_user->payapi}
+                <div class="card">
+                    <div class="card-body">
+
+                        <h4 class="card-title mb-4">对接参数</h4>
+                        <div class="table-responsive">
+                            <table class="table table-nowrap mb-0">
+                                <tbody>
+                                    <tr>
+                                        <th>商户PID</th>
+                                        <td>
+                                            <b>{$_user->id+10000}</b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>商户秘钥</th>
+                                        <td>
+                                            <b>{$_user->paykey}</b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">API文档</th>
+                                        <td>
+                                            <a href="{:url('plugin/payapiDoc')}" class="btn btn-primary btn-sm waves-effect waves-light"><i class="bx bx-bookmark-minus mr-1"></i>浏览文档</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="row mb-2">
+                            <div class="col-sm-auto">
+                                <form class="form-inline" role="form" action="" method="get">
+                                    <div class="form-group ml-1">
+                                        <input class="form-control" type="text" name="out_trade_no" value="{$Think.get.out_trade_no|htmlentities}" placeholder="商户订单号">
+                                    </div>
+
+                                    <div class="form-group ml-1">
+                                        <input class="form-control" type="text" name="trade_no" value="{$Think.get.trade_no|htmlentities}" placeholder="系统流水号">
+                                    </div>
+
+                                    <div class="form-group ml-1">
+                                        <select name="status" class="form-control select2">
+                                            <option value="" {if $Think.get.status==''}selected{/if}>全部状态</option>
+                                            <option value="1" {if $Think.get.status=='1'}selected{/if}>已付款</option>
+                                            <option value="0" {if $Think.get.status=='0'}selected{/if}>未付款</option>
+                                            <option value="2" {if $Think.get.status=='2'}selected{/if}>已关闭</option>
+                                            <option value="3" {if $Think.get.status=='3'}selected{/if}>已退款</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group ml-1">
+                                        <input class="form-control input-daterange-datepicker"  type="text" name="date_range" value="{:urldecode($Think.get.date_range)}" placeholder="点击选择查询日期">
+                                    </div>
+
+                                    <button type="submit" class="btn btn-light waves-effect waves-light ml-1"><i class="bx bx-search mr-1"></i>搜索</button>
+                                    <input name="submit" type="submit" class="btn btn-light waves-effect waves-light ml-1" value="导出搜索">
+                                </form>
+                            </div>
+                        </div>
+
+
+
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>商户订单号</th>
+                                        <th>系统流水号</th>
+                                        <th>商品名</th>
+                                        <th>金额</th>
+                                        <th>手续费</th>
+                                        <th>网站名称</th>
+                                        <th>状态</th>
+                                        <th>通知状态</th>
+                                        <th>创建时间</th>
+                                        <th>支付成功时间</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {foreach $lists as $k=>$v}
+                                    <tr>
+                                        <th scope="row">   
+                                            {$v.id}
+                                        </th>
+                                        <td>{$v.out_trade_no}</td>
+                                        <td>{$v.trade_no}</td>
+                                        <td>{$v.goods_name}</td>
+                                        <td>{$v.total_price}</td>
+                                        <td>{$v.fee}</td>
+                                        <td>{$v.sitename}</td>
+                                        <td>
+                                            {if $v.status==1}
+                                            <span class="badge badge-pill badge-soft-success font-size-12">{$v.status_text}</span>
+                                            {elseif $v.status==0/}
+                                            <span class="badge badge-pill badge-soft-danger font-size-12">{$v.status_text}</span>
+                                            {else/}
+                                            <span class="badge badge-pill badge-soft-light font-size-12">{$v.status_text}</span>
+                                            {/if}
+                                        </td>
+                                        <td>
+                                            {if $v.notify_status == 1}
+                                            <span class="badge badge-pill badge-soft-success font-size-12">成功</span>
+                                            {else}
+                                            <span class="badge badge-pill badge-soft-danger font-size-12">未成功</span>
+                                            {/if}
+                                            <a href="javascript:void(0);" onclick="repost(this, '{$v.id}')">补发</a>
+                                        </td>
+                                        <td>{$v.create_at|date="Y-m-d H:i:s",###}</td>
+                                        <td>{if $v.success_at==""}-{else/}{$v.success_at|date="Y-m-d H:i:s",###}{/if}</td>
+
+                                    </tr>
+                                    {/foreach}
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <nav aria-label="...">
+                            {$page}
+                        </nav>
+
+                    </div>
+                </div>
+                {else/}
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row justify-content-center mt-lg-5">
+                            <div class="col-xl-5 col-sm-8">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="text-center">
+                                            <div class="row justify-content-center">
+                                                <div class="col-lg-10">
+                                                    <h4 class="mt-4 font-weight-semibold">温馨提示</h4>
+                                                    <p class="text-muted mt-3">{:plugconf('payapi','tip')}</p>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-center mt-5 mb-2">
+                                                <div class="col-sm-6 col-8">
+                                                    <div>
+                                                        <img src="__STATIC__/merchant/default/images/verification-img.png" alt="" class="img-fluid">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {/if}
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+
+
+{/block}
+{block name="js"}
+<script>
+
+    function repost(e, id)
+    {
+        var loading = layer.load(1, {shade: [0.1, '#fff']});
+
+
+        $.ajax({
+            url: "{:url('plugin/payapiRepost')}",
+            type: 'post',
+            data: {id: id},
+            success: function (data) {
+                layer.close(loading);
+                if (data.code == 1) {
+                    layer.msg(data.msg, {time: 1000, icon: 6}, function () {
+                        location.reload();
+                    });
+                } else {
+                    layer.msg(data.msg, {time: 1000, icon: 5});
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                layer.close(loading);
+            }
+        });
+
+    }
+
+
+
+</script>
+{/block}

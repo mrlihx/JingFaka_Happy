@@ -1,0 +1,124 @@
+{extend name="simple_base"}
+
+{block name="content"}
+
+<div class="container">
+    <div class="card">
+        <div class="card-body p-3">
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-pills nav-justified ps-0 scrollspy-indicatiors mb-3" role="tablist">
+                <li >
+                    <a class="nav-link {if $Think.get.from=='1'||$Think.get.from==''}active{/if}" href="{:url('complaint/index',['from'=>1])}">
+                        自营商品投诉
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-link {if $Think.get.from=='2'}active{/if}"  href="{:url('complaint/index',['from'=>2])}">
+                        下级代理投诉
+                    </a>
+                </li>
+
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane active" id="base-1" role="tabpanel">
+                    {foreach $complaints as $v}
+                    <div class="single-search-result mb-3 border-bottom pb-3 order-wrap">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <h6 class="text-truncate mb-0 float-left d-inline">投诉订单:&nbsp;&nbsp;
+                                {if $v.proxy_parent_user_id==$_user.id}
+                                <a href="{:url('agent/proxyorder',['type'=>0,'keywords'=>$v.trade_no])}">{$v.trade_no}</a>
+                                {elseif $v.user_id==$_user.id/}
+                                <a href="{:url('order/index',['type'=>0,'keywords'=>$v.trade_no])}">{$v.trade_no}</a>
+                                {/if}
+                            </h6>
+
+                            {if $v.status==0}
+                            <div class="float-end">
+                                <span class="badge rounded-pill bg-danger">待处理</span>
+                                {if $v.new==1}
+                                <span class="text-danger">新</span>
+                                {/if}
+                            </div>
+                            {elseif $v.status==-1/}
+                            <span class="badge rounded-pill bg-success float-end">已撤诉</span>
+                            {else/}
+                            <span class="badge rounded-pill bg-success float-end">已处理</span>
+                            {/if}
+
+                        </div>
+                        <div class="d-flex align-items-center mt-1 justify-content-between">
+                            <div class="order-wrap-text">
+                                <span>商品名：</span>
+                                <span>    
+                                    {if $v.proxy_parent_user_id==$_user.id}
+                                    {$v.order.proxy.name}
+                                    {elseif $v.user_id==$_user.id/}
+                                    {$v.order.goods_name}
+                                    {/if}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center mt-1 justify-content-between">
+                            <div class="order-wrap-text">
+                                <span>投诉时间：</span>
+                                <span>{$v.create_at|date="Y-m-d H:i:s",###}</span>
+                            </div>
+                            <div class="order-wrap-text">
+                                <span>联系方式：</span>
+                                <span>{$v.mobile}</span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center mt-1 justify-content-between">
+                            <div class="order-wrap-text">
+                                <span>投诉原因：</span>
+                                <span>{$v.type}</span>
+                            </div>
+
+                        </div>
+                        <div class="d-flex align-items-center mt-1 justify-content-between">
+                            <div class="order-wrap-text">
+                                <span>投诉内容：</span>
+                                <span>{$v.desc}</span>
+                            </div>
+                        </div>
+
+                        {if $Think.get.from!='2'}
+                        <div class="d-flex align-items-center mt-1 justify-content-between">
+                            <div class="order-wrap-text">
+                                <span>货源：</span>
+                                <span>{if $v.proxy_parent_user_id==0}-{else/}{$v.parentUser.shop_name}&nbsp;<a href="//wpa.qq.com/msgrd?v=3&uin={$v.parentUser.qq}&Site=" target="_blank"><i class="iconfont icon-qq-white"></i>客服</a>{/if}</span>
+                            </div>
+                        </div>
+                        {/if}
+
+
+                        <div class="goods-warp d-flex align-items-center mt-1 justify-content-end">
+                            <a  href="javascript:void(0);" onclick="$.x_show('投诉详情', '{:url(\'complaint/detail\',[\'id\'=>$v.id])}', '100%');"><span class="goods-warp-btn">查看详情</span></a>
+                        </div>
+
+                    </div>
+                    {/foreach}
+
+
+                    <nav aria-label="Page navigation">
+                        {$page}
+                    </nav>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{/block}
+{block name="js"}
+<script src="__RES__/merchant/default/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+{/block}
+
+

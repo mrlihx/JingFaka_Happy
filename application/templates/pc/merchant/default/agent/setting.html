@@ -1,0 +1,188 @@
+{extend name="base"}
+{block name="css"}
+<link href="__RES__/merchant/default/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+{/block}
+{block name="content"}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">店铺代理设置</h4>
+                        <div class="table-responsive">
+                            <table class="table table-nowrap mb-0">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">代理功能状态</th>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                {if $_user.agent_goods_switch==1}
+                                                <span class="badge badge-pill badge-success font-size-12">已开启</span>
+                                                <button  onclick="agent_key('0', '关闭商品代理功能后,将隐藏供货相关参数 不涉及功能使用，如禁止代理继续售卖请编辑商品关闭代理功能！');" class="btn btn-danger  waves-effect waves-light btn-sm ml-2"><i class="bx bx-error  mr-1"></i>关闭代理功能</button>
+                                                {else/}
+                                                <span class="badge badge-pill badge-soft-danger font-size-12">已关闭</span>
+                                                <button  onclick="agent_key('1', '开启商品代理功能后,将显示出供货相关参数 不涉及功能使用');" class="btn btn-success  waves-effect waves-light btn-sm  ml-2"><i class="bx bx-check-double mr-1"></i>开启代理功能</button>
+                                                {/if}
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                    {if $_user.agent_goods_switch==1}
+                                    <tr>
+                                        <th scope="row">我的店铺对接码</th>
+                                        <td>
+                                            <b>{$_user.agent_key}</b>
+                                            <a href="javascript:;" class="btn btn-primary btn-sm waves-effect waves-light clipboard  ml-2" data-clipboard-text="{$_user.agent_key}">复制对接码</a>
+                                            <button onclick="editagentkey()"  class="btn btn-primary  waves-effect waves-light btn-sm  ml-2">自定义对接码</button>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">成为代理是否需要审核</th>
+                                        <td>
+                                            <div class="custom-control custom-radio custom-control-inline mr-4">
+                                                <input onchange="change_check(this, 0)"  {if $_user.need_check_agent==0}checked{/if} value="0" type="radio" id="need_check_agent0" name="need_check_agent" class="custom-control-input">
+                                                       <label class="custom-control-label" for="need_check_agent0">免审</label>
+                                            </div>
+                                            <div class="custom-control custom-radio custom-control-inline mr-4">
+                                                <input onchange="change_check(this, 1)"  {if $_user.need_check_agent==1}checked{/if} value="1" type="radio" id="need_check_agent1" name="need_check_agent" class="custom-control-input">
+                                                       <label class="custom-control-label" for="need_check_agent1">需要</label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {/if}
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+
+
+{/block}
+{block name="js"}
+<script src="__RES__/app/js/clipboard.js"></script>
+<script src="__RES__/merchant/default/libs/sweetalert2/sweetalert2.min.js"></script>
+<script>
+                                                    var clipboard = new ClipboardJS('.btn');
+                                                    clipboard.on('success', function (e) {
+                                                        layer.msg('复制成功！', {
+                                                            icon: 1
+                                                        });
+                                                    });
+
+                                                    clipboard.on('error', function (e) {
+                                                        layer.msg('复制失败，请手动复制！', {
+                                                            icon: 2
+                                                        });
+                                                    });
+
+
+                                                    function editagentkey()
+                                                    {
+                                                        Swal.fire({
+                                                            title: '请输入自定义对接码',
+                                                            input: 'text',
+                                                            showCancelButton: true,
+                                                            confirmButtonText: '确定',
+                                                            cancelButtonText: '取消',
+                                                            showLoaderOnConfirm: true,
+                                                            confirmButtonColor: "#556ee6",
+                                                            cancelButtonColor: "#f46a6a",
+                                                        }).then(function (res) {
+                                                            if (res.isConfirmed)
+                                                            {
+                                                                var loading = layer.load(1, {shade: [0.1, '#fff']});
+                                                                $.post("{:url('user/editAgentkey')}", {agent_key: res.value}, function (res) {
+                                                                    layer.closeAll();
+                                                                    if (res.code != 1) {
+                                                                        $.alert(res.msg);
+                                                                    } else {
+                                                                        $.alert("设置成功");
+                                                                        setTimeout(function () {
+                                                                            location.reload();
+                                                                        }, 200);
+                                                                    }
+                                                                });
+                                                            }
+
+                                                        })
+                                                    }
+
+                                                    function agent_key(status, msg) {
+
+                                                        $.confirm({
+                                                            title: '温馨提示',
+                                                            content: msg,
+                                                            type: 'red',
+                                                            typeAnimated: true,
+                                                            buttons: {
+                                                                tryAgain: {
+                                                                    text: '确定',
+                                                                    btnClass: 'btn-red',
+                                                                    action: function () {
+                                                                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                                                                        $.post("{:url('agent/agentSwitch')}", {status: status}, function (res) {
+                                                                            if (res.code != 1) {
+                                                                                $.alert("设置失败");
+                                                                            } else {
+                                                                                $.alert("设置成功");
+                                                                                setTimeout(function () {
+                                                                                    location.reload();
+                                                                                }, 200);
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                },
+                                                                cancel: {
+                                                                    text: '取消',
+                                                                }
+                                                            }
+                                                        });
+                                                    }
+                                                    function change_check(obj, status)
+                                                    {
+
+                                                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                                                        $.post("{:url('agent/changeAgetneedcheck')}", {status: status}, function (res) {
+                                                            layer.close(loading);
+                                                            if (res.code != 1) {
+                                                                $.alert("设置失败");
+                                                            } else {
+                                                                $.alert("设置成功");
+                                                                setTimeout(function () {
+                                                                    location.reload();
+                                                                }, 200);
+                                                            }
+                                                        });
+                                                    }
+</script>
+{/block}

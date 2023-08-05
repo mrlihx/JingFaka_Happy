@@ -1,0 +1,73 @@
+{extend name='./content'}
+
+{block name="content"}
+
+
+<form onsubmit="return false;" data-auto="" method="POST" data-listen="true" novalidate="novalidate">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th class="text-center">ID</th>
+                <th class="text-center">IP</th>
+                <th class="text-center">风控时间</th>
+                <th class="text-center">状态</th>
+                <th class="text-center">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {foreach $list as $v}
+            <tr>
+                <td class="text-center">{$v.id}</td>
+                <td class="text-center">{$v.ip}</td>
+                <td class='text-center'>{$v.create_at|date="Y-m-d H:i:s",###}</td>
+                <td class="text-center"><span style="color:red"><i class="glyphicon glyphicon-remove"></i>封禁中</span></td>
+                <td class="text-center">
+                    <div class="layui-btn-group">
+                        <button type="button" class="layui-btn layui-btn-small layui-btn-danger" onclick="del('{$v.id}')">删除</button>
+                    </div>
+                </td>
+            </tr>
+            {/foreach}
+        </tbody>
+    </table>
+</form>
+{$page}
+
+<script>
+
+    function del(id)
+    {
+        layer.confirm('是否确认删除项？', function (index) {
+            var loading = '';
+            $.ajax({
+                url: "{:url('paySafeIpblack',['act'=>'del'])}",
+                data: {
+                    id: id,
+                },
+                type: 'post',
+                dataType: 'json',
+                beforeSend: function () {
+                    loading = layer.load();
+                },
+                success: function (res) {
+                    layer.close(loading);
+                    if (res.code == 1) {
+                        layer.msg(res.msg, {icon: 1, time: 1000});
+                        location.reload();
+                    } else {
+                        layer.msg(res.msg, {time: 2000, icon: 'error'});
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    layer.close(loading);
+                    layer.msg('连接错误');
+                }
+            });
+        });
+
+    }
+
+
+
+</script>
+{/block}

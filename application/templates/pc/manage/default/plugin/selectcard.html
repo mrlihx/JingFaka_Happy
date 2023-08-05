@@ -1,0 +1,60 @@
+{extend name="./content"}
+
+{block name="content"}
+<form onsubmit="return false;" action="__SELF__" data-auto="true" method="post" class='form-horizontal' >
+    <div class="form-group">
+        <label class="col-sm-2 control-label">功能是否开启</label>
+        <div class='col-sm-8'>
+            <select name="status" class="layui-input" disabled="disabled" style="background: #e9e9e9">
+                <option value="0" {if plugconf('selectcard','status')=='0'}selected{/if}>关闭</option>
+                <option value="1" {if plugconf('selectcard','status')=='1'}selected{/if}>开启</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="hr-line-dashed"></div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">限制最低选号费（元）</label>
+        <div class="col-sm-8">
+            <input type="text"  name="selectcard_fee_min"  autocomplete="off" class="layui-input"  value="{:plugconf('selectcard','selectcard_fee_min')}">
+            <p class="help-block">限制商家设置的最低选号费</p>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">选号费平台分成（%）</label>
+        <div class="col-sm-8">
+            <input type="text"  name="selectcard_fee_platform_rate"  autocomplete="off" class="layui-input"  value="{:plugconf('selectcard','selectcard_fee_platform_rate')}">
+            <p class="help-block">与商家分成相加必须等于100</p>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">选号费商家分成（%）</label>
+        <div class="col-sm-8">
+            <input type="text"  name="selectcard_fee_merchant_rate"  autocomplete="off" class="layui-input"  value="{:plugconf('selectcard','selectcard_fee_merchant_rate')}">
+            <p class="help-block">与平台分成相加必须等于100</p>
+        </div>
+    </div>
+
+
+
+    <div class="col-sm-12">
+        <div class="layui-form-item text-center">
+            <button class="layui-btn" type="submit">保存配置</button>
+        </div>
+    </div>
+
+</form>
+
+
+
+<script>
+    layui.use('form', function () {
+        var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+        form.render();
+    });
+
+</script>
+{/block}

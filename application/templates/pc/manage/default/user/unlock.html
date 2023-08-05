@@ -1,0 +1,27 @@
+{extend name='./content'}
+{block name='content'}
+<!-- 表单搜索 开始 -->
+<form class="layui-form layui-form-pane form-search" action="__SELF__" data-auto="true" method="post" style="padding: 50px;">
+    <div class="layui-form-item layui-block">
+        <label class="layui-form-label">会员类型</label>
+        <div class="layui-input-inline">
+            <select class="layui-form-item layui-inline" name="usertype" style="display: block;height: 32px;">
+                <option value="0">普通用户</option>
+                <option value="1">管理员</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="layui-form-item layui-block">
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-inline">
+            <input name="login_name" value="" placeholder="用户名" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <button class="layui-btn layui-btn-primary"> 解 锁</button>
+    </div>
+</form>
+{/block}

@@ -1,0 +1,342 @@
+{extend name="lite_base" /}
+
+{block name="css"}
+<style>
+    .main {
+        width: 100%;
+    }
+
+    .clock-area{
+        margin: .5rem;
+        display: flex;
+    }
+    .clock-area img{
+        width:55px;
+        height:55px;
+    }
+
+    .clock {
+        margin-left: 20px;
+        display: inline-block;
+    }
+
+    #clock {
+        font-size: 1rem;
+    }
+
+    .text-orange{
+        color: #ef7e85;
+    }
+
+    .title {
+        font-size: 1.1rem;
+        font-weight: bold;
+    }
+
+    .ts-main{
+        padding: 0 1rem;
+    }
+
+    .complaint-box {
+        color: #888;
+    }
+
+    .complaint-box a {
+        color: blue;
+    }
+
+    .complaint-box li {
+        margin: .5rem 0;
+    }
+
+    #message-box {
+        width: 100%;
+        max-height: 20rem;
+        overflow: auto;
+        margin: 1rem auto;
+    }
+
+    .message{
+        margin: 2rem 0;
+    }
+
+    .message-title {
+        margin: 1rem 0;
+    }
+
+    .message-content {
+        line-height: 30px;
+        margin: 0;
+        padding: 5px 10px   ;
+        border: 1px solid #eee;
+        border-radius: 4px;
+        background: rgb(245,245,245);
+    }
+
+    #content {
+        width: 100%;
+        resize: none;
+        border: 1px solid #eee;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    .tag {
+        padding: 2px 5px;
+        color: white;
+        border-radius: 4px;
+    }
+
+    .tag-dl {
+        background:#093;
+    }
+    .tag-sj {
+        background: #0099da;
+    }
+
+    .tag-mj {
+        background: #838eea;
+    }
+
+    .tag-admin {
+        background: #ef7e85;
+    }
+
+
+</style>
+
+{/block}
+{block name="content"}
+<div class="card mb-0">
+
+    <div class="card-content">
+        <div class="card-body">
+
+
+            <div class="main">
+                <div class="ts_title">
+                    <div class="clock-area ">
+                        <img src="__RES__/app/images/clock.png" alt="">
+                        <div class="clock">
+                            <p class="mb-2">投诉沟通倒计时</p>
+                            <!-- {if condition="$complaint.expire_at > time() && $complaint.status == 0"} -->
+                            <p id="clock" class="text-orange"></p>
+                            <!-- {elseif condition="$complaint.status == 0"/} -->
+                            <p class="text-orange">举证期已结束，请等待管理员进行裁决</p>
+                            <!-- {else} -->
+                            <p class="text-orange">已裁决</p>
+                            <!-- {/if} -->
+                        </div>
+                    </div>
+                </div>
+                <div class="ts-main">
+                    <p class="title">投诉信息</p>
+                    <hr>
+                    <!-- {if condition="!empty($complaint)"} -->
+                    <ul class="complaint-box">
+                        <li>订单编号 ：{$complaint->trade_no}</li>
+                        <li>举报原因 ：{$complaint->type}</li>
+                        <li>联系方式 ：<a target="_blank" href="//wpa.qq.com/msgrd?v=3&amp;uin={$complaint->qq}&amp;site=qq&amp;menu=yes">{$complaint->qq}</a>
+                        </li>
+                        <li>手机号 ：{$complaint->mobile}</li>
+                        <li>投诉时间 ：{$complaint.create_at|date='Y-m-d H:i:s', ###}</li>
+                        <li>投诉状态 ：
+                            <!-- {if condition="$complaint->status == 0"} -->
+                            处理中
+                            <!-- {elseif condition="$complaint->status == -1"} -->
+                            已撤销
+                            <!-- {else/} -->
+                            已处理
+                            <!-- {/if} -->
+                        </li>
+                        <!-- {if condition="$complaint->status != -1"} -->
+                        <li>投诉结果 ：
+                            <!-- {if condition="$complaint->result == 0"} -->
+                            处理中
+                            <!-- {elseif condition="$complaint->result == 1"} -->
+                            商家胜诉
+                            <!-- {else/} -->
+                            买家胜诉
+                            <!-- {/if} -->
+                        </li>
+                        <!-- {/if} -->
+                    </ul>
+
+                    <hr>
+
+                    <div id="message-box">
+                        <!-- {foreach name="messages" item="message" key="k"} -->
+                        <div class="message">
+                            <div class="message-title">
+                                <!-- {if condition="$message['from'] neq 0"} -->
+                                <!-- {if condition="$message['from'] eq $complaint->proxy_parent_user_id "} -->
+                                <span class="tag tag-dl">商家</span>
+                                <!-- {else /} -->
+
+                                <!-- {if condition="$message['from'] eq 1"} -->
+                                <span class="tag tag-admin">管理员</span>
+                                <!-- {else /} -->
+                                <!-- {if condition="$complaint->proxy_parent_user_id neq 0"} -->
+                                <span class="tag tag-sj">代理</span>
+                                <!-- {else /} -->
+                                <span class="tag tag-dl">商家</span>
+                                <!-- {/if} --> 
+                                <!-- {/if} --> 
+
+                                <!-- {/if} --> 
+                                <!-- {else /} -->
+                                <span class="tag tag-mj">买家</span>
+                                <!-- {/if} -->
+                                {$message.create_at|date='Y-m-d H:i:s', ###}
+                            </div>
+                            <!-- {if $message.content_type == 0} -->
+                            <span class="message-content">{$message.content}</span>
+                            <!-- {elseif $message.content_type == 1} -->
+                            <div class="message-content">
+                                <img style="max-width: 80%;height: auto;display: inline-block;" src="{$message.content}" alt="举证图片">
+                            </div>
+                            <!-- {/if} -->
+                        </div>
+                        <!-- {if condition="$k == 0"} -->
+                        <div class="message">
+                            <div class="message-title">
+                                <span class="tag tag-admin">管理员</span>
+                                {$message.create_at|date='Y-m-d H:i:s', ###}
+                            </div>
+                            <span class="message-content">我们已收到您的投诉请求,并通知了商家,请耐心等待</span>
+                        </div>
+                        <!-- {/if} -->
+                        <!-- {/foreach} -->
+                    </div>
+
+                    <hr>
+
+                    <!-- {if $complaint.status == 0} -->
+                    <div class="content-box">
+                        <textarea name="content" id="content" cols="30" rows="6" placeholder="请输入沟通内容"></textarea>
+                    </div>
+
+                    <div class="text-center mt-2">
+                        
+                        {if ($order.is_proxy==0&&$order.user_id==session("merchant.user"))||($order.is_proxy==1&&$order.proxy_parent_user_id==session("merchant.user"))}
+                          <button  class="btn btn-light  btn-sm" onclick="agree()">同意买家诉求</button>
+                        {/if}
+                        
+                        <button class="btn btn-light waves-effect waves-light btn-sm"  onclick="javascript:$('#file_content').click();" type="button">上传图片</button>
+                        <button  class="btn btn-primary  btn-sm" onclick="send()">发送内容</button>
+                        <input id="file_content" type="file" name="image" style="display: none;" /> <br>
+                    </div>
+
+                    <!-- {/if} -->
+                    <!-- {else /} -->
+                    <script>
+                        $.alert('投诉不存在，请重新查询');
+                        location.href = '/';
+                    </script>
+                    <!-- {/if} -->
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+{/block}
+
+{block name="js"}
+<!-- {if condition="!empty($complaint)"} -->
+<script src="__RES__/app/js/jquery.countdown.min.js"></script>
+<script>
+                        function send() {
+                            var content = $('#content').val();
+                            if (content.length === 0) {
+                                $.alert('请输入沟通内容');
+                                return false;
+                            }
+
+                            $.post("{:url('complaint/send')}", {
+                                'content': content,
+                                'id': "{$complaint->id}"
+                            }, function (data) {
+                                var extra = {
+                                    icon: 1
+                                }
+                                if (data.code !=1) {
+                                    extra = {
+                                        icon: 2
+                                    }
+                                }
+                                layer.msg(data.msg, extra, function () {
+                                    location.reload();
+                                })
+                            }, 'json');
+                        }
+
+
+                        function agree() {
+                            layer.confirm('确认同意买家诉求吗？', {
+                                btn: ['确定', '取消']//按钮
+                            }, function (index) {
+                                $.post("{:url('complaint/agree')}", {
+                                    'status': 1,
+                                    'id': "{$complaint->id}"
+                                }, function (data) {
+                                    var extra = {
+                                        icon: 1
+                                    }
+                                    if (data.code != 1) {
+                                        extra = {
+                                            icon: 2
+                                        }
+                                    }
+                                    layer.msg(data.msg, extra, function () {
+                                        location.reload();
+                                    })
+                                }, 'json');
+                            });
+                            return false;
+                        }
+
+                        $(function () {
+                            $('#clock').countdown('{$complaint->expire_at|date="Y/m/d H:i:s",###}', function (event) {
+                                $(this).html(event.strftime('%d天%H小时%M分%S秒'));
+                            });
+
+                            $('#message-box').scrollTop($('#message-box')[0].scrollHeight);
+
+                            $('#file_content').change(function (e) {
+                                var url = "{:url('complaint/sendImg')}";
+                                var that = this;
+                                var files = e.target.files
+                                var formData = new FormData();
+                                formData.append('image', files[0]);
+                                formData.append('id', "{$complaint->id}");
+                                debugger
+                                $.ajax({
+                                    url: url,
+                                    data: formData,
+                                    dataType: 'json',
+                                    type: 'POST',
+                                    processData: false,
+                                    contentType: false,
+                                    success: function (data) {
+                                        debugger
+                                        var extra = {
+                                            icon: 1
+                                        }
+                                        if (data.code != 1) {
+                                            extra = {
+                                                icon: 2
+                                            }
+                                        }
+                                        layer.msg(data.msg, extra, function () {
+                                            location.reload();
+                                        })
+                                    }
+                                })
+                            })
+                        })
+</script>
+<!-- {/if} -->
+{/block}

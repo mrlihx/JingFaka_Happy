@@ -1,0 +1,489 @@
+{extend name="lite_base" /}
+
+{block name="content"}
+<div class="card mb-0">
+
+    <div class="card-content">
+        <div class="card-body">
+            <form id="form1" class="form form-vertical">
+                <div class="form-body">
+                    <div class="row">
+                        <input type="hidden" name="id" value="{$cross.id|default=''}">
+
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="name">名称备注</label>
+                                <input type="text" id="name" class="form-control" name="name" placeholder="请输入备注，方便区分"  value="{$cross.name|default=''}">
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="protocol">平台协议</label>
+                                <select class="form-control " id="protocol" name="protocol">
+                                    <option value="http" {if isset($cross) && 'http'==$cross['protocol']}selected{/if}>http</option>
+                                    <option value="https" {if isset($cross) && 'https'==$cross['protocol']}selected{/if}>https</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="platform">平台类型</label>
+                                <select class="form-control " id="platform" name="platform">
+                                    <!--                                    <option value="xingouka" {if isset($cross) && 'xingouka'==$cross['platform']}selected{/if}>新购卡</option>
+                                                                            <option value="xingoukaapi" {if isset($cross) && 'xingoukaapi'==$cross['platform']}selected{/if}>新购卡API(推荐)</option>
+                                                                            <option value="chuangxinshou" {if isset($cross) && 'chuangxinshou'==$cross['platform']}selected{/if}>创新售</option>
+                                                                            <option value="chuangxinshouapi" {if isset($cross) && 'chuangxinshouapi'==$cross['platform']}selected{/if}>创新售API(推荐)</option>
+                                                                            <option value="kayixiao" {if isset($cross) && 'kayixiao'==$cross['platform']}selected{/if}>卡易销</option>
+                                                                        
+                                                                            <option value="xinkashou" {if isset($cross) && 'xinkashou'==$cross['platform']}selected{/if}>新卡售</option>
+                                                                            <option value="kayixin" {if isset($cross) && 'kayixin'==$cross['platform']}selected{/if}>卡易信API</option>
+                                                                            <option value="ukashou" {if isset($cross) && 'ukashou'==$cross['platform']}selected{/if}>U卡售</option>-->
+                                    <option value="kaduoduo" {if isset($cross) && 'kaduoduo'==$cross['platform']}selected{/if}>卡多多</option>
+                                    <option value="kaduoduoapi" {if isset($cross) && 'kaduoduoapi'==$cross['platform']}selected{/if}>卡多多API(推荐)</option>
+                                    <option value="taoka" {if isset($cross) && 'taoka'==$cross['platform']}selected{/if}>淘卡</option>
+                                    <option value="taokaapi" {if isset($cross) && 'taokaapi'==$cross['platform']}selected{/if}>淘卡API(推荐)</option>
+                                    <option value="xinkagou" {if isset($cross) && 'xinkagou'==$cross['platform']}selected{/if}>新卡购</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="domain">域名</label>
+                                <input type="text" id="domain" class="form-control" name="domain" placeholder="不带http://，例如www.baidu.com" value="{$cross.domain|default=''}">
+                            </div>
+                        </div>
+
+
+
+                        <!--卡多多START-->
+                        <div class="col-12 block-box block-kaduoduo" {if isset($cross) && $cross.platform!='kaduoduo' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="username">卡多多用户名</label>
+                                <input type="text" id="username" class="form-control" name="params[username]" value="{$cross.params->username|default=''}" {if isset($cross) && $cross.platform!='kaduoduo' }disabled="disabled"{/if}  placeholder="请输入用户名">
+                            </div>
+                        </div>
+                        <div class="col-12 block-box block-kaduoduo" {if isset($cross) && $cross.platform!='kaduoduo' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="password">卡多多密码</label>
+                                <input type="password" id="password" class="form-control" name="params[password]" value="{$cross.params->password|default=''}" {if isset($cross) && $cross.platform!='kaduoduo' }disabled="disabled"{/if}  placeholder="请输入密码">
+                            </div>
+                        </div>
+                        <div class="col-12 block-box block-kaduoduo" {if isset($cross) && $cross.platform!='kaduoduo' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="trade_password">卡多多交易密码</label>
+                                <input type="password" id="trade_password" class="form-control" name="params[trade_password]" value="{$cross.params->trade_password|default=''}" {if isset($cross) && $cross.platform!='kaduoduo' }disabled="disabled"{/if}  placeholder="请输入交易密码">
+                            </div>
+                        </div>
+                        <!--卡多多END-->
+
+
+
+                        <!--卡多多APISTART-->
+                        <div class="col-12 block-box block-kaduoduoapi" {if !isset($cross) || $cross.platform!='kaduoduoapi' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="uid">卡多多客户编号</label>
+                                <input type="text" id="uid" class="form-control" name="params[uid]" value="{$cross.params->uid|default=''}" {if !isset($cross) || $cross.platform!='kaduoduoapi' }disabled="disabled"{/if}  placeholder="请输入客户编号">
+                            </div>
+                        </div>
+                        <div class="col-12 block-box block-kaduoduoapi" {if !isset($cross) || $cross.platform!='kaduoduoapi' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="key">卡多多接口秘钥（联系卡多多站长获取）</label>
+                                <input type="text" id="key" class="form-control" name="params[key]" value="{$cross.params->key|default=''}" {if !isset($cross) || $cross.platform!='kaduoduoapi' }disabled="disabled"{/if}  placeholder="请输入接口秘钥">
+                            </div>
+                        </div>
+                        <div class="col-12 block-box block-kaduoduoapi" {if !isset($cross) || $cross.platform!='kaduoduoapi' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="trade_password">卡多多交易密码</label>
+                                <input type="password" id="trade_password" class="form-control" name="params[trade_password]" value="{$cross.params->trade_password|default=''}" {if !isset($cross) || $cross.platform!='kaduoduoapi' }disabled="disabled"{/if}  placeholder="请输入交易密码">
+                            </div>
+                        </div>
+                        <!--卡多多APIEND-->
+
+                        <!--淘卡START-->
+                        <div class="col-12 block-box block-taoka" {if isset($cross) && $cross.platform!='taoka' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="username">淘卡用户名</label>
+                                <input type="text" id="username" class="form-control" name="params[username]" value="{$cross.params->username|default=''}" {if isset($cross) && $cross.platform!='taoka' }disabled="disabled"{/if}  placeholder="请输入用户名">
+                            </div>
+                        </div>
+                        <div class="col-12 block-box block-taoka" {if isset($cross) && $cross.platform!='taoka' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="password">淘卡密码</label>
+                                <input type="password" id="password" class="form-control" name="params[password]" value="{$cross.params->password|default=''}" {if isset($cross) && $cross.platform!='taoka' }disabled="disabled"{/if}  placeholder="请输入密码">
+                            </div>
+                        </div>
+                        <div class="col-12 block-box block-taoka" {if isset($cross) && $cross.platform!='taoka' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="trade_password">淘卡交易密码</label>
+                                <input type="password" id="trade_password" class="form-control" name="params[trade_password]" value="{$cross.params->trade_password|default=''}" {if isset($cross) && $cross.platform!='taoka' }disabled="disabled"{/if}  placeholder="请输入交易密码">
+                            </div>
+                        </div>
+                        <!--淘卡END-->
+
+
+
+                        <!--淘卡APISTART-->
+                        <div class="col-12 block-box block-taokaapi" {if !isset($cross) || $cross.platform!='taokaapi' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="uid">淘卡客户编号</label>
+                                <input type="text" id="uid" class="form-control" name="params[uid]" value="{$cross.params->uid|default=''}" {if !isset($cross) || $cross.platform!='taokaapi' }disabled="disabled"{/if}  placeholder="请输入客户编号">
+                            </div>
+                        </div>
+                        <div class="col-12 block-box block-taokaapi" {if !isset($cross) || $cross.platform!='taokaapi' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="key">淘卡接口秘钥（联系淘卡站长获取）</label>
+                                <input type="text" id="key" class="form-control" name="params[key]" value="{$cross.params->key|default=''}" {if !isset($cross) || $cross.platform!='taokaapi' }disabled="disabled"{/if}  placeholder="请输入接口秘钥">
+                            </div>
+                        </div>
+                        <div class="col-12 block-box block-taokaapi" {if !isset($cross) || $cross.platform!='taokaapi' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="trade_password">淘卡交易密码</label>
+                                <input type="password" id="trade_password" class="form-control" name="params[trade_password]" value="{$cross.params->trade_password|default=''}" {if !isset($cross) || $cross.platform!='taokaapi' }disabled="disabled"{/if}  placeholder="请输入交易密码">
+                            </div>
+                        </div>
+                        <!--淘卡APIEND-->
+
+
+                        <!--新购卡START-->
+                        <div class="col-12 block-box block-xingouka" {if isset($cross) && $cross.platform!='xingouka' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="username">新购卡用户名</label>
+                                <input type="text" id="username" class="form-control" name="params[username]" value="{$cross.params->username|default=''}" {if isset($cross) && $cross.platform!='xingouka' }disabled="disabled"{/if}  placeholder="请输入用户名">
+                            </div>
+                        </div>
+                        <div class="col-12 block-box block-xingouka" {if isset($cross) && $cross.platform!='xingouka' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="password">新购卡密码</label>
+                                <input type="password" id="password" class="form-control" name="params[password]" value="{$cross.params->password|default=''}" {if isset($cross) && $cross.platform!='xingouka' }disabled="disabled"{/if}  placeholder="请输入密码">
+                            </div>
+                        </div>
+                        <div class="col-12 block-box block-xingouka" {if isset($cross) && $cross.platform!='xingouka' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="trade_password">新购卡交易密码</label>
+                                <input type="password" id="trade_password" class="form-control" name="params[trade_password]" value="{$cross.params->trade_password|default=''}" {if isset($cross) && $cross.platform!='xingouka' }disabled="disabled"{/if}  placeholder="请输入交易密码">
+                            </div>
+                        </div>
+                        <!--新购卡END-->
+
+
+                        <!--新购卡APISTART-->
+                        <div class="col-12 block-box block-xingoukaapi" {if !isset($cross) || $cross.platform!='xingoukaapi' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="uid">新购卡客户编号</label>
+                                <input type="text" id="uid" class="form-control" name="params[uid]" value="{$cross.params->uid|default=''}" {if !isset($cross) || $cross.platform!='xingoukaapi' }disabled="disabled"{/if}  placeholder="请输入客户编号">
+                            </div>
+                        </div>
+                        <div class="col-12 block-box block-xingoukaapi" {if !isset($cross) || $cross.platform!='xingoukaapi' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="key">新购卡接口秘钥（联系新购卡站长获取）</label>
+                                <input type="text" id="key" class="form-control" name="params[key]" value="{$cross.params->key|default=''}" {if !isset($cross) || $cross.platform!='xingoukaapi' }disabled="disabled"{/if}  placeholder="请输入接口秘钥">
+                            </div>
+                        </div>
+                        <div class="col-12 block-box block-xingoukaapi" {if !isset($cross) || $cross.platform!='xingoukaapi' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="trade_password">新购卡交易密码</label>
+                                <input type="password" id="trade_password" class="form-control" name="params[trade_password]" value="{$cross.params->trade_password|default=''}" {if !isset($cross) || $cross.platform!='xingoukaapi' }disabled="disabled"{/if}  placeholder="请输入交易密码">
+                            </div>
+                        </div>
+                        <!--新购卡APIEND-->
+
+
+
+                        <!--创新售START-->
+                        <div class="col-12 block-box block-chuangxinshou" {if isset($cross) && $cross.platform!='chuangxinshou' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="username">创新售用户名</label>
+                                <input type="text" id="username" class="form-control" name="params[username]" value="{$cross.params->username|default=''}" {if isset($cross) && $cross.platform!='chuangxinshou' }disabled="disabled"{/if}  placeholder="请输入用户名">
+                            </div>
+                        </div>
+                        <div class="col-12 block-box block-chuangxinshou" {if isset($cross) && $cross.platform!='chuangxinshou' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="password">创新售密码</label>
+                                <input type="password" id="password" class="form-control" name="params[password]" value="{$cross.params->password|default=''}" {if isset($cross) && $cross.platform!='chuangxinshou' }disabled="disabled"{/if}  placeholder="请输入密码">
+                            </div>
+                        </div>
+                        <div class="col-12 block-box block-chuangxinshou" {if isset($cross) && $cross.platform!='chuangxinshou' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="trade_password">创新售交易密码</label>
+                                <input type="password" id="trade_password" class="form-control" name="params[trade_password]" value="{$cross.params->trade_password|default=''}" {if isset($cross) && $cross.platform!='chuangxinshou' }disabled="disabled"{/if}  placeholder="请输入交易密码">
+                            </div>
+                        </div>
+                        <!--创新售END-->
+
+
+                        <!--创新售APISTART-->
+                        <div class="col-12 block-box block-chuangxinshouapi" {if !isset($cross) || $cross.platform!='chuangxinshouapi' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="uid">创新售客户编号</label>
+                                <input type="text" id="uid" class="form-control" name="params[uid]" value="{$cross.params->uid|default=''}" {if !isset($cross) || $cross.platform!='chuangxinshouapi' }disabled="disabled"{/if}  placeholder="请输入客户编号">
+                            </div>
+                        </div>
+                        <div class="col-12 block-box block-chuangxinshouapi" {if !isset($cross) || $cross.platform!='chuangxinshouapi' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="key">创新售接口秘钥（联系创新售站长获取）</label>
+                                <input type="text" id="key" class="form-control" name="params[key]" value="{$cross.params->key|default=''}" {if !isset($cross) || $cross.platform!='chuangxinshouapi' }disabled="disabled"{/if}  placeholder="请输入接口秘钥">
+                            </div>
+                        </div>
+                        <div class="col-12 block-box block-chuangxinshouapi" {if !isset($cross) || $cross.platform!='chuangxinshouapi' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="trade_password">创新售交易密码</label>
+                                <input type="password" id="trade_password" class="form-control" name="params[trade_password]" value="{$cross.params->trade_password|default=''}" {if !isset($cross) || $cross.platform!='chuangxinshouapi' }disabled="disabled"{/if}  placeholder="请输入交易密码">
+                            </div>
+                        </div>
+                        <!--创新售APIEND-->
+
+
+                        <!--新卡购START-->
+                        <div class="col-12 block-box block-xinkagou" {if !isset($cross) || $cross.platform!='xinkagou' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="username">新卡购用户名</label>
+                                <input type="text" id="username" class="form-control" name="params[username]" value="{$cross.params->username|default=''}" {if !isset($cross) || $cross.platform!='xinkagou' }disabled="disabled"{/if}  placeholder="请输入用户名">
+                            </div>
+                        </div>
+                        <div class="col-12 block-box block-xinkagou" {if !isset($cross) || $cross.platform!='xinkagou' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="password">新卡购密码</label>
+                                <input type="password" id="password" class="form-control" name="params[password]" value="{$cross.params->password|default=''}" {if !isset($cross) || $cross.platform!='xinkagou' }disabled="disabled"{/if}  placeholder="请输入密码">
+                            </div>
+                        </div>
+                        <div class="col-12 block-box block-xinkagou" {if !isset($cross) || $cross.platform!='xinkagou' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="trade_password">新卡购交易密码</label>
+                                <input type="password" id="trade_password" class="form-control" name="params[trade_password]" value="{$cross.params->trade_password|default=''}" {if !isset($cross) || $cross.platform!='xinkagou' }disabled="disabled"{/if}  placeholder="请输入交易密码">
+                            </div>
+                        </div>
+                        <!--新卡购END-->
+
+
+                        <!--新卡售START-->
+                        <div class="col-12 block-box block-xinkashou" {if !isset($cross) || $cross.platform!='xinkashou' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="username">新卡售用户名</label>
+                                <input type="text" id="username" class="form-control" name="params[username]" value="{$cross.params->username|default=''}" {if !isset($cross) || $cross.platform!='xinkashou' }disabled="disabled"{/if}  placeholder="请输入用户名">
+                            </div>
+                        </div>
+                        <div class="col-12 block-box block-xinkashou" {if !isset($cross) || $cross.platform!='xinkashou' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="password">新卡售密码</label>
+                                <input type="password" id="password" class="form-control" name="params[password]" value="{$cross.params->password|default=''}" {if !isset($cross) || $cross.platform!='xinkashou' }disabled="disabled"{/if}  placeholder="请输入密码">
+                            </div>
+                        </div>
+                        <!--新卡售END-->
+
+
+                        <!--卡易信START-->
+                        <div class="col-12 block-box block-kayixin" {if !isset($cross) || $cross.platform!='kayixin' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="uid">卡易信客户编号</label>
+                                <input type="text" id="uid" class="form-control" name="params[uid]" value="{$cross.params->uid|default=''}" {if !isset($cross) || $cross.platform!='kayixin' }disabled="disabled"{/if}  placeholder="请输入客户编号">
+                            </div>
+                        </div>
+                        <div class="col-12 block-box block-kayixin" {if !isset($cross) || $cross.platform!='kayixin' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="key">卡易信接口秘钥（联系卡易信站长获取）</label>
+                                <input type="text" id="key" class="form-control" name="params[key]" value="{$cross.params->key|default=''}" {if !isset($cross) || $cross.platform!='kayixin' }disabled="disabled"{/if}  placeholder="请输入接口秘钥">
+                            </div>
+                        </div>
+                        <!--卡易信END-->
+
+
+                        <!--卡易销START-->
+                        <div class="col-12 block-box block-kayixiao" {if !isset($cross) || $cross.platform!='kayixiao' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="username">卡易销用户名</label>
+                                <input type="text" id="username" class="form-control" name="params[username]" value="{$cross.params->username|default=''}" {if !isset($cross) || $cross.platform!='kayixiao' }disabled="disabled"{/if}  placeholder="请输入用户名">
+                            </div>
+                        </div>
+                        <div class="col-12 block-box block-kayixiao" {if !isset($cross) || $cross.platform!='kayixiao' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="password">卡易销密码</label>
+                                <input type="password" id="password" class="form-control" name="params[password]" value="{$cross.params->password|default=''}" {if !isset($cross) || $cross.platform!='kayixiao' }disabled="disabled"{/if}  placeholder="请输入密码">
+                            </div>
+                        </div>
+                        <div class="col-12 block-box block-kayixiao" {if !isset($cross) || $cross.platform!='kayixiao' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="trade_password">卡易销交易密码</label>
+                                <input type="password" id="trade_password" class="form-control" name="params[trade_password]" value="{$cross.params->trade_password|default=''}" {if !isset($cross) || $cross.platform!='kayixiao' }disabled="disabled"{/if}  placeholder="请输入交易密码">
+                            </div>
+                        </div>
+                        <!--卡易销END-->
+
+                        <!--U卡售START-->
+                        <div class="col-12 block-box block-ukashou" {if !isset($cross) || $cross.platform!='ukashou' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="username">U卡售用户名</label>
+                                <input type="text" id="username" class="form-control" name="params[username]" value="{$cross.params->username|default=''}" {if !isset($cross) || $cross.platform!='ukashou' }disabled="disabled"{/if}  placeholder="请输入用户名">
+                            </div>
+                        </div>
+                        <div class="col-12 block-box block-ukashou" {if !isset($cross) || $cross.platform!='ukashou' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="password">U卡售密码</label>
+                                <input type="password" id="password" class="form-control" name="params[password]" value="{$cross.params->password|default=''}" {if !isset($cross) || $cross.platform!='ukashou' }disabled="disabled"{/if}  placeholder="请输入密码">
+                            </div>
+                        </div>
+                        <div class="col-12 block-box block-ukashou" {if !isset($cross) || $cross.platform!='ukashou' }style='display:none'{/if}>
+                             <div class="form-group">
+                                <label for="trade_password">U卡售交易密码</label>
+                                <input type="password" id="trade_password" class="form-control" name="params[trade_password]" value="{$cross.params->trade_password|default=''}" {if !isset($cross) || $cross.platform!='ukashou' }disabled="disabled"{/if}  placeholder="请输入交易密码">
+                            </div>
+                        </div>
+                        <!--U卡售END-->
+
+                        <div class="col-12 d-flex justify-content-center">
+                            <button type="submit" class="btn btn-success mr-1 mb-1 btn-submit">保存设置</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+{/block}
+
+{block name="js"}
+<!-- BEGIN: Page JS-->
+
+<script>
+    $('[name="platform"]').change(function () {
+        if ($(this).val() == 'kaduoduo') {
+            $('.block-kaduoduo').slideDown();
+            $(".block-kaduoduo").find(":input").attr("disabled", false);
+        } else {
+            $('.block-kaduoduo').slideUp();
+            $(".block-kaduoduo").find(":input").attr("disabled", true);
+        }
+
+        if ($(this).val() == 'kaduoduoapi') {
+            $('.block-kaduoduoapi').slideDown();
+            $(".block-kaduoduoapi").find(":input").attr("disabled", false);
+        } else {
+            $('.block-kaduoduoapi').slideUp();
+            $(".block-kaduoduoapi").find(":input").attr("disabled", true);
+        }
+
+        if ($(this).val() == 'taoka') {
+            $('.block-taoka').slideDown();
+            $(".block-taoka").find(":input").attr("disabled", false);
+        } else {
+            $('.block-taoka').slideUp();
+            $(".block-taoka").find(":input").attr("disabled", true);
+        }
+
+        if ($(this).val() == 'taokaapi') {
+            $('.block-taokaapi').slideDown();
+            $(".block-taokaapi").find(":input").attr("disabled", false);
+        } else {
+            $('.block-taokaapi').slideUp();
+            $(".block-taokaapi").find(":input").attr("disabled", true);
+        }
+
+
+
+        if ($(this).val() == 'xingouka') {
+            $('.block-xingouka').slideDown();
+            $(".block-xingouka").find(":input").attr("disabled", false);
+        } else {
+            $('.block-xingouka').slideUp();
+            $(".block-xingouka").find(":input").attr("disabled", true);
+        }
+
+        if ($(this).val() == 'xingoukaapi') {
+            $('.block-xingoukaapi').slideDown();
+            $(".block-xingoukaapi").find(":input").attr("disabled", false);
+        } else {
+            $('.block-xingoukaapi').slideUp();
+            $(".block-xingoukaapi").find(":input").attr("disabled", true);
+        }
+
+        if ($(this).val() == 'xinkashou') {
+            $('.block-xinkashou').slideDown();
+            $(".block-xinkashou").find(":input").attr("disabled", false);
+        } else {
+            $('.block-xinkashou').slideUp();
+            $(".block-xinkashou").find(":input").attr("disabled", true);
+        }
+        if ($(this).val() == 'kayixin') {
+            $('.block-kayixin').slideDown();
+            $(".block-kayixin").find(":input").attr("disabled", false);
+        } else {
+            $('.block-kayixin').slideUp();
+            $(".block-kayixin").find(":input").attr("disabled", true);
+        }
+
+        if ($(this).val() == 'xinkagou') {
+            $('.block-xinkagou').slideDown();
+            $(".block-xinkagou").find(":input").attr("disabled", false);
+        } else {
+            $('.block-xinkagou').slideUp();
+            $(".block-xinkagou").find(":input").attr("disabled", true);
+        }
+
+        if ($(this).val() == 'kayixiao') {
+            $('.block-kayixiao').slideDown();
+            $(".block-kayixiao").find(":input").attr("disabled", false);
+        } else {
+            $('.block-kayixiao').slideUp();
+            $(".block-kayixiao").find(":input").attr("disabled", true);
+        }
+
+        if ($(this).val() == 'ukashou') {
+            $('.block-ukashou').slideDown();
+            $(".block-ukashou").find(":input").attr("disabled", false);
+        } else {
+            $('.block-ukashou').slideUp();
+            $(".block-ukashou").find(":input").attr("disabled", true);
+        }
+
+        if ($(this).val() == 'chuangxinshou') {
+            $('.block-chuangxinshou').slideDown();
+            $(".block-chuangxinshou").find(":input").attr("disabled", false);
+        } else {
+            $('.block-chuangxinshou').slideUp();
+            $(".block-chuangxinshou").find(":input").attr("disabled", true);
+        }
+
+
+        if ($(this).val() == 'chuangxinshouapi') {
+            $('.block-chuangxinshouapi').slideDown();
+            $(".block-chuangxinshouapi").find(":input").attr("disabled", false);
+        } else {
+            $('.block-chuangxinshouapi').slideUp();
+            $(".block-chuangxinshouapi").find(":input").attr("disabled", true);
+        }
+
+    });
+    $(".btn-submit").click(function ()
+    {
+        var loading = layer.load(1, {shade: [0.1, '#fff']});
+        $.ajax({
+            url: "{:url('cross/platformEdit')}",
+            type: 'post',
+            data: $('#form1').serialize(),
+            success: function (info) {
+                layer.close(loading);
+
+                if (info.code == 1)
+                {
+                    parent.location.reload();
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
+                } else {
+                    $.alert({
+                        title: '提示!',
+                        content: info.msg
+                    });
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                layer.close(loading);
+            }
+        });
+        return false;
+    });
+</script>
+
+<!-- END: Page JS-->
+{/block}

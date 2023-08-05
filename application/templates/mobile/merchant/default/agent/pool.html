@@ -1,0 +1,142 @@
+{extend name="simple_base"}
+
+{block name="content"}
+
+<div class="container">
+    <div class="card">
+        <div class="card-body p-3">
+            <!-- Search Form Wrapper-->
+            <div class="search-form-wrapper">
+
+                <form class="mb-3 pb-4 mt-2" action="{:url('agent/poolGoods')}" method="get">
+                    <div class="input-group mb-2 input-group-sm">
+                        <span class="input-group-text input-group-sm" id="basic-addon1">搜索方式</span>
+                        <select name="type" id="type" class="form-select form-select-sm">
+                            <option value="1" {if $Think.get.type=='1'}selected{/if}>按对接码搜索</option>
+                            <option value="2" {if $Think.get.type=='2'}selected{/if}>按商品名称搜索</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group mb-2  input-group-sm">
+                        <span class="input-group-text input-group-sm" id="basic-addon1">商品搜索</span>
+                        <input class="form-control  form-control-sm"  name="key" type="search" placeholder="请输入对接码或商品名称" value="{$Think.get.key|default=''|htmlentities}">
+                    </div>
+
+                    <button class="btn btn-primary w-100 d-flex align-items-center justify-content-center btn-sm" type="submit">
+                        <i class="bx bx-search me-2"></i>查询
+                    </button>
+                </form>
+            </div>
+
+            {if $poolauth_status==true}
+
+
+
+
+            {foreach $list as $v}
+
+            <div class="single-search-result mb-3 border-bottom pb-3 order-wrap">
+                <div class="d-flex align-items-center justify-content-between">
+                    <h6 class="text-truncate mb-0 float-left d-inline">{$v.title}</h6>
+                    {if $v.span.name!=""&&$v.expire_at!=""&&$v.expire_at>time()}
+                    <span style="background:{$v.span.color}; border-radius:10px;font-size: 11px;padding:3px 5px;white-space:nowrap;" class="text-white">{$v.span.name}</span>
+                    {/if}
+                </div>
+                <div class="d-flex align-items-center mt-1 justify-content-between">
+                    <div class="order-wrap-text">
+                        <span>店铺名称：</span>
+                        <span>
+                            {$v.user.shop_name}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center mt-1 justify-content-between">
+                    <div class="order-wrap-text">
+                        <span>店铺对接码：</span>
+                        <span>
+                            {$v.user.agent_key}
+                        </span>
+                    </div>
+                    <div class="order-wrap-text">
+                        <span>联系方式：</span>
+                        <span>
+                            <a href="//wpa.qq.com/msgrd?v=3&uin={$v.user.qq}&Site=" target="_blank"><i class="iconfont icon-qq-white"></i>{$v.user.qq}</a>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="goods-warp d-flex align-items-center mt-1 justify-content-end">
+                    <a href="{:url('agent/poolGoods',['type'=>1,'key'=>$v.user.agent_key])}"><span class="goods-warp-btn" >查看商品</span></a>
+                </div>
+            </div>
+
+            {/foreach}
+
+            <nav aria-label="Page navigation">
+                {$page}
+            </nav>
+
+            {else/}
+
+            <div class="row justify-content-center mt-lg-5">
+                <div class="col-xl-5 col-sm-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <div class="row justify-content-center">
+                                    <div class="col-lg-10">
+                                        <h4 class="mt-4 font-weight-semibold">温馨提示</h4>
+                                        <p class="text-muted mt-3">{:plugconf('agentsetting','poolauth_tip')}</p>
+                                        <div class="mt-4">
+
+                                            {if $poolauth&&$poolauth->status==0}
+                                            <p class="text-danger mt-3">正在审核中，请耐心等待！</p>
+                                            {elseif $poolauth&&$poolauth->status==-1/}
+                                            <p class="text-danger mt-3">审核拒绝！</p>
+                                            {else/}
+                                            <button type="button" class="btn btn-primary" onclick="poolauthApply()">立即申请</button>
+                                            {/if}
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center mt-5 mb-2">
+                                    <div class="col-sm-6 col-8">
+                                        <div>
+                                            <img src="__STATIC__/merchant/default/images/verification-img.png" alt="" class="img-fluid">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/if}
+        </div>
+    </div>
+</div>
+
+{/block}
+{block name="js"}
+<script>
+    function poolauthApply()
+    {
+        var loading = layer.load(1, {shade: [0.1, '#fff']});
+        $.post("{:url('agent/poolauthApply')}", {},
+                function (data) {
+                    if (data.code == 1) {
+                        layer.msg(data.msg, {time: 1000, icon: 6}, function () {
+                            location.reload();
+                        });
+                    } else {
+                        layer.msg(data.msg, {time: 1000, icon: 5});
+                    }
+                }, "json");
+    }
+</script>
+{/block}
+
+

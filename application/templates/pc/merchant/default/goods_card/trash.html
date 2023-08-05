@@ -1,0 +1,345 @@
+{extend name="base"}
+{block name="content"}
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row mb-2">
+
+                            <div class="col-sm-auto">
+                                <button class="pull-right btn btn-success waves-effect waves-light" onclick="batch_restore()"><i class="bx bx-history mr-1"></i>批量恢复</button>
+                                <button class="pull-right btn btn-warning waves-effect waves-light" onclick="batch_del()"><i class="bx bx-trash mr-1"></i>批量删除</button>
+                            </div>
+                            <div class="col-sm-auto">
+
+                                <form class="form-inline" role="form" action="" method="get">
+                                    <div class="form-group">
+                                        <select name="cate_id" class="form-control select2">
+                                            <option value="" {if $Think.get.cate_id==''}selected{/if}>全部分类</option>
+                                            {foreach $categorys as $v}
+                                            <option value="{$v.id}" {if $Think.get.cate_id==$v.id}selected{/if}>{$v.name}</option>
+                                            {/foreach}
+                                        </select>
+                                    </div>
+                                    <div class="form-group ml-1">
+                                        <select name="goods_id" class="form-control select2">
+                                            <option value="" {if $Think.get.goods_id==''}selected{/if}>全部商品</option>
+                                            {foreach $goodsList as $v}
+                                            <option value="{$v.id}" {if $Think.get.goods_id==$v.id}selected{/if}>{$v.name}</option>
+                                            {/foreach}
+                                        </select>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-light waves-effect waves-light ml-1"><i class="bx bx-search mr-1"></i>搜索</button>
+                                </form>
+
+                            </div>
+                            <div class="col-sm-auto">
+                                <button class="pull-right btn btn-danger waves-effect waves-light" onclick="trash_clear(this)"><i class="bx bx-x-circle  mr-1"></i>清空回收站</button>
+                            </div>
+
+                        </div>
+
+
+
+
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th> 
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="select_all">
+                                                <label class="custom-control-label" for="select_all"></label>
+                                            </div>
+                                        </th>
+                                        <th>商品分类</th>
+                                        <th>商品名称</th>
+                                        <th>商品价格</th>
+                                        <th>卡号</th>
+                                        <th>卡密</th>
+                                        <th>删除时间</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {foreach $cards as $k=> $v}
+                                    <tr>
+
+                                        <td>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input select-checkbox" id="checkbox{$k}"  name="card_id" value="{$v.id}">
+                                                <label class="custom-control-label" for="checkbox{$k}"></label>
+                                            </div>
+                                        </td>
+
+                                        <td>{$v.goods.category.name}</td>
+                                        <td>{$v.goods.name}</td>
+                                        <td>{$v.goods.price}</td>
+                                        <td>{$v.number}</td>
+                                        <td>{$v.secret}</td>
+                                        <td>{$v.delete_at|date="Y-m-d H:i:s",###}</td>
+                                        <td>
+                                            <div class="btn-group btn-group-sm " role="group" aria-label="Basic group">
+                                                <a onclick="$.x_show('查看卡密', '{:url(\"goods_card/show\",[\"id\"=>$v.id])}', 450)" href="javascript:void(0);" class="btn btn-light waves-effect waves-light text-primary">查看</a>
+                                                <button onclick="restore(this, '{$v.id}')" class="btn btn-light waves-effect waves-light text-success">恢复</button>
+                                                <button onclick="del(this, '{$v.id}')" class="btn btn-light waves-effect waves-light text-danger">删除</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {/foreach}
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <nav aria-label="...">
+                            {$page}
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+{/block}
+{block name="js"}
+<script>
+    function del(obj, id)
+    {
+
+        $.confirm({
+            title: '确定删除吗？',
+            content: '你无法恢复该操作！',
+            type: 'red',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: '确定',
+                    btnClass: 'btn-red',
+                    action: function () {
+                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                        $.post("{:url('goods_card/trash_delete')}", {
+                            id: id
+                        }, function (res) {
+                            if (res.code != 1) {
+                                $.alert(res.msg);
+                            } else {
+                                $.alert('删除成功');
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 200);
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+
+    }
+
+    function batch_del()
+    {
+
+        $.confirm({
+            title: '确定删除吗？',
+            content: '你无法恢复该操作！',
+            type: 'red',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: '确定',
+                    btnClass: 'btn-red',
+                    action: function () {
+                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                        var ids = new Array();
+                        $('tbody').find('input[name="card_id"]').each(function () {
+                            if ($(this).is(':checked')) {
+                                ids.push($(this).val());
+                            }
+                        })
+
+                        if (ids.length == 0) {
+                            $.alert('选择要删除的数据');
+                            return false;
+                        }
+                        $.post("{:url('goods_card/trash_batch_del')}", {
+                            ids: ids
+                        }, function (res) {
+                            if (res.code != 1) {
+                                $.alert(res.msg);
+                            } else {
+                                $.alert('删除成功');
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 200);
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+
+
+    }
+
+    function restore(obj, id)
+    {
+
+        $.confirm({
+            title: '提示！',
+            content: '确定恢复吗？',
+            type: 'green',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: '确定',
+                    btnClass: 'btn-green',
+                    action: function () {
+                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                        $.post("{:url('goods_card/trash_restore')}", {
+                            id: id
+                        }, function (res) {
+                            if (res.code != 1) {
+                                $.alert(res.msg);
+                            } else {
+                                $.alert('恢复成功');
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 200);
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+
+    }
+
+    function batch_restore()
+    {
+        var ids = new Array();
+        $('tbody').find('input[name="card_id"]').each(function () {
+            if ($(this).is(':checked')) {
+                ids.push($(this).val());
+            }
+        })
+        if (ids.length == 0) {
+            $.alert('选择要恢复的数据');
+            return false;
+        }
+
+        $.confirm({
+            title: '提示！',
+            content: '确定要批量恢复吗？',
+            type: 'green',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: '确定',
+                    btnClass: 'btn-green',
+                    action: function () {
+                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                        $.post("{:url('goods_card/trash_batch_restore')}", {
+                            ids: ids
+                        }, function (res) {
+                            if (res.code != 1) {
+                                $.alert(res.msg);
+                            } else {
+                                $.alert('恢复成功');
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 200);
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+
+
+    }
+
+    function trash_clear(obj)
+    {
+        $.confirm({
+            title: '确定清空回收站吗？',
+            content: '你无法恢复该操作！',
+            type: 'red',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: '确定',
+                    btnClass: 'btn-red',
+                    action: function () {
+                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                        $.post("{:url('goods_card/trash_clear')}", {}, function (res) {
+                            if (res.code != 1) {
+                                $.alert(res.msg);
+                            } else {
+                                $.alert('清空成功');
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 200);
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+
+    }
+
+    $(function () {
+        $('#select_all').click(function () {
+            if ($(this).is(':checked')) {
+                $('tbody').find('input[type="checkbox"]').each(function () {
+                    $(this).prop("checked", true)
+                })
+            } else {
+                $('tbody').find('input[type="checkbox"]').each(function () {
+                    $(this).prop("checked", false)
+                })
+            }
+        })
+    })
+
+</script>
+{/block}

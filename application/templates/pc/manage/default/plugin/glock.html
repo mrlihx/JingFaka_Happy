@@ -1,0 +1,51 @@
+{extend name="./content"}
+
+{block name="content"}
+<form onsubmit="return false;" action="__SELF__" data-auto="true" method="post" class='form-horizontal' >
+
+    <div class="form-group">
+        <div class='col-sm-8 col-sm-offset-2'>
+            <div class="alert alert-success alert-dismissible" role="alert" style="border-radius:0">
+                <p style="font-size:16px;" class="text-center"><b>网关锁</b></p>
+            </div>
+        </div>
+    </div>
+
+    {if $glock}
+    <div class="col-sm-12">
+        <div class="layui-form-item text-center">
+            <span style="color:green"><i class="glyphicon glyphicon-ok"></i> 当前已开启网关锁</span>
+        </div>
+        <div class="layui-form-item text-center">
+            <button class="layui-btn layui-btn-danger" type="submit">立即关闭</button>
+        </div>
+    </div>
+    {else/}
+    <div class="col-sm-12">
+        <div class="layui-form-item text-center">
+            <span style="color:red"><i class="glyphicon glyphicon-remove"></i> 当前未开启网关锁</span>
+        </div>
+        <div class="layui-form-item text-center">
+            <button class="layui-btn layui-btn-normal" type="submit">立即开启</button>
+        </div>
+    </div>
+    {/if}
+</form>
+
+<div class="form-group">
+    <div class="col-sm-8 col-sm-offset-2">
+        <div class="alert alert-success alert-dismissible" role="alert" style="border-radius:0">
+            <p style="font-size:14px;" class="text-center">独家多层加密保护，后台、数据库篡改网关接口、收款参数将会中断下单并发送提醒到管理员邮箱。</p>
+            <p style="font-size:14px;" class="text-center"><b>如何关闭网关锁？请使用鲸发卡工具箱进行关闭，文档地址：</b><a href="http://docs.jingfaka.com" target="_blank">http://docs.jingfaka.com</a></p>
+            <p style="font-size:14px;" class="text-center">温馨提示：开发接口、后台添加网关、添加网关账号请先关闭网关锁</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use('form', function () {
+        var form = layui.form;
+        form.render();
+    });
+</script>
+{/block}

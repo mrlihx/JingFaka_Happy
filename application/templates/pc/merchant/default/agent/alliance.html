@@ -1,0 +1,126 @@
+{extend name="base"}
+{block name="css"}
+<link href="__RES__/merchant/default/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+{/block}
+{block name="content"}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">发卡同盟设置</h4>
+                        <div class="col-lg-12">
+                            <div class="alert alert-success" role="alert">
+                                功能说明：您代理的商品可以使用其他同类鲸发卡系统跨平台功能进行对接。
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <div class="alert alert-success" role="alert">
+                                使用说明：<br>
+                                1.本平台代理商品，提前预存成本费。<br>
+                                2.其他同类鲸发卡系统跨平台功能对接代理的商品。
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-nowrap mb-0">
+                                <tbody>
+                                    <tr>
+                                        <th>对接URL</th>
+                                        <td>
+                                            <b>{:sysconf("site_domain")}</b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>商户PID</th>
+                                        <td>
+                                            <b>{$_user->id+10000}</b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>商户秘钥</th>
+                                        <td>
+                                            <b>{$_user->paykey}</b>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="row">
+
+
+
+                            <div class="col-md-4">
+                                <div class="card mini-stats-wid">
+                                    <div class="card-body">
+                                        <div class="media">
+                                            <div class="media-body">
+                                                <p class="text-muted font-weight-medium">预存款余额</p>
+                                                <h4 class="mb-0">{$_user.fee_money}元</h4>
+                                            </div>
+
+                                            <div class="align-self-center">
+                                                <button onclick="$.x_show('充值预存款', '{:url(\'allianceFeeAdd\')}', 460)" class="btn btn-light waves-effect waves-light text-primary">充值</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+
+
+{/block}
+{block name="js"}
+<script src="__RES__/app/js/clipboard.js"></script>
+<script src="__RES__/merchant/default/libs/sweetalert2/sweetalert2.min.js"></script>
+<script>
+                                                    var clipboard = new ClipboardJS('.btn');
+                                                    clipboard.on('success', function (e) {
+                                                        layer.msg('复制成功！', {
+                                                            icon: 1
+                                                        });
+                                                    });
+
+                                                    clipboard.on('error', function (e) {
+                                                        layer.msg('复制失败，请手动复制！', {
+                                                            icon: 2
+                                                        });
+                                                    });
+
+
+
+</script>
+{/block}

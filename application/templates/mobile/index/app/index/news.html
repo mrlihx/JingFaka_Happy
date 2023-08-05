@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>新闻动态 - {:sysconf('site_name')}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="keywords" content="{:sysconf('site_keywords')}" />
+        <meta name="description" content="{:sysconf('site_desc')}" />
+        <link rel="shortcut icon" href="{:sysconf('browser_icon')}" />
+        <link href="__RES__/theme/app/css/bootstrap.min.css" rel="stylesheet">
+        <script src="__RES__/theme/app/js/jquery.min.js"></script>
+        <script src="__RES__/theme/app/js/swiper-bundle.js"></script>
+        <link href="__RES__/theme/app/css/swiper-bundle.css" rel="stylesheet">
+        <link href="__RES__/theme/app/css/icons.min.css" rel="stylesheet" type="text/css">
+        <style>
+            a{
+                text-decoration: none !important;
+            }
+            .header{
+                height: 55px;
+                background: #fff;
+                text-align: center;
+                position: relative;
+                color: #4f4f4f;
+                font-weight: 700;
+                font-size: 1rem;
+                line-height: 55px;
+            }
+            .header .back{
+                position: absolute;
+                left:.6rem;
+
+            }
+            .header .back img{
+                width: 16px;
+                height: 16px;
+            }
+            .content .title{
+                color: #2f2f2f;
+                font-size: 1rem;
+                font-weight: 700;
+                vertical-align: middle;
+            }
+            .content .date{
+                color: #c1c1c1;
+                font-size: .8rem;
+            }
+            .content .date img{
+                width: 12px;
+                height: 12px;
+            }
+            .content .border{
+                border: 1px solid #f1f1f1 !important;
+            }
+
+            .type_qh .active {
+                font-weight: 700;
+                position: relative;
+                color:#212529;
+            }
+            .type_qh .active span{
+                width: 100%;
+            }
+            .type_qh div span {
+                position: absolute;
+                right: 0;
+                bottom: -5px;
+                z-index: -1;
+                height: .5rem;
+                background-color:rgba(42, 98, 255, 0.8);
+            }
+            .type_qh div {
+                display: inline-block;
+                font-size: 1rem;
+                color:#888;
+                vertical-align: top;
+                transition: color .3s;
+                line-height: 0.8;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="main-wrapper">
+
+            <div class="content-body">
+                <div class="container">
+                    <div class="w-100 header">
+                        <a class="back" href="javascript:history.go(-1)">
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAMAAAANIilAAAABg1BMVEU+Pj7///8+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4z7p+hAAAAgHRSTlMAAEgey9IBA0IyddQ5BN31OzgCc0QF5y7t1zc6MPHQ2nkv2Nzg8uPbMfgY3tX0cNn+BoMtfEZMauzlyk5t9mmoDzZ7VuJlG+4dSR8XcerMl2YUd0ASZCnwvUokRVfkbuEr33I/dNZH+nq1Nfs+xKZ+QX/rhdOGdrNoM9GYJZBdEcer/xcAAAGcSURBVHhexdLXdxJREMfxibqFBZTQBWKIRGqaAqFoeu/F2nvvvZf7p3tAz8y+6OF398Hv++fM3EJ9HvKG/97shepqmPTKzCg17Gxo2XRBdXoRI7xQTnV7c1Zj7mH1Jwefy1adR21A7MVboO0XqxqgnRsUOw/a1LjYLGqPi91Hz+uyDmqPMp2ImJgNiH24GcZsSGxpzMLsM3mj0TNBzL7KsT2B2miF7UDDAu2w2GkTsw/yYncJay0u510C7eQW29YCaptsF7Plgz21vkzdTq8o7tLj9qGe2n4eKXdsUum1Q6bdVJolaW9EaUcJpR9VveBzbW07SGY6rmkNm4jqLv3Rrh/osctXqNPVFuPKNUKLXmc9egPW9k3WR8ZMWN8WfSeM6rsF0fcsVIfGRTtBVAfus57KxlCd8rMuPTqJ6icG66c1WPtET9TgzTPHFPcSvrUhl35toTrh0qdMeLbh0oSWcOm3sB56J/o9vHnGL/qDheriCOMpH6H5ZPYngvvMOsIA/6n5AGlU/NLFXy3S6dv3pDJ+/Pwn6PPQ/8O/AOjyvwGOfNmCAAAAAElFTkSuQmCC" class="hide_left">
+                        </a>
+                        新闻动态
+                    </div>
+
+                    <div class="row ">
+
+                        <div class="col-12 mt-2 mb-2">
+                            <div class="type_qh">
+                                <a href="/company/notice"> 
+                                    <div class="mr-1 ">
+                                        平台公告
+                                        <span></span>
+                                    </div>
+                                </a>
+                                <a href="/company/settlement"> 
+                                    <div class="mr-1">
+                                        结算公告
+                                        <span></span>
+                                    </div>
+                                </a>
+                                <a href="/company/news">
+                                    <div class="mr-1 active">
+                                        新闻动态
+                                        <span></span>
+                                    </div>
+                                </a>
+                                <a href="/company/faq">
+                                    <div class="mr-1">
+                                        常见问题
+                                        <span></span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row content">
+                        {foreach $articles as $v}
+                        <div class="col-12">
+                            <a href="/article/{$v.id}.html">
+                                <h2 class="title mt-3">{$v.title}</h2>
+                                <p class="date mb-3 d-flex align-items-center">
+                                    <img class="mr-1" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAMAAABhEH5lAAAAnFBMVEXExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMT5bXJHAAAAM3RSTlMAKAMBx/mau+op1bQ/B29scEZE7EVDa9RxAr+Z2wbdounTK9wM8mlH2EJqaOsnBQv69NcGwX4oAAAAo0lEQVR4XlXP166CQBhF4fVPQUBBwN57P8f6/u+mmYlm+C5Xsi82zmkytXY66fEl43SYZFkyTMeC01ruFY5qd1oAElf8dGMBbdoE+kZTDdzq1cRRg4qoIEwUEZuknmSDzeppZtnNfPprfABby1F8coD1nEVBTb7gsFIE1KpEmz6Bs9EgcS88lPjblxHOyN8GxKT5//W2zlMjeOgymt8fz6jUAG+qXAq4t+qHHQAAAABJRU5ErkJggg==">
+                                    <span>{:date('Y-m-d',$v.create_at)}</span>
+                                </p>
+                                <div class="border"></div>
+                            </a>
+                        </div>
+                        {/foreach}
+                    </div>
+                    <div class="row justify-content-center mt-4">
+                        <nav  aria-label="...">
+                            {$page}
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>

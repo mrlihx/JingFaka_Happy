@@ -1,0 +1,142 @@
+{extend name="base"}
+{block name="css"}
+<link href="__RES__/merchant/default/libs/fileuploads/css/dropify.min.css" rel="stylesheet" type="text/css" />
+{/block}
+{block name="content"}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+
+                            <div class="form-group row">
+                                <label for="goods_id" class="col-md-2 col-form-label">选择商品分类</label>
+                                <div class="col-md-4">
+                                    <select name="cate_id" class="form-control select2">
+                                        <option value="0">全部</option>
+                                        {foreach $categorys as $v}
+                                        <option value="{$v.id}">{$v.name}</option>
+                                        {/foreach}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="import_type" class="col-md-2 col-form-label">折扣类型</label>
+                                <div class="col-md-4 d-flex align-items-center">
+                                    <div class="custom-control custom-radio custom-control-inline mr-4">
+                                        <input value="1" type="radio" id="type1" name="type" class="custom-control-input" checked>
+                                        <label class="custom-control-label" for="type1">元</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-type mr-4">
+                                        <input  value="100" type="radio" id="type2" name="type" class="custom-control-input">
+                                        <label class="custom-control-label" for="type2">%</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 d-flex align-items-center">
+                                    <p class="text-muted mb-0">批发的商户请选择“百分比”的折扣面额，单商品的建议选择“元”的面额。</p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row ">
+                                <label for="amount" class="col-md-2 col-form-label">折扣面额</label>
+                                <div class="col-md-4">
+                                    <input name="amount" type="text" class="form-control" value="1">
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group row ">
+                                <label for="quantity" class="col-md-2 col-form-label">生成数量</label>
+                                <div class="col-md-4">
+                                    <input name="quantity" type="number" class="form-control" value="1" min="1">
+                                </div>
+                                <div class="col-md-6 d-flex align-items-center">
+                                    <p class="text-muted mb-0">最多一次生成200张。</p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row ">
+                                <label for="expire_day" class="col-md-2 col-form-label">有效期（天）</label>
+                                <div class="col-md-4">
+                                    <select name="expire_day" class="form-control select2">
+                                        <option value="1">1天</option>
+                                        <option value="2">2天</option>
+                                        <option value="3">3天</option>
+                                        <option value="4">4天</option>
+                                        <option value="5">5天</option>
+                                        <option value="6">6天</option>
+                                        <option value="7">7天</option>
+                                        <option value="8">8天</option>
+                                        <option value="9">9天</option>
+                                        <option value="10">10天</option>
+                                        <option value="15">15天</option>
+                                        <option value="30">30天</option>
+                                        <option value="60">60天</option>
+                                        <option value="100">100天</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 d-flex align-items-center">
+                                    <p class="text-muted mb-0">过期优惠券系统将自动清理。</p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row ">
+                                <label for="remark" class="col-md-2 col-form-label">备注信息</label>
+                                <div class="col-md-4">
+                                    <textarea class="form-control" name="remark" id="remark" cols="30" rows="6" maxlength="100"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-2 col-form-label"></label>
+                                <div class="col-md-4 text-center">
+                                    <button type="submit" class="btn btn-primary waves-effect waves-light">确定添加</button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+
+
+{/block}
+{block name="js"}
+<script>
+
+</script>
+
+{/block}

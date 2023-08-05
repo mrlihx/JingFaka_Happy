@@ -1,0 +1,217 @@
+﻿.helpBanner{
+    background: url("../images/help_banner.png") top center no-repeat;
+    background-size: cover;
+    height: 300px;
+    margin: 0 auto;
+    text-align: center;
+}
+.helpTitle{
+    color: #fff;
+    font-size: 26px;
+    text-align: center;
+    padding-top: 65px;
+    position: relative;
+    display: inline-block;
+}
+.helpTitle:before{
+    position: absolute;
+    content: "";
+    height: 2px;
+    width: 50px;
+
+}
+.helpContainer{
+    min-height: 530px;
+    box-shadow: 0px 0px 15px #c4c4c4;
+    margin-top: -100px;
+    background-color: #fff;
+    padding: 40px;
+    margin-bottom: 70px;
+}
+
+.helpContainer ul{
+    list-style: none;
+    width: 100%;
+    overflow: hidden;
+}
+.helpContainer .conHeadTitle .headIcons{
+    float: left;
+    cursor: pointer;
+    line-height: 42px;
+    vertical-align: middle;
+    width: 30.3%;
+    text-align: center;
+    position: relative;
+    height: 85px;
+}
+.helpContainer .conHeadTitle{
+    position: relative;
+}
+.helpContainer .conHeadTitle:after{
+    content: "";
+    height: 2px;
+    width: 100%;
+    background-color: #eee;
+    position: absolute;
+    top: 66px;
+    left: 0;
+}
+.helpContainer .conHeadTitle .headIcons:after{
+    position: absolute;
+    content: '';
+    width: 220px;
+    position: absolute;
+    top: 66px;
+    left: 64px;
+    height: 2px;
+    background-color: #eee;
+    z-index: 1;
+}
+.helpContainer .conHeadTitle .headIcons.active:after{
+    background-color: #3cd0c0;
+}
+.helpContainer .conHeadTitle .headIcons img{
+   vertical-align: middle;
+}
+.helpC .conHeadTitle .headIcons *{
+    float: left;
+    display: block;
+}
+.helpContainer .conHeadTitle .headIcons .words{
+    font-size: 20px;
+    color: #999;
+    padding-left: 8px;
+    vertical-align: middle;
+}
+.helpContainer .conHeadTitle .headIcons.active .words,.helpContainer .conHeadTitle .headIcons:hover .words{
+    color: #3cd0c0;
+
+}
+/*.helpHeadLine{*/
+    /*margin-top: 30px;*/
+    /*margin-bottom: 40px;*/
+    /*height: 2px;*/
+    /*width: 100%;*/
+    /*background-color: #eee;*/
+    /*position: relative;*/
+/*}*/
+/*.helpHeadLine .line{*/
+    /*content: '';*/
+    /*width: 220px;*/
+    /*position: absolute;*/
+    /*top: 0;*/
+    /*left: 64px;*/
+    /*height: 2px;*/
+    /*background-color: #3cd0c0;*/
+/*}*/
+
+@keyframes moveLineone{
+    from{left: 0;}
+    to{left: 404px;}
+}
+@keyframes moveLinetwo{
+    from{left: 0;}
+    to{left: 745px;}
+}
+
+.conBody{
+    width: 100%;
+    display: none;
+}
+.conBody2{
+    width: 100%;
+}
+.conBody .conItems{
+    line-height: 40px;
+    border-bottom: 1px dashed #e0e0e0;
+    font-size: 16px;
+    color: #666;
+    position: relative;
+    padding-left: 80px;
+}
+.conBody .conItems:before{
+    content: "";
+    position: absolute;
+    background: url("../images/question_grey.png") top center no-repeat;
+    height: 14px;
+    width: 14px;
+    top: 12px;
+    left: 55px;
+}
+.conBody .conItems:hover{
+    color: #000;
+}
+/*.conBody .conItems:hover:before{*/
+    /*background: url("../images/question_black.png") top center no-repeat;*/
+/*}*/
+.conBody a:last-child .conItems{
+    border-bottom: none;
+}
+.article-title{
+    font-size: 28px;
+    text-align: center;
+}
+.article-time{
+    font-size: 14px;
+    color: #999;
+    margin-top: 10px;
+    text-align: center;
+}
+.article-content{
+    margin-top: 20px;
+}
+@media screen and (max-width: 768px) {
+    .helpBanner {
+        height: 17rem;
+    }
+    .helpTitle {
+        font-size:1.1rem;
+    }
+    .helpTitle:before {
+        left: 42%;
+    }
+    .helpContainer .conHeadTitle .headIcons .words{
+        display: block;
+        font-size: 1rem;
+    }
+    .helpContainer{
+        padding: 0.5rem 0.3rem;
+    }
+    .helpContainer .conHeadTitle .headIcons img {
+        height: 2rem;
+    }
+    .helpContainer .conHeadTitle .headIcons{
+        margin-left: 2%;
+    }
+    /*.helpContainer .conHeadTitle .headIcons:after {*/
+        /*height: 0;*/
+    /*}*/
+    .helpContainer .conHeadTitle:after {
+        content: "";
+        height: 2px;
+        width: 100%;
+        background-color: #eee;
+        position: absolute;
+        top: 82px;
+        left: 0;
+    }
+    .helpContainer .conHeadTitle .headIcons:after {
+        width: 80%;
+        top: 82px;
+        left: 12.3%;
+    }
+    .article-content p img{
+        width: 100%;
+    }
+    .conBody .conItems {
+        padding-left: 2rem;
+    }
+    .conBody .conItems:before {
+        left: 1rem;
+    }
+    .article-title {
+        font-size: 1.2rem;
+        margin-top: 2rem;
+        text-align: center;
+    }
+}

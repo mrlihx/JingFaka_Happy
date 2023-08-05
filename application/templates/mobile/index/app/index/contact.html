@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>常见问题 - {:sysconf('site_name')}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="keywords" content="{:sysconf('site_keywords')}" />
+        <meta name="description" content="{:sysconf('site_desc')}" />
+        <link rel="shortcut icon" href="{:sysconf('browser_icon')}" />
+        <link href="__RES__/theme/app/css/bootstrap.min.css" rel="stylesheet">
+        <script src="__RES__/theme/app/js/jquery.min.js"></script>
+        <script src="__RES__/theme/app/js/bootstrap.bundle.min.js"></script>
+        <script src="__RES__/theme/app/js/swiper-bundle.js"></script>
+        <link href="__RES__/theme/app/css/swiper-bundle.css" rel="stylesheet">
+        <link href="__RES__/theme/app/css/icons.min.css" rel="stylesheet" type="text/css">
+        <style>
+            a{
+                text-decoration: none !important;
+            }
+            .header{
+                height: 55px;
+                background: #3352f5;
+                text-align: center;
+                position: relative;
+                color: #fff;
+                font-weight: 700;
+                font-size: 1rem;
+                line-height: 55px;
+
+            }
+            .header .back{
+                position: absolute;
+                left:.6rem;
+
+            }
+            .header .back img{
+                width: 16px;
+                padding:2px;
+                height: 25px;
+                margin-left: 10px;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id="main-wrapper">
+            <style>
+
+                .title h2{
+                    font-weight: 600;
+                    font-size: 1.6rem;
+                }
+                .title .time img{
+                    width:.8rem;
+                }
+                .title .time span {
+                    display: inline-block;
+                    font-weight: 400;
+                    font-size: .8rem;
+                    color: #c1c1c1;
+                    vertical-align: middle;
+                }
+                .title p
+                {
+                    font-size: 14px;
+                }
+
+                .home-buttom .icon {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 3.2rem;
+                    height: 3.2rem;
+                    border-radius: 0.5rem;
+                    background: #376bfa;
+                    font-size:25px;
+                    box-shadow: 0rem .5rem 1rem 0 #e8edfc;
+                }
+                .home-buttom .icon i{
+                    color: #fff;
+                }
+                .home-buttom h6{
+                    color:#999;
+                    font-size: 14px;
+                }
+                .footer p{
+                    color: #aaa;
+                    font-weight: 500;
+                    font-size: .75rem;
+                    text-align: center;
+                    margin-top: 200px;
+                }
+            </style>
+            <div class="content-body">
+                <div class="w-100 header">
+                    <a class="back" href="javascript:history.go(-1)">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAlCAMAAACeRoI0AAAANlBMVEX///7///7///7///7///7///7///7///7///7///7///7///7///7///7///7///7///7///5LoXkPAAAAEXRSTlMAAwQMLi9FT2Nkmamqwsfq/lhk4vUAAABRSURBVHhe7ckxAoAgDMXQFhVRQdv7X9YKLvi7uJMxj6DI5JUks7tVK+A2CLhru7+vBfbYM3Ud2jqn/of8QvkA/4YBspIHstlAkGQDoW2E+PANpJ8STttpJgMAAAAASUVORK5CYII=" class="hide_left">
+                    </a>
+                    联系我们
+                </div>
+
+                <div class="container">
+                    <div class="row pl-3 pr-3" style="background: #3352f5;">
+
+                        <div class="col-md-12 title pt-3 pb-3">
+                            <h2 class="text-white ml-2">欢迎联系平台客服</h2>
+                            <p class="text-white ml-2 mb-1 mt-3">工作时间：早8点-晚10点</p>
+                            <p class="text-white ml-2 mb-1">{:sysconf('site_name')}-专注虚拟物品安全交易</p>
+                        </div>
+
+                    </div>
+
+                    <div class="row mt-4 home-buttom">
+
+                        <div class="col-12 pt-3 pb-3">
+                            <div class="d-flex align-items-center flex-column">
+                                <div class="icon">
+                                    <i class="bx bx-message-alt-dots"></i>
+                                </div>
+                                <h6 class="mt-2">客服QQ：{:sysconf('site_info_qq')}</h6>
+                            </div>
+                        </div>
+                        <div class="col-12 pt-3 pb-3">
+                            <div class="d-flex align-items-center flex-column">
+                                <div class="icon">
+                                    <i class="bx bx-mail-send"></i>
+                                </div>
+                                <h6 class="mt-2">联系邮箱：{:sysconf('site_info_email')}</h6>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row footer">
+                        <div class="col-12 mt-4 mb-4">
+                            <p class="mb-1">{:sysconf('site_info_copyright')}</p>
+                            <p><a class="text-muted" href="http://beian.miit.gov.cn/">{:sysconf('site_info_icp')}</a></p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </body>
+</html>

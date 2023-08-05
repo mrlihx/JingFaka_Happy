@@ -1,0 +1,1436 @@
+body, html {
+    height: 100%;
+}
+
+body {
+    background: #f1f3f6;
+    color: #4c4d4d;
+    font-family: "Poppins", sans-serif;
+}
+
+/*-------- Preloader --------*/
+.preloader {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 999999999 !important;
+    background-color: #fff;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.preloader .lds-ellipsis {
+    display: inline-block;
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    margin-top: -40px;
+    margin-left: -40px;
+    top: 50%;
+    left: 50%;
+}
+.preloader .lds-ellipsis div {
+    position: absolute;
+    top: 33px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: #000;
+    animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+.preloader .lds-ellipsis div:nth-child(1) {
+    left: 8px;
+    animation: lds-ellipsis1 0.6s infinite;
+}
+.preloader .lds-ellipsis div:nth-child(2) {
+    left: 8px;
+    animation: lds-ellipsis2 0.6s infinite;
+}
+.preloader .lds-ellipsis div:nth-child(3) {
+    left: 32px;
+    animation: lds-ellipsis2 0.6s infinite;
+}
+.preloader .lds-ellipsis div:nth-child(4) {
+    left: 56px;
+    animation: lds-ellipsis3 0.6s infinite;
+}
+
+.preloader.preloader-dark {
+    background-color: #000;
+}
+
+.preloader.preloader-dark .lds-ellipsis div {
+    background-color: #fff;
+}
+
+@keyframes lds-ellipsis1 {
+    0% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+@keyframes lds-ellipsis3 {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(0);
+    }
+}
+@keyframes lds-ellipsis2 {
+    0% {
+        transform: translate(0, 0);
+    }
+    100% {
+        transform: translate(24px, 0);
+    }
+}
+form {
+    padding: 0;
+    margin: 0;
+    display: inline;
+}
+
+img {
+    vertical-align: inherit;
+}
+
+a, a:focus {
+    color: #007bff;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+
+a:hover, a:active {
+    color: #006adb;
+    text-decoration: none;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+
+a:focus, a:active,
+.btn.active.focus,
+.btn.active:focus,
+.btn.focus,
+.btn:active.focus,
+.btn:active:focus,
+.btn:focus,
+button:focus,
+button:active {
+    outline: none;
+}
+
+p {
+    line-height: 1.8;
+}
+
+iframe {
+    border: 0 !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #252b33;
+    font-family: "Poppins", sans-serif;
+}
+
+/* =================================== */
+/*  2. Helpers Classes
+/* =================================== */
+/* Box Shadow */
+.oxyy-login-register .shadow-md {
+    -webkit-box-shadow: 0px 0px 50px -35px rgba(0, 0, 0, 0.4) !important;
+    box-shadow: 0px 0px 50px -35px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Border Radius */
+.oxyy-login-register .rounded-top-0 {
+    border-top-left-radius: 0px !important;
+    border-top-right-radius: 0px !important;
+}
+.oxyy-login-register .rounded-bottom-0 {
+    border-bottom-left-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+}
+.oxyy-login-register .rounded-left-0 {
+    border-top-left-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+}
+.oxyy-login-register .rounded-right-0 {
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+}
+
+/* Border Size */
+.oxyy-login-register .border-1 {
+    border-width: 1px !important;
+}
+.oxyy-login-register .border-2 {
+    border-width: 2px !important;
+}
+.oxyy-login-register .border-3 {
+    border-width: 3px !important;
+}
+.oxyy-login-register .border-4 {
+    border-width: 4px !important;
+}
+.oxyy-login-register .border-5 {
+    border-width: 5px !important;
+}
+
+/* Text Size */
+.oxyy-login-register .text-0 {
+    font-size: 11px !important;
+    font-size: 0.6875rem !important;
+}
+.oxyy-login-register .text-1 {
+    font-size: 12px !important;
+    font-size: 0.75rem !important;
+}
+.oxyy-login-register .text-2 {
+    font-size: 14px !important;
+    font-size: 0.875rem !important;
+}
+.oxyy-login-register .text-3 {
+    font-size: 16px !important;
+    font-size: 1rem !important;
+}
+.oxyy-login-register .text-4 {
+    font-size: 18px !important;
+    font-size: 1.125rem !important;
+}
+.oxyy-login-register .text-5 {
+    font-size: 21px !important;
+    font-size: 1.3125rem !important;
+}
+.oxyy-login-register .text-6 {
+    font-size: 24px !important;
+    font-size: 1.50rem !important;
+}
+.oxyy-login-register .text-7 {
+    font-size: 28px !important;
+    font-size: 1.75rem !important;
+}
+.oxyy-login-register .text-8 {
+    font-size: 32px !important;
+    font-size: 2rem !important;
+}
+.oxyy-login-register .text-9 {
+    font-size: 36px !important;
+    font-size: 2.25rem !important;
+}
+.oxyy-login-register .text-10 {
+    font-size: 40px !important;
+    font-size: 2.50rem !important;
+}
+.oxyy-login-register .text-11 {
+    font-size: 2.75rem !important;
+}
+@media (max-width: 1200px) {
+    .oxyy-login-register .text-11 {
+        font-size: calc(1.4rem + 1.8vw)  !important;
+    }
+}
+.oxyy-login-register .text-12 {
+    font-size: 3rem !important;
+}
+@media (max-width: 1200px) {
+    .oxyy-login-register .text-12 {
+        font-size: calc(1.425rem + 2.1vw)  !important;
+    }
+}
+.oxyy-login-register .text-13 {
+    font-size: 3.25rem !important;
+}
+@media (max-width: 1200px) {
+    .oxyy-login-register .text-13 {
+        font-size: calc(1.45rem + 2.4vw)  !important;
+    }
+}
+.oxyy-login-register .text-14 {
+    font-size: 3.5rem !important;
+}
+@media (max-width: 1200px) {
+    .oxyy-login-register .text-14 {
+        font-size: calc(1.475rem + 2.7vw)  !important;
+    }
+}
+.oxyy-login-register .text-15 {
+    font-size: 3.75rem !important;
+}
+@media (max-width: 1200px) {
+    .oxyy-login-register .text-15 {
+        font-size: calc(1.5rem + 3vw)  !important;
+    }
+}
+.oxyy-login-register .text-16 {
+    font-size: 4rem !important;
+}
+@media (max-width: 1200px) {
+    .oxyy-login-register .text-16 {
+        font-size: calc(1.525rem + 3.3vw)  !important;
+    }
+}
+.oxyy-login-register .text-17 {
+    font-size: 4.5rem !important;
+}
+@media (max-width: 1200px) {
+    .oxyy-login-register .text-17 {
+        font-size: calc(1.575rem + 3.9vw)  !important;
+    }
+}
+.oxyy-login-register .text-18 {
+    font-size: 5rem !important;
+}
+@media (max-width: 1200px) {
+    .oxyy-login-register .text-18 {
+        font-size: calc(1.625rem + 4.5vw)  !important;
+    }
+}
+.oxyy-login-register .text-19 {
+    font-size: 5.25rem !important;
+}
+@media (max-width: 1200px) {
+    .oxyy-login-register .text-19 {
+        font-size: calc(1.65rem + 4.8vw)  !important;
+    }
+}
+.oxyy-login-register .text-20 {
+    font-size: 5.75rem !important;
+}
+@media (max-width: 1200px) {
+    .oxyy-login-register .text-20 {
+        font-size: calc(1.7rem + 5.4vw)  !important;
+    }
+}
+.oxyy-login-register .text-21 {
+    font-size: 6.5rem !important;
+}
+@media (max-width: 1200px) {
+    .oxyy-login-register .text-21 {
+        font-size: calc(1.775rem + 6.3vw)  !important;
+    }
+}
+.oxyy-login-register .text-22 {
+    font-size: 7rem !important;
+}
+@media (max-width: 1200px) {
+    .oxyy-login-register .text-22 {
+        font-size: calc(1.825rem + 6.9vw)  !important;
+    }
+}
+.oxyy-login-register .text-23 {
+    font-size: 7.75rem !important;
+}
+@media (max-width: 1200px) {
+    .oxyy-login-register .text-23 {
+        font-size: calc(1.9rem + 7.8vw)  !important;
+    }
+}
+.oxyy-login-register .text-24 {
+    font-size: 8.25rem !important;
+}
+@media (max-width: 1200px) {
+    .oxyy-login-register .text-24 {
+        font-size: calc(1.95rem + 8.4vw)  !important;
+    }
+}
+.oxyy-login-register .text-25 {
+    font-size: 9rem !important;
+}
+@media (max-width: 1200px) {
+    .oxyy-login-register .text-25 {
+        font-size: calc(2.025rem + 9.3vw)  !important;
+    }
+}
+.oxyy-login-register .text-11, .oxyy-login-register .text-12, .oxyy-login-register .text-13, .oxyy-login-register .text-14, .oxyy-login-register .text-15, .oxyy-login-register .text-16, .oxyy-login-register .text-17, .oxyy-login-register .text-18, .oxyy-login-register .text-19, .oxyy-login-register .text-20, .oxyy-login-register .text-21, .oxyy-login-register .text-22, .oxyy-login-register .text-23, .oxyy-login-register .text-24, .oxyy-login-register .text-25 {
+    line-height: 1.3;
+}
+
+/* Line height */
+.oxyy-login-register .line-height-07 {
+    line-height: 0.7 !important;
+}
+.oxyy-login-register .line-height-1 {
+    line-height: 1 !important;
+}
+.oxyy-login-register .line-height-2 {
+    line-height: 1.2 !important;
+}
+.oxyy-login-register .line-height-3 {
+    line-height: 1.4 !important;
+}
+.oxyy-login-register .line-height-4 {
+    line-height: 1.6 !important;
+}
+.oxyy-login-register .line-height-5 {
+    line-height: 1.8 !important;
+}
+
+/* Font Weight */
+.oxyy-login-register .font-weight-100 {
+    font-weight: 100 !important;
+}
+.oxyy-login-register .font-weight-200 {
+    font-weight: 200 !important;
+}
+.oxyy-login-register .font-weight-300 {
+    font-weight: 300 !important;
+}
+.oxyy-login-register .font-weight-400 {
+    font-weight: 400 !important;
+}
+.oxyy-login-register .font-weight-500 {
+    font-weight: 500 !important;
+}
+.oxyy-login-register .font-weight-600 {
+    font-weight: 600 !important;
+}
+.oxyy-login-register .font-weight-700 {
+    font-weight: 700 !important;
+}
+.oxyy-login-register .font-weight-800 {
+    font-weight: 800 !important;
+}
+.oxyy-login-register .font-weight-900 {
+    font-weight: 900 !important;
+}
+
+/* Opacity */
+.oxyy-login-register .opacity-0 {
+    opacity: 0;
+}
+.oxyy-login-register .opacity-1 {
+    opacity: 0.1;
+}
+.oxyy-login-register .opacity-2 {
+    opacity: 0.2;
+}
+.oxyy-login-register .opacity-3 {
+    opacity: 0.3;
+}
+.oxyy-login-register .opacity-4 {
+    opacity: 0.4;
+}
+.oxyy-login-register .opacity-5 {
+    opacity: 0.5;
+}
+.oxyy-login-register .opacity-6 {
+    opacity: 0.6;
+}
+.oxyy-login-register .opacity-7 {
+    opacity: 0.7;
+}
+.oxyy-login-register .opacity-8 {
+    opacity: 0.8;
+}
+.oxyy-login-register .opacity-9 {
+    opacity: 0.9;
+}
+.oxyy-login-register .opacity-10 {
+    opacity: 1;
+}
+
+/* Background light */
+.oxyy-login-register .bg-light-1 {
+    background-color: #e9ecef !important;
+}
+.oxyy-login-register .bg-light-2 {
+    background-color: #dee2e6 !important;
+}
+.oxyy-login-register .bg-light-3 {
+    background-color: #ced4da !important;
+}
+.oxyy-login-register .bg-light-4 {
+    background-color: #adb5bd !important;
+}
+
+/* Background Dark */
+.oxyy-login-register .bg-dark {
+    background-color: #111418 !important;
+}
+.oxyy-login-register .bg-dark-1 {
+    background-color: #212529 !important;
+}
+.oxyy-login-register .bg-dark-2 {
+    background-color: #343a40 !important;
+}
+.oxyy-login-register .bg-dark-3 {
+    background-color: #495057 !important;
+}
+.oxyy-login-register .bg-dark-4 {
+    background-color: #6c757d !important;
+}
+.oxyy-login-register hr {
+    border-top: 1px solid rgba(16, 85, 96, 0.1);
+}
+
+/* =================================== */
+/*  3. Layouts
+/* =================================== */
+#main-wrapper.oxyy-login-register {
+    background: #fff;
+}
+
+.oxyy-login-register .section {
+    position: relative;
+    padding: 4.5rem 0;
+    overflow: hidden;
+}
+@media (max-width: 767.98px) {
+    .oxyy-login-register .section {
+        padding: 3.5rem 0;
+    }
+}
+@media (min-width: 1200px) {
+    .oxyy-login-register .container {
+        max-width: 1170px !important;
+    }
+}
+@media (max-width: 767.98px) {
+    .oxyy-login-register .modal .close {
+        position: absolute;
+        z-index: 1;
+        right: 8px;
+    }
+}
+
+/* =================================== */
+/*  4. Elements
+/* =================================== */
+/*=== 4.1 Hero Background ===*/
+.oxyy-login-register .hero-wrap {
+    position: relative;
+    overflow: hidden;
+}
+.oxyy-login-register .hero-wrap .hero-mask, .oxyy-login-register .hero-wrap .hero-bg, .oxyy-login-register .hero-wrap .hero-bg-slideshow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+.oxyy-login-register .hero-wrap .hero-mask {
+    z-index: 1;
+}
+.oxyy-login-register .hero-wrap .hero-content {
+    position: relative;
+    z-index: 2;
+}
+.oxyy-login-register .hero-wrap .hero-particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+}
+.oxyy-login-register .hero-wrap .hero-bg-slideshow {
+    z-index: 0;
+}
+.oxyy-login-register .hero-wrap .hero-bg {
+    z-index: 0;
+    background-attachment: fixed;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    transition: background-image 300ms ease-in 200ms;
+}
+.oxyy-login-register .hero-wrap .hero-bg.hero-bg-scroll {
+    background-attachment: scroll;
+}
+.oxyy-login-register .hero-wrap .hero-bg-slideshow .hero-bg {
+    background-attachment: inherit;
+}
+.oxyy-login-register .hero-wrap .hero-bg-slideshow.owl-carousel .owl-stage-outer, .oxyy-login-register .hero-wrap .hero-bg-slideshow.owl-carousel .owl-stage, .oxyy-login-register .hero-wrap .hero-bg-slideshow.owl-carousel .owl-item {
+    height: 100%;
+}
+
+/* 4.2 Nav */
+.oxyy-login-register .nav .nav-item .nav-link {
+    color: #444;
+}
+.oxyy-login-register .nav.nav-light .nav-item .nav-link {
+    color: #ddd;
+}
+.oxyy-login-register .nav:not(.nav-pills) .nav-item .nav-link.active, .oxyy-login-register .nav:not(.nav-pills) .nav-item .nav-link:hover {
+    color: #007bff;
+}
+.oxyy-login-register .nav-pills .nav-link:not(.active):hover {
+    color: #007bff;
+}
+.oxyy-login-register .nav-pills .nav-link.active, .oxyy-login-register .nav-pills.nav-light .nav-link.active, .oxyy-login-register .nav-pills .show > .nav-link {
+    color: #fff;
+}
+.oxyy-login-register .nav.nav-separator .nav-item .nav-link {
+    position: relative;
+}
+.oxyy-login-register .nav.nav-separator .nav-item + .nav-item .nav-link:after {
+    height: 14px;
+    width: 1px;
+    content: ' ';
+    background-color: rgba(0, 0, 0, 0.2);
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    -webkit-transform: translateY(-7px);
+    transform: translateY(-7px);
+}
+.oxyy-login-register .nav.nav-separator.nav-separator-light .nav-item + .nav-item .nav-link:after {
+    background-color: rgba(250, 250, 250, 0.2);
+}
+.oxyy-login-register .nav.nav-sm .nav-item .nav-link {
+    font-size: 14px;
+}
+
+/*=== 4.3 Tabs ===*/
+.oxyy-login-register .nav-tabs {
+    border-bottom: 1px solid #d7dee3;
+}
+.oxyy-login-register .nav-tabs .nav-item .nav-link {
+    border: 0;
+    background: transparent;
+    position: relative;
+    border-radius: 0;
+    padding: 0.6rem 1rem;
+    color: #7b8084;
+    white-space: nowrap !important;
+}
+.oxyy-login-register .nav-tabs .nav-item .nav-link.active {
+    color: #0c2f55;
+}
+.oxyy-login-register .nav-tabs .nav-item .nav-link.active:after {
+    height: 2px;
+    width: 100%;
+    content: ' ';
+    background-color: #007bff;
+    display: block;
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    -webkit-transform: translateY(-3px);
+    transform: translateY(-3px);
+}
+.oxyy-login-register .nav-tabs .nav-item .nav-link:not(.active):hover {
+    color: #007bff;
+}
+.oxyy-login-register .nav-tabs.flex-column {
+    border-right: 1px solid #d7dee3;
+    border-bottom: 0px;
+    padding: 1.5rem 0;
+}
+.oxyy-login-register .nav-tabs.flex-column .nav-item .nav-link {
+    border: 1px solid #d7dee3;
+    border-right: 0px;
+    background-color: #f6f7f8;
+    font-size: 14px;
+    padding: 0.75rem 1rem;
+    color: #535b61;
+}
+.oxyy-login-register .nav-tabs.flex-column .nav-item:first-of-type .nav-link {
+    border-top-left-radius: 4px;
+}
+.oxyy-login-register .nav-tabs.flex-column .nav-item:last-of-type .nav-link {
+    border-bottom-left-radius: 4px;
+}
+.oxyy-login-register .nav-tabs.flex-column .nav-item .nav-link.active {
+    background-color: transparent;
+    color: #007bff;
+}
+.oxyy-login-register .nav-tabs.flex-column .nav-item .nav-link.active:after {
+    height: 100%;
+    width: 2px;
+    background: #fff;
+    right: -1px;
+    left: auto;
+}
+.oxyy-login-register .nav-tabs:not(.flex-column) {
+    flex-wrap: nowrap;
+    overflow: hidden;
+    overflow-x: auto;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    -webkit-overflow-scrolling: touch;
+}
+.oxyy-login-register .nav-tabs:not(.flex-column) .nav-item {
+    margin-bottom: 0px;
+}
+@media (max-width: 575.98px) {
+    .oxyy-login-register .nav-tabs .nav-item .nav-link {
+        padding-left: 0px;
+        padding-right: 0px;
+        margin-right: 10px;
+        font-size: 0.875rem;
+    }
+}
+
+/* 4.4 Video Play button */
+.oxyy-login-register .btn-video-play {
+    width: 66px;
+    height: 66px;
+    line-height: 66px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 50%;
+    background: #fff;
+    -webkit-box-shadow: 0px 0px 50px -35px rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 0px 50px -35px rgba(0, 0, 0, 0.4);
+    -webkit-transition: all 0.8s ease-in-out;
+    transition: all 0.8s ease-in-out;
+}
+.oxyy-login-register .btn-video-play:hover {
+    -webkit-box-shadow: 0px 0px 0px 8px rgba(250, 250, 250, 0.2);
+    box-shadow: 0px 0px 0px 8px rgba(250, 250, 250, 0.2);
+}
+
+/* =================================== */
+/*  5. Social Icons
+/* =================================== */
+.oxyy-login-register .social-icons {
+    margin: 0;
+    padding: 0;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    list-style: none;
+}
+.oxyy-login-register .social-icons li {
+    margin: 0px 6px 4px;
+    padding: 0;
+    overflow: visible;
+}
+.oxyy-login-register .social-icons li a {
+    display: block;
+    height: 38px;
+    line-height: 38px;
+    width: 38px;
+    font-size: 18px;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    text-decoration: none;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+.oxyy-login-register .social-icons li i {
+    line-height: inherit;
+}
+.oxyy-login-register .social-icons.social-icons-lg li a {
+    height: 45px;
+    line-height: 45px;
+    width: 45px;
+}
+.oxyy-login-register .social-icons li:hover a {
+    opacity: 0.8;
+}
+.oxyy-login-register .social-icons.social-icons-rounded li a {
+    border-radius: .25rem;
+}
+.oxyy-login-register .social-icons.social-icons-circle li a {
+    border-radius: 50%;
+}
+.oxyy-login-register .social-icons li.social-icons-twitter a {
+    background-color: #00ACEE;
+}
+.oxyy-login-register .social-icons li.social-icons-facebook a {
+    background-color: #1874eb;
+}
+.oxyy-login-register .social-icons li.social-icons-linkedin a {
+    background-color: #0E76A8;
+}
+.oxyy-login-register .social-icons li.social-icons-google a {
+    background-color: #DB4437;
+}
+.oxyy-login-register .social-icons li.social-icons-instagram a {
+    background-color: #3F729B;
+}
+.oxyy-login-register .social-icons li.social-icons-vk a {
+    background-color: #2B587A;
+}
+.oxyy-login-register .social-icons li.social-icons-yahoo a {
+    background-color: #720E9E;
+}
+.oxyy-login-register .social-icons li.social-icons-apple a {
+    background-color: #000;
+}
+.oxyy-login-register .social-icons li.social-icons-windows a {
+    background-color: #0090f4;
+}
+.oxyy-login-register .social-icons li.social-icons-amazon a {
+    background-color: #f79400;
+}
+.oxyy-login-register .btn-facebook {
+    background-color: #1874eb;
+    color: #fff !important;
+}
+.oxyy-login-register .btn-facebook:hover {
+    background-color: #1266d2;
+}
+.oxyy-login-register .btn-outline-facebook {
+    border-color: #1874eb;
+    color: #1874eb;
+}
+.oxyy-login-register .btn-outline-facebook:hover {
+    background-color: #1874eb;
+    color: #fff;
+}
+.oxyy-login-register .btn-twitter {
+    background-color: #00ACEE;
+    color: #fff !important;
+}
+.oxyy-login-register .btn-twitter:hover {
+    background-color: #0096cf;
+}
+.oxyy-login-register .btn-outline-twitter {
+    border-color: #00ACEE;
+    color: #00ACEE;
+}
+.oxyy-login-register .btn-outline-twitter:hover {
+    background-color: #00ACEE;
+    color: #fff;
+}
+.oxyy-login-register .btn-google {
+    background-color: #DB4437;
+    color: #fff !important;
+}
+.oxyy-login-register .btn-google:hover {
+    background-color: #ce3325;
+}
+.oxyy-login-register .btn-outline-google {
+    border-color: #DB4437;
+    color: #DB4437;
+}
+.oxyy-login-register .btn-outline-google:hover {
+    background-color: #DB4437;
+    color: #fff;
+}
+.oxyy-login-register .btn-linkedin {
+    background-color: #0E76A8;
+    color: #fff !important;
+}
+.oxyy-login-register .btn-linkedin:hover {
+    background-color: #0c628c;
+}
+.oxyy-login-register .btn-outline-linkedin {
+    border-color: #0E76A8;
+    color: #0E76A8;
+}
+.oxyy-login-register .btn-outline-linkedin:hover {
+    background-color: #0E76A8;
+    color: #fff;
+}
+.oxyy-login-register .btn-instagram {
+    background-color: #3F729B;
+    color: #fff !important;
+}
+.oxyy-login-register .btn-instagram:hover {
+    background-color: #366285;
+}
+.oxyy-login-register .btn-outline-instagram {
+    border-color: #3F729B;
+    color: #3F729B;
+}
+.oxyy-login-register .btn-outline-instagram:hover {
+    background-color: #3F729B;
+    color: #fff;
+}
+.oxyy-login-register .btn-vk {
+    background-color: #2B587A;
+    color: #fff !important;
+}
+.oxyy-login-register .btn-vk:hover {
+    background-color: #234863;
+}
+.oxyy-login-register .btn-outline-vk {
+    border-color: #2B587A;
+    color: #2B587A;
+}
+.oxyy-login-register .btn-outline-vk:hover {
+    background-color: #2B587A;
+    color: #fff;
+}
+.oxyy-login-register .btn-yahoo {
+    background-color: #720E9E;
+    color: #fff !important;
+}
+.oxyy-login-register .btn-yahoo:hover {
+    background-color: #5e0c82;
+}
+.oxyy-login-register .btn-outline-yahoo {
+    border-color: #720E9E;
+    color: #720E9E;
+}
+.oxyy-login-register .btn-outline-yahoo:hover {
+    background-color: #720E9E;
+    color: #fff;
+}
+.oxyy-login-register .btn-apple {
+    background-color: #000;
+    color: #fff !important;
+}
+.oxyy-login-register .btn-apple:hover {
+    background-color: black;
+}
+.oxyy-login-register .btn-outline-apple {
+    border-color: #000;
+    color: #000;
+}
+.oxyy-login-register .btn-outline-apple:hover {
+    background-color: #000;
+    color: #fff;
+}
+.oxyy-login-register .btn-windows {
+    background-color: #0090f4;
+    color: #fff !important;
+}
+.oxyy-login-register .btn-windows:hover {
+    background-color: #007ed5;
+}
+.oxyy-login-register .btn-outline-windows {
+    border-color: #0090f4;
+    color: #0090f4;
+}
+.oxyy-login-register .btn-outline-windows:hover {
+    background-color: #0090f4;
+    color: #fff;
+}
+.oxyy-login-register .btn-amazon {
+    background-color: #f79400;
+    color: #fff !important;
+}
+.oxyy-login-register .btn-amazon:hover {
+    background-color: #d88200;
+}
+.oxyy-login-register .btn-outline-amazon {
+    border-color: #f79400;
+    color: #f79400;
+}
+.oxyy-login-register .btn-outline-amazon:hover {
+    background-color: #f79400;
+    color: #fff;
+}
+
+/* =================================== */
+/*  6. Extras
+/* =================================== */
+/* 6.1 Form */
+.oxyy-login-register .custom-checkbox .rounded-0.custom-control-label:before {
+    border-radius: 0px !important;
+}
+.oxyy-login-register .form-control, .oxyy-login-register .custom-select {
+    border-color: #dae1e3;
+    font-size: 16px;
+    color: #656565;
+}
+.oxyy-login-register .form-control.bg-light, .oxyy-login-register .custom-select.bg-light {
+    background-color: #f5f5f6 !important;
+}
+.oxyy-login-register .form-control.border-light, .oxyy-login-register .custom-select.border-light {
+    border-color: #f5f5f6 !important;
+}
+.oxyy-login-register .form-control:not(.form-control-sm) {
+    padding: .810rem .96rem;
+    height: inherit;
+}
+.oxyy-login-register .form-control-sm {
+    font-size: 14px;
+}
+.oxyy-login-register .icon-group {
+    position: relative;
+}
+.oxyy-login-register .icon-group .form-control {
+    padding-left: 44px;
+}
+.oxyy-login-register .icon-group .icon-inside {
+    position: absolute;
+    width: 50px;
+    height: 54px;
+    left: 0;
+    top: 0;
+    pointer-events: none;
+    font-size: 18px;
+    font-size: 1.125rem;
+    color: #c4c3c3;
+    z-index: 3;
+    display: flex;
+    -ms-flex-align: center !important;
+    align-items: center !important;
+    -ms-flex-pack: center !important;
+    justify-content: center !important;
+}
+.oxyy-login-register .icon-group.icon-group-right .form-control {
+    padding-right: 44px;
+    padding-left: 0.96rem;
+}
+.oxyy-login-register .icon-group.icon-group-right .icon-inside {
+    left: auto;
+    right: 0;
+}
+.oxyy-login-register .form-control-sm + .icon-inside {
+    font-size: 0.875rem !important;
+    font-size: 14px;
+    top: calc(50% - 13px);
+}
+.oxyy-login-register select.form-control:not([size]):not([multiple]):not(.form-control-sm) {
+    height: auto;
+    padding-top: .700rem;
+    padding-bottom: .700rem;
+}
+.oxyy-login-register .custom-select:not(.custom-select-sm) {
+    height: calc(3.05rem + 2px);
+    padding-top: .700rem;
+    padding-bottom: .700rem;
+}
+.oxyy-login-register .col-form-label-sm {
+    font-size: 13px;
+}
+.oxyy-login-register .custom-select-sm {
+    padding-left: 5px !important;
+    font-size: 14px;
+}
+.oxyy-login-register .custom-select:not(.custom-select-sm).border-0 {
+    height: 3.00rem;
+}
+.oxyy-login-register .form-control:focus, .oxyy-login-register .custom-select:focus {
+    -webkit-box-shadow: 0 0 5px rgba(128, 189, 255, 0.5);
+    box-shadow: 0 0 5px rgba(128, 189, 255, 0.5);
+    border-color: #80bdff !important;
+}
+.oxyy-login-register .form-control:focus[readonly] {
+    box-shadow: none;
+}
+.oxyy-login-register .input-group-text {
+    border-color: #dae1e3;
+    background-color: #f1f5f6;
+    color: #656565;
+}
+.oxyy-login-register .form-control::-webkit-input-placeholder {
+    color: #b1b4b6;
+}
+.oxyy-login-register .form-control:-moz-placeholder {
+    /* FF 4-18 */
+    color: #b1b4b6;
+}
+.oxyy-login-register .form-control::-moz-placeholder {
+    /* FF 19+ */
+    color: #b1b4b6;
+}
+.oxyy-login-register .form-control:-ms-input-placeholder, .oxyy-login-register .form-control::-ms-input-placeholder {
+    /* IE 10+ */
+    color: #b1b4b6;
+}
+
+/* 6.2 Form Dark */
+.oxyy-login-register .form-dark .form-control, .oxyy-login-register .form-dark .custom-select {
+    border-color: #232a31;
+    background: #232a31;
+    color: #fff;
+}
+.oxyy-login-register .form-dark .form-control:focus {
+    border-color: #80bdff !important;
+}
+.oxyy-login-register .form-dark .form-control::-webkit-input-placeholder {
+    color: #777b7f;
+}
+.oxyy-login-register .form-dark .form-control:-moz-placeholder {
+    /* FF 4-18 */
+    color: #777b7f;
+}
+.oxyy-login-register .form-dark .form-control::-moz-placeholder {
+    /* FF 19+ */
+    color: #777b7f;
+}
+.oxyy-login-register .form-dark .form-control:-ms-input-placeholder, .oxyy-login-register .form-dark .form-control::-ms-input-placeholder {
+    /* IE 10+ */
+    color: #777b7f;
+}
+.oxyy-login-register .form-dark .custom-select {
+    color: #777b7f;
+    background: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='rgba(250,250,250,0.3)' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") no-repeat right 0.75rem center;
+    background-size: 13px 15px;
+    border-color: #232a31;
+    background-color: #232a31;
+}
+.oxyy-login-register .form-dark .icon-group .icon-inside {
+    color: #777b7f;
+}
+.oxyy-login-register .form-dark .custom-control-label:before {
+    background-color: #232a31;
+    border-color: #232a31;
+}
+
+/* 6.3 Form Border (Input with only bottom border)  */
+.oxyy-login-register .form-border .form-control {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 0px;
+    padding-left: 0px !important;
+    color: black;
+}
+.oxyy-login-register .form-border .form-control::-webkit-input-placeholder {
+    color: rgba(0, 0, 0, 0.4);
+}
+.oxyy-login-register .form-border .form-control:-moz-placeholder {
+    /* FF 4-18 */
+    color: rgba(0, 0, 0, 0.4);
+}
+.oxyy-login-register .form-border .form-control::-moz-placeholder {
+    /* FF 19+ */
+    color: rgba(0, 0, 0, 0.4);
+}
+.oxyy-login-register .form-border .form-control:-ms-input-placeholder, .oxyy-login-register .form-border .form-control::-ms-input-placeholder {
+    /* IE 10+ */
+    color: rgba(0, 0, 0, 0.4);
+}
+.oxyy-login-register .form-border .custom-select {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 0px;
+    padding-left: 0px;
+    color: rgba(0, 0, 0, 0.4);
+    background: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='rgba(0,0,0,0.3)' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") no-repeat right 0.75rem center;
+    background-size: 13px 15px;
+}
+.oxyy-login-register .form-border .form-control:focus, .oxyy-login-register .form-border .custom-select:focus {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    border-bottom-color: rgba(0, 0, 0, 0.7);
+}
+.oxyy-login-register .form-border .form-control:focus.border-dark, .oxyy-login-register .form-border .custom-select:focus.border-dark {
+    border-color: #007bff !important;
+}
+.oxyy-login-register .form-border .form-control:not(output):-moz-ui-invalid:not(:focus), .oxyy-login-register .form-border .form-control:not(output):-moz-ui-invalid:-moz-focusring:not(:focus), .oxyy-login-register .form-border .custom-select:not(output):-moz-ui-invalid:not(:focus), .oxyy-login-register .form-border .custom-select:not(output):-moz-ui-invalid:-moz-focusring:not(:focus) {
+    border-bottom-color: #e10203;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+.oxyy-login-register .form-border .form-control:not(output):-moz-ui-invalid:not(:focus).border-dark, .oxyy-login-register .form-border .form-control:not(output):-moz-ui-invalid:-moz-focusring:not(:focus).border-dark, .oxyy-login-register .form-border .custom-select:not(output):-moz-ui-invalid:not(:focus).border-dark, .oxyy-login-register .form-border .custom-select:not(output):-moz-ui-invalid:-moz-focusring:not(:focus).border-dark {
+    border-color: #e10203 !important;
+}
+.oxyy-login-register .form-border select option {
+    color: #666;
+}
+.oxyy-login-register .form-border .icon-group .form-control {
+    padding-left: 30px !important;
+}
+.oxyy-login-register .form-border .icon-group .icon-inside {
+    color: rgba(0, 0, 0, 0.25);
+    width: 30px;
+    height: 52px;
+    display: flex;
+    -ms-flex-align: center !important;
+    align-items: center !important;
+    -ms-flex-pack: start !important;
+    justify-content: start !important;
+}
+.oxyy-login-register .form-border .icon-group.icon-group-right .form-control {
+    padding-right: 30px !important;
+    padding-left: 0 !important;
+}
+.oxyy-login-register .form-border .icon-group.icon-group-right .icon-inside {
+    left: auto;
+    right: 0;
+    -ms-flex-pack: end !important;
+    justify-content: end !important;
+}
+
+/* 6.4 Form Border Light (Input with only bottom border)  */
+.oxyy-login-register .form-border-light .form-control {
+    border-bottom: 1px solid rgba(250, 250, 250, 0.3);
+    color: #fafafa;
+}
+.oxyy-login-register .form-border-light .form-control::-webkit-input-placeholder {
+    color: rgba(250, 250, 250, 0.7);
+}
+.oxyy-login-register .form-border-light .form-control:-moz-placeholder {
+    /* FF 4-18 */
+    color: rgba(250, 250, 250, 0.7);
+}
+.oxyy-login-register .form-border-light .form-control::-moz-placeholder {
+    /* FF 19+ */
+    color: rgba(250, 250, 250, 0.7);
+}
+.oxyy-login-register .form-border-light .form-control:-ms-input-placeholder, .oxyy-login-register .form-border-light .form-control::-ms-input-placeholder {
+    /* IE 10+ */
+    color: rgba(250, 250, 250, 0.7);
+}
+.oxyy-login-register .form-border-light .custom-select {
+    border-bottom: 2px solid rgba(250, 250, 250, 0.3);
+    color: #fafafa;
+    background: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='rgba(250,250,250,0.6)' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") no-repeat right 0.75rem center;
+    background-size: 13px 15px;
+}
+.oxyy-login-register .form-border-light .form-control:focus, .oxyy-login-register .form-border-light .custom-select:focus {
+    border-bottom-color: rgba(250, 250, 250, 0.8);
+}
+.oxyy-login-register .form-border-light .form-control:focus.border-light, .oxyy-login-register .form-border-light .custom-select:focus.border-light {
+    border-color: #007bff !important;
+}
+.oxyy-login-register .form-border-light .icon-group .icon-inside {
+    color: #777b7f;
+}
+.oxyy-login-register .form-border-light select option {
+    color: #333;
+}
+
+/* 6.5 Vertical Multilple input group */
+.oxyy-login-register .vertical-input-group .input-group:first-child {
+    padding-bottom: 0;
+}
+.oxyy-login-register .vertical-input-group .input-group:first-child * {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.oxyy-login-register .vertical-input-group .input-group:last-child {
+    padding-top: 0;
+}
+.oxyy-login-register .vertical-input-group .input-group:last-child * {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+.oxyy-login-register .vertical-input-group .input-group:not(:last-child):not(:first-child) {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+.oxyy-login-register .vertical-input-group .input-group:not(:last-child):not(:first-child) * {
+    border-radius: 0;
+}
+.oxyy-login-register .vertical-input-group .input-group:not(:first-child) * {
+    border-top: 0;
+}
+
+/* 6.6 Other Bootstrap Specific */
+.oxyy-login-register .btn {
+    padding: 0.8rem 2.6rem;
+    font-weight: 500;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+.oxyy-login-register .btn-sm {
+    padding: 0.5rem 1rem;
+}
+.oxyy-login-register .btn:not(.btn-link) {
+    -webkit-box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+}
+.oxyy-login-register .btn:not(.btn-link):hover {
+    -webkit-box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+.oxyy-login-register .input-group-append .btn, .oxyy-login-register .input-group-prepend .btn {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+}
+.oxyy-login-register .input-group-append .btn:hover, .oxyy-login-register .input-group-prepend .btn:hover {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+@media (max-width: 575.98px) {
+    .oxyy-login-register .btn:not(.btn-sm) {
+        padding: .810rem 2rem;
+    }
+    .oxyy-login-register .input-group > .input-group-append > .btn, .oxyy-login-register .input-group > .input-group-prepend > .btn {
+        padding: 0 0.75rem;
+    }
+}
+.oxyy-login-register .bg-primary, .oxyy-login-register .badge-primary {
+    background-color: #007bff !important;
+}
+.oxyy-login-register .bg-secondary {
+    background-color: #0c2f55 !important;
+}
+.oxyy-login-register .text-primary, .oxyy-login-register .btn-link {
+    color: #007bff !important;
+}
+.oxyy-login-register .btn-link:hover {
+    color: #006adb !important;
+}
+.oxyy-login-register .text-secondary {
+    color: #0c2f55 !important;
+}
+.oxyy-login-register .text-light {
+    color: #dee3e4 !important;
+}
+.oxyy-login-register .text-body {
+    color: #4c4d4d !important;
+}
+.oxyy-login-register a.bg-primary:focus, .oxyy-login-register a.bg-primary:hover, .oxyy-login-register button.bg-primary:focus, .oxyy-login-register button.bg-primary:hover {
+    background-color: #006adb !important;
+}
+.oxyy-login-register .border-primary {
+    border-color: #007bff !important;
+}
+.oxyy-login-register .border-secondary {
+    border-color: #0c2f55 !important;
+}
+.oxyy-login-register .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+.oxyy-login-register .btn-primary:hover {
+    background-color: #006adb;
+    border-color: #006adb;
+}
+.oxyy-login-register .btn-primary:not(:disabled):not(.disabled).active, .oxyy-login-register .btn-primary:not(:disabled):not(.disabled):active {
+    background-color: #006adb;
+    border-color: #006adb;
+}
+.oxyy-login-register .btn-primary.focus, .oxyy-login-register .btn-primary:focus {
+    background-color: #006adb;
+    border-color: #006adb;
+}
+.oxyy-login-register .btn-primary:not(:disabled):not(.disabled).active:focus, .oxyy-login-register .btn-primary:not(:disabled):not(.disabled):active:focus, .oxyy-login-register .show > .btn-primary.dropdown-toggle:focus {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+.oxyy-login-register .btn-secondary {
+    background-color: #0c2f55;
+    border-color: #0c2f55;
+}
+.oxyy-login-register .btn-outline-primary, .oxyy-login-register .btn-outline-primary:not(:disabled):not(.disabled).active, .oxyy-login-register .btn-outline-primary:not(:disabled):not(.disabled):active {
+    color: #007bff;
+    border-color: #007bff;
+}
+.oxyy-login-register .btn-outline-primary:hover, .oxyy-login-register .btn-outline-primary:not(:disabled):not(.disabled).active:hover, .oxyy-login-register .btn-outline-primary:not(:disabled):not(.disabled):active:hover {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: #fff;
+}
+.oxyy-login-register .btn-outline-secondary {
+    color: #0c2f55;
+    border-color: #0c2f55;
+}
+.oxyy-login-register .btn-outline-secondary:hover {
+    background-color: #0c2f55;
+    border-color: #0c2f55;
+    color: #fff;
+}
+.oxyy-login-register .progress-bar,
+.oxyy-login-register .nav-pills .nav-link.active, .oxyy-login-register .nav-pills .show > .nav-link, .oxyy-login-register .dropdown-item.active, .oxyy-login-register .dropdown-item:active {
+    background-color: #007bff;
+}
+.oxyy-login-register .page-item.active .page-link,
+.oxyy-login-register .custom-radio .custom-control-input:checked ~ .custom-control-label:before,
+.oxyy-login-register .custom-control-input:checked ~ .custom-control-label::before,
+.oxyy-login-register .custom-checkbox .custom-control-input:checked ~ .custom-control-label:before,
+.oxyy-login-register .custom-control-input:checked ~ .custom-control-label:before {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+.oxyy-login-register .list-group-item.active {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+.oxyy-login-register .page-link {
+    color: #007bff;
+}
+.oxyy-login-register .page-link:hover {
+    color: #006adb;
+}
+
+/* styles-switcher */
+#styles-switcher {
+    background: #fff;
+    width: 202px;
+    position: fixed;
+    top: 35%;
+    z-index: 1051;
+    padding: 20px;
+    left: -202px;
+}
+#styles-switcher ul {
+    padding: 0;
+}
+#styles-switcher ul li {
+    list-style-type: none;
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    margin: 4px 2px;
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+    text-align: center;
+    color: #fff;
+    transition: all .2s ease-in-out;
+}
+#styles-switcher ul li.blue {
+    background: #007bff;
+}
+#styles-switcher ul li.brown {
+    background: #795548;
+}
+#styles-switcher ul li.purple {
+    background: #6f42c1;
+}
+#styles-switcher ul li.indigo {
+    background: #6610f2;
+}
+#styles-switcher ul li.red {
+    background: #dc3545;
+}
+#styles-switcher ul li.orange {
+    background: #fd7e14;
+}
+#styles-switcher ul li.yellow {
+    background: #ffc107;
+}
+#styles-switcher ul li.green {
+    background: #28a745;
+}
+#styles-switcher ul li.teal {
+    background: #20c997;
+}
+#styles-switcher ul li.pink {
+    background: #e83e8c;
+}
+#styles-switcher ul li.cyan {
+    background: #17a2b8;
+}
+#styles-switcher ul li.active {
+    transform: scale(0.7);
+    cursor: default;
+}
+#styles-switcher .switcher-toggle {
+    position: absolute;
+    background: #555;
+    color: #fff;
+    font-size: 1.25rem;
+    border-radius: 0px 4px 4px 0;
+    right: -40px;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+}
+#styles-switcher .switcher-toggle:focus {
+    box-shadow: none;
+}
+#styles-switcher #reset-color {
+    background: #007bff;
+}
+
+input:-internal-autofill-selected {
+    background-color: transparent;
+}
+
+#styles-switcher.right {
+    left: auto;
+    right: -202px;
+}
+
+#styles-switcher.right .switcher-toggle {
+    right: auto;
+    left: -40px;
+    border-radius: 4px 0px 0px 4px;
+}

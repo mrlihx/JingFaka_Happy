@@ -1,0 +1,93 @@
+{extend name="base"}
+
+{block name="content"}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="table-responsive mt-2">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>商品名称</th>
+                                        <th>库存</th>
+                                        <th>供货价格</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {foreach $lists as $v}
+                                    <tr>
+                                        <td>
+                                            {$v['name']}
+                                        </td>
+                                        <td> 
+                                            {if $v['count'] > 0}
+                                            {$v['count']}张
+                                            {elseif $v['count']==0}
+                                            <span style="color: #ff0000;">断货</span>
+                                            {elseif $v['count']==-1}
+                                            <span style="color: #c38432;">人工充值</span>
+                                            {elseif $v['count']==-2}
+                                            <span style="color: #c38432;">充足</span>
+                                            {/if}
+                                        </td>
+                                        <td>{$v['price']}元</td>
+                                        <td>
+                                            {if hasCrossAdd($_user->id, $cross.id,$v['goods_id'])==1 }
+                                            <span class="text-danger">已对接</span>
+                                            {else/}
+
+                                            {if $v['type']==1}
+                                            <a href="{:url('cross/add',['cross_id'=>$cross.id,'goods_id'=>$v['goods_id']])}">立即对接</a>
+                                            <a href="javascript:void(0)" onclick="$.x_show('快速对接', '{:url(\'cross/addLite\',[\'cross_id\'=>$cross.id,\'goods_id\'=>$v[\'goods_id\']])}', 450)">快速对接</a>
+                                            {else/}
+                                            <span class="text-warning">非卡密类商品不支持对接</span>
+                                            {/if}
+                                            {/if}
+                                        </td>
+                                    </tr>
+                                    {/foreach}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+
+
+{/block}
+{block name="js"}
+<script>
+
+</script>
+{/block}

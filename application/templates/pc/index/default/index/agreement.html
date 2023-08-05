@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>{$data.title} - {:sysconf('site_name')}</title>
+        <meta name="keywords" content="{:sysconf('site_keywords')}" />
+        <meta name="description" content="{:sysconf('site_desc')}" />
+        <link rel="shortcut icon" href="{:sysconf('browser_icon')}" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Bootstrap -->
+        <link href="__RES__/theme/landrick/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <!-- Icons -->
+        <link href="__RES__/theme/landrick/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
+        <!-- Main Css -->
+        <link href="__RES__/theme/landrick/css/land1.css" rel="stylesheet" type="text/css" id="theme-opt" />
+        <link href="__RES__/theme/landrick/css/colors/default.css" rel="stylesheet" id="color-opt">
+        <link href="__RES__/merchant/default/css/icons.min.css" rel="stylesheet" type="text/css">
+    </head>
+
+    <body>
+        <!-- Start Privacy -->
+        <section class="mt-4 mb-4">
+            <div class="container">
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-9">
+                        <div class="card shadow rounded border-0">
+                            <div class="card-body">
+                                {$data.content|htmlspecialchars_decode|removeXSS}
+                            </div>
+                        </div>
+                    </div><!--end col-->
+                </div><!--end row-->
+            </div><!--end container-->
+        </section><!--end section-->
+
+    </body>
+</html>

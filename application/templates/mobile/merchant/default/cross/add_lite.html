@@ -1,0 +1,432 @@
+{extend name="lite_base" /}
+{block name="css"}
+<link href="__RES__/merchant/default/libs/summernote/summernote-bs4.min.css" rel="stylesheet" type="text/css">
+{/block}
+{block name="content"}
+
+<div class="card mb-0">
+
+    <div class="card-content">
+        <div class="card-body">
+
+            <form id="form1" class="form-horizontal" role="form" action="" method="post">
+
+                <input type="hidden" name="cross_id" value="{$cross_id|default=''|htmlentities}">
+                <input type="hidden" name="goods_id" value="{$goods_id|default=''|htmlentities}">
+
+
+                <div class="form-group row">
+                    <label for="cate_id" class="col-md-2 col-form-label">商品分类</label>
+                    <div class="col-md-4">
+                        <select id="cate_id" name="cate_id" class="form-control select2" required>
+                            {foreach $categorys as $v}
+                            <option value="{$v.id|htmlentities}" {if isset($goods) && $goods.cate_id==$v.id}selected{/if}>{$v.name}</option>
+                            {/foreach}
+                        </select>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-center">
+                        <p class="text-muted mb-0">请选择商品分类</p>
+                    </div>
+                </div>
+
+                <div class="form-group row d-none">
+                    <label for="theme" class="col-md-2 col-form-label">页面风格</label>
+                    <div class="col-md-4">
+                        <select id="theme" name="theme" class="form-control select2" required>
+                            {foreach :config('pay_themes') as $theme}
+                            <option value="{$theme.alias|htmlentities}" {if isset($goods) && $goods.theme==$theme.alias}selected{/if}>{$theme.name}</option>
+                            {/foreach}
+                        </select>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-center">
+                        <p class="text-muted mb-0">请选择购买时的页面风格</p>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="name" class="col-md-2 col-form-label">商品名称</label>
+                    <div class="col-md-4">
+                        <input id="name" name="name" type="text" class="form-control" placeholder="商品名称" value="{$original_goods['name']|default=''|htmlentities}">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label  class="col-md-2 col-form-label">货源成本价 <b>{$original_goods['price']|default=''|htmlentities}</b> 元</label>
+                </div>
+
+                <div class="form-group row">
+                    <label for="price" class="col-md-2 col-form-label">商品价格</label>
+                    <div class="col-md-4">
+                        <input id="price" name="price" type="text" class="form-control" placeholder="商品价格" value="{$goods.price|default=''|htmlentities}">
+                    </div>
+                    <div class="col-md-6 d-flex align-items-center">
+                        <p class="text-muted mb-0">商品对外出售的价格即零售价格！</p>
+                    </div>
+                </div>
+
+
+                <div class="form-group row block_wholesale_discount  d-none">
+                    <label for="wholesale_discount" class="col-md-2 col-form-label">批发优惠</label>
+                    <div class="col-md-4 d-flex align-items-center">
+                        <div class="custom-control custom-radio custom-control-inline mr-4">
+                            <input  value="0" type="radio" id="wholesale_discount2" name="wholesale_discount" class="custom-control-input"  {if isset($goods)}{if $goods.wholesale_discount==0}checked{/if}{else/}checked{/if}>
+                                    <label class="custom-control-label" for="wholesale_discount2">不使用</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline mr-4">
+                            <input value="1" type="radio" id="wholesale_discount1" name="wholesale_discount" class="custom-control-input" {if isset($goods) && $goods.wholesale_discount==1}checked{/if}>
+                                   <label class="custom-control-label" for="wholesale_discount1">使用</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-center">
+                        <p class="text-muted mb-0">是否设置批发购买时使用批发价格！</p>
+                    </div>
+                </div>
+                <div class="form-group row block-wholesale_discount d-none" {if !isset($goods) || $goods.wholesale_discount==0}style="display:none"{/if}>
+                     <label for="block-discount_list" class="col-md-2 col-form-label"></label>
+                    <div class="col-md-4">
+                        <div class="block-discount_list" id="block-discount_list">
+                            {if isset($goods)}
+                            {foreach $goods.wholesale_discount_list as $v}
+                            <div class="form-group row discount_item">
+                                <div class="col-md-3">
+                                    <input name="wholesale_discount_list[num][]" type="number" class="form-control" value="{$v.num|htmlentities}" min=0>
+                                </div>
+                                <div class="col-md-1">
+                                    张
+                                </div>
+                                <div class="col-md-3">
+                                    <input name="wholesale_discount_list[price][]" type="text" class="form-control" value="{$v.price|htmlentities}">
+                                </div>
+                                <div class="col-md-1">
+                                    元
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="button" class="btn btn-danger waves-effect waves-light btn-sm" onclick="del_discount_item(this)">删除</button>
+                                </div>
+                            </div>
+                            {/foreach}
+                            {/if}
+                        </div>
+                        <button type="button" class="btn btn-primary waves-effect waves-light btn-sm" onclick="add_discount_item()"><i class="bx bx-plus-circle"></i> 添加优惠</button>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-center">
+                        <p class="text-muted mb-0">优惠价格为单价，并不是商品总价哦！</p>
+                    </div>
+                </div>
+
+                <div class="form-group row  d-none">
+                    <label for="sms_payer" class="col-md-2 col-form-label">短信费用</label>
+                    <div class="col-md-4 d-flex align-items-center">
+                        <div class="custom-control custom-radio custom-control-inline mr-4">
+                            <input  value="0" type="radio" id="sms_payer1" name="sms_payer" class="custom-control-input"  {if isset($goods)}{if $goods.sms_payer==0}checked{/if}{else/}checked{/if}>
+                                    <label class="custom-control-label" for="sms_payer1">买家承担</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline mr-4">
+                            <input value="1" type="radio" id="sms_payer2" name="sms_payer" class="custom-control-input" {if isset($goods) && $goods.sms_payer==1}checked{/if}>
+                                   <label class="custom-control-label" for="sms_payer2">商户承担</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row  d-none">
+                    <label for="limit_quantity" class="col-md-2 col-form-label">起购数量</label>
+                    <div class="col-md-4">
+                        <input id="limit_quantity" name="limit_quantity" type="number" class="form-control" placeholder="起购数量" value="{$goods.limit_quantity|default=1|htmlentities}" min=1>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-center">
+                        <p class="text-muted mb-0">每次购买最少购买多少件！</p>
+                    </div>
+                </div>
+
+
+                <div class="form-group row  d-none">
+                    <label for="max_quantity" class="col-md-2 col-form-label">限购数量</label>
+                    <div class="col-md-4">
+                        <input id="max_quantity" name="max_quantity" type="number" class="form-control" placeholder="限购数量，0不限制" value="{$goods.max_quantity|default=0|htmlentities}">
+                    </div>
+                    <div class="col-md-6 d-flex align-items-center">
+                        <p class="text-muted mb-0">每次购买最多购买多少件，0不限制！</p>
+                    </div>
+                </div>
+
+                <div class="form-group row block_coupon_type  d-none" >
+                    <label for="coupon_type" class="col-md-2 col-form-label">优惠券</label>
+                    <div class="col-md-4 d-flex align-items-center">
+                        <div class="custom-control custom-radio custom-control-inline mr-4">
+                            <input  value="1" type="radio" id="coupon_type1" name="coupon_type" class="custom-control-input"  {if isset($goods) && $goods.coupon_type==1}checked{/if}>
+                                    <label class="custom-control-label" for="coupon_type1">支持</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline mr-4">
+                            <input value="0" type="radio" id="coupon_type2" name="coupon_type" class="custom-control-input"  {if isset($goods)}{if $goods.coupon_type==0}checked{/if}{else/}checked{/if}>
+                                   <label class="custom-control-label" for="coupon_type2">不支持</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 d-flex align-items-center">
+                        <p class="text-muted mb-0">是否支持优惠券</p>
+                    </div>
+                </div>
+
+                <div class="form-group row  d-none">
+                    <label for="sold_notify" class="col-md-2 col-form-label">售出通知</label>
+                    <div class="col-md-4 d-flex align-items-center">
+                        <div class="custom-control custom-radio custom-control-inline mr-4">
+                            <input value="0" type="radio" id="sold_notify2" name="sold_notify" class="custom-control-input"  {if isset($goods)}{if $goods.sold_notify==0}checked{/if}{else/}checked{/if}>
+                                   <label class="custom-control-label" for="sold_notify2">关闭</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline mr-4">
+                            <input  value="1" type="radio" id="sold_notify1" name="sold_notify" class="custom-control-input"  {if isset($goods) && $goods.sold_notify==1}checked{/if}>
+                                    <label class="custom-control-label" for="sold_notify1">开启</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-center">
+                        <p class="text-muted mb-0">开启后，成功售卡将会发送邮件通知</p>
+                    </div>
+                </div>
+
+
+                <div class="form-group row  d-none">
+                    <label for="inventory_notify_type" class="col-md-2 col-form-label">通知方式</label>
+
+                    <div class="col-md-4 d-flex align-items-center">
+                        <div class="custom-control custom-radio custom-control-inline mr-4">
+                            <input  value="1" type="radio" id="inventory_notify_type1" name="inventory_notify_type" class="custom-control-input"  {if isset($goods)}{if $goods.inventory_notify_type==1}checked{/if}{else/}checked{/if}>
+                                    <label class="custom-control-label" for="inventory_notify_type1">站内信</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline mr-4">
+                            <input value="2" type="radio" id="inventory_notify_type2" name="inventory_notify_type" class="custom-control-input"   {if isset($goods) && $goods.inventory_notify_type==2}checked{/if}>
+                                   <label class="custom-control-label" for="inventory_notify_type2">邮件</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row  d-none">
+                    <label for="take_card_type" class="col-md-2 col-form-label">提卡密码</label>
+                    <div class="col-md-4 d-flex align-items-center">
+                        <div class="custom-control custom-radio custom-control-inline mr-4">
+                            <input value="0" type="radio" id="take_card_type3" name="take_card_type" class="custom-control-input"  {if isset($goods)}{if $goods.take_card_type==0}checked{/if}{else/}checked{/if}>
+                                   <label class="custom-control-label" for="take_card_type3">关闭</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline mr-4">
+                            <input value="2" type="radio" id="take_card_type2" name="take_card_type" class="custom-control-input"  {if isset($goods) && $goods.take_card_type==2}checked{/if}>
+                                   <label class="custom-control-label" for="take_card_type2">选填</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline mr-4">
+                            <input  value="1" type="radio" id="take_card_type1" name="take_card_type" class="custom-control-input"  {if isset($goods) && $goods.take_card_type==1}checked{/if}>
+                                    <label class="custom-control-label" for="take_card_type1">必填</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 d-flex align-items-center">
+                        <p class="text-muted mb-0">开启后，购买页面会提示买家填写取卡密码</p>
+                    </div>
+                </div>
+
+                <div class="form-group row  d-none">
+                    <label for="visit_type" class="col-md-2 col-form-label">访问密码</label>
+                    <div class="col-md-4 d-flex align-items-center">
+                        <div class="custom-control custom-radio custom-control-inline mr-4">
+                            <input value="0" type="radio" id="visit_type2" name="visit_type" class="custom-control-input"  {if isset($goods)}{if $goods.visit_type==0}checked{/if}{else/}checked{/if}>
+                                   <label class="custom-control-label" for="visit_type2">关闭</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline mr-4">
+                            <input  value="1" type="radio" id="visit_type1" name="visit_type" class="custom-control-input" {if isset($goods) && $goods.visit_type==1}checked{/if}>
+                                    <label class="custom-control-label" for="visit_type1">开启</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-center">
+                        <p class="text-muted mb-0">留空为不开启，若开启后商品购买页面将提示输入设置的密码才能继续访问</p>
+                    </div>
+                </div>
+
+                <div class="form-group row block-visit_password  d-none" {if !isset($goods) || $goods.visit_type==0}style="display:none"{/if}>
+                     <label for="visit_password" class="col-md-2 col-form-label">设置密码</label>
+                    <div class="col-md-4">
+                        <input id="visit_password" name="visit_password" type="text" class="form-control" placeholder="" value="{$goods.visit_password|default=''|htmlentities}">
+                    </div>
+                    <div class="col-md-6 d-flex align-items-center">
+                        <p class="text-muted mb-0">设置密码后，请牢记该密码！</p>
+                    </div>
+                </div>
+                <div class="form-group row  d-none">
+                    <label for="contact_limit" class="col-md-2 col-form-label">客户信息</label>
+                    <div class="col-md-4">
+                        <select id="contact_limit" name="contact_limit" class="form-control select2" required>
+                            <option value="default" {if isset($goods) && $goods.contact_limit==='default'}selected{/if}>默认</option>
+                            <option value="any" {if isset($goods) && $goods.contact_limit==='any'}selected{/if}>任意字符</option>
+                            <option value="qq" {if isset($goods) && $goods.contact_limit==='qq'}selected{/if}>QQ号码</option>
+                            <option value="email" {if isset($goods) && $goods.contact_limit==='email'}selected{/if}>邮箱账号</option>
+                            <option value="mobile" {if isset($goods) && $goods.contact_limit==='mobile'}selected{/if}>手机号码</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-center">
+                        <p class="text-muted mb-0">客户下单时输入的联系方式或充值账号格式限制</p>
+                    </div>
+                </div>
+
+
+                <div class="form-group row d-none" >
+                    <label for="content" class="col-md-2 col-form-label">商品说明</label>
+                    <div class="col-md-4">
+                        <textarea class='d-none' id="content" name="content"></textarea>
+                        <div id="summernote-content">{$original_goods['content']|default=''|htmlspecialchars_decode|removeXSS}</div>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-center">
+                        <p class="text-muted mb-0">商品说明将显示在商品购买页面</p>
+                    </div>
+                </div>
+
+                <div class="form-group row d-none">
+                    <label for="remark" class="col-md-2 col-form-label">使用说明</label>
+                    <div class="col-md-4">
+                        <textarea id="remark" name="remark" placeholder="建议填写该商品的使用方法，文字不超过200字" class="form-control" rows="5" maxlength="200">{$original_goods['remark']|default=''}</textarea>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-center">
+                        <p class="text-muted mb-0">使用说明将显示在订单查询结果中，一般设置售后QQ群，或者下载地址类</p>
+                    </div>
+                </div>
+
+                <div class="form-group row d-none">
+                    <label for="sort" class="col-md-2 col-form-label">商品排序</label>
+                    <div class="col-md-4">
+                        <input id="sort" name="sort" type="number" class="form-control" placeholder="商品排序" value="{$goods.sort|default=0|htmlentities}" min=0>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-center">
+                        <p class="text-muted mb-0">数字越大越靠前！</p>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-2 col-form-label"></label>
+                    <div class="col-md-4 text-center">
+                        <button   class="btn btn-primary waves-effect waves-light btn-submit"><i class="bx bx-check-square mr-1"></i>确认提交</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- End Page-content -->
+{/block}
+
+{block name="js"}
+<script src="__RES__/merchant/default/libs/summernote/summernote-bs4.min.js"></script>
+<script src="__RES__/merchant/default/libs/summernote/lang/summernote-zh-CN.js"></script>
+<script>
+
+                            $(document).ready(function () {
+                                $('#summernote-content').summernote({
+                                    height: 240,
+                                    minHeight: null,
+                                    maxHeight: null,
+                                    lang: 'zh-CN',
+                                    toolbar: [
+                                        ['operate', ['undo', 'redo']],
+                                        ['magic', ['style']],
+                                        ['style', ['bold', 'italic', 'underline', 'clear']],
+                                        ['para', ['height', 'fontsize', 'ul', 'ol', 'paragraph']],
+                                        ['font', ['strikethrough', 'superscript', 'subscript']],
+                                        ['color', ['color']],
+                                        ['insert', ['picture', 'link', 'hr']],
+                                        ['codeview', ['codeview']],
+                                    ],
+                                    callbacks: {
+                                        onImageUpload: function (files) {
+                                            sendFile(files[0]);
+                                        }
+                                    }
+                                });
+                                function sendFile(files) {
+                                    data = new FormData();
+                                    data.append("file", files);
+                                    $.ajax({
+                                        data: data,
+                                        dataType: 'json',
+                                        type: "POST",
+                                        url: "{:url('Plugin/uploadImg')}", //上传路径
+                                        cache: false,
+                                        contentType: false,
+                                        processData: false,
+                                        success: function (data) {
+                                            if (data.code === 1)
+                                            {
+                                                $('#summernote-content').summernote('insertImage', data.data.src);
+                                            } else {
+                                                layer.msg(data.msg);
+                                            }
+                                        },
+                                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                            layer.msg('上传失败');
+                                        }
+                                    });
+                                }
+                            });
+
+                            $('[name="visit_type"]').change(function () {
+                                var status = $(this).val();
+                                if (status == 1) {
+                                    $('.block-visit_password').slideDown();
+                                } else {
+                                    $('.block-visit_password').slideUp();
+                                }
+                            });
+                            $('[name="wholesale_discount"]').change(function () {
+                                var status = $(this).val();
+                                if (status == 1) {
+                                    $('.block-wholesale_discount').slideDown();
+                                } else {
+                                    $('.block-wholesale_discount').slideUp();
+                                }
+                            });
+
+
+                            function del_discount_item(obj) {
+                                $(obj).parents('.discount_item').remove();
+                            }
+                            function add_discount_item() {
+                                var html = '<div class="form-group row discount_item d-flex align-items-center"><div class="col-md-3"><input name="wholesale_discount_list[num][]" type="number" class="form-control" value="" min=0></div><div class="col-md-1">张</div><div class="col-md-3"><input name="wholesale_discount_list[price][]" type="text" class="form-control" value=""></div><div class="col-md-1">元</div><div class="col-md-4"><button type="button" class="btn btn-danger waves-effect waves-light btn-sm" onclick="del_discount_item(this)">删除</button></div></div>';
+                                $('.block-discount_list').append($(html));
+                            }
+                            $('.btn-submit').click(function () {
+
+                                var good_name = $("form").find("input[name='name']").val();
+                                if (!good_name) {
+                                    $.alert('商品名称不能为空!');
+                                    return false;
+                                }
+                                var good_price = $("form").find("input[name='price']").val();
+                                if (!good_price) {
+                                    $.alert('商品价格不能为空!');
+                                    return false;
+                                }
+                                $('#content').html($('#summernote-content').summernote('code'));
+                                var loading = layer.load(1, {shade: [0.1, '#fff']});
+                                $.ajax({
+                                    url: "{:url('cross/add')}",
+                                    type: 'post',
+                                    data: $('#form1').serialize(),
+                                    success: function (info) {
+                                        layer.close(loading);
+
+                                        if (info.code != 1) {
+                                            $.alert(info.msg);
+                                        } else {
+                                            $.alert(info.msg);
+                                            setTimeout(function () {
+                                                parent.location.reload();
+                                                var index = parent.layer.getFrameIndex(window.name);
+                                                parent.layer.close(index);
+                                            }, 1000);
+                                        }
+                                    },
+                                    error: function (xhr, textStatus, errorThrown) {
+                                        layer.close(loading);
+                                    }
+                                });
+                                return false;
+                            })
+</script>
+{/block}

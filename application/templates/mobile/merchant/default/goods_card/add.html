@@ -1,0 +1,189 @@
+{extend name="simple_base"}
+{block name="css"}
+<link href="__RES__/merchant/default/libs/fileuploads/css/dropify.min.css" rel="stylesheet" type="text/css" />
+{/block}
+
+
+{block name="content"}
+
+<div class="container">
+    <div class="card">
+        <div class="card-body  p-3">
+
+            <form id="forms" class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data" onsubmit="return beforeSubmit()">
+
+
+                <div class="form-group row">
+                    <label for="goods_id" class=" form-label">选择商品</label>
+                    <div class="">
+                        <select name="goods_id" class="form-select">
+                            {foreach $goodsList as $v}
+                            <option value="{$v.id|htmlentities}" {if $Think.get.goods_id==$v.id}selected{/if}>{$v.name}</option>
+                            {/foreach}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="order_type" class=" form-label">插入方式</label>
+                    <div class=" d-flex align-items-center">
+                        <div class="form-check">
+                            <input value="1" type="radio" id="order_type1" name="order_type" class="form-check-input mt-0" checked>
+                            <label class="form-label mb-0" for="order_type1">顺序插入</label>
+                        </div>
+                        <div class="form-check  ms-3">
+                            <input  value="2" type="radio" id="order_type2" name="order_type" class="form-check-input mt-0">
+                            <label class="form-label mb-0" for="order_type2">随机插入</label>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <label for="import_type" class=" form-label">导入方式</label>
+                    <div class=" d-flex align-items-center">
+                        <div class="form-check">
+                            <input value="1" type="radio" id="import_type1" name="import_type" class="form-check-input mt-0" checked>
+                            <label class="form-label mb-0" for="import_type1">手动输入</label>
+                        </div>
+                        <div class="form-check  ms-3">
+                            <input  value="2" type="radio" id="import_type2" name="import_type" class="form-check-input mt-0">
+                            <label class="form-label mb-0" for="import_type2">TXT文件导入</label>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <label for="split_type" class=" form-label">导入格式</label>
+                    <div class="">
+                        <select name="split_type" class="form-select">
+                            <option value="0">自动识别</option>
+                            <option value=" ">用“ ”分隔</option>
+                            <option value=",">用“,”分隔</option>
+                            <option value="|">用“|”分隔</option>
+                            <option value="----">用“----”分隔</option>
+                            <option value="">不分隔</option>
+                        </select>
+                    </div>
+
+                </div>
+
+
+                <div class="form-group row import_type_1">
+                    <label for="content" class=" form-label">虚拟卡内容</label>
+                    <div class="">
+                        <textarea name="content" placeholder="" class="form-control" rows="5"></textarea>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-center mt-2">
+                        <p class="text-muted mb-0"><b>普通格式</b>：卡号+空格+密码，一行一张卡<br>如：A1B2C3D4F5E8 9876543210<br>最多一次添加500张(500行)<br><br><b>自助选号格式</b>：描述+空格+账号和密码，一行一个号<br>如：德玛西亚,等级:323,英雄数量:145 账号:123,密码:123</p>
+                    </div>
+                </div>
+
+
+                <div class="form-group row import_type_2"  style="display:none">
+                    <label for="file" class=" form-label">虚拟卡内容</label>
+                    <div class="">
+                        <input type="file" accept="text/plain" name="file" class="dropify" data-max-file-size="20M">
+                    </div>
+                </div>
+
+
+
+                <div class="form-group row">
+                    <label for="check_card" class=" form-label">检查重复卡</label>
+                    <div class=" d-flex align-items-center">
+                        <div class="form-check">
+                            <input  value="0" type="radio" id="check_card2" name="check_card" class="form-check-input mt-0" checked>
+                            <label class="form-label mb-0" for="check_card2">否</label>
+                        </div>
+                        <div class="form-check ms-3">
+                            <input value="1" type="radio" id="check_card1" name="check_card" class="form-check-input mt-0">
+                            <label class="form-label mb-0" for="check_card1">是</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class=" form-label"></label>
+                    <div class=" text-center">
+                        <button type="submit" class="btn btn-primary waves-effect waves-light">执行导入</button>
+                    </div>
+                </div>
+
+            </form>
+
+
+        </div>
+    </div>
+</div>
+
+{/block}
+{block name="js"}
+
+<script src="__RES__/merchant/default/libs/fileuploads/js/dropify.min.js"></script>
+<script>
+                $('[name="import_type"]').change(function () {
+                    var type = $(this).val();
+                    $('.import_type_1').hide();
+                    $('.import_type_2').hide();
+                    $('.import_type_' + type).fadeIn();
+                });
+                $('[name="split_type"]').change(function () {
+                    var type = $(this).val();
+                    $('.card_split').text(type);
+                });
+                $('.dropify').dropify({
+                    messages: {
+                        'default': '拖拽文件至此或点击上传文件',
+                        'replace': '拖拽文件至此或点击上传文件',
+                        'remove': '取消',
+                        'error': '文件大小不能超出10M'
+                    },
+                    error: {
+                        'fileSize': '文件大小不能超出10M'
+                    }
+                });
+
+                var canSubmit = true;
+
+                function beforeSubmit() {
+                    if (canSubmit) {
+                        canSubmit = false;
+
+                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                        var form = new FormData($("#forms")[0]);     //通过id获取表单的数据
+                        $.ajax({
+                            type: "POST", //请求的类型
+                            url: "{:url('goods_card/add')}", //请求的路径
+                            data: form, //请求的参数
+                            async: false,
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            success: function (data)
+                            {
+                                layer.close(loading);
+                                if (data.code == 1) {
+                                    layer.msg(data.msg, {time: 1000, icon: 6}, function () {
+                                        location.reload();
+                                    });
+                                } else {
+                                    layer.msg(data.msg, {time: 1000, icon: 5});
+                                }
+                            },
+                            //请求失败触发的方法
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            }
+                        })
+
+                        return false;
+                    } else {
+                        $.alert('服务器开小差了，请刷新重试');
+                        return false;
+                    }
+                }
+</script>
+{/block}
+
+

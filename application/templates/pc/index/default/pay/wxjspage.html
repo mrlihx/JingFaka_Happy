@@ -1,0 +1,80 @@
+<!doctype html>
+<html style="background: #fff;">
+
+    <head>
+        <meta charset="utf-8">
+        <title>微信安全支付</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="__RES__/app/js/jquery-2.2.1.min.js"></script>
+        <script src="__RES__/app/js/jquery.qrcode.min.js"></script>
+        <script src="__RES__/app/js/clipboard.js"></script>
+        <link rel="stylesheet" type="text/css" href="__RES__/plugs/jqweui/css/weui.min.css" />
+        <link rel="stylesheet" type="text/css" href="__RES__/plugs/jqweui/css/jquery-weui.min.css" />
+    </head>
+
+    <body>
+        <div class="weui-msg" style="padding-top: 0px;">
+            <div class="weui-msg__text-area" style="padding: 0px;margin-bottom: 10px;">
+                <p class="weui-msg__desc" style="background: #d9eef7;padding:0;color: #5b8ba3;padding: 10px 0;">请保存二维码图片打开微信从相册选择并支付</p>
+            </div>
+            <div class="weui-msg__icon-area" style="margin-bottom: 5px;" id="qrcode">
+
+            </div>
+            <div class="weui-msg__icon-area" style="margin: 25px 0;">
+                <img src="" id="qrcode_img" style="width:250px;height:250px;">
+            </div>
+            <div class="weui-msg__text-area" style="padding:0px">
+                <p class="weui-msg__desc" style="background: #d9eef7;padding:10px 0;color: #5b8ba3;">或 <a class="copyurl" href="javascript:;"
+                                                                                                          style="color:#edbc19" data-clipboard-action="copy" data-clipboard-target="#payurl">点击复制</a> 以下链接到微信打开: </p>
+                <p class="weui-msg__desc" style="padding-top: 20px;color: #5b8ba3;" id="payurl">{$pay_url}</p>
+            </div>
+            <div class="weui-msg__text-area" style="border-top: 1px solid #b1b1b1;border-bottom: 1px solid #b1b1b1;">
+                <p class="weui-msg__desc" style="padding: 20px 20px 15px;color: #383838;">提示：你可以将以上链接发到自己微信的聊天框（在微信内顶部搜索框可以搜到自己的微信），即可进入支付</p>
+            </div>
+            <div class="weui-msg__text-area">
+                <p class="weui-msg__desc" style="font-size:16px;color:#424242">支付成功自动跳转查看结果</p>
+            </div>
+        </div>
+        <script>
+            $(function () {
+                $('#qrcode').qrcode({
+                    render: "canvas",
+                    text: '{$pay_url}'
+                });
+                var qrcode = $('#qrcode').qrcode('{$pay_url}').hide();
+                var canvas = qrcode.find('canvas').get(0);
+                $('#qrcode_img').attr('src', canvas.toDataURL('image/jpg'))
+            })
+            var clipboard = new ClipboardJS('.copyurl');
+            clipboard.on('success', function (e) {
+                console.log(e);
+            });
+
+            clipboard.on('error', function (e) {
+                console.log(e);
+            });
+
+            function oderquery(t) {
+                $.ajax({
+                    url: "{:url('pay/check_order_status')}",
+                    type: 'post',
+                    data: {out_trade_no: '{$order.trade_no}'},
+                    success: function (res) {
+                        if (res.code == 1) {
+                            $('#msgContent p').html('请稍候，正在处理付款结果...');
+                            setTimeout(function () {
+                                window.location.href = res.url;
+                            }, 500);
+                        }
+
+                    }
+                });
+                t = t + 1;
+                setTimeout('oderquery(' + t + ')', 3000);
+            }
+            setTimeout('oderquery(1)', 3000);
+        </script>
+    </body>
+
+</html>

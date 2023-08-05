@@ -1,0 +1,85 @@
+{extend name="lite_base" /}
+
+{block name="content"}
+<div class="card mb-0">
+
+    <div class="card-content">
+        <div class="card-body">
+            <form id="form1" class="form form-vertical">
+                <div class="form-body">
+                    <div class="row">
+                        <input type="hidden" name="id" value="{$category.id|default=''}">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="name">分类名称</label>
+                                <input id="name" type="text"  class="form-control" name="name" placeholder="请输入分类名称" value="{$category.name|default=''}">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="sort">排序编号（值越大越排前）</label>
+                                <input type="number" id="sort" class="form-control" name="sort"  value="{$category.sort|default=0}" min=0>
+                            </div>
+                        </div>
+
+
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="theme">分类页面风格</label>
+                                <select class="form-control " id="theme" name="theme">
+                                    {foreach :config('pay_themes') as $theme}
+                                    <option value="{$theme.alias|htmlentities}" {if $category.theme==$theme.alias}selected{/if}>{$theme.name}</option>
+                                    {/foreach} 
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-12 d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary mr-1 mb-1 btn-submit">保存分类</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+{/block}
+
+{block name="js"}
+<!-- BEGIN: Page JS-->
+
+<script>
+
+    $(".btn-submit").click(function ()
+    {
+        var loading = layer.load(1, {shade: [0.1, '#fff']});
+        $.ajax({
+            url: "{:url('goods_category/edit')}",
+            type: 'post',
+            data: $('#form1').serialize(),
+            success: function (info) {
+                layer.close(loading);
+
+                if (info.code ==1)
+                {
+                    parent.location.reload();
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
+                } else {
+                    $.alert({
+                        title: '提示!',
+                        content: info.msg
+                    });
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                layer.close(loading);
+            }
+        });
+        return false;
+    });
+</script>
+
+<!-- END: Page JS-->
+{/block}

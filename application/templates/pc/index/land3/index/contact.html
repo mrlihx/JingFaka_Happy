@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>{:sysconf('site_name')} - {:sysconf('site_subtitle')}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="keywords" content="{:sysconf('site_keywords')}" />
+        <meta name="description" content="{:sysconf('site_desc')}" />
+        <link rel="shortcut icon" href="{:sysconf('browser_icon')}" />
+        <!-- For IE -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <!-- For Resposive Device -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- For Window Tab Color -->
+        <!-- Chrome, Firefox OS and Opera -->
+        <meta name="theme-color" content="#913BFF">
+        <!-- Windows Phone -->
+        <meta name="msapplication-navbutton-color" content="#913BFF">
+        <!-- iOS Safari -->
+        <meta name="apple-mobile-web-app-status-bar-style" content="#913BFF">
+
+        <!-- Favicon -->
+
+        <!-- Main style sheet -->
+        <link rel="stylesheet" type="text/css" href="__RES__/theme/maowang51/css/style.css" media="all">
+        <!-- responsive style sheet -->
+        <link rel="stylesheet" type="text/css" href="__RES__/theme/maowang51/css/responsive.css" media="all">
+
+        <!-- Fix Internet Explorer ______________________________________-->
+        <!--[if lt IE 9]>
+                <script src=""></script>
+                <script src="vendor/html5shiv.js"></script>
+                <script src="vendor/respond.js"></script>
+        <![endif]-->	
+    </head>
+
+    <body>
+        <div class="main-page-wrapper">
+            <!-- ===================================================
+                    Loading Transition
+            ==================================================== -->
+            {include file="./default_her"}
+
+
+            <!-- 
+            =============================================
+                    Search
+            ============================================== 
+            -->
+            <div class="offcanvas offcanvas-top theme-search-form bg-three justify-content-center" tabindex="-1" id="offcanvasTop">
+                <button type="button" class="close-btn tran3s" data-bs-dismiss="offcanvas" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+                <div class="form-wrapper">
+                    <form action="#">
+                        <input type="text" placeholder="Search Keyword....">
+                    </form>
+                </div> <!-- /.form-wrapper -->
+            </div>
+
+
+            <!-- 
+            =============================================
+                    Theme Main Menu
+            ============================================== 
+            -->
+            <header class="theme-main-menu sticky-menu theme-menu-four">
+                {include file="./default_header"}
+            </header> <!-- /.theme-main-menu -->
+
+
+
+            <!-- 
+            =============================================
+                    Theme Inner Banner
+            ============================================== 
+            -->
+            <div class="theme-inner-banner">
+                <div class="container">
+                    <h2 class="intro-title text-center">联系我们</h2>
+                    <ul class="page-breadcrumb style-none d-flex justify-content-center">
+                        <li><a href="index.html">Home</a></li>
+                        <li class="current-page">Contact</li>
+                    </ul>
+                </div>
+                <img src="__RES__/theme/maowang51/picture/shape_38.svg" alt="" class="shapes shape-one">
+                <img src="__RES__/theme/maowang51/picture/shape_39.svg" alt="" class="shapes shape-two">
+            </div> <!-- /.theme-inner-banner -->
+
+
+
+
+            <!-- 
+            =============================================
+                    Contact Section One
+            ============================================== 
+            -->
+            <div class="contact-section-one mb-170 lg-mb-120">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="address-block-two text-center mb-40 sm-mb-20">
+                                <div class="icon d-flex align-items-center justify-content-center m-auto"><img src="__RES__/theme/maowang51/picture/icon_17.svg" alt=""></div>
+                                <h5 class="title">客服电话</h5>
+                                <p>7X24小时在线客服<br>{:sysconf('site_info_tel')}</p>
+                            </div> <!-- /.address-block-two -->
+                        </div>
+                        <div class="col-md-4">
+                            <div class="address-block-two text-center mb-40 sm-mb-20">
+                                <div class="icon d-flex align-items-center justify-content-center m-auto"><img src="__RES__/theme/maowang51/picture/icon_18.svg" alt=""></div>
+                                <h5 class="title">客服QQ</h5>
+                                <p>7X24小时在线客服<br><a href="http://wpa.qq.com/msgrd?v=3&uin={:sysconf('site_info_qq')}&Site=" class="call">{:sysconf('site_info_qq')}</a></p>
+                            </div> <!-- /.address-block-two -->
+                        </div>
+                        <div class="col-md-4">
+                            <div class="address-block-two text-center mb-40 sm-mb-20">
+                                <div class="icon d-flex align-items-center justify-content-center m-auto"><img src="__RES__/theme/maowang51/picture/icon_19.svg" alt=""></div>
+                                <h5 class="title">客服邮箱</h5>
+                                <p>7X24小时在线客服<br>{:sysconf('site_info_email')}</p>
+                            </div> <!-- /.address-block-two -->
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+
+            <div class="fancy-short-banner-five">
+                <div class="container">
+                    <div class="bg-wrapper">
+                        <div class="row align-items-center">
+                            <div class="col-lg-6 text-center text-lg-start" data-aos="fade-right">
+                                <h3 class="pe-xxl-5 md-pb-20">为客户提供全方位价值服务, 为您发卡保驾护航</h3>
+                            </div>
+                            <div class="col-lg-6 text-center text-lg-end" data-aos="fade-left">
+                                <a href="/merchant" class="msg-btn tran3s">加入我们</a>
+                            </div>
+                        </div>
+                    </div> <!-- /.bg-wrapper -->
+                </div> <!-- /.container -->
+            </div> <!-- /.fancy-short-banner-five -->
+
+
+
+            <!--
+            =====================================================
+                    Footer
+            =====================================================
+            -->
+            <div class="footer-style-four space-fix-one theme-basic-footer">
+                <div class="container">
+                    <div class="inner-wrapper">
+
+                        {include file="./default_footer"}
+                    </div> <!-- /.inner-wrapper -->
+                </div>
+            </div> <!-- /.footer-style-four -->
+
+
+            <button class="scroll-top">
+                <i class="bi bi-arrow-up-short"></i>
+            </button>
+
+
+
+
+            <!-- Optional JavaScript _____________________________  -->
+
+            <!-- jQuery first, then Bootstrap JS -->
+            <!-- jQuery -->
+            <script src="__RES__/theme/maowang51/js/jquery.min.js"></script>
+            <!-- Bootstrap JS -->
+            <script src="__RES__/theme/maowang51/js/bootstrap.bundle.min.js"></script>
+            <!-- AOS js -->
+            <script src="__RES__/theme/maowang51/js/aos.js"></script>
+            <!-- Slick Slider -->
+            <script src="__RES__/theme/maowang51/js/slick.min.js"></script>
+            <!-- js Counter -->
+            <script src="__RES__/theme/maowang51/js/jquery.counterup.min.js"></script>
+            <script src="__RES__/theme/maowang51/js/jquery.waypoints.min.js"></script>
+            <!-- Fancybox -->
+            <script src="__RES__/theme/maowang51/js/jquery.fancybox.min.js"></script>
+            <!-- validator js -->
+            <script src="__RES__/theme/maowang51/js/validator.js"></script>
+
+            <!-- Theme js -->
+            <script src="__RES__/theme/maowang51/js/theme.js"></script>
+        </div> <!-- /.main-page-wrapper -->
+    </body>
+</html>

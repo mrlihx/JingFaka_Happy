@@ -1,0 +1,136 @@
+{extend name="./content"}
+{block name="content"}
+<style type="text/css">
+    #load{
+        width:100%;
+        height:100%;
+        background:rgba(0,0,0,0.5);
+        position:absolute;
+        left:0;
+        top:0;
+        display:none;
+    }
+    .loader{
+        width: 180px;
+        height: 180px;
+        /* border: 1px solid red; */
+        text-align: center;
+        position: absolute;
+        top: calc(50% - 70px);
+        left: calc(50% - 70px);
+        padding-top: 15px;
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 5px;
+
+
+    }
+    #loader-1{
+        width: 60px;
+        height: 60px;
+    }
+    .load-msg{
+        height: 40px;
+        line-height: 30px;
+        color: #fff;
+        font-size: 16px;
+    }
+    svg path, svg rect {
+        fill: #17a085;
+    }
+</style>
+<div class="card">
+
+    <div class="container-fluid">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h3>在线升级补丁列表（当前版本号：{:getVersion()}）</h3>
+                    </div>
+                </div>
+            </div>
+
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-center" width="5%">版本号</th>
+                        <th class="text-center" width="5%">更新时间</th>
+                        <th class="text-center" width="8%">操作</th>
+                        <th class="text-center">备注</th>
+                    </tr>
+                </thead>
+                <tbody  id="dropdown-list">
+                    {foreach $data as $k=> $v}
+                    <tr>
+                        <td class="text-center">{$v.newversion}</td>
+                        <td class="text-center">{$v.createtime|date="Y-m-d",###}</td>
+                        <td class="text-center">
+                            {if $k==count($data)-1}
+                            <a href="javascript:;" class="btn btn-success btn-xs" onclick="upgradecfm('{$v.newversion}')">一键升级</a>
+                            {else}
+                            <a href="javascript:;" class="btn btn-light btn-xs" onclick="javascript:layer.msg('请按顺序升级！')">一键升级</a>
+                            {/if}
+                        </td>
+                        <td>{$v.content}</td>
+                    </tr>
+                    {/foreach}
+                </tbody>
+            </table>
+            {$page}
+        </div>
+
+        <p class="alert alert-danger">注：<br>1.每次升级前如果开启了防篡改一定要关闭后在进行升级，升级成功，必须手动清空缓存！！！<br>2.官网仅保留一年内的更新补丁，如您超过一年未更新请放弃升级或重新安装，否则可能会因跨版本导致出错！<br>3.跨版本：如，您的版本号为2.0.0，在线更新列表中第一个版本号为2.0.5，而不是2.0.1<br>   </p>
+  
+    </div>
+
+    <div class="load" id="load">
+        <div class="loader" title="2">
+            <svg version="1.1" id="loader-1"  x="0px" y="0px" width="100px" height="100px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+            <path fill="#000" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+            <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite" />
+            </path>
+            </svg>
+            <div class="load-msg">系统下载升级中<br />请勿关闭或退出<br />请稍后....</div>
+        </div>
+    </div>
+</div>
+
+
+<script language="javascript" type="text/javascript">
+    function upgradecfm(version) {
+        layer.confirm("确认要进行升级吗？\n升级前请备份好数据！", function (val) {
+            if (val) {
+                $("#load").show();
+                upgrade(version);
+            }
+            layer.closeAll();
+        });
+    }
+    function upgrade(version) {
+        $(function () {
+            $.ajax({
+                type: "POST",
+                url: "{:url('Cloud/upgrade')}",
+                data: {version: version},
+                success: function (result) {
+                    if (result.code != 1) {
+                        layer.alert(result.msg);
+                    } else {
+                        layer.alert(result.msg);
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 500);
+                    }
+                },
+                error: function (e) {
+                    console.log(e.status);
+                    console.log(e.responseText);
+                }
+            });
+        });
+    }
+</script>
+
+{/block}
+</body>
+</html>

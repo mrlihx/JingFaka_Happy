@@ -1,0 +1,434 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>鲸发卡自动发卡平台系统使用协议</title>
+        <style>
+            body {
+                background: #444;
+            }
+            .main {
+                width: 900px;
+                margin: 25px auto;
+                background: #fff;
+                border-radius: 2px;
+                padding: 25px 55px;
+                box-sizing: border-box;
+                display: none;
+            }
+
+            .title_group h1 {
+                font-size: 1.6em;
+                text-align: center;
+                margin-bottom: 0;
+                color: #333;
+            }
+
+            .title_group h3 {
+                font-size: 1.1em;
+                text-align: center;
+                color: #777;
+                font-weight: 400;
+                margin-top: 8px;
+                margin-bottom: 0;
+            }
+            .title_group h4{
+                font-size: .8em;
+                text-align: center;
+                color: #777;
+                margin-bottom: 25px;
+                margin-top: 8px;
+            }
+            .conter_overflow{
+                position: relative;
+            }
+            .conter_tips {
+                font-size: 12px;
+                color: #444;
+                padding: 5px 30px;
+                border: 1px solid #ececec;
+                overflow: auto;
+
+            }
+
+            .conter_tips .row {
+                margin: 15px 0 5px 0;
+                font-size: 15px;
+            }
+
+            .conter_tips .line {
+                line-height: 19px;
+                color: #666;
+                font-size: 12.5px;
+                margin-bottom: 3px;
+            }
+            .conter_tips .line-content{
+                padding-left: 15px;
+            }
+            .select_ground {
+                display: inline-block;
+                cursor: pointer;
+                margin-left: 10px;
+                padding-top: 1px;
+                height: 25px;
+                line-height: 25px;
+            }
+
+            .conter_select {
+                margin-top: 25px;
+                padding-left: 10px;
+                text-align: center;
+                position: relative;
+            }
+
+            .select_ground span {
+                display: inline-block;
+                height: 22px;
+                width: 22px;
+                background-size: 30px;
+                transition: all 300ms;
+                background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWCAYAAAA8AXHiAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyhpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQ1IDc5LjE2MzQ5OSwgMjAxOC8wOC8xMy0xNjo0MDoyMiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTkgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RERFQzQ4RkRDNjNGMTFFOTkxMzRGNjVBQjE0MEU5QUIiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RERFQzQ4RkVDNjNGMTFFOTkxMzRGNjVBQjE0MEU5QUIiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpEREVDNDhGQkM2M0YxMUU5OTEzNEY2NUFCMTQwRTlBQiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpEREVDNDhGQ0M2M0YxMUU5OTEzNEY2NUFCMTQwRTlBQiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PkoEK4QAAAY9SURBVHja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');
+                background-size: 22px;
+                vertical-align: text-top;
+            }
+
+            .select_ground.pitch span {
+                background-image: url('data:image/png;base64,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');
+            }
+
+            .conter_select img {
+                width: 30px;
+                margin-right: 10px;
+            }
+
+            .conter_select>span {
+                display: inline-block;
+                height: 30px;
+                line-height: 30px;
+                color: #666;
+                font-size: 17px;
+                vertical-align: middle;
+            }
+
+            .conter_btns {
+                text-align: center;
+                padding: 20px 0;
+            }
+            .conter_btns .btn.disabled{
+                background-color: #cbcbcb;
+                border-color: #cbcbcb;
+                color: #fff;
+            }
+            .conter_btns .btn {
+                border: none;
+                font-size: 1.1em;
+                padding: 0.5em 4.6em;
+                background-color: #20a53a;
+                outline: none;
+                color: #fff;
+                cursor: pointer;
+                transition: all 500ms;
+                border-radius: 2px;
+            }
+
+            .conter_btns .btn:hover {
+                background: #1b8a30;
+            }
+            .conter_shadow.shadow_top{
+                background: -webkit-linear-gradient(bottom,rgba(255, 255, 255, 0),rgba(220, 220, 220,.5));
+                top: 0;
+            }
+            .conter_shadow.shadow_bottom{
+                background: -webkit-linear-gradient(top,rgba(255, 255, 255, 0),rgba(220, 220, 220, .5));
+                bottom: 0;
+            }
+            .conter_shadow{
+                position: absolute;
+
+                height: 10px;
+                width: 100%;
+                left: 0;
+            }
+            .hide{
+                display: none !important;
+            }
+            .show{
+                display: block !important;
+            }
+            .select_tips{
+                display: none;
+                position: absolute;
+                line-height: 22px;
+                min-width: 12px;
+                padding: 5px 10px;
+                font-size: 12px;
+                _float: left;
+                border-radius: 2px;
+                box-shadow: 1px 1px 3px rgba(0,0,0,.2);
+                background-color: #000;
+                color: #fff;
+                left: 273px;
+                top: -40px;
+                background: red;
+            }
+            .select_tips:after{
+                content: '';
+                display: inline-block;
+                width: 0;
+                height: 0;
+                border-right: 8px solid transparent;
+                border-left: 8px solid transparent;
+                border-top: 8px solid red;
+                position: absolute;
+                bottom: -8px;
+                left: 10px;
+            }
+            .ubind_click{
+                cursor: pointer;
+            }
+            .conter_read_tips{
+                position: absolute;
+                right: 15px;
+                border: 1px solid #ececec;
+                font-size: 12px;
+                padding: 5px 10px;
+                background: #fff;
+                color: #555;
+            }
+            .conter_read_tips.active{
+                background: #20a53a;
+                color: #fff;
+                border: none;
+            }
+            ::-webkit-scrollbar {
+                /*滚动条整体样式*/
+                width : 12px;  /*高宽分别对应横竖滚动条的尺寸*/
+                height: 1px;
+                padding: 2px;
+            }
+            ::-webkit-scrollbar-thumb{
+                /*滚动条里面小方块*/
+                border-radius: 1px;
+                box-shadow : inset 0 0 6px rgba(0, 0, 0, 0.1);
+                background   : #bbb;
+            }
+            ::-webkit-scrollbar-track{
+                /*滚动条里面轨道*/
+                border-radius: 1px;
+                box-shadow:inset 0 0 6px rgba(0, 0, 0, 0.1);
+                background:#ededed;
+            }
+        </style>
+        <script type="text/javascript" src="/static/app/mp3/audio.min.js"></script>
+
+        <script type="text/javascript">
+            audiojs.events.ready(function () {
+                audiojs.createAll();
+            });
+        </script>
+    </head>
+
+    <body>
+        <div class="main">
+            <div class="title_group">
+                <h1 class="title">欢迎您使用鲸发卡自动发卡平台系统使用协议</h1>
+                <h3 class="subhead_title">阅读并同意《用户协议》即可进入后台</h3>
+                <h4>协议最近更新时间：2021年04月11日</h4>
+            </div>
+            <div class="conter_overflow">
+                <div class="conter_shadow shadow_top hide"></div>
+                <div class="conter_read_tips">已阅读<span>0%</span></div>
+                <div class="conter_tips">
+                    <div class="content-box">
+                        <h5 class="row">用户须知  </h5>
+                        <div class="line">
+                            感谢您选择鲸发卡自动发卡平台系统（简称：鲸发卡），鲸发卡是国内最稳定、最强大、最先进的发卡网站管理平台解决方案之一，鲸发卡，本程序基于 PHP + MySQL的技术，采用Thinkphp5框架开发，项目安装请参考`ThinkPHP`官方文档及下面的服务环境说明。<br />
+                            为了使你正确并合法的使用本软件，请你在使用前务必阅读清楚下面的协议条款：<br />
+                            本授权协议适用且仅适用于鲸发卡任何版本，鲸发卡统官方对本授权协议的最终解释权和修改权。<br />
+                            <strong>承诺</strong><br />
+                            您确认，在您成为我们的用户之前已充分阅读、理解并接受本协议的全部内容，一旦您使用本服务，即表示您同意遵循本协议之所有约定。<br />   您同意，本公司有权随时对本协议内容进行单方面的变更，并以在本网站公告的方式予以公布，无需另行单独通知您；若您在本协议内容公告变更后继续使用本服务的，表示您已充分阅读、理解并接受修改后的协议内容，也将遵循修改后的协议内容使用本服务；若您不同意修改后的协议内容，您应停止使用本服务。
+                        </div>
+                    </div>
+                    <div class="content-box">
+                        <h5 class="row">一、协议许可的权利</h5>
+                        <div class="line">					
+                            <div class="line-content">1、您可以在完全遵守本最终用户授权协议的基础上，将本软件应用于非商业用途，本系统权限用于学习交流使用。</div>
+                            <div class="line-content">2、您可以在协议规定的约束和限制范围内修改 鲸发卡 源代码或界面风格以适应您的网站要求。</div>
+                            <div class="line-content">3、您拥有使用本软件构建的网站全部内容所有权，并独立承担与这些内容的相关法律义务。</div>
+                            <div class="line-content">4、获得商业授权之后，您可以将本软件应用于商业用途，同时依据所购买的授权类型中确定的技术支持内容。商业授权用户享有反映和提出意见的权力，相关意见将被作为首要考虑，但没有一定被采纳的承诺或保证。 </div>
+                        </div>
+                        <div class="content-box">
+                            <h5 class="row">二、协议许可的权利和限制</h5>
+                            <div class="line-content">1、未获商业授权之前，不得删除网站底部及相应的官方版权信息和链接。购买商业授权请联系爱发官方客服了解最新说明。</div>
+                            <div class="line-content">2、未经官方许可，不得对本软件或与之关联的商业授权进行出租、出售、抵押或发放子许可证。</div>
+                            <div class="line-content">3、不管你的网站是否整体使用 鲸发卡，还是部份栏目使用 鲸发卡，在你使用了 鲸发卡 的网站主页上必须加上 鲸发卡 官方网址(www.jingfaka.com)的链接。</div>
+                            <div class="line-content">4、未经官方许可，禁止在鲸发卡 的整体或任何部分基础上以发展任何派生版本、修改版本或第三方版本用于重新分发。</div>
+                            <div class="line-content">5、如果您未能遵守本协议的条款，您的授权将被终止，所被许可的权利将被收回，并承担相应法律责任。</div>
+                        </div>
+                        <div class="content-box">
+                            <h5 class="row">三、有限担保和免责声明</h5>
+                            <p><span style="color:#e74c3c;">
+                                    <div class="line-content">1、本软件及所附带的文件是作为不提供任何明确的或隐含的赔偿或担保的形式提供的。</div>
+                                    <div class="line-content">2、用户出于自愿而使用本软件，您必须了解使用本软件的风险，在尚未购买产品技术服务之前，我们不承诺对免费用户提供任何形式的技术支持、使用担保，也不承担任何因使用本软件而产生问题的相关责任。</div>
+                                    <div class="line-content">3、电子文本形式的授权协议如同双方书面签署的协议一样，具有完全的和等同的法律效力。您一旦开始确认本协议并安装 鲸发卡，即被视为完全理解并接受本协议的各项条款，在享有上述条款授予的权力的同时，受到相关的约束和限制。协议许可范围以外的行为，将直接违反本授权协议并构成侵权，我们有权随时终止授权，责令停止损害，并保留追究相关责任的权力。</div>
+                                    <div class="line-content">4. 您在使用本程序时应遵守中华人民共和国相关法律法规、您所在国家或地区之法令及相关国际惯例，不将本服务用于任何非法目的，也不以任何非法方式使用本服务。</div>
+                                    <div class="line-content">5. 您不得利用本程序从事侵害他人合法权益之行为，否则本公司有权拒绝提供本服务，且您应承担所有相关法律责任，因此导致本公司或本公司用户受损的，您应承担赔偿责任。上述行为包括但不限于：</div>
+                                    <div class="line-content"> <div class="line-content"><div class="line-content">(1)侵害他人名誉权、隐私权、商业秘密、商标权、著作权、专利权等合法权益。</div>
+                                            <div class="line-content">(2)违反依法定或约定之保密义务。</div>
+                                            <div class="line-content">(3)违反《中华人民共和国刑法》、《中华人民共和国计算机信息系统安全保护条例》、《全国人民代表大会常务委员会关于维护互联网安全的决定》等等违法行为。</div>
+                                            <div class="line-content">(4)从事不法行为，如制作色情、赌博、病毒、挂马、反动、外挂、私服、钓鱼以及为私服提供任何服务(比如支付)的类似网站。</div>
+                                            <div class="line-content">(5)提供赌博资讯或以任何方式引诱他人参与赌博。</div>
+                                            <div class="line-content">(6)从事任何可能含有电脑病毒或是可能侵害本授权服务系统、诋毁本平台之行为。</div></div></div>
+                                </span></p></h5>
+
+                        </div>
+                    </div>
+                    <div class="content-box">
+                        <h5 class="row">四、使用须知和使用说明</h5>
+                        <div class="line-content"> 1、购买本店所有提供的源码仅供贵方内部分析研究且应在国家法律条款范围内使用;</div>
+                        <div class="line-content"> 2、客户在使用源码以及数据后产生的后果由客户自行承担，我方概不负责;</div>
+                        <div class="line-content"> 3、使用本产品鲸发卡自动发卡平台系统后不得使用于非法用途，不得用于商业运营，不得违反国家法律，否则后果自负！使用鲸发卡自动发卡平台系统以后用作他用附带的一切法律责任后果都由购买者承担，与聊城蓝鲸网络科技有限公司员工以及法人无任何关系;</div>
+                        <div class="line-content"> 4、本站授权是对本站自行开发的功能进行授权并非对程序进行授权，自动发卡平台插件功能最终归聊城蓝鲸网络科技有限公司所有</div>
+                        <div class="line-content"> 5、在购买功能授权后如果尝试破解程序功能我方将对其停止更新，严重侵犯我公司权利并且对我公司造成经济损失我公司将通过法律渠道追究</div>
+
+                    </div>
+
+
+                </div>
+                <div class="conter_shadow shadow_bottom"></div>
+            </div>
+            <div align="center"><audio src="/static/app/mp3/xieyi.mp3" preload="auto"></audio></div>
+
+            <div class="conter_select">
+                <div class="select_tips">测试内容</div>
+                <label class="ubind_click">
+                    <div class="select_ground"><span></span></div>
+                    <span>我已阅读并同意“《用户协议》”</span>
+                </label>
+            </div>
+            <div class="conter_btns">
+                <button class="btn btn_submit disabled" onclick="open_panel()">进入后台</button>
+            </div>
+        </div>
+        <script type="text/javascript">
+            var is_scroll = false, is_checked = false, out_time = null;
+            var ubind_click = document.getElementsByClassName('ubind_click')[0],
+                    _select_btn = document.getElementsByClassName('btn_submit')[0];
+            ubind_click.addEventListener('click', function () {
+                if (!is_scroll) {
+                    set_licenes({msg: '请下拉滚动条并阅读‘《用户协议》’'})
+                    return false;
+                }
+                var select_ground = this.getElementsByClassName('select_ground')[0],
+                        btn_submit = document.getElementsByClassName('btn_submit')[0];
+                if (hasClass(select_ground, 'pitch')) {
+                    removeClass(select_ground, 'pitch');
+                    addClass(btn_submit, 'disabled');
+                    is_checked = false;
+                } else {
+                    addClass(select_ground, 'pitch');
+                    removeClass(btn_submit, 'disabled');
+                    is_checked = true;
+                }
+            }, false);
+            document.getElementsByClassName('conter_tips')[0].onscroll = function (e) {
+                var conter_shadow = document.getElementsByClassName('conter_shadow'),
+                        conter_read_tips = document.getElementsByClassName('conter_read_tips')[0],
+                        conter_text = conter_read_tips.getElementsByTagName('span')[0]
+                var scrollHeight = this.scrollHeight - this.clientHeight - 10;
+                console.log(this.scrollTop, scrollHeight)
+                if (this.scrollTop === 0) {
+                    replaceClass(conter_shadow[0], 'show', 'hide');
+                    replaceClass(conter_shadow[1], 'hide', 'show');
+                } else if (this.scrollTop > 0 && this.scrollTop < scrollHeight) {
+                    replaceClass(conter_shadow[0], 'hide', 'show');
+                    replaceClass(conter_shadow[1], 'hide', 'show');
+                } else if (this.scrollTop > scrollHeight) {
+                    replaceClass(conter_shadow[0], 'hide', 'show');
+                    replaceClass(conter_shadow[1], 'show', 'hide');
+                    is_scroll = true;
+                }
+                if (!is_scroll) {
+                    conter_text.innerText = Math.round(this.scrollTop / scrollHeight * 100) + '%';
+                } else {
+                    addClass(conter_read_tips, 'active');
+                    conter_read_tips.innerText = '已完成阅读'
+                }
+            }
+            // 主视图自适应
+            function auto_mian() {
+                var win_height = window.innerHeight,
+                        main = document.getElementsByClassName('main')[0];
+                conter_tips = main.getElementsByClassName('conter_tips')[0];
+                main.style.cssText = 'display:block;height:' + (win_height - 50) + 'px;'
+                conter_tips.style.height = (win_height - 380) + 'px'
+            }
+            //判断class是否存在
+            function hasClass(elem, cls) {
+                cls = cls || '';
+                if (cls.replace(/\s/g, '').length == 0)
+                    return false;
+                return new RegExp(' ' + cls + ' ').test(' ' + elem.className + ' ');
+            }
+
+            //添加class
+            function addClass(elem, cls) {
+                if (!hasClass(elem, cls)) {
+                    elem.className = elem.className == '' ? cls : elem.className + ' ' + cls;
+                }
+            }
+
+            //删除class
+            function removeClass(elem, cls) {
+                if (hasClass(elem, cls)) {
+                    var newClass = ' ' + elem.className.replace(/[\t\r\n]/g, '') + ' ';
+                    while (newClass.indexOf(' ' + cls + ' ') >= 0) {
+                        newClass = newClass.replace(' ' + cls + ' ', ' ');
+                    }
+                    elem.className = newClass.replace(/^\s+|\s+$/g, '');
+                }
+            }
+
+            //替换class
+            function replaceClass(elem, cls, newCls) {
+                removeClass(elem, cls);
+                addClass(elem, newCls);
+            }
+
+            // 打开面板
+            function open_panel() {
+                if (!is_scroll) {
+                    set_licenes({msg: '请下拉滚动条并阅读‘《用户协议》’'});
+                    return false;
+                }
+                if (!is_checked) {
+                    set_licenes({msg: '请勾选已阅读并同意《用户协议》选项'});
+                    return false;
+                }
+                window.location.href = "{:url('admin/index/agreement',['read'=>1])}";
+            }
+            // 设置消息提示
+            function set_licenes(config) {
+                var select_tips = document.getElementsByClassName('select_tips')[0];
+                select_tips.innerText = config.msg;
+                select_tips.style.display = 'block';
+                clearTimeout(out_time);
+                out_time = setTimeout(function () {
+                    select_tips.style.display = 'none';
+                }, config.time || 3000);
+            }
+
+            window.onresize = function () {
+                auto_mian();
+            }
+            window.onload = function () {
+                auto_mian();
+            }
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,116 @@
+/*切图（武汉）网络技术有限公司
+www.qietu.com*/
+
+ html{-webkit-text-size-adjust:none; /*解决chrome浏览器下字体不能小于12px*/}
+ body{ color:#000000; font-family:Verdana, Arial, Helvetica, sans-serif;}
+a{outline:none; text-decoration:none;} a:hover{ text-decoration:underline;}
+html{zoom:1;}html *{outline:0;zoom:1;} html button::-moz-focus-inner{border-color:transparent!important;} 
+body{overflow-x: hidden; font-size:12px;} body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0;} table{/*border-collapse:collapse;border-spacing:0;*/} fieldset,a img{border:0;} address,caption,cite,code,dfn,em,th,var{font-style:normal;font-weight:normal;} li{list-style:none;} caption,th{text-align:left;} h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;} q:before,q:after{content:'';}
+input[type="submit"], input[type="reset"], input[type="button"], button { -webkit-appearance: none; /*去掉苹果的默认UI来渲染按钮*/} em,i{ font-style:normal;}
+
+
+/*reset*/
+.clearfix:after {content:"."; display:block; height:0; clear:both; visibility:hidden; }.clearfix {display:block;}.clear{ clear:both;}/* 清除浮动*/
+.colwrapper { overflow:hidden; zoom:1 /*for ie*/; margin:5px auto; }/* 高度自适应 */ 
+.strong{ font-weight: bold;} .left{ float: left;} .right{ float: right;} .center{ margin:0 auto; text-align:center;}
+.show{ display:block; visibility:visible;}.hide{ display: none; visibility:hidden;}
+.block{ display:block;} .inline{ display:inline;}
+.transparent{filter:alpha(opacity=50); -moz-opacity:0.5;/** Firefox 3.5即将原生支持opacity属性，所以本条属性只在Firefox3以下版本有效 ***/ -khtml-opacity: 0.5; opacity: 0.5; } .break{ word-wrap:break-word;overflow:hidden; /*word-break:break-all;*/}
+
+.tal{ text-align:left} .tar{ text-align:right;}
+
+/*文字两侧对齐*/
+.justify {
+	text-align:justify;
+	text-justify:distribute-all-lines;/*ie6-8*/
+	text-align-last:justify;/* ie9*/
+	-moz-text-align-last:justify;/*ff*/
+	-webkit-text-align-last:justify;/*chrome 20+*/
+}
+
+.toe{
+	/*超出省略号*/
+	 word-break:keep-all;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+@media screen and (-webkit-min-device-pixel-ratio:0){/* chrome*/
+	.justify:after{
+		content:".";
+		display: inline-block;
+		width:100%;
+		overflow:hidden;
+		height:0;
+	}
+}
+
+/* 兼容IE6的定位属性fixed，固定不动样式 */
+.fixed{
+	position:fixed; 
+	clip:rect(0 100% 100% 0);
+	_position:absolute;
+	
+	/* 底部 */
+	bottom:0px;
+	left:0px;
+	_top:expression(document.documentElement.scrollTop+document.documentElement.clientHeight-this.clientHeight);
+	/*_left:expression(document.documentElement.scrollLeft + document.documentElement.clientWidth - offsetWidth);*/
+	
+	/* 左侧 */
+	/*left:0px;*/
+	/*_top:expression(document.documentElement.scrollTop+document.documentElement.clientHeight-this.clientHeight);*/
+	/*_left:expression(document.documentElement.scrollLeft + document.documentElement.clientWidth - offsetWidth);*/
+}
+/* 解决固定层在IE6下闪的问题 */
+*html{
+	background-image:url(about:blank);
+	background-attachment:fixed;
+}
+
+
+/*png图片ie6下透明滤镜实现写法*/
+.pngimg{filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=scale, src='images/x.png');}
+
+  a{ color:#5d5d5e; /*transition: all 0.3s ease-in-out 0s;*/}
+  /*a:hover{ color:#3e6ed4;}*/
+ 
+
+
+.css3{
+	/*transition: all 0.3s ease-in-out 0s;*/
+	
+	-webkit-transform:translate3d(0, -20px, 0);
+	-ms-transform:translate3d(0, -20px, 0);
+	transform:translate3d(0, -20px, 0);
+	
+	-webkit-transition-property:opacity, -webkit-transform;
+	transition-property:opacity, transform;
+	-webkit-transition-duration:1000ms;
+	transition-duration:1000ms;
+	-webkit-transition-timing-function:cubic-bezier(0.25, 0.46, 0.33, 0.98);
+	transition-timing-function:cubic-bezier(0.25, 0.46, 0.33, 0.98);
+	
+	-webkit-transition-delay:800ms;
+	transition-delay:800ms
+}
+.css3.animated{
+	-webkit-transform:translate3d(0, 0, 0);
+	-ms-transform:translate3d(0, 0, 0);
+	transform:translate3d(0, 0, 0);
+}
+@media screen and (max-width: 650px) {    
+  
+  }
+  
+  @media screen and (max-width: 480px) {   
+	 
+  }
+.rotate
+{
+transform:rotate(7deg);
+-ms-transform:rotate(7deg); 	/* IE 9 */
+-moz-transform:rotate(7deg); 	/* Firefox */
+-webkit-transform:rotate(7deg); /* Safari 和 Chrome */
+-o-transform:rotate(7deg); 	/* Opera */
+}

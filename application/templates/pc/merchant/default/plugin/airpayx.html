@@ -1,0 +1,116 @@
+{extend name="base"}
+
+{block name="content"}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        {if $airpayxauth_status==true}
+
+                        <div class="row mb-2">
+                            <div class="col-lg-12 mt-2">
+                                <div class="alert alert-warning" style="" role="alert">
+                                    {:plugconf('airpayx','tip')}
+                                    <br>
+                                    如果已申请开通收款功能，请前往“<a href="{:url('merchant/plugin/custompay')}">自定义支付渠道</a>”开启渠道
+                                </div>
+                            </div>
+                        </div>
+
+                        <iframe id="Iframe" src="{$url}"  width='100%' height='500px'  frameborder="no" ></iframe>
+
+                        {else/}
+
+                        <div class="row justify-content-center mt-lg-5">
+                            <div class="col-xl-5 col-sm-8">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="text-center">
+                                            <div class="row justify-content-center">
+                                                <div class="col-lg-10">
+                                                    <h4 class="mt-4 font-weight-semibold">温馨提示</h4>
+                                                    <p class="text-muted mt-3">{:plugconf('airpayx','airpayxauth_tip')}</p>
+                                                    <div class="mt-4">
+                                                        {if $airpayxauth&&$airpayxauth->status==0}
+                                                        <p class="text-danger mt-3">正在审核中，请耐心等待！</p>
+                                                        {elseif $airpayxauth&&$airpayxauth->status==-1/}
+                                                        <p class="text-danger mt-3">审核拒绝！</p>
+                                                        {else/}
+                                                        <button type="button" class="btn btn-primary" onclick="airpayxauthApply()">立即申请</button>
+                                                        {/if}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-center mt-5 mb-2">
+                                                <div class="col-sm-6 col-8">
+                                                    <div>
+                                                        <img src="__STATIC__/merchant/default/images/verification-img.png" alt="" class="img-fluid">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end row -->
+                        {/if}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+
+
+{/block}
+{block name="js"}
+<script>
+
+
+    function airpayxauthApply()
+    {
+        var loading = layer.load(1, {shade: [0.1, '#fff']});
+        $.post("{:url('plugin/airpayxauthApply')}", {},
+                function (data) {
+                    if (data.code == 1) {
+                        layer.msg(data.msg, {time: 1000, icon: 6}, function () {
+                            location.reload();
+                        });
+                    } else {
+                        layer.msg(data.msg, {time: 1000, icon: 5});
+                    }
+                }, "json");
+    }
+
+
+
+</script>
+{/block}

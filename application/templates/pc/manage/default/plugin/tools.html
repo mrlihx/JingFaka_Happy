@@ -1,0 +1,38 @@
+{extend name="./content"}
+
+{block name="content"}
+
+<div class="form-group">
+    <div class='col-sm-8 col-sm-offset-2'>
+        <div class="alert alert-success alert-dismissible" role="alert" style="border-radius:0">
+            <p style="font-size:16px;" class="text-center"><b>站长工具箱（陆续新增中....）</b></p>
+        </div>
+    </div>
+</div>
+
+<div class="col-sm-12">
+    <div class="layui-form-item text-center">
+        <a class="layui-btn layui-btn-normal" data-title="数据删除" data-open="{:url('toolsDataclear')}" href="javascript:void(0)">数据删除</a>
+    </div>
+</div>
+
+<div class="col-sm-12">
+    <div class="layui-form-item text-center">
+        <a class="layui-btn layui-btn-normal" data-title="用户清理" data-open="{:url('toolsUserclear')}" href="javascript:void(0)">用户清理</a>
+    </div>
+</div>
+
+
+<div class="col-sm-12">
+    <div class="layui-form-item text-center">
+        <a class="layui-btn layui-btn-normal" data-title="用户清理" data-open="{:url('toolsSystemclear')}" href="javascript:void(0)">系统数据库垃圾清理(提高运行速度)</a>
+    </div>
+</div>
+
+<script>
+    layui.use('form', function () {
+        var form = layui.form;
+        form.render();
+    });
+</script>
+{/block}

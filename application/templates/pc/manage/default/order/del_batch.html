@@ -1,0 +1,84 @@
+{extend name='./content'}
+
+
+{block name="content"}
+
+<!-- 表单搜索 开始 -->
+<form class="layui-form layui-box" style='padding:25px 30px 20px 0' action="__SELF__" data-auto="true" method="post">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">订单日期范围</label>
+        <div class="layui-input-block">
+            <input name="order_date_range" id="order_date_range" value="" placeholder="请选择日期范围" class="layui-input">
+        </div>
+    </div>
+
+    <div>
+        <label class="layui-form-label">短信验证码</label>
+        <div class="layui-input-block">
+            <input name="chcode" id="chcode" value="" placeholder="请输入短信验证码" class="layui-input">
+            <button type="button" style="margin: 1rem 0" class="btn btn-primary" onclick="sendSms()" id="sendbtn">发送短信</button>
+        </div>
+    </div>
+
+    <div class="hr-line-dashed"></div>
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" id="del_submit"  type="button">删除</button>
+        <button class="layui-btn layui-btn-danger" type="button" data-close="">取消</button>
+    </div>
+</form>
+<script>
+    layui.use('form', function(){
+        var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+        layer = layui.layer;
+        form.render();
+    });
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+        //日期范围
+        laydate.render({
+            elem: '#order_date_range',
+            range: true,
+            max: '{$max_date}'
+        });
+    });
+
+    function sendSms(){
+        $.post("{:url('manage/order/sendDelBatchSms')}",{},function(res){
+            layer.msg(res.msg);
+        },'json')
+    }
+
+
+    $('#del_submit').click(function(){
+        var date_range = $('#order_date_range').val();
+        if(date_range == '') {
+            layer.msg('请先选择订单日期范围！');
+            return false;
+        }
+
+        var chcode = $('#chcode').val();
+        if(chcode == '') {
+            layer.msg('请输入短信验证码！');
+            return false;
+        }
+
+        layer.confirm('确定要删除【'+date_range+'】之间的无效订单吗？该操作不可恢复！', function (index) {
+            $.ajax({
+                url:"/manage/order/del_batch",
+                type:'post',
+                data:{"order_date_range": date_range,chcode:chcode},
+                success:function(res){
+                    if(res.code == 1){
+                        layer.closeAll();
+                        layer.alert(res.msg);
+                        $.form.reload();
+                    } else {
+                        layer.msg(res.msg,{icon:1,time:1000});
+                    }
+                }
+            });
+        });
+    });
+</script>
+{/block}

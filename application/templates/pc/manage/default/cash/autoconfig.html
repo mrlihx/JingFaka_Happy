@@ -1,0 +1,63 @@
+{extend name="./content"}
+
+{block name="content"}
+<form onsubmit="return false;" action="__SELF__" data-auto="true" method="post" class='form-horizontal' style='padding-top:20px'>
+
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">自动提现是否开启</label>
+        <div class='col-sm-8'>
+            <select name="cash_auto_status" class="layui-input" >
+                <option value="0" {if sysconf('cash_auto_status')=='0'}selected{/if}>关闭</option>
+                <option value="1" {if sysconf('cash_auto_status')=='1'}selected{/if}>开启</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">配置自动提现网关</label>
+        <div class='col-sm-8'>
+            <select name="cash_auto_channel_id" class="layui-input">
+
+                {foreach $channelList as $channel}
+                <option value="{$channel.id}" {if sysconf('cash_auto_channel_id')==$channel.id}selected{/if}>{$channel.title}</option>
+                {/foreach}
+
+            </select>
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">自动提现白名单商户ID</label>
+        <div class='col-sm-8'>
+            <textarea  class="layui-textarea" cols="30" rows="5" name="cash_auto_user">{:sysconf('cash_auto_user')}</textarea>
+            <p class="help-block">只有白名单商户才会自动提现，（多个用英文逗号隔开，例如 1,3,4）（不填则代表全部！！！）</p>
+        </div>
+    </div>
+
+    <div class="hr-line-dashed"></div>
+
+    <div class="col-sm-4 col-sm-offset-4">
+        <div class="layui-form-item text-center">
+            <button class="layui-btn" type="submit">保存配置</button>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-8 col-sm-offset-2">
+            <div class="alert alert-success alert-dismissible" role="alert" style="border-radius:0">
+                <p style="font-size:18px;color: red" class="text-center">  宝塔添加任务计划（设置每天00:10分执行）</p>
+                <p style="font-size:14px;" class="text-center">命令：cd /www/wwwroot/xxx.com; php think AutoTransfer;</p>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    layui.use('form', function () {
+        var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+        form.render();
+    });
+</script>
+{/block}

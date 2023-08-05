@@ -1,0 +1,73 @@
+{extend name="lite_base"}
+
+{block name="content"}
+<div class="container my-3">
+    <!-- Timeline Content-->
+    <div class="card">
+        <div class="card-body">
+            <form id="form1" class="form form-vertical">
+                <div class="form-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="name" class="form-label">账号备注</label>
+                                <input id="name" type="text"  class="form-control" name="name" placeholder="请输入账号备注" value="{$account.name|default=''}">
+                            </div>
+                        </div>
+
+                        {foreach $fields as $k => $v}
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="{$v['name']}" class="form-label">{$v['name']}</label>
+                                <textarea class="form-control" name="params[{$k}]" cols="30" rows="1" placeholder="请输入{$v['name']}">{$v['value']|default=''}</textarea>
+                            </div>
+                        </div>
+                        {/foreach}
+                        <input type="hidden" name="account_id" value="{$account.id|default=''}">
+                        <div class="col-12 d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary mr-1 mb-1 btn-submit">保存账号</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+{/block}
+
+{block name="js"}
+<script>
+    $(".btn-submit").click(function ()
+    {
+        var loading = layer.load(1, {shade: [0.1, '#fff']});
+        $.ajax({
+            url: "{:url('plugin/customChannelAccountAdd',['channel_id'=>$Think.get.channel_id])}",
+            type: 'post',
+            data: $('#form1').serialize(),
+            success: function (info) {
+                layer.close(loading);
+
+                if (info.code == 1)
+                {
+                    parent.location.href = "{:url('plugin/custompay')}";
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
+                } else {
+                    $.alert({
+                        title: '提示!',
+                        content: info.msg
+                    });
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                layer.close(loading);
+            }
+        });
+        return false;
+    });
+</script>
+
+{/block}

@@ -1,0 +1,597 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>订单查询 - {:sysconf('site_name')}</title>
+        <meta name="keywords" content="{:sysconf('site_keywords')}" />
+        <meta name="description" content="{:sysconf('site_desc')}" />
+        <link rel="shortcut icon" href="{:sysconf('browser_icon')}" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Bootstrap -->
+        
+        <script src="/static/app/js/clipboard.js"></script>
+        <link href="/static/theme/coco/css/land1.css" rel="stylesheet" type="text/css" id="theme-opt" />
+        <link href="/static/theme/coco/css/default.css" rel="stylesheet" id="color-opt">
+        <script src="/static/theme/coco/js/jquery-3.5.1.min.js"></script>
+        <link href="/static/theme/coco/css/captcha.css" rel="stylesheet" id="color-opt">
+       
+        <link rel="stylesheet" type="text/css" href="/static/theme/coco/css/style.css">
+
+        <link rel="stylesheet" type="text/css" href="/static/theme/coco/css/responsive.css">
+        <script src="/static/theme/coco/js/jquery-1.7.2.min.js" type="text/javascript" charset="utf-8"></script>
+
+        
+        
+        
+    </head>
+
+<body class="body header-fixed">
+
+<div class="preload preload-container">
+<div class="preload-logo"></div>
+</div>
+
+<div id="wrapper">
+<div id="page" class="clearfix">
+<header id="header_main" class="header_1 js-header">
+                <div class="themesflat-container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="site-header-inner">
+                                <div class="wrap-box flex">
+                                    <div id="site-logo" class="clearfix">
+                                        <div id="site-logo-inner">
+                                            
+                                            
+                                            
+                                            
+                                            <a href="/" rel="home" class="main-logo">
+                                                
+                                                
+                                                
+                                                <img id="logo_header" src="{:sysconf('site_logo')}" alt="nft-gaming" width="133" height="56" data-retina="{:sysconf('site_logo')}" data-width="133" data-height="56">
+                                            </a>
+                                            
+                                            
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="mobile-button"><span></span></div>
+                                    
+                                    
+                                    <nav id="main-nav" class="main-nav">
+                                        <ul id="menu-primary-menu" class="menu">
+                                            <li class="menu-item current-menu-item menu-item-has-children">
+                                                <a href="/">平台首页</a>
+                                                <ul class="sub-menu">
+                                                    <li class="menu-item"><a href="https://coco.0v7.cn/index/plugin/appdown.html">APP下载</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="menu-item menu-item-has-children">
+                                                <a href="#">订单处理</a>
+                                                <ul class="sub-menu">
+                                                    <li class="menu-item"><a href="/orderquery">订单查询</a></li>
+                                                    <li class="menu-item"><a href="/complaintquery">投诉查询</a></li>
+                                                    <li class="menu-item"><a href="/complaint.html">订单投诉</a></li>
+                                                    
+                                                </ul>
+                                            </li>
+                                            <li class="menu-item menu-item-has-children">
+                                                <a href="/company/faq">常见问题</a>
+                                                <ul class="sub-menu">
+                                                    <li class="menu-item"><a href="/company/faq">常见问题</a></li>
+                                                    
+                                                </ul>
+                                            </li>
+                                            <li class="menu-item menu-item-has-children">
+                                                <a href="#">官方动态</a>
+                                                <ul class="sub-menu">
+                                                    <li class="menu-item"><a href="/company/notice">平台公告</a></li>
+                                                    <li class="menu-item"><a href="/company/news">新闻动态</a></li>
+                                                    <li class="menu-item"><a href="/company/settlement">结算公告</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="menu-item menu-item-has-children">
+                                                <a href="#">联系我们</a>
+                                                <ul class="sub-menu">
+                                                    <li class="menu-item"><a href="/company/contact">平台客服</a></li>
+                                                    <li class="menu-item"><a href="/article/60.html">禁售商品</a></li>
+                                                    <li class="menu-item"><a href="/complaint">投诉举报</a></li>
+                                                    
+                                            </ul>
+                                            </li>
+                                            <li class="menu-item menu-item-has-children">
+                                                <a href="#">常用工具</a>
+                                                <ul class="sub-menu">
+                                                    <li class="menu-item"><a href="https://coco.0v7.cn/plugin/cardstools.html">卡密处理</a></li>
+                                                    <li class="menu-item"><a href="https://coco.0v7.cn/plugin/duan.html">链接缩短</a></li>
+                                            </ul>
+                                            </li>
+                                            <!--<li class="menu-item menu-item-has-children">-->
+                                            <!--    <a href="https://shop.988u.cn/index/index/content.html?id=109">系统授权查询</a>-->
+                                                    
+                                                    
+                                            <!--    </ul>-->
+                                            <!--</li>-->
+                                            
+                                        </ul>
+                                    </nav>
+                                    <div class="flat-search-btn flex">
+                                        <div class="header-search flat-show-search" id="s1">
+                                            <a href="#" class="show-search header-search-trigger">
+                                                <svg width="20" height="20" viewbox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_334_638" style="mask-type:alpha" maskunits="userSpaceOnUse" x="1" y="1" width="18" height="17">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M1.66699 1.66666H17.6862V17.3322H1.66699V1.66666Z" fill="white" stroke="white"></path>
+</mask>
+<g mask="url(#mask0_334_638)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M9.67711 2.87312C5.9406 2.87312 2.90072 5.84505 2.90072 9.49903C2.90072 13.153 5.9406 16.1257 9.67711 16.1257C13.4128 16.1257 16.4527 13.153 16.4527 9.49903C16.4527 5.84505 13.4128 2.87312 9.67711 2.87312ZM9.67709 17.3322C5.26039 17.3322 1.66699 13.8182 1.66699 9.49902C1.66699 5.17988 5.26039 1.66666 9.67709 1.66666C14.0938 1.66666 17.6864 5.17988 17.6864 9.49902C17.6864 13.8182 14.0938 17.3322 9.67709 17.3322Z" fill="white"></path>
+<path d="M9.67711 2.37312C5.67512 2.37312 2.40072 5.55836 2.40072 9.49903H3.40072C3.40072 6.13174 6.20607 3.37312 9.67711 3.37312V2.37312ZM2.40072 9.49903C2.40072 13.4396 5.67504 16.6257 9.67711 16.6257V15.6257C6.20615 15.6257 3.40072 12.8664 3.40072 9.49903H2.40072ZM9.67711 16.6257C13.6784 16.6257 16.9527 13.4396 16.9527 9.49903H15.9527C15.9527 12.8664 13.1472 15.6257 9.67711 15.6257V16.6257ZM16.9527 9.49903C16.9527 5.5584 13.6783 2.37312 9.67711 2.37312V3.37312C13.1473 3.37312 15.9527 6.1317 15.9527 9.49903H16.9527ZM9.67709 16.8322C5.52595 16.8322 2.16699 13.5316 2.16699 9.49902H1.16699C1.16699 14.1048 4.99484 17.8322 9.67709 17.8322V16.8322ZM2.16699 9.49902C2.16699 5.46656 5.52588 2.16666 9.67709 2.16666V1.16666C4.9949 1.16666 1.16699 4.8932 1.16699 9.49902H2.16699ZM9.67709 2.16666C13.8282 2.16666 17.1864 5.46649 17.1864 9.49902H18.1864C18.1864 4.89327 14.3593 1.16666 9.67709 1.16666V2.16666ZM17.1864 9.49902C17.1864 13.5316 13.8282 16.8322 9.67709 16.8322V17.8322C14.3594 17.8322 18.1864 14.1047 18.1864 9.49902H17.1864Z" fill="white"></path>
+</g>
+<mask id="mask1_334_638" style="mask-type:alpha" maskunits="userSpaceOnUse" x="13" y="13" width="6" height="6">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M14.2012 14.2999H18.3333V18.3333H14.2012V14.2999Z" fill="white" stroke="white"></path>
+</mask>
+<g mask="url(#mask1_334_638)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M17.7166 18.3333C17.5596 18.3333 17.4016 18.2746 17.2807 18.1572L14.3823 15.3308C14.1413 15.0952 14.1405 14.7131 14.3815 14.4774C14.6217 14.2402 15.0123 14.2418 15.2541 14.4758L18.1526 17.303C18.3935 17.5387 18.3944 17.9199 18.1534 18.1556C18.0333 18.2746 17.8746 18.3333 17.7166 18.3333Z" fill="white"></path>
+<path d="M17.7166 18.3333C17.5595 18.3333 17.4016 18.2746 17.2807 18.1572L14.3823 15.3308C14.1413 15.0952 14.1405 14.7131 14.3815 14.4774C14.6217 14.2402 15.0123 14.2418 15.2541 14.4758L18.1526 17.303C18.3935 17.5387 18.3944 17.9199 18.1534 18.1556C18.0333 18.2746 17.8746 18.3333 17.7166 18.3333" stroke="white"></path>
+</g>
+</svg>
+                                            </a>
+                                            <div class="top-search">
+                                                <form action="#" method="get" role="search" class="search-form">
+                                                    <input type="search" id="s" class="search-field" placeholder="Search..." value="" name="s" title="Search for" required="">
+                                                    <button class="search search-submit" type="submit" title="Search">
+<i class="icon-fl-search-filled"></i>
+</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        
+                                        
+                                        
+                                        <div class="sc-btn-top mg-r-12" id="site-header">
+                                            <a href="/login" class="sc-button header-slider style style-1 wallet fl-button pri-1"><span>商户中心
+</span></a>
+                                        </div>
+                                        <div class="admin_active" id="header_admin">
+                                            <div class="header_avatar">
+                                                <div class="price">
+                                                    <span>2.45 <strong>ETH</strong> </span>
+                                                </div>
+                                                <img class="avatar" src="https://cocoimg.0v7.cn/LightPicture/2023/03/9e6ef4dadeb047a8.jpg" alt="avatar">
+                                                <div class="avatar_popup mt-20">
+                                                    <div class="d-flex align-items-center copy-text justify-content-between">
+                                                        <span> 13b9ebda035r178... </span>
+                                                        <a href="index1.html" class="ml-2">
+                                                            <i class="fal fa-copy"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div class="d-flex align-items-center mt-10">
+                                                        <img class="coin" src="https://cocoimg.0v7.cn/LightPicture/2023/03/7fd2be11d4eb7dbc.svg" alt="/">
+                                                        <div class="info ml-10">
+                                                            <p class="text-sm font-book text-gray-400">Balance</p>
+                                                            <p class="w-full text-sm font-bold text-green-500">16.58 ETH</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="hr"></div>
+                                                    <div class="links mt-20">
+                                                        <a href="#">
+                                                            <i class="fab fa-accusoft"></i> <span> My items</span>
+                                                        </a>
+                                                        <a class="mt-10" href="profile.html">
+                                                            <i class="fas fa-pencil-alt"></i> <span> Edit Profile</span>
+                                                        </a>
+                                                        <a class="mt-10" href="login.html" id="logout">
+                                                            <i class="fal fa-sign-out"></i> <span> Logout</span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mode_switcher">
+                    <h6>背景切换<strong><br>炫彩/黑暗</strong></h6>
+                    <a href="#" class="light d-flex align-items-center">
+                        <img src="https://cocoimg.0v7.cn/LightPicture/2023/03/801e7c7fb0dd3d20.png" alt="">
+                    </a>
+                    <a href="#" class="dark d-flex align-items-center is_active">
+                        <img src="https://cocoimg.0v7.cn/LightPicture/2023/03/a3c61246453a5186.png" alt="">
+                    </a>
+                </div>
+            </header>
+
+<section class="flat-title-page inner">
+<div class="overlay"></div>
+<div class="themesflat-container">
+<div class="row">
+<div class="col-md-12">
+<div class="page-title-heading mg-bt-12">
+<h1 class="heading text-center">订单查询</h1>
+</div>
+<div class="breadcrumbs style2">
+<ul>
+<li>轻松查询订单，即刻享受卡密自动交易</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+
+
+
+<section class="tf-help-center tf-section">
+<div class="themesflat-container">
+<div class="row">
+<div class="col-12">
+<h2 class="tf-title-heading ct style-2 fs-30 mg-bt-10">
+请输入要查询的订单号
+</h2>
+
+<form class="help-center-form" action="/orderquery" onsubmit="return formCheck();">
+<input type="text" placeholder="请输入订单号.." required="" id="orderid_input">
+<input type="hidden" id="clicaptcha-submit-info" name="clicaptcha-submit-info">
+<button type="submit" onclick="orderid_or_contact()">
+<svg width="26" height="26" viewbox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_1241_902" style="mask-type:alpha" maskunits="userSpaceOnUse" x="1" y="0" width="25" height="24">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M24.666 1.3335H2.23912V23.2653H24.666V1.3335Z" fill="white" stroke="white"></path>
+</mask>
+<g mask="url(#mask0_1241_902)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M13.4518 3.02254C18.6829 3.02254 22.9387 7.18324 22.9387 12.2988C22.9387 17.4144 18.6829 21.5762 13.4518 21.5762C8.22183 21.5762 3.96601 17.4144 3.96601 12.2988C3.96601 7.18324 8.22183 3.02254 13.4518 3.02254ZM13.4519 23.2653C19.6353 23.2653 24.666 18.3456 24.666 12.2988C24.666 6.25201 19.6353 1.3335 13.4519 1.3335C7.2685 1.3335 2.23889 6.25201 2.23889 12.2988C2.23889 18.3456 7.2685 23.2653 13.4519 23.2653Z" fill="white"></path>
+<path d="M13.4518 2.52254C18.9484 2.52254 23.4387 6.89655 23.4387 12.2988H22.4387C22.4387 7.46993 18.4174 3.52254 13.4518 3.52254V2.52254ZM23.4387 12.2988C23.4387 17.701 18.9485 22.0762 13.4518 22.0762V21.0762C18.4174 21.0762 22.4387 17.1278 22.4387 12.2988H23.4387ZM13.4518 22.0762C7.95623 22.0762 3.46601 17.701 3.46601 12.2988H4.46601C4.46601 17.1278 8.48742 21.0762 13.4518 21.0762V22.0762ZM3.46601 12.2988C3.46601 6.89659 7.95631 2.52254 13.4518 2.52254V3.52254C8.48734 3.52254 4.46601 7.46989 4.46601 12.2988H3.46601ZM13.4519 22.7653C19.3697 22.7653 24.166 18.059 24.166 12.2988H25.166C25.166 18.6322 19.9008 23.7653 13.4519 23.7653V22.7653ZM24.166 12.2988C24.166 6.53869 19.3698 1.8335 13.4519 1.8335V0.833496C19.9007 0.833496 25.166 5.96533 25.166 12.2988H24.166ZM13.4519 1.8335C7.53406 1.8335 2.73889 6.53862 2.73889 12.2988H1.73889C1.73889 5.9654 7.00294 0.833496 13.4519 0.833496V1.8335ZM2.73889 12.2988C2.73889 18.0591 7.53412 22.7653 13.4519 22.7653V23.7653C7.00288 23.7653 1.73889 18.6322 1.73889 12.2988H2.73889Z" fill="white"></path>
+</g>
+<mask id="mask1_1241_902" style="mask-type:alpha" maskunits="userSpaceOnUse" x="0" y="18" width="8" height="8">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M7.11719 19.02H1.33216V24.6668H7.11719V19.02Z" fill="white" stroke="white"></path>
+</mask>
+<g mask="url(#mask1_1241_902)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M2.19553 24.6668C2.41546 24.6668 2.63654 24.5846 2.8058 24.4202L6.86358 20.4633C7.20096 20.1334 7.20211 19.5985 6.86473 19.2686C6.5285 18.9364 5.98155 18.9387 5.64302 19.2663L1.58525 23.2243C1.24787 23.5543 1.24672 24.088 1.5841 24.4179C1.75221 24.5846 1.97444 24.6668 2.19553 24.6668Z" fill="white"></path>
+<path d="M2.19553 24.6668C2.41546 24.6668 2.63654 24.5846 2.8058 24.4202L6.86358 20.4633C7.20096 20.1334 7.20211 19.5985 6.86473 19.2686C6.5285 18.9364 5.98155 18.9387 5.64302 19.2663L1.58525 23.2244C1.24787 23.5543 1.24672 24.088 1.5841 24.4179C1.75221 24.5846 1.97444 24.6668 2.19553 24.6668" stroke="white"></path>
+</g>
+</svg>
+</button>
+</form>
+<p class="text-center mg-t-40 mg-bt-60"> </p>
+
+
+
+<div class="box-title-login ">
+<h5>订单查询结果</h5>
+</div>
+
+
+</div>
+</div>
+
+
+</div>
+
+
+        
+            <div class="container">
+                <div class="row sc-card-activity">
+                    <div class="col-12">
+                        <div class="section-title text-center mb-4 pb-2">
+
+                                                       <!-- Card Start -->
+                            <div class="component-wrapper rounded shadow">
+
+                                <div class="p-4">
+                                             
+                                </div>
+
+
+                                <!--<div class="kami">-->
+                                <div id="cardinfo0" class="pb-4">
+
+                                </div><!--end col-->
+                                <!-- BG Color End -->
+
+                            </div>
+                        </div>
+                    </div><!--end col-->
+                    <!-- Card End -->
+
+                </div>
+            </div><!--end col-->
+    
+
+
+
+<p style="text-align:center"><span style="font-size:23px;">如出现掉单，未显示卡密，<a href="/company/contact">请与平台客服联系</a><a href=""> </a></span></p>
+
+
+
+
+</section>
+
+
+ <footer id="footer" class="footer-light-style clearfix bg-style">
+                <div class="themesflat-container">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-12 col-12">
+                            <div class="widget widget-logo">
+                                <div class="logo-footer" id="logo-footer">
+                                    <a href="index1.html">
+                                        <img src="{:sysconf('site_logo')}" height="150" width="150" alt="">
+
+                                    </a>
+                                </div>
+                                <h3 class="heading mb-3">{:sysconf('app_name')}</h3>
+                                <h5>为客户提供全方位价值服务, 为您的寄售之旅保驾护航, 如有需要了解请联系我们客服</h5>
+                                <span id="showsectime" style="color:#FF0000;"></span>
+                            
+<script type="text/javascript">
+function NewDate(str) { 
+str = str.split('-'); 
+var date = new Date(); 
+date.setUTCFullYear(str[0], str[1] - 1, str[2]); 
+date.setUTCHours(0, 0, 0, 0); 
+return date; 
+} 
+function showsectime() {
+var birthDay =NewDate("2023-01-01");
+var today=new Date();
+var timeold=today.getTime()-birthDay.getTime();
+var sectimeold=timeold/1000
+var secondsold=Math.floor(sectimeold);
+var msPerDay=24*60*60*1000; var e_daysold=timeold/msPerDay;
+var daysold=Math.floor(e_daysold);
+var e_hrsold=(daysold-e_daysold)*-24;
+var hrsold=Math.floor(e_hrsold);
+var e_minsold=(hrsold-e_hrsold)*-60;
+var minsold=Math.floor((hrsold-e_hrsold)*-60); var seconds=Math.floor((minsold-e_minsold)*-60).toString();
+document.getElementById("showsectime").innerHTML = "本站已稳定运营 "+daysold +" 天 "+hrsold +" 小时 "+minsold +" 分 "+ seconds +" 秒";
+setTimeout(showsectime, 1000);
+}showsectime();
+</script>
+       
+
+    <!-- <dl>-->
+    <!--     <h3>官方微信公众号</h3>-->
+    <!--     <dt><img style="width: 120px;height: 120px;" src="https://cocoimg.0v7.cn/LightPicture/2023/03/715fb4ac39b0ad69.jpg" alt=""></dt>-->
+    <!--</dl>-->
+
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-4 col-sm-5 col-5">
+                            <div class="widget widget-menu style-1">
+                                <h5 class="title-widget">快速通道</h5>
+                                <ul>
+                                    <li><a href="/merchant">个人中心</a></li>
+                                    <li><a href="/orderquery">订单查询</a></li>
+                                    <li><a href="/complaintquery">投诉查询</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-4 col-sm-7 col-7">
+                            <div class="widget widget-menu style-2">
+                                <h5 class="title-widget">帮助中心</h5>
+                                <ul>
+                                    <li><a href="/company/notice">最新公告</a></li>
+                                    <li><a href="/index/index/content/id/20.html">免责声明</a></li>
+                                    <li><a href="/company/faq">使用帮助</a></li>
+                                    <li><a href="/index/index/content/id/13.html">用户协议</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-4 col-sm-5 col-5">
+                            <div class="widget widget-menu fl-st-3">
+                                <h5 class="title-widget">联系我们</h5>
+                                <ul>
+                                    <!--<a href="http://wpa.qq.com/msgrd?v=3&uin={:sysconf('site_info_qq')}&site=qq&menu=yes" class="btn btn-primary mt-4"><i class="mdi mdi-email"></i> 客服QQ：{:sysconf('site_info_qq')}</a>-->
+                                    <li><a href="http://wpa.qq.com/msgrd?v=3&uin={:sysconf('site_info_qq')}&site=qq&menu=yes">客服QQ：{:sysconf('site_info_qq')}</a></li>
+                                    <li><a href="#"</a>企业邮箱：{:sysconf('site_info_email')}</li>
+                                    <li><a href="#">工作时间：早10:00 ~ 晚上10:00</a></li>
+                                    <li><a href="/company/contact">联系我们</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-7 col-12">
+                            <div class="widget widget-subcribe">
+                                <h5 class="title-widget">商业合作</h5>
+                                <div class="form-subcribe">
+                                    <form id="subscribe-form" action="#" method="GET" accept-charset="utf-8" class="form-submit">
+                                        <input name="email" value="" class="email" type="email" placeholder="" required="">
+                                        <button id="submit" name="submit" type="submit"><i class="icon-fl-send"></i></button>
+                                    </form>
+                                </div>
+                                <div class="widget-social style-1 mg-t32">
+                                    <ul>
+                                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                        <li><a href="#"><i class="fab fa-facebook"></i></a></li>
+                                        <li class="style-2"><a href="#"><i class="fab fa-telegram-plane"></i></a></li>
+                                        <li><a href="#"><i class="fab fa-youtube"></i></a></li>
+                                        <li class="mgr-none"><a href="#"><i class="icon-fl-tik-tok-2"></i></a></li>
+                                        <li class="mgr-none"><a href="#"><i class="icon-fl-vt"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+</div>
+
+</div>
+
+<a id="scroll-top"></a>
+
+<script src="/static/theme/coco/js/jquery.min.js"></script>
+<script src="/static/theme/coco/js/jquery.easing.js"></script>
+<script src="/static/theme/coco/js/wow.min.js"></script>
+<script src="/static/theme/coco/js/plugin.js"></script>
+<script src="/static/theme/coco/js/shortcodes.js"></script>
+<script src="/static/theme/coco/js/main.js"></script>
+<!-- Main Js -->
+
+		
+		
+		
+		<script src="/static/theme/landrick/js/app.js"></script>
+       
+        <script src="/static/app/js/layer.js"></script>
+        <script src="/static/plugs/clicaptcha/cookie.min.js"></script>
+        <script src="/static/plugs/clicaptcha/CryptoJS.js"></script>
+        <script src="/static/plugs/clicaptcha/clicaptcha.js"></script>
+		
+       <script>
+                                            var flag = true;
+                                            var loading = '';
+                                            var stop = false;
+                                            var order_query_captcha_type = "{:sysconf('order_query_captcha_type')}";
+                                            $(function () {
+                                                getgoods('{$order.trade_no}', '0');
+                                                /*{eq name = "order.status" value = "0"}*/
+                                                layer.msg('正在获取支付状态 ...', function () {
+                                                    loading = layer.load(1, {
+                                                        shade: [0.1, '#fff'] //0.1透明度的白色背景
+                                                    });
+                                                });
+                                                setTimeout('oderquery(1)', 3000);
+                                                window.setTimeout("request_stop()", 30000);
+                                                /*{/eq}*/
+                                            });
+                                            function formCheck() {
+                                                var obj = $('[name="orderid"]');
+                                                if (!obj.val()) {
+                                                    obj.focus();
+                                                    return false;
+                                                }
+                                                return true;
+                                            }
+                                            function getgoods(orderid, id) {
+                                                setTimeout(function () {
+                                                    $.getJSON('/checkgoods', {
+                                                        orderid: orderid,
+                                                        t: new Date().getTime(),
+                                                        token: '{$token}'
+                                                    }, function (data) {
+                                                        if (data) {
+                                                            $('.cardslite').val(data.cardslite);
+                                                            $('#cardinfo' + id).html(data.msg);
+                                                            if (data.status == 1) {
+                                                                $('.tips' + id).html('<b>已发卡密：</b><span class="kamiok">' + data.quantity + '</span>张' + '，未发卡密0张。');
+                                                            }
+                                                        }
+                                                    });
+                                                }, 1000);
+                                            }
+                                            function orderid_or_contact() {
+                                                var input_val = $('#orderid_input').val();
+
+                                                if (input_val === "") {
+                                                    layer.msg('请输入订单号或联系方式！', {icon: 6, time: 1000});
+                                                    return false;
+                                                } else {
+                                                    var queryType = '';
+                                                    if (input_val.length == '16' || input_val.length == '17' || input_val.length == '18' || input_val.length == '21' || input_val.length == '19' || input_val.length == '20') {
+                                                        queryType = '2';
+                                                    } else {
+                                                        queryType = '3';
+                                                    }
+                                                    var needChkcode = "{:sysconf('order_query_chkcode')}";
+                                                    if (needChkcode == 1) {
+                                                        chkcode(input_val, queryType);
+                                                    } else {
+                                                        window.location.href = '/orderquery?orderid=' + input_val + '&querytype=' + queryType;
+                                                    }
+                                                }
+                                            }
+
+                                            function oderquery(t) {
+                                                if (flag == false)
+                                                    return false;
+                                                var orderid = '{$Think.get.orderid}';
+                                                $.post('/pay/getOrderStatus', {
+                                                    orderid: orderid,
+                                                    token: '{$token}'
+                                                }, function (ret) {
+                                                    if (ret == 1) {
+                                                        layer.close(loading);
+                                                        flag = false;
+                                                        stop = true;
+                                                        $('#paystatus').html('付款成功');
+                                                        getgoods('{$order.trade_no}', '0');
+                                                    }
+                                                });
+                                                t = t + 1;
+                                                setTimeout('oderquery(' + t + ')', 3000);
+                                            }
+
+                                            function request_stop() {
+                                                if (stop == true)
+                                                    return false;
+                                                flag = false;
+                                                layer.close(loading);
+                                                layer.alert('系统未接收到付款信息，如您已付款请联系客服处理！');
+                                            }
+                                            function chkcode(input_val, queryType) {
+
+                                                if (order_query_captcha_type == 0)
+                                                {
+                                                    layer.prompt({
+                                                        title: '请输入验证码',
+                                                        formType: 3
+                                                    }, function (chkcode) {
+                                                        $.post('/orderquery/checkverifycode', {
+                                                            chkcode: chkcode,
+                                                            token: '{$token}'
+                                                        }, function (data) {
+                                                            if (data == 'ok') {
+                                                                layer.msg('验证码输入正确', {
+                                                                    icon: 1
+                                                                }, function () {
+                                                                    window.location.href = '/orderquery?orderid=' + input_val + '&chkcode=' + chkcode + '&querytype=' + queryType;
+                                                                });
+                                                            } else {
+                                                                layer.msg('验证码输入错误', {
+                                                                    icon: 2,
+                                                                    time: 3000
+                                                                }, function () {
+                                                                });
+                                                            }
+
+                                                        });
+                                                    });
+                                                    $('.layui-layer-prompt .layui-layer-content').prepend($(
+                                                            '<img style="cursor:pointer;height: 60px;" id="chkcode_img" src="/chkcode" onclick="javascript:this.src=\'/chkcode\'+\'?time=\'+Math.random()">'
+                                                            ))
+                                                } else {
+                                                    $('#clicaptcha-submit-info').clicaptcha({
+                                                        src: "{:url('/chkcode',['token'=>$token])}",
+                                                        checksrc: "{:url('/orderquery/checkverifycode',['token'=>$token])}",
+                                                        token: "{$token}",
+                                                        callback: function (chkcode) {
+                                                            layer.msg('验证码输入正确', {
+                                                                icon: 1
+                                                            }, function () {
+                                                                window.location.href = '/orderquery?orderid=' + input_val + '&chkcode=' + encodeURIComponent(chkcode) + '&querytype=' + queryType;
+                                                            });
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                            var clipboard = new ClipboardJS('.btn');
+                                            clipboard.on('success', function (e) {
+                                                layer.msg('复制成功！', {
+                                                    icon: 1
+                                                });
+                                            });
+                                            clipboard.on('error', function (e) {
+                                                layer.msg('复制失败，请手动复制！', {
+                                                    icon: 2
+                                                });
+                                            });
+
+        </script>
+    </body>
+</html>

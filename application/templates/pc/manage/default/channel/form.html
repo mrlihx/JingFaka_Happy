@@ -1,0 +1,103 @@
+<style>
+#account_id,#weight{
+    display: none;
+}
+</style>
+<form class="layui-form layui-box" style='padding:25px 30px 20px 0' action="__SELF__" data-auto="true" method="post">
+    <div class="layui-form-item">
+        <label class="layui-form-label">接口名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="title" placeholder="接口名称" autocomplete="off" class="layui-input" value="{$channel.title|default=''}">
+        </div>
+        <label class="layui-form-label">英文名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="code" placeholder="英文名称" autocomplete="off" class="layui-input" {if $development != 1}readonly="readonly"{/if} value="{$channel.code|default=''}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">显示名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="show_name" placeholder="显示名称" autocomplete="off" class="layui-input" value="{$channel.show_name|default=''}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">充值费率(‰)</label>
+        <div class="layui-input-inline">
+            <input type="text" name="lowrate" placeholder="充值费率" autocomplete="off" class="layui-input" value="{$channel.lowrate|default='0'}">
+        </div>
+    </div>
+    {if $development==1}
+    <div class="layui-form-item">
+        <label class="layui-form-label">账户字段</label>
+        <div class="layui-input-block">
+            <textarea class="layui-textarea" cols="30" rows="2" name="account_fields" placeholder="账户字段" autocomplete="off">{$channel.account_fields|default=''}</textarea>
+            <span>用户添加渠道账户所需的字段，用“|”分割字段,用:分隔名称，如：应用号:appid|应用秘钥:appsecret</span>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">账户默认字段</label>
+        <div class="layui-input-block">
+            <textarea class="layui-textarea" cols="30" rows="2" name="default_fields" placeholder="账户默认字段" autocomplete="off">{$channel.default_fields|default=''}</textarea>
+            <span>用户添加渠道账户所需默认的字段，用“|”分割字段,用=分隔名称，如：appid=123456|appsecret:456789</span>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">申请地址</label>
+        <div class="layui-input-block">
+            <input type="text" name="applyurl" placeholder="申请地址" autocomplete="off" class="layui-input" value="{$channel.applyurl|default=''}">
+        </div>
+    </div>
+    {/if}
+    <div class="layui-form-item">
+    <label class="layui-form-label">分类</label>
+    <div class="layui-input-inline">
+        <select class="layui-input" name="paytype" style="display:inline">
+            <option value="">请选择</option>
+            {foreach $paytype as $key => $value}
+            <option value="{$value['id']}" {if isset($channel) && $value['id']==$channel['paytype']}selected{/if}>{$value.name} </option>
+            {/foreach}
+        </select>
+    </div>
+    <label class="layui-form-label">状态</label>
+    <div class="layui-input-inline">
+        <select class="layui-input" name="status" style="display:inline">
+            <option value="1" {if isset($channel) && 1==$channel['status']}selected{/if}>开启</option>
+            <option value="0" {if isset($channel) && 0==$channel['status']}selected{/if}>关闭</option>
+        </select>
+    </div>
+</div>
+<div class="layui-form-item">
+	<label class="layui-form-label">接口可用</label>
+    <div class="layui-input-inline">
+        <select class="layui-input" name="is_available" style="display:inline">
+            <option value="0" {if isset($channel) && 0==$channel['is_available']}selected{/if}>通用</option>
+            <option value="1" {if isset($channel) && 1==$channel['is_available']}selected{/if}>手机</option>
+            <option value="2" {if isset($channel) && 2==$channel['is_available']}selected{/if}>电脑</option>
+        </select>
+    </div>
+</div>
+{if isset($channel.applyurl) && !empty($channel.applyurl)}
+<div class="layui-form-item">
+    <label class="layui-form-label">申请地址</label>
+    <div class="layui-input-block" style="line-height: 40px;">
+        <a href="{$channel.applyurl}" target="_blank">{$channel.applyurl}</a>
+    </div>
+</div>
+{/if}
+
+   <div class="layui-form-item">
+        <label class="layui-form-label">排序(越大越靠前)</label>
+        <div class="layui-input-inline">
+            <input type="text" name="sort" placeholder="排序" autocomplete="off" class="layui-input" value="{$channel.sort|default='0'}">
+        </div>
+    </div>
+
+    <div class="hr-line-dashed"></div>
+    <div class="layui-form-item text-center">
+        <input type="hidden" name="channel_id" value="{$channel_id|default=''}">
+        <button class="layui-btn" type="submit">保存</button>
+        <button class="layui-btn layui-btn-danger" type="button" data-confirm="确定要取消吗？" data-close="">取消</button>
+    </div>
+</form>
+<script>
+</script>

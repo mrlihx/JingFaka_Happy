@@ -1,0 +1,28 @@
+{extend name="./layout"}
+
+{block name="content"}
+<li><span class="form_title">商品分类</span>
+    <p class="spdj">{$goods.category.name}</p>
+    <script>
+        $(function () {
+            selectcateid();
+        })
+    </script>
+    <input type="hidden" name="cateid" id="cateid" value="{$goods.category.id}">
+    <!--如果是分类链接结束-->
+    <!--如果是店铺链接开始-->
+</li>
+<li>
+    <span class="form_title">商品名称</span>
+    <p class="spdj">{$goods.name}</p>
+    <script>
+        $(function () {
+            selectgoodid();
+        });
+    </script>
+    <input type="hidden" name="goodid" id="goodid" value="{$goods.id}">
+    <input type="hidden" name="cateid" id="cateid" value="{$goods.cate_id}">
+    <!--如果是单个商品链接结束-->
+    <!--如果是分类链接或者是店铺链接开始-->
+</li>
+{/block}

@@ -1,0 +1,34 @@
+<form class="layui-form layui-box" style='padding:25px 30px 20px 0' action="__SELF__" data-auto="true" method="post">
+
+    <input type="hidden" name="id" value="{$combo.id}">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">标签</label>
+        <div class="layui-input-block">
+            <input type="text" name="name"  required="required" title="请输入标签" placeholder="说明 例如：平台推荐" class="layui-input" value="{$combo.name}">
+        </div>
+    </div>
+  
+    <div class="layui-form-item">
+        <label class="layui-form-label">颜色</label>
+        <div class="layui-input-block">
+            <input type="text" name="color"  required="required" title="颜色" placeholder="颜色 例如您想设置为红色请填写：#f00" class="layui-input" value="{$combo.color}">
+            红色：#f00 | 紫色：#f0f | 浅蓝：#0ff | 绿色：#0C9 | 蓝色：#00F | 黄色：#FF0 | 橙色：#F90
+        </div>
+    </div>
+  
+    <div class="hr-line-dashed"></div>
+
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type='submit'>保存</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消吗？" data-close>取消</button>
+    </div>
+
+</form>
+
+<script>
+    layui.use('form', function () {
+        var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+        form.render();
+    });
+</script>

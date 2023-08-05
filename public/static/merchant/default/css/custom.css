@@ -1,0 +1,183 @@
+/* 
+---------------------------------------
+    : Custom - jQuery Confirm css :
+---------------------------------------
+*/
+.jconfirm.jconfirm-white .jconfirm-box {
+    -webkit-box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+}
+.jconfirm.jconfirm-white .jconfirm-box .jconfirm-buttons button {
+    border-radius: 3px;
+    border: none;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: capitalize;
+}
+.jconfirm.jconfirm-white .jconfirm-box .jconfirm-buttons button.btn-default:hover {
+    background: #81a7cd;
+}
+
+.jconfirm.jconfirm-light .jconfirm-box {
+    -webkit-box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+}
+.jconfirm.jconfirm-light .jconfirm-box .jconfirm-buttons button {
+    border-radius: 3px;
+    border: none;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: capitalize;
+}
+.jconfirm.jconfirm-light .jconfirm-box .jconfirm-buttons button.btn-default:hover {
+    background: #81a7cd;
+}
+
+.jconfirm .jconfirm-box .jconfirm-buttons button.btn-default {
+    background-color: #93b4d4;
+    color: #ffffff !important;
+}
+.jconfirm .jconfirm-box .jconfirm-buttons button.btn-blue {
+    background-color: #0080ff;
+}
+.jconfirm .jconfirm-box .jconfirm-buttons button.btn-blue:hover {
+    background-color: #0073e6;
+}
+.jconfirm .jconfirm-box .jconfirm-buttons button.btn-green {
+    background-color: #18d26b;
+}
+.jconfirm .jconfirm-box .jconfirm-buttons button.btn-green:hover {
+    background-color: #15bb5f;
+}
+.jconfirm .jconfirm-box .jconfirm-buttons button.btn-green:focus {
+    background-color: #15bb5f;
+    box-shadow: 0 0 0 0.2rem #63eda1;
+}
+.jconfirm .jconfirm-box .jconfirm-buttons button.btn-red {
+    background-color: #ff3f3f;
+}
+.jconfirm .jconfirm-box .jconfirm-buttons button.btn-red:hover {
+    background-color: #ff2626;
+}
+.jconfirm .jconfirm-box .jconfirm-buttons button.btn-red:focus {
+    background-color: #ff2626;
+    box-shadow: 0 0 0 0.2rem #ffa5a5;
+}
+.jconfirm .jconfirm-box .jconfirm-title-c .jconfirm-title {
+    font-size: 20px !important;
+    color: #282828;
+}
+.jconfirm .jconfirm-box .jconfirm-content {
+    color: #8A98AC;
+}
+.jconfirm .jconfirm-box.jconfirm-type-red {
+    border-top: none;
+}
+.jconfirm .jconfirm-box.jconfirm-type-green {
+    border-top: none;
+}
+
+
+.dropify-wrapper .dropify-message span.file-icon{
+    font-size: 38px
+}
+.dropify-wrapper .dropify-message span.file-icon p{
+    font-size: 18px
+}
+
+
+
+
+
+
+/*//lauyi*/
+.layui-layer-title{
+    font-weight: 700  !important;
+    color: #68728c  !important;
+    font-size: 16px  !important;
+    height: 50px !important;
+    line-height: 50px !important;
+    border-radius: 5px 5px 0 0;
+    background-color: #F2F4F4 !important;
+}
+.layui-layer-setwin{
+    top: 18px !important;
+    right: 18px !important;
+}
+.layui-layer,.layui-layer-iframe iframe{
+    border-radius: 5px !important;
+}
+
+.layui-layer-loading .layui-layer-loading1 {
+    border: 3px solid #eeeeee;
+    border-radius: 50%;
+    border-top: 3px solid #3498db;
+    background: none !important;
+    -webkit-animation: spin 0.6s linear infinite;
+    animation: spin 0.6s linear infinite;
+}
+
+
+
+
+.btn-group.new-list .btn-secondary-rgba{
+    cursor: pointer;
+}
+.btn-group.new-list .btn-secondary-rgba:not(:disabled):not(.disabled){
+    font-weight: 500;
+    background-color: #f6f6f6;
+    color: #a2a9ba;
+    border:1px solid #ededed;
+    box-shadow: 0 1px 4px 0 rgba(56,108,250,.04);
+}
+.btn-group.new-list .btn-secondary-rgba:not(:disabled):not(.disabled).active {
+    background-color: #e6eef5;
+    /*border-color: #81a7cd;*/
+    /*border:1px solid #e6eef5;*/
+    color: #386cfa;
+    font-weight: 700;
+    z-index: 0;
+}
+.btn-group.new-list .btn-secondary-rgba:not(:disabled):not(.disabled):hover{
+    background-color: #e6eef5;
+    color: #386cfa;
+    font-weight: 700;
+}
+
+
+
+
+.avatar-xs {
+    height: 2rem;
+    width: 2rem;
+}
+.bg-warning.bg-soft {
+    background-color: rgba(241,180,76,.25)!important;
+}
+
+.font-size-18 {
+    font-size: 18px!important;
+}
+.avatar-title {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    background-color: #556ee6;
+    color: #fff;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    font-weight: 500;
+    height: 100%;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 100%;
+}
+.font-size-14 {
+    font-size: 14px!important;
+}

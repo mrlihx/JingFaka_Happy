@@ -1,0 +1,238 @@
+{extend name='./content'}
+
+{block name="content"}
+
+<!-- 表单搜索 开始 -->
+<form class="layui-form layui-form-pane form-search" action="__SELF__" onsubmit="return false" method="get">
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">商户ID</label>
+        <div class="layui-input-inline">
+            <input name="user_id" value="{$Think.get.user_id|default=''|htmlentities}" placeholder="请输入商户ID" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">商户账号</label>
+        <div class="layui-input-inline">
+            <input name="username" value="{$Think.get.username|default=''|htmlentities}" placeholder="请输入商户账号" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">状态</label>
+        <div class="layui-input-inline">
+            <select name="status">
+                <option value="">全部状态</option>
+                <option value="0" {if $Think.get.status === '0'}selected{/if}>待审核</option>
+                <option value="1" {if $Think.get.status === '1'}selected{/if}>已审核</option>
+                <option value="-1" {if $Think.get.status === '-1'}selected{/if}>已拒绝</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <button type="submit" class="layui-btn layui-btn-primary"><i class="fa fa-search"></i> 搜 索</button>
+    </div>
+</form>
+
+<button id="agree_batch" type="button" class="layui-btn layui-btn-normal layui-btn-small">批量通过</button>
+<button id="refuse_batch" type="button" class="layui-btn layui-btn-normal layui-btn-small">批量拒绝</button>
+<div class="" style="margin-bottom:10px;"></div>
+
+<!-- 表单搜索 结束 -->
+<form onsubmit="return false;" data-auto="true" method="post">
+    <input type="hidden" value="resort" name="action"/>
+    <table class="layui-table" lay-skin="line" lay-size="sm">
+        <thead>
+            <tr>
+                <th class='list-table-check-td'>
+                    <input data-none-auto="" data-check-target='.list-check-box' type='checkbox' />
+                </th>
+                <th>ID</th>
+                <th>商户ID</th>
+                <th>商户账号</th>
+                <th>标题</th>
+                <th>添加时间</th>
+                <th>标签</th>
+                <th>标签到期时间</th>
+                <th>状态</th>
+                <th>排序</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {foreach $list as $v}
+            <tr>
+                <td class='list-table-check-td'>
+                    <input class="list-check-box" value='{$v.id}' type='checkbox' />
+                </td>
+                <td>{$v.id}</td>
+                <td>{$v.user_id}</td>
+                <td>{$v.user.username}</td>
+                <td>{$v.title}</td>
+                <td>{$v.create_at|date="Y-m-d H:i:s",###}</td>
+                <td>{if $v.expire_at!=""&&$v.expire_at>time()}{if $v.span}<span style="background:{$v.span.color}; color:#fff; padding:3px 8px; border-radius:10px;font-size: 10px">{$v.span.name}</span>{else/}---{/if}{else/}---{/if} </td>
+                <td>{if $v.expire_at!=""}{if $v.expire_at<time()}已过期{else/}{$v.expire_at|date="Y-m-d H:i:s",###}{/if}{else/}---{/if}</td>
+                <td>
+                    {if $v.status==1}
+                    <span style="color:green"><i class="glyphicon glyphicon-ok"></i> 已审核</span>
+                    {elseif $v.status==-1/}
+                    <span style="color:red"><i class="glyphicon glyphicon-remove"></i> 已拒绝</span>
+                    {else/}
+                    <span><i class="glyphicon glyphicon-question-sign"></i> 未审核</span>
+                    {/if}
+                </td>
+                <td>{$v.sort}</td>
+                <td>
+                    <a href="javascript:void(0)" style="color:green" onclick="pool_check(this, '{$v.id}', 1)">通过</a>
+                    <a href="javascript:void(0)" style="color:red" onclick="pool_check(this, '{$v.id}', -1)">拒绝</a>
+                    <a href="javascript:void(0)" onclick="pool_del(this, '{$v.id}')">删除</a>
+                    <a data-modal='{:url("/manage/goods/pool_span_set",["id"=>$v.id])}' href="javascript:void(0)">设置标签</a>
+                    <a href="javascript:void(0)" onclick="pool_span_clear(this, '{$v.id}')">删除标签</a>
+                    <a data-modal='{:url("/manage/goods/pool_sort",["id"=>$v.id])}' href="javascript:void(0)">设置排序</a>
+                </td>
+            </tr>
+            {/foreach}
+        </tbody>
+    </table>
+</form>
+{$page}
+<script>
+    layui.use('form', function () {
+        var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+        form.render();
+    });
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#date_range',
+            range: true
+        });
+    });
+
+
+    $('#refuse_batch').click(function () {
+        var ids = '';
+        $('.list-check-box').each(function () {
+            var _this = $(this);
+            if (_this.is(':checked')) {
+                ids = ids + _this.val() + ',';
+            }
+        });
+        layer.confirm('确定要批量拒绝吗？', function (index) {
+            if (ids == '') {
+                layer.msg('请选择选项！');
+                return false;
+            }
+            $.ajax({
+                url: "/manage/goods/batch_pool_check",
+                type: 'post',
+                data: {
+                    'ids': ids,
+                    'status': -1
+                },
+                success: function (res) {
+                    if (res.code == 1) {
+                        layer.msg(res.msg);
+                        $.form.reload();
+                    } else {
+                        layer.msg(res.msg);
+                    }
+                }
+            });
+        });
+    });
+
+    $('#agree_batch').click(function () {
+        var ids = '';
+        $('.list-check-box').each(function () {
+            var _this = $(this);
+            if (_this.is(':checked')) {
+                ids = ids + _this.val() + ',';
+            }
+        });
+        layer.confirm('确定要批量通过吗？', function (index) {
+            if (ids == '') {
+                layer.msg('请选择选项！');
+                return false;
+            }
+            $.ajax({
+                url: "/manage/goods/batch_pool_check",
+                type: 'post',
+                data: {
+                    'ids': ids,
+                    'status': 1
+                },
+                success: function (res) {
+                    if (res.code == 1) {
+                        layer.msg(res.msg);
+                        $.form.reload();
+                    } else {
+                        layer.msg(res.msg);
+                    }
+                }
+            });
+        });
+    });
+
+    function pool_span_clear(obj, id) {
+        layer.confirm('确定要清除标签吗？', function (val) {
+            if (val) {
+                $.post('/manage/goods/pool_span_clear', {
+                    id: id
+                }, function (res) {
+                    if (res.code != 1) {
+                        layer.msg('编辑失败');
+                    } else {
+                        layer.msg('编辑成功！');
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1000);
+                    }
+
+                });
+            }
+        })
+    }
+
+
+    function pool_check(obj, id, status) {
+        layer.confirm('确定进行操作吗？', function (val) {
+            if (val) {
+                $.post('/manage/goods/pool_check', {
+                    id: id,
+                    status: status
+                }, function (res) {
+                    if (res.code != 1) {
+                        layer.msg('操作失败');
+                    } else {
+                        layer.msg('操作成功！');
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1000);
+                    }
+                });
+            }
+        })
+    }
+
+    function pool_del(obj, id) {
+        layer.confirm('确定删除吗？', function (val) {
+            if (val) {
+                $.post('/manage/goods/pool_del', {
+                    id: id
+                }, function (res) {
+                    if (res.code != 1) {
+                        layer.msg('删除失败');
+                    } else {
+                        layer.msg('删除成功！');
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1000);
+                    }
+                });
+            }
+        })
+    }
+
+</script>
+{/block}

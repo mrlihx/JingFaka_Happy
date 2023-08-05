@@ -1,0 +1,58 @@
+{extend name="./layout"}
+
+{block name="content"}
+
+<div class="row category">
+    <div class="col-12">
+        <div class="section__title-wrap">
+            <h2 class="section__title">商品分类</h2>
+        </div>
+    </div>
+    <!-- content wrap -->
+    <div class="col-12 col-lg-12">
+        <input type="hidden" name="cateid" id="cateid" value="{$category.id}">
+        <div class="row category_list">
+
+            <div class="category_box col-auto cursor-pointer active" data-cateid="{$category.id}">
+                <div class="card">
+                    <div class="card__title pb-0">
+                        <h3>{$category.name}</h3>
+                    </div>
+                    <div class="card__content">
+                        <span class="card__s_cateremark">共{$category.count}种商品</span>
+                    </div>
+                    <img class="lite_img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAAzCAYAAADYfStTAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQyIDc5LjE2MDkyNCwgMjAxNy8wNy8xMy0wMTowNjozOSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpFQTBERUY0RjU0RjMxMUU5QjQ3MEU0Njc2QjREODc5MyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpFQTBERUY1MDU0RjMxMUU5QjQ3MEU0Njc2QjREODc5MyI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkVBMERFRjRENTRGMzExRTlCNDcwRTQ2NzZCNEQ4NzkzIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkVBMERFRjRFNTRGMzExRTlCNDcwRTQ2NzZCNEQ4NzkzIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+YsrVHwAABMNJREFUeNrkmgtv3EQUhe3x7CZtXm2TSCzQhwglhQIS/P9fgUBJStMWKKS0gTZN06YbP7hXfINGlsfxrr3eJox0tFHWHt8z99zHzDouiiLqaAwFi4IVwZLgqmBBMBAYrskFZ4L3greCE8Gx4FQw7sKIuCUhNfSaYB0s65yCppO6a98I/gKvIN4rISWyKfiYz4SVz1ssjHoyE7wQ/MFn3gehDcEdPGKQSle6jZFujreeCA5nRUgf9LlgxN9dEgkR02ccCB42jbGmhK4LtomXDPQxEqBxtSd42QWhjwT3yFjpDL1S560EDz0gvqYmpEH/JZPmPZJIiU9TShxq7K7g97rsEhojyEQ9kxlTw5KSGpwN97BtIkLr3Gh6lFhB6ldjvxPc4n9F6RqDbetNCV0hAQx7Cv7Ck5hm0a/pNm5R48rqyLBtG1vPJaSTrvGQWY+c5yiBrwSfEa/aGlnBFm1UWhFja9haS2gEzhpILWtRi2IvY2oW/QZv+CUhpZW663URVfIchQhZ3GwaJIEzHrJeofMmZN5zv67wfaSTVcyTemWjqEgSBpttFSG98UaDipwiA9X695AaTxAv2lmvCr5FUnUlwdWfY/6uyog3sP0/r0Ss1ifneKbg+00MWcOYbbYCb5inTqIFte0LFiUkWVdMlcjP9HUJ/6+KQ7X9T1WOI3SN9mZcQ0YnvC24Sdfgrl3CwJ+QYlJxr8tMd7g/QXYhrxR0BI9YLBsg4+R/HQ4vDBdu1MRBznd3vQA9K7l9A7Jl+eSQWUWiNz0jQg1pild2keeghoy/aGpDbJlkoyZNu4x0XCPJDGNPaEuc9mMktoVXs5oCP6QJ3aUJNYG4CcW1chhaJLNY87AYl/9KNrrtea1cwbeQyHPaly2v4ofmt9z7G9uEt5CbtDgrhyWLHIoGqdag6SUyS1YhzUVScUK8bLJ6WU28qPz2BU+ZY2HK2qb3rGq3fZ/ilDd07QqF8ErFPbFHbliz3XAL9IpFclnMtDzfODCsatNhiaV9DI0rVslf+SLgFUOs/QgZ25KMG4t2ChcnxMgyMZJWxFPIKwPS9T6E8nNq16SSW7ATZJKyrJ5AalRTU8qnOn97hXLgtyxdbdmndbUlLe+RJFYgFQfIxCzAY2rLtIF/7mKbaLrdaMEKa93Z8QpgKIvtUF/GXDerTWNmWm7ihsjnsdf9+hLTLPYDNcZMIe+JCVmkcrXFvmaAwSq9TzE6pxA/8rYK8YzJxK45Pe1gohgvLVOf9mku4w6zWJNxaomDtsMQK7t46GXPRNw4UUKvO5JDzJ6omBMZff5rg4dOOyKVzKC2NCWjHE7crweHczKkq2HhMHYHiYcd9VLzGgYOhSNxNMdAbjsG2H7kn/qM2Y+YC+qdp+6MwyfwjOZxeIHIDLH5WdW5XEp1zy+Ip4zXkaRVhHQcgD5albZpeuDZG4UIRRxUHH3gadxi48Mqt5XHO/Y54x6642mLt9uLvWtCKGJLsBc4N5i31NSmB9gYNSUU0S3vNLiuzyQQYVPwN9b/3a/gblyq9xT8InZp3iTxhx7v6vl2H+/6/BL9+xJT8wk+0Lex1CvPo57exiobcinelwvFmHujcZmTJHc66gp0RqZUb7qfMTt9o/EfAQYA3ZeeseefkFEAAAAASUVORK5CYII=">
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- end content wrap -->
+</div>
+
+<hr class="mt-4">
+
+<div class="row goods">
+    <div class="col-12">
+        <div class="section__title-wrap">
+            <h2 class="section__title section__title--pre">选择商品</h2>
+        </div>
+    </div>
+
+    <div class="col-12 col-lg-12">
+        <input name="goodid" id="goodid" type='hidden'/>
+        <div class="row goods_list" style="max-height: 420px;overflow-x: auto;">
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+    $(function () {
+        selectcateid();
+    })
+</script>
+{/block}
+
+

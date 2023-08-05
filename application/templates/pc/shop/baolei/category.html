@@ -1,0 +1,28 @@
+{extend name="./layout"}
+
+{block name="content"}
+
+<div class="choose-item">
+    <div class="choose-left">商品分类：</div>
+    <div class="choose-right">
+        {$category.name}
+    </div>
+</div>
+
+<div class="choose-item">
+    <div class="choose-left">商品名称：</div>
+    <div class="choose-right">
+        <select class="text" name="goodid" id="goodid" onchange="selectgoodid()">
+            <option value="">请选择商品</option>
+        </select>
+        <span style="float: none;" class="tip" id="goodInvent"></span>
+    </div>
+</div>
+<script>
+    $(function () {
+        selectcateid();
+    })
+</script>
+<input type="hidden" name="cateid" id="cateid" value="{$category.id}">
+
+{/block}

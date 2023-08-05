@@ -1,0 +1,108 @@
+{extend name='./content'}
+
+{block name="button"}
+<div class="nowrap pull-right" style="margin-top:10px">
+    <a href="{$self_no_url}&action=dump" target="_blank" class="layui-btn layui-btn-small" style="">导出数据</a>
+</div>
+{/block}
+
+{block name="content"}
+
+<!-- 表单搜索 开始 -->
+<form class="layui-form layui-form-pane form-search" action="__SELF__" onsubmit="return false" method="get">
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">商户账号</label>
+        <div class="layui-input-inline">
+            <input name="username" value="{$Think.get.username|default=''}" placeholder="请输入商户账号" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">支付渠道</label>
+        <div class="layui-input-inline">
+            <select name="channel_id">
+                <option value="">请选择</option>
+                {foreach $channels as $v}
+                    <option value="{$v.id}" {if $Think.get.channel_id == $v.id}selected{/if}>{$v.title}</option>
+                {/foreach}
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">支付方式</label>
+        <div class="layui-input-inline">
+            <select name="paytype">
+                <option value="">请选择</option>
+                {foreach $channel_paytype as $k => $v}
+                    <option value="{$v.id}" {if $Think.get.paytype == $v.id}selected{/if}>{$v.name}</option>
+                {/foreach}
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">时间范围</label>
+        <div class="layui-input-inline">
+            <input name="date_range" id="date_range" value="{if $Think.get.date_range!==null}{:urldecode($Think.get.date_range)}{else/}{:date('Y-m-d - Y-m-d')}{/if}" placeholder="请选择时间范围" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <button type="submit" class="layui-btn layui-btn-primary"><i class="fa fa-search"></i> 搜 索</button>
+    </div>
+</form>
+
+<form onsubmit="return false;" data-auto="true" method="post">
+    <input type="hidden" value="resort" name="action"/>
+    <table class="layui-table" lay-skin="line" lay-size="sm">
+        <thead>
+        <tr>
+            <th>渠道ID</th>
+            <th>渠道名称</th>
+            <th>提交订单</th>
+            <th>已付订单</th>
+            <th>未付订单</th>
+            <th>提交金额</th>
+            <th>商户收入</th>
+            <th>平台收入</th>
+        </tr>
+        </thead>
+        <tbody>
+            {foreach $statis as $v}
+            <tr>
+                <td>{$v.channel_id}</td>
+                <td>{$v.title}</td>
+                <td>{$v.count}</td>
+                <td>{$v.paid}</td>
+                <td>{$v.unpaid}</td>
+                <td>{$v.sum_money}</td>
+                <td>{$v.sum_actual_money}</td>
+                <td>{$v.sum_platform_money}</td>
+            </tr>
+            {/foreach}
+            <tr style="background-color:#f9ffb3">
+                <td>{$counts.channel_id}</td>
+                <td>{$counts.title}</td>
+                <td>{$counts.count}</td>
+                <td>{$counts.paid}</td>
+                <td>{$counts.unpaid}</td>
+                <td>{$counts.sum_money}</td>
+                <td>{$counts.sum_actual_money}</td>
+                <td>{$counts.sum_platform_money}</td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+<script>
+    layui.use('form', function(){
+        var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+        form.render();
+    });
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+        //日期范围
+        laydate.render({
+            elem: '#date_range',
+            range: true
+        });
+    });
+</script>
+{/block}

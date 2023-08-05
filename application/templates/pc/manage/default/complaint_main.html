@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>{:sysconf('site_name')}{:sysconf('site_subtitle')}</title>
+    <meta name="keywords" content="{:sysconf('site_keywords')}" />
+    <meta name="description" content="{:sysconf('site_desc')}" />
+    <link rel="shortcut icon" href="{:sysconf('browser_icon')}" />
+    <link rel="stylesheet" href="__RES__/app/css/main.css">
+    <link rel="stylesheet" href="__RES__/app/css/main_mobile.css">
+    <link rel="stylesheet" href="__RES__/app/css/iconfont.css">
+    <link rel="stylesheet" href="__RES__/app/css/animate.min.css">
+    <link rel="stylesheet" href="__RES__/app/css/swiper.min.css">
+    <link rel="stylesheet" href="__RES__/plugs/layui/css/layui.css"></link>
+    <script src="__RES__/app/js/jquery-2.2.1.min.js"></script>
+    <script src="__RES__/app/js/swiper.min.js"></script>
+    <script src="__RES__/app/js/formvalidator_min.js"></script>
+    <script src="__RES__/app/js/formvalidatorregex.js"></script>
+    <script src="__RES__/app/js/layer.js"></script>
+    {block name="CSS"}
+    {/block}
+</head>
+<body>
+{block name="top"}
+<section class="page_top">
+    <div class="container">
+    </div>
+</section>
+{/block}
+
+{block name="content"}{/block}
+<!--返回顶部-->
+<div class="toTop"><i class="iconfont icon-angle-up"></i>TOP</div>
+<script src="__RES__/app/js/main.js"></script>
+<script src="__RES__/app/js/main_mobile.js"></script>
+<script>
+    var mySwiper = new Swiper ('.swiper-container', {
+        slidesPerView : 'auto',
+        autoplay : 3000,
+        direction: 'horizontal',
+        loop: true,
+        nextButton: '.swiper-button-next',
+        prevButton: '.swiper-button-prev',
+    })
+</script>
+{block name="appendJS"}{/block}
+</body>
+</html>

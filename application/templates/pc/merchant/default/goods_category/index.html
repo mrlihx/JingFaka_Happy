@@ -1,0 +1,147 @@
+{extend name="base"}
+
+{block name="content"}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row mb-2">
+                            <div class="col-sm-12">
+                                <button  onclick="$.x_show('添加分类', '{:url(\'goods_category/add\')}', 450)" class="btn btn-primary glow invoice-create" role="button" aria-pressed="true"><i class="bx bx-plus mr-1"></i>添加分类</button>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>分类名称</th>
+                                        <th>排序（值越大越排前）</th>
+                                        <th>状态</th>
+                                        <th>创建时间</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {foreach $categorys as $k=> $v}
+                                    <tr>
+                                        <th scope="row">{$v.name}</th>
+                                        <td>{$v.sort}</td>
+                                        <td>
+                                            <div class="custom-control custom-switch custom-switch-md mb-3" dir="ltr">
+                                                <input onchange="change_status(this, '{$v.id}')" {if $v.status==1}checked{/if} type="checkbox" class="custom-control-input" id="customSwitchsizemd{$k}">
+                                                       <label class="custom-control-label" for="customSwitchsizemd{$k}"></label>
+                                            </div>
+                                        </td>
+                                        <td><small class="text-muted">{$v.create_at|date="Y-m-d H:i:s",###}</small></td>
+                                        <td>
+
+                                            <div class="btn-group btn-group-sm " role="group" aria-label="Basic group">
+                                                <button  onclick="$.x_show('分类链接', '{:url(\'goods_category/link\',[\'id\'=>$v.id])}', 560)"  class="btn btn-light waves-effect waves-light text-primary">链接</button>
+                                                <a href="{:url('goods/index',['cate_id'=>$v.id])}" class="btn btn-light waves-effect waves-light text-primary">商品</a>
+                                                <a href="{:url('goods_card/index',['cate_id'=>$v.id])}" class="btn btn-light waves-effect waves-light text-primary">库存卡</a>
+                                                <button  onclick="$.x_show('编辑分类', '{:url(\'goods_category/edit\',[\'id\'=>$v.id])}', 450)" href="" class="btn btn-light waves-effect waves-light text-primary">编辑</button>
+                                                <a href="javascript:void(0);" onclick="del(this, '{$v.id}')" class="btn btn-light waves-effect waves-light text-danger">删除</a>
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                    {/foreach}
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <nav aria-label="...">
+                            {$page}
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+
+
+{/block}
+{block name="js"}
+<script>
+
+    function change_status(obj, id) {
+        var status = $(obj).prop('checked');
+        if (status) {
+            status = 1;
+        } else {
+            status = 0;
+        }
+        $.post("{:url('goods_category/changeStatus')}", {
+            id: id, status: status
+        }, function (res) {
+            if (res.code != 1) {
+                $.alert(res.msg);
+            }
+        });
+    }
+
+
+    function del(obj, id)
+    {
+
+        $.confirm({
+            title: '温馨提示',
+            content: '确定删除吗？你将无法恢复该操作！',
+            type: 'red',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: '确定',
+                    btnClass: 'btn-red',
+                    action: function () {
+                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                        $.post("{:url('goods_category/del')}", {
+                            id: id
+                        }, function (res) {
+                            layer.closeAll();
+                            if (res.code != 1) {
+                                $.alert(res.msg);
+                            } else {
+                                $.alert("删除成功");
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 200);
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+    }
+</script>
+{/block}

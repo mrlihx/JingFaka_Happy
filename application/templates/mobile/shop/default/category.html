@@ -1,0 +1,37 @@
+{extend name="./layout"}
+
+{block name="content"}
+
+
+<section class="category">
+    <div class="category_title d-flex align-content-center">
+        <span>选择分类</span>
+    </div>
+    <input type="hidden" name="cateid" id="cateid" value="{$category.id}">
+    <div class="category_list">
+
+        <div style="cursor:pointer" class="category_box active" data-cateid="{$category.id}">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAMAAAANIilAAAABDlBMVEX////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////uKVtWAAAAWnRSTlMAAgMEBQYHCBAREhMWHR4gJicqKywtLi8xMjM0NTY5Ojs9Pj9AQUJDREVGR0hJSktMTU5PUVJTVFVWV1laW11gYmNkZWZoaWpsbm9wcXJzdHV3eHl6e3x9fn8hmsUDAAACRElEQVR4Xq3XbVfaMBjH4ZvVYhkoYhWsFcfK+i+iU+Z0Pk11m49zE1ER8/2/yBxrThJaSNuz6/0vzemL5A7FM4pl2200gWbDtctFgxLLzy77UPjLs9OUhFXlpdpXLdIpOBjLKdAk5jwmmjdprJIHDa9E8XJzSGAuRzHeLCERZ4oiplaQUD1SG6LVWjFIkVuCVut0LayXciSrQGury64QqpCkBK2DPmPsGKGSaPMeNILv7K/Bdhh7eeIWofHxF/un1w7rRd4WoLH3xLhrhAph7Cgfud2HKvjGJDth7NCQBcmXJ9bfhGzjlgn9PXDWMK6KNDh9YYzdBRB2H5nwW1q3Sq9MH9z6DRs6V1YTfgQQfJOIZsB9emChQ7Ga0D+AYkb5Xe0ej587w3bngQndLagcIsMHh+0Br7stACfyli9aGOEbVITkmHGXaF8zYXCEqCKVIbti3FmPCfcdxCiTDdnaPYtxuYY4NrlQdAaRdPAV8VxqQHU02vY+Y4wGNTHiQm2v2xinSRjV6spbPsEEhIjOs2bL3AdqIuKQtzfrmOQ9NRB1PkxfTgNM9I5cRAV3r+3jLjRcshFjs89+bkDHpjLi7J8F0CpTEZkVyfCRkW8QOcjI4cdQFjP8AExHHIBUQyY1fuhnYfHrJgNHXHTpvRVXbGqL8uWekpeXx4qUSupAk0ol9SglODlSTNWB7COgmbiumxRhJB5cs4/Mldx/HNYF08ZEtpn5gbJcIB2rFv80qlmUxHTWR5l4Di64q57ve6vuwtjn4B94/uYnspcNGwAAAABJRU5ErkJggg==">
+            <div class="cate_name">{$category.name}</div>
+            <div class="cate_desc">包含{$category.count}种商品</div>
+        </div>
+
+    </div>
+</section>
+
+<section class="goods">
+    <div class="goods_title d-flex align-content-center">
+        <span>选择商品</span>
+    </div>
+    <input name="goodid" id="goodid" type='hidden'/>
+    <div class="goods_list" style="max-height: 380px;overflow-x: auto;">
+    </div>
+</section>
+
+
+<script>
+    $(function () {
+        selectcateid();
+    })
+</script>
+{/block}

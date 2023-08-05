@@ -1,0 +1,53 @@
+{extend name="./content"}
+
+
+{block name="content"}
+
+<div class="alert alert-success alert-dismissible" role="alert" style="border-radius:0">
+    <p style="font-size:14px;">功能介绍:您其他平台商户</p>
+</div>
+
+<form onsubmit="return false;" action="__SELF__" data-auto="true" method="post" class='form-horizontal' >
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">功能是否开启</label>
+        <div class='col-sm-8'>
+            <select name="status" class="layui-input" >
+                <option value="0" {if plugconf('alliance','status')=='0'}selected{/if}>关闭</option>
+                <option value="1" {if plugconf('alliance','status')=='1'}selected{/if}>开启</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="hr-line-dashed"></div>
+
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">预存款最低充值金额</label>
+        <div class='col-sm-8'>
+            <input type="text"  name="fee_limit"  autocomplete="off" class="layui-input"  value="{:plugconf('alliance','fee_limit')}">
+            <p class="help-block">预存款用于代理商品支出的成本</p>
+        </div>
+    </div>
+
+
+    <div class="col-sm-12 text-center">
+        <div class="hr-line-dashed"></div>
+    </div>
+
+
+
+    <div class="form-group">
+        <div class="col-sm-12">
+            <div class="layui-form-item text-center">
+                <button class="layui-btn" type="submit">保存配置</button>
+                <a class="layui-btn" data-title="充值订单管理" data-open="{:url('allianceOrder')}" href="javascript:void(0)">充值订单管理</a>
+            </div>
+        </div>
+    </div>
+
+
+</form>
+
+
+{/block}

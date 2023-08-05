@@ -1,0 +1,325 @@
+{extend name="base"}
+
+{block name="css"}
+<link href="__RES__/merchant/default/libs/fileuploads/css/dropify.min.css" rel="stylesheet" type="text/css" />
+{/block}
+
+{block name="content"}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="checkout-tabs">
+            <div class="row">
+                <div class="col-xl-2 col-sm-3">
+                    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                        <a class="nav-link {if $Think.get.view==''||$Think.get.view==1 }active{/if}"  href="{:url('plugin/guide',['view'=>1])}" role="tab" aria-controls="v-pills-shipping" aria-selected="true">
+                            <i class="bx bx-box d-block check-nav-icon mt-4 mb-2"></i>
+                            <p class="font-weight-bold mb-4">基础信息</p>
+                        </a>
+                        <a class="nav-link {if $Think.get.view==2 }active{/if}"   href="{:url('plugin/guide',['view'=>2])}" role="tab" aria-controls="v-pills-payment" aria-selected="false"> 
+                            <i class="bx bx-devices d-block check-nav-icon mt-4 mb-2"></i>
+                            <p class="font-weight-bold mb-4">引导页模板</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xl-10 col-sm-9">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="tab-content" id="v-pills-tabContent">
+                                <div class="tab-pane fade {if $Think.get.view==''||$Think.get.view==1 }show active{/if}" id="v-pills-shipping" role="tabpanel" aria-labelledby="v-pills-shipping-tab">
+                                    <div>
+                                        <h4 class="card-title">基础信息</h4>
+                                        <p class="card-title-desc">Base information</p>
+                                        <form  role="form" action="" method="post" enctype="multipart/form-data">
+                                            <input  type="hidden"  name="act"  value="info">
+                                            <div class="form-group row mb-4">
+                                                <label for="status" class="col-md-2 col-form-label">店铺引导页开关</label>
+                                                <div class="col-md-10 d-flex align-items-center">
+                                                    <div class="custom-control custom-radio custom-control-inline mr-4">
+                                                        <input {if $guide.status==0}checked{/if} value="0" type="radio" id="status0" name="status" class="custom-control-input">
+                                                            <label class="custom-control-label" for="status0">关闭</label>
+                                                    </div>
+                                                    <div class="custom-control custom-radio custom-control-inline mr-4">
+                                                        <input {if $guide.status==1}checked{/if} value="1" type="radio" id="status1" name="status" class="custom-control-input">
+                                                            <label class="custom-control-label" for="status1">开启</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-md-2 col-form-label">LOGO</label>
+                                                <div class="col-md-2">
+                                                    {if $guide.logo}
+                                                    <img src="{$guide.logo}" style="width: 70px;margin:0 auto;" alt="">
+                                                    {else/}
+                                                    <img src="{:url('index/resource/userAvatar', ['id' => $_user->id])}" style="width: 70px;margin:0 auto;" alt="">
+                                                    {/if}
+                                                    <p class="text-muted mt-1 mb-1" >
+                                                        默认使用QQ头像
+                                                    </p>
+                                                    <input type="file" name="logo"  class="dropify"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row mb-4">
+                                                <label for="logo_open" class="col-md-2 col-form-label">LOGO是否显示</label>
+                                                <div class="col-md-10 d-flex align-items-center">
+                                                    <div class="custom-control custom-radio custom-control-inline mr-4">
+                                                        <input {if $guide.logo_open==1}checked{/if} value="1" type="radio" id="logo_open1" name="logo_open" class="custom-control-input">
+                                                            <label class="custom-control-label" for="logo_open1">显示</label>
+                                                    </div>
+                                                    <div class="custom-control custom-radio custom-control-inline mr-4">
+                                                        <input {if $guide.logo_open==0}checked{/if} value="0" type="radio" id="logo_open0" name="logo_open" class="custom-control-input">
+                                                            <label class="custom-control-label" for="logo_open0">隐藏</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group row mb-4">
+                                                <label for="title" class="col-md-2 col-form-label">标题</label>
+                                                <div class="col-md-10">
+                                                    <input id="title" type="text" class="form-control" name="title"  value="{$guide.title|htmlspecialchars_decode|removeXSS}" placeholder="例如：闪电卡铺-快乐游戏！一起哈皮！">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row mb-4">
+                                                <label for="subtitle" class="col-md-2 col-form-label">副标题</label>
+                                                <div class="col-md-10">
+                                                    <input id="subtitle" type="text" class="form-control" name="subtitle" value="{$guide.subtitle|htmlspecialchars_decode|removeXSS}"  placeholder="例如：本站地址：xxxx【CTRL+D收藏保存不迷路】">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row mb-4">
+                                                <label for="subtitle_line1" class="col-md-2 col-form-label">欢迎语①</label>
+                                                <div class="col-md-10">
+                                                    <input id="subtitle_line1" type="text" class="form-control" name="subtitle_line1" value="{$guide.subtitle_line1|htmlspecialchars_decode|removeXSS}"  placeholder="例如：欢迎来到我的店铺，客服QQ：xxx">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row mb-4">
+                                                <label for="subtitle_line2" class="col-md-2 col-form-label">欢迎语②</label>
+                                                <div class="col-md-10">
+                                                    <input id="subtitle_line2" type="text" class="form-control" name="subtitle_line2" value="{$guide.subtitle_line2|htmlspecialchars_decode|removeXSS}"  placeholder="例如：QQ①群：xxx QQ②群：xxx">
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group row mb-4">
+                                                <label for="button1" class="col-md-2 col-form-label">底部按钮①</label>
+                                                <div class="col-md-10">
+                                                    <input id="subtitle_line2" type="text" class="form-control" name="button1" value="{$button1|htmlspecialchars_decode|removeXSS}" disabled="" readonly="">
+                                                    <p class="text-muted mt-1 mb-0" >
+                                                        格式：按钮文字|超链接 (底部按钮①为系统保留按钮,禁止修改)
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row mb-4">
+                                                <label for="button2" class="col-md-2 col-form-label">底部按钮②</label>
+                                                <div class="col-md-10">
+                                                    <input id="subtitle_line2" type="text" class="form-control" name="button2" value="{$guide['button2']|htmlspecialchars_decode|removeXSS}">
+                                                    <p class="text-muted mt-1 mb-0" >
+                                                        格式：按钮文字|超链接（不填不显示此按钮）
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row mb-4">
+                                                <label for="button3" class="col-md-2 col-form-label">底部按钮③</label>
+                                                <div class="col-md-10">
+                                                    <input id="subtitle_line2" type="text" class="form-control" name="button3" value="{$guide['button3']|htmlspecialchars_decode|removeXSS}">
+                                                    <p class="text-muted mt-1  mb-0" >
+                                                        格式：按钮文字|超链接（不填不显示此按钮）
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row mb-4">
+                                                <label for="button4" class="col-md-2 col-form-label">底部按钮④</label>
+                                                <div class="col-md-10">
+                                                    <input id="subtitle_line2" type="text" class="form-control" name="button4" value="{$guide['button4']|htmlspecialchars_decode|removeXSS}">
+                                                    <p class="text-muted mt-1 mb-0" >
+                                                        格式：按钮文字|超链接（不填不显示此按钮）
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mt-4">
+                                                <div class="col-sm-12">
+                                                    <div class="text-sm-center">
+                                                        <button class="btn btn-success"><i class="bx bx-check-square mr-1"></i> 保存设置 </button>
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade {if $Think.get.view==2 }show active{/if}" id="v-pills-payment" role="tabpanel" aria-labelledby="v-pills-payment-tab">
+                                    <div>
+                                        <h4 class="card-title">引导页模板</h4>
+                                        <p class="card-title-desc">Guide page template</p>
+                                        <div class="row mb-2">
+                                            <div class="col-sm-auto">
+                                                <button  onclick="$.x_show('自定义主题', '{:url(\'plugin/guideThemeEdit\')}', 550)" class="btn btn-primary glow invoice-create" role="button" aria-pressed="true"><i class="bx bx-plus mr-1"></i>自定义主题</button>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <table class="table m-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>模板名称</th>
+                                                        <th class="text-center">状态</th>
+                                                        <th class="text-center">操作</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {foreach $guideTheme as $k=> $v}
+                                                    <tr>
+                                                        <td>
+                                                            <b>{$v.name}</b>
+                                                            {if $v.user_id==$_user.id}
+                                                            <span class="badge badge-pill badge-soft-warning font-size-12 font-weight-bold">自定义</span>
+                                                            {else/}
+                                                            <span class="badge badge-pill badge-soft-success font-size-12 font-weight-bold">官方</span>
+                                                            {/if}
+
+
+                                                            {if $v.status==0}
+                                                            <span class="badge badge-pill badge-soft-danger font-size-12 font-weight-bold">已被禁用</span>
+                                                            {/if}
+                                                        </td>
+                                                        <td class="text-center">
+                                                            {if $guide.theme_id==$v.id}
+                                                            <span class="badge badge-pill badge-soft-success font-size-12 font-weight-bold">正在使用</span>
+                                                            {else/}
+                                                            -
+                                                            {/if}
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="btn-group btn-group-sm " role="group" aria-label="Basic group">
+
+                                                                {if $v.id!=$guide.theme_id}
+                                                                <button onclick="usetheme('{$v.id}')"  class="btn btn-light waves-effect waves-light text-success">使用</button>
+                                                                {/if}
+
+                                                                <a target="_blank" href="{$_user->link}?dev=1&theme_id={$v.id}" class="btn btn-light waves-effect text-primary">预览</a>
+                                                                {if $v.user_id==$_user.id}
+                                                                <button onclick="$.x_show('编辑', '{:url(\'plugin/guideThemeEdit\',[\'id\'=>$v.id])}', 550)" class="btn btn-light waves-effect text-primary" role="button" aria-pressed="true">编辑</button>
+                                                                <button onclick="del('{$v.id}')" class="btn btn-light waves-effect text-danger" role="button" aria-pressed="true">删除</button>
+                                                                {/if}
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    {/foreach}
+                                                </tbody>
+                                            </table>
+
+
+                                        </div>
+                                        <nav aria-label="...">
+                                            {$page}
+                                        </nav>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+
+
+{/block}
+{block name="js"}
+<script src="__RES__/merchant/default/libs/fileuploads/js/dropify.min.js"></script>
+<script>
+                                                                    function usetheme(id)
+                                                                    {
+                                                                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                                                                        $.post("{:url('plugin/guide')}", {
+                                                                            act: "settheme",
+                                                                            id: id
+                                                                        }, function (res) {
+                                                                            layer.closeAll();
+                                                                            $.alert(res.msg);
+                                                                            if (res.code == 1) {
+                                                                                setTimeout(function () {
+                                                                                    location.reload();
+                                                                                }, 200);
+                                                                            }
+                                                                        });
+                                                                    }
+
+                                                                    function del(id)
+                                                                    {
+
+                                                                        $.confirm({
+                                                                            title: '温馨提示',
+                                                                            content: '确定删除吗？',
+                                                                            type: 'red',
+                                                                            typeAnimated: true,
+                                                                            buttons: {
+                                                                                tryAgain: {
+                                                                                    text: '确定',
+                                                                                    btnClass: 'btn-red',
+                                                                                    action: function () {
+                                                                                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                                                                                        $.post("{:url('plugin/guide')}", {
+                                                                                            act: "del",
+                                                                                            id: id
+                                                                                        }, function (res) {
+                                                                                            layer.closeAll();
+                                                                                            $.alert(res.msg);
+                                                                                            if (res.code == 1) {
+                                                                                                setTimeout(function () {
+                                                                                                    location.reload();
+                                                                                                }, 200);
+                                                                                            }
+                                                                                        });
+                                                                                    }
+                                                                                },
+                                                                                cancel: {
+                                                                                    text: '取消'
+                                                                                }
+                                                                            }
+                                                                        });
+                                                                    }
+
+
+                                                                    $('.dropify').dropify({
+                                                                        messages: {
+                                                                            'default': '点击上传LOGO',
+                                                                            'replace': '点击替换LOGO',
+                                                                            'remove': '删除',
+                                                                            'error': '上传错误'
+                                                                        },
+                                                                        error: {
+                                                                            'fileSize': '文件太大超过（1M）'
+                                                                        }
+                                                                    });
+</script>
+{/block}

@@ -1,0 +1,323 @@
+{extend name="base"}
+{block name="content"}
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row mb-2">
+                            <div class="col-sm-auto">
+                                <a href="{:url('goods_coupon/add')}" class="pull-right btn btn-primary waves-effect waves-light"><i class='bx bx-plus mr-1'></i>添加优惠券</a>
+                            </div>
+
+                            <div class="col-sm-auto">
+
+                                <form class="form-inline" role="form" action="" method="get">
+                                    <div class="form-group">
+                                        <select name="cate_id" class="form-control select2">
+                                            <option value="" {if $Think.get.goods_id==''}selected{/if}>全部分类</option>
+                                            {foreach $categorys as $v}
+                                            <option value="{$v.id}" {if $Think.get.cate_id==$v.id}selected{/if}>{$v.name}</option>
+                                            {/foreach}
+                                        </select>
+                                    </div>
+                                    <div class="form-group ml-1">
+                                        <select name="status" class="form-control select2">
+                                            <option value="" {if $Think.get.status==''}selected{/if}>全部状态</option>
+                                            <option value="1" {if $Think.get.status=='1'}selected{/if}>未使用</option>
+                                            <option value="2" {if $Think.get.status=='2'}selected{/if}>已使用</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-light waves-effect waves-light ml-1"><i class="bx bx-search mr-1"></i>搜索</button>
+                                </form>
+                            </div>
+
+                            <div class="col-sm-auto">
+                                <button onclick="batch_del()" class="btn btn-danger" ><i class="bx bx-trash mr-1"></i>批量删除</button>
+                                <a href="javascript:;" data-toggle="modal" data-target="#exportCard" class="pull-right btn btn-info waves-effect waves-light"><i class="bx bx-export mr-1"></i>导出优惠券</a>
+                            </div>
+                        </div>
+
+
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th> 
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="select_all">
+                                                <label class="custom-control-label" for="select_all"></label>
+                                            </div>
+                                        </th>
+                                        <th>商品分类</th>
+                                        <th>优惠券号码</th>
+                                        <th>面额</th>
+                                        <th>生成时间</th>
+                                        <th>有效期</th>
+                                        <th>备注</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {foreach $coupons as $k=>$v}
+                                    <tr>
+                                        <td>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input select-checkbox" name="coupon_id" id="checkbox{$k}"  value="{$v.id}">
+                                                <label class="custom-control-label" for="checkbox{$k}"></label>
+                                            </div>
+                                        </td>
+                                        <td>{if $v.cate_id==0}全部{else/}{$v.category.name}{/if}</td>
+                                        <td>{$v.code}</td>
+                                        <td>{$v.amount}{if $v.type==1}元{else/}%{/if}</td>
+                                        <td>{$v.create_at|date="Y-m-d H:i:s",###}</td>
+                                        <td>{$v.expire_day}</td>
+                                        <td>{$v.remark}</td>
+                                        <td>
+                                            <a class="text-danger" href="javascript:void(0);" onclick="del(this, '{$v.id}')">删除</a>
+                                        </td>
+                                    </tr>
+                                    {/foreach}
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <nav aria-label="...">
+                            {$page}
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+<div class="modal fade" id="exportCard" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" >导出优惠券</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form id="export_form" class="form-horizontal" method="POST" action="{:url('goods_coupon/dumpCoupon')}" target="_blank">
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <label class="control-label">券商品分类</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <select class="form-control goods_category" name="cate_id">
+                                <option value="0">全部分类券</option>
+                                {foreach $categorys as $v}
+                                <option value="{$v.id}">{$v.name}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <label class="control-label">优惠券状态</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="radio-inline">
+                                <input type="radio" name="status" value="1" {if $Think.get.status=='1'||$Think.get.status=='' }checked{/if}> 未使用 </label> <label class="radio-inline">
+                                <input type="radio" name="status" value="2" {if $Think.get.status=='2' }checked{/if}> 已使用 </label> </div> </div>
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <label class="control-label">导出范围</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="radio-inline">
+                                <input type="radio" name="range" value="0" checked> 全部库存的优惠券
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="range" value="1"> 导出指定的优惠券
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group" id="exportNUm" style="display:none">
+                        <div class="col-sm-6">
+                            <label class="control-label">导出数量</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <input name="number" type="number" class="form-control" placeholder="请输入正整数">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <label class="control-label">导出格式</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="radio-inline">
+                                <input type="radio" name="file_type" value="0" checked> EXCEL
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="file_type" value="1"> TXT
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" id="export">确定</button>
+                <button type="button" class="btn btn-light" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+{/block}
+{block name="js"}
+<script>
+
+    $('#select_all').click(function () {
+        if ($(this).is(':checked')) {
+            $('tbody').find('.select-checkbox').each(function () {
+                $(this).prop("checked", true)
+            })
+        } else {
+            $('tbody').find('.select-checkbox').each(function () {
+                $(this).prop("checked", false)
+            })
+        }
+    });
+
+
+    function del(obj, id)
+    {
+        $.confirm({
+            title: '确定删除吗？',
+            content: '删除的优惠券将会进入回收站！',
+            type: 'red',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: '确定',
+                    btnClass: 'btn-red',
+                    action: function () {
+                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                        $.post("{:url('goods_coupon/del')}", {
+                            id: id
+                        }, function (res) {
+                            if (res.code != 1) {
+                                $.alert(res.msg);
+                            } else {
+                                $.alert("删除成功");
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 200);
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+    }
+
+    function batch_del() {
+        var ids = new Array();
+        $('tbody').find('input[name="coupon_id"]').each(function () {
+            if ($(this).is(':checked')) {
+                ids.push($(this).val());
+            }
+        })
+        if (ids.length == 0) {
+            $.alert("选择要删除的数据");
+            return false;
+        }
+        $.confirm({
+            title: '确定要批量删除吗？',
+            content: '删除的优惠券将会进入回收站！',
+            type: 'red',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: '确定',
+                    btnClass: 'btn-red',
+                    action: function () {
+                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                        $.post("{:url('goods_coupon/batch_del')}", {
+                            ids: ids
+                        }, function (res) {
+                            if (res.code != 1) {
+                                $.alert(res.msg);
+                            } else {
+                                $.alert("删除成功");
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 200);
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+
+    }
+    $(document).ready(function () {
+        $("input[name='range']").change(function () {
+            var selectedvalue = $("input[name='range']:checked").val();
+            if (selectedvalue == 1) {
+                $('#exportNUm').show();
+            } else {
+                $('#exportNUm').hide();
+            }
+        });
+
+        $('#export').click(function () {
+            var category = $('.goods_category').val();
+            if (!category) {
+                $.alert("请选择商品分类");
+                return false;
+            }
+
+            var range = $("input[name='range']");
+            var number = $("input[name='number']");
+            if (range == 1 && !number) {
+                $.alert("请输入导出数量");
+                return false;
+            }
+            $('#export_form').submit();
+        });
+    });
+
+    function dump() {
+        setTimeout(function () {
+            location.reload();
+        }, 1000);
+
+        return true;
+    }
+</script>
+{/block}

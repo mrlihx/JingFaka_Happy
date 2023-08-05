@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>APP下载 - {:sysconf('site_name')}</title>
+        <meta name="keywords" content="{:sysconf('site_keywords')}" />
+        <meta name="description" content="{:sysconf('site_desc')}" />
+        <link rel="shortcut icon" href="{:sysconf('browser_icon')}" />
+
+        <!-- Bootstrap , fonts & icons  -->
+        <link rel="stylesheet" href="__RES__/theme/appdown/css/bootstrap.css">
+        <!-- Plugin'stylesheets  -->
+        <link rel="stylesheet" href="__RES__/theme/appdown/css/aos.min.css">
+        <link rel="stylesheet" href="__RES__/theme/appdown/css/slick.min.css">
+        <!-- Vendor stylesheets  -->
+        <link rel="stylesheet" href="__RES__/theme/appdown/css/main.css">
+        <!-- Custom stylesheet -->
+    </head>
+
+    <body data-theme="light">
+        <div class="site-wrapper overflow-hidden">
+            <!-- Header Area -->
+            <header class="site-header site-header--menu-right dark-mode-texts site-header--absolute">
+                <div class="container-fluid pr-lg-9 pl-lg-9">
+                    <nav class="navbar site-navbar offcanvas-active navbar-expand-lg  px-0">
+                        <!-- Brand Logo-->
+                        <div class="brand-logo">
+                            <a href="/">
+                                <!-- light version logo (logo must be black)-->
+                                <img style="width: 150px;" src="{:sysconf('site_logo')}" alt="" class="light-version-logo ">
+                                <!-- Dark version logo (logo must be White)-->
+                                <img style="width: 150px;" src="{:sysconf('site_logo')}" alt="" class="dark-version-logo">
+                            </a>
+                        </div>
+                    </nav>
+                </div>
+            </header>
+            <!-- navbar-dark -->
+            <!-- Hero Area -->
+            <div class="hero-area-03 pt-29 pt-lg-32 pb-5 position-relative " style="background-image:linear-gradient(225deg, #2d4ae7 0%, #223ed8 39%,#2c2ced 100%)">
+                <div class="shape-1 gr-abs-tl" data-aos="fade-down-right" data-aos-duration="500" data-aos-once="true">
+                    <img src="__RES__/theme/appdown/picture/l6-hero-shape1.png" alt="">
+                </div>
+                <div class="shape-2 gr-abs-tl" data-aos="fade-down-right" data-aos-duration="800" data-aos-delay="300" data-aos-once="true">
+                    <img src="__RES__/theme/appdown/picture/l6-hero-shape2.png" alt="">
+                </div>
+                <div class="shape-3 gr-abs-tl" data-aos="fade-down-right" data-aos-duration="1100" data-aos-delay="600" data-aos-once="true">
+                    <img src="__RES__/theme/appdown/picture/l6-hero-shape3.png" alt="">
+                </div>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-md-9 col-lg-7 col-xl-6">
+                            <div class="hero-content dark-mode-texts mb-15 mb-lg-30 text-center text-md-left ">
+                                <h1 class="gr-text-3 mb-8 text-white">下载APP，管理您的店铺</h1>
+                                <p class="gr-text-8 px-7 pl-md-0 pr-md-11 mb-0 gr-color-white-opacity-7">支持快捷查单、商品管理、卡密管理等强大功能</p>
+
+                                <div class="download-block mt-15">
+                                    <h3 class="download-title gr-text-12 text-uppercase text-white">Download our app</h3>
+                                    <div class="hero-btns mt-5">
+                                        {if plugconf('app','android')!=""}
+                                        <a target="_blank" href="{:plugconf('app','android')}" style="color: #336efe" class="btn btn-white rounded-8 gr-hover-y mr-3 mt-1">
+                                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAbCAMAAACgNuTpAAABUFBMVEUzbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv5nqbYMAAAAb3RSTlMAybIo0RJji8gP+bM77mTTE2UHjLQu/UTWu8o9OAPLGJaRFu+aqCzVJQXU7c0GIM8c31f2+wtsHTWrQjAqXbq+kx65uMDQb8edDiJwX09/ai91NylJPAFIaWKi/HZU3Wf44n5gFeeDhmFr684h7IXRSn+pAAAA9ElEQVR4XrXORVPDYBhF4Zc2QKQtLXXH3d3d3d3dz/93mIRJ87HnzNzNs7piV9c+Jk7jwRYp1dqQyEbmC+mlQH9jtXjrxqlXlLZMnAZqvByAoRhQCEGfxzvAXwtYPVCfd3kWb1nXm5o1LdWmaVpV6mdJ19VrnbZ1ZTLDYb2slB4fXFgckVGIGnibmIQpmYaZsOL+bZgTH1SWq14Bvn/3GET/eAgsWYaVVcXX1kGXDdgsKp7bgV2RvZzsK34g8UOxOzo+CYJ1egbnF5d58XQF15KEG1G7hTu5B/NB9Ud4kggkiqqb8CwvgKH669v7hxjpz69f+AZ6+4SlA7soOwAAAABJRU5ErkJggg==" class="mr-3">
+                                            Android
+                                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAMAAADzN3VRAAABBVBMVEUzbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv7///9Eev5Pgv49df7n7v82cP47dP690P/V4f9Fe/5Ogf5Rg/5NgP5Ad/5BeP41cP5Zif58ov6Ep/6Jq/6Xtf6Ztv6nwP+pwv+sxP+xx/+1yv+5zf+5zv+8z/85cv7A0v/G1//H1//M2//Q3f/S3//T4P9GfP7W4v/X4//d5//g6f/m7f9Iff7o7//w9P9Jfv7u4f5/AAAAJnRSTlMABAUGBwgeHycoNDU3SFRVZmdocnR1mJ/NztHS09TV5unq7e7w8d7xBPQAAAD4SURBVHheddHnTsMwFIbhk1IDpTRllKY4QAw4x0n3Yu+997j/SyFq7CNTyPPv06tIjg1avlTlEiWvlvJgc+YCNMTiBJBpjjZeMKG4gb9tzqahIHGcHH2V4/iXn0tKBf9TAWCC1vbu3pUZgoGL5OP1q0+jDB6Sp+fPmIYHPpJu571HYwVkRpFgQrOelEYPW02dINRl/3qn1Wl044vDdIewqsuBevxuP8Q36jjda3S24ZG6f3m7U2eROVsZtfqJSpxv0f8wQelUqXakxzqz7y26vB2YsZR919nvMzIjxoIogjZZQ9vyFBBnIaAQzDtgY67nhxj6nssg9QPNv04BVALYtAAAAABJRU5ErkJggg==" class="ml-3"></a>
+                                        {/if}
+                                        {if plugconf('app','ios')!=""}
+                                        <a target="_blank" href="{:plugconf('app','ios')}" style="color: #336efe" class="btn btn-white rounded-8 gr-hover-y mr-3 mt-1">
+                                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAbCAMAAACgNuTpAAAA81BMVEUzbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv7vUDR9AAAAUHRSTlMAC9qF8O7vXkc5TNIhd8QgHEkD+SdPZRdReuxcu+d7JTZSlavifMXHXX8uE9wCcbmY5EPfVsutpTxt8xX1eMP+Mm9zTgUeO1STkbHRLOvYgCwArWQAAAC6SURBVHhebc3lzsJgFAThKVJocXd3+9zdXc79Xw1NCiRw3vn5JJtlu/QklkFXyIm0NUdFpJHVXvXc1dzxuIuuJ/3atuQjRQesEpQrT8+bu7p4jZqt6WdIvAJ7AAxENbyGsejsFDMDzxeQMHgK2Nd8ABDQ7gIcaj8CONZ+AnCq/QzgXHQXwKXBr+IQF0M3t3Anhu7hweSPQFJz+AV41f4GwPsuf+AXXK1tn79YF4mFvoOOZf0kkr9//wBLyD95QgvxkDYAAAAASUVORK5CYII=" class="mr-3">
+                                            &nbsp;IOS&nbsp;
+                                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAMAAADzN3VRAAABBVBMVEUzbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv4zbv7///9Eev5Pgv49df7n7v82cP47dP690P/V4f9Fe/5Ogf5Rg/5NgP5Ad/5BeP41cP5Zif58ov6Ep/6Jq/6Xtf6Ztv6nwP+pwv+sxP+xx/+1yv+5zf+5zv+8z/85cv7A0v/G1//H1//M2//Q3f/S3//T4P9GfP7W4v/X4//d5//g6f/m7f9Iff7o7//w9P9Jfv7u4f5/AAAAJnRSTlMABAUGBwgeHycoNDU3SFRVZmdocnR1mJ/NztHS09TV5unq7e7w8d7xBPQAAAD4SURBVHheddHnTsMwFIbhk1IDpTRllKY4QAw4x0n3Yu+997j/SyFq7CNTyPPv06tIjg1avlTlEiWvlvJgc+YCNMTiBJBpjjZeMKG4gb9tzqahIHGcHH2V4/iXn0tKBf9TAWCC1vbu3pUZgoGL5OP1q0+jDB6Sp+fPmIYHPpJu571HYwVkRpFgQrOelEYPW02dINRl/3qn1Wl044vDdIewqsuBevxuP8Q36jjda3S24ZG6f3m7U2eROVsZtfqJSpxv0f8wQelUqXakxzqz7y26vB2YsZR919nvMzIjxoIogjZZQ9vyFBBnIaAQzDtgY67nhxj6nssg9QPNv04BVALYtAAAAABJRU5ErkJggg==" class="ml-3"></a>
+                                        {/if}
+                                    </div>
+                                </div>
+
+                                <div class="mt-15">
+                                    <div style="background: #fff;padding:5px;display: inline-block;">
+                                        <div id="qrcode" style="width:150px;height:150px;">
+                                        </div>
+                                    </div>
+                                    <p class="gr-text-12  mt-1">使用移动端扫码下载</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-9 col-lg-5 col-xl-6" data-aos="fade-up" data-aos-duration="2000" data-aos-once="true">
+                            <div class="hero-img position-relative">
+                                <img src="__RES__/theme/appdown/picture/l6-hero-img.png" alt="" class="w-100">
+                                <div class="abs-img" data-aos="zoom-in" data-aos-delay="1600" data-aos-duration="800" data-aos-once="true">
+                                    <img src="__RES__/theme/appdown/picture/l6-hero-pattern.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="wave-shape">
+                    <img src="__RES__/theme/appdown/picture/l6-hero-wave.svg" alt="" class="w-100 light-shape default-shape">
+                    <img src="__RES__/theme/appdown/picture/l6-hero-wave-dark.svg" alt="" class="w-100 dark-shape">
+                </div>
+            </div>
+
+        </div>
+        <!-- Vendor Scripts -->
+        <script src="__RES__/theme/appdown/js/vendor.min.js"></script>
+        <!-- Plugin's Scripts -->
+        <script src="__RES__/theme/appdown/js/jquery.fancybox.min.js"></script>
+        <script src="__RES__/theme/appdown/js/jquery.nice-select.min.js"></script>
+        <script src="__RES__/theme/appdown/js/aos.min.js"></script>
+        <script src="__RES__/theme/appdown/js/slick.min.js"></script>
+        <script src="__RES__/theme/appdown/js/jquery.waypoints.min.js"></script>
+        <!-- Activation Script -->
+        <script src="__RES__/theme/appdown/js/custom.js"></script>
+        <script src="__RES__/app/js/qrcode.min.js"></script>
+        <script>
+            var qrcode = new QRCode(document.getElementById("qrcode"), {
+                text: "{$downlink}",
+                width: 150,
+                height: 150,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        </script>
+    </body>
+
+</html>

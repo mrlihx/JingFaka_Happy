@@ -1,0 +1,35 @@
+{extend name="simple_base"}
+
+{block name="content"}
+
+<div class="container">
+
+    {foreach $tree as $t}
+
+    <div class="card mt-1">
+        <div class="card-body  p-3">
+            <h6 class="card-title">{$t['title']}</h6>
+
+            <div class="row">
+                {foreach $t['child'] as $c}
+                <div class="col-auto">
+                    <div class="card mt-1">
+                        <div class="card-body p-2">
+                            <a style="font-size:12px" href="{:url('poolGoods',['cross_id'=>$cross['id'],'cid'=>$c['id']])}">{$c['title']}</a>
+                        </div>
+                    </div>
+                </div>
+                {/foreach}
+            </div>
+
+        </div>
+    </div>
+
+    {/foreach}
+</div>
+
+{/block}
+{block name="js"}
+<script>
+</script>
+{/block}

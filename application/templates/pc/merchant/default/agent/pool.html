@@ -1,0 +1,156 @@
+{extend name="base"}
+
+{block name="content"}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <form class="form-inline" role="form" action="{:url('agent/poolGoods')}" method="get">
+                                    <div class="form-group">
+                                        <select name="type" class="form-control select2">
+                                            <option value="1" {if $Think.get.type=='1'}selected{/if}>按对接码搜索</option>
+                                            <option value="2" {if $Think.get.type=='2'}selected{/if}>按商品名称搜索</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group ml-1">
+                                        <input name="key" type="text" class="form-control" placeholder="请输入搜索关键词" value="{$Think.get.key|default=''|htmlentities}"  autocomplete="off" >
+                                    </div>
+                                    <button type="submit" class="btn btn-primary waves-effect waves-light ml-1"><i class="bx bx-search"></i>查询商品</button>
+                                </form>
+                            </div>
+                        </div>
+
+
+                        {if $poolauth_status==true}
+
+                        <div class="table-responsive mt-2">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>标题</th>
+                                        <th>店铺名称</th>
+                                        <th>店铺对接码</th>
+                                        <th>联系方式</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {foreach $list as $v}
+                                    <tr>
+                                        <td>
+                                            {if $v.span.name!=""&&$v.expire_at!=""&&$v.expire_at>time()}
+                                            <span style="background:{$v.span.color}; border-radius:10px;font-size: 11px" class="text-white p-1">{$v.span.name}</span>
+                                            {/if}
+                                            {$v.title}
+                                        </td>
+                                        <td>{$v.user.shop_name}</td>
+                                        <td>{$v.user.agent_key}</td>
+                                        <td>
+                                            <a href="//wpa.qq.com/msgrd?v=3&uin={$v.user.qq}&Site=" target="_blank"><i class="iconfont icon-qq-white"></i>咨询客服</a>
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-primary waves-effect waves-light  btn-sm font-size-10" href="{:url('agent/poolGoods',['type'=>1,'key'=>$v.user.agent_key])}">查看商品</a>
+                                        </td>
+                                    </tr>
+                                    {/foreach}
+                                </tbody>
+                            </table>
+                        </div>
+                        <nav aria-label="...">
+                            {$page}
+                        </nav>
+
+                        {else/}
+
+
+                        <!-- end page title -->
+                        <div class="row justify-content-center mt-lg-5">
+                            <div class="col-xl-5 col-sm-8">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="text-center">
+                                            <div class="row justify-content-center">
+                                                <div class="col-lg-10">
+                                                    <h4 class="mt-4 font-weight-semibold">温馨提示</h4>
+                                                    <p class="text-muted mt-3">{:plugconf('agentsetting','poolauth_tip')}</p>
+                                                    <div class="mt-4">
+                                                        {if $poolauth&&$poolauth->status==0}
+                                                        <p class="text-danger mt-3">正在审核中，请耐心等待！</p>
+                                                        {elseif $poolauth&&$poolauth->status==-1/}
+                                                        <p class="text-danger mt-3">审核拒绝！</p>
+                                                        {else/}
+                                                        <button type="button" class="btn btn-primary" onclick="poolauthApply()">立即申请</button>
+                                                        {/if}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-center mt-5 mb-2">
+                                                <div class="col-sm-6 col-8">
+                                                    <div>
+                                                        <img src="__STATIC__/merchant/default/images/verification-img.png" alt="" class="img-fluid">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end row -->
+                        {/if}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+
+
+{/block}
+{block name="js"}
+<script>
+    function poolauthApply()
+    {
+        var loading = layer.load(1, {shade: [0.1, '#fff']});
+        $.post("{:url('agent/poolauthApply')}", {},
+                function (data) {
+                    if (data.code == 1) {
+                        layer.msg(data.msg, {time: 1000, icon: 6}, function () {
+                            location.reload();
+                        });
+                    } else {
+                        layer.msg(data.msg, {time: 1000, icon: 5});
+                    }
+                }, "json");
+    }
+</script>
+{/block}

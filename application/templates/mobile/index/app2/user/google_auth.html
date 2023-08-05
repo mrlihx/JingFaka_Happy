@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no">
+        <link href="images/favicon.png" rel="icon" />
+        <title>{:sysconf('site_name')}{:sysconf('site_subtitle')}</title>
+        <meta name="keywords" content="{:sysconf('site_keywords')}" />
+        <meta name="description" content="{:sysconf('site_desc')}" />
+        <link rel="shortcut icon" href="{:sysconf('browser_icon')}" />
+        <!-- Stylesheet
+        ========================= -->
+        <link rel="stylesheet" href="__RES__/merchant/login/bootstrap.min.css"/>
+        <link rel="stylesheet" href="__RES__/merchant/login/login_new.css"/>
+    </head>
+    <body>
+
+        <!-- Preloader -->
+        <div class="preloader">
+            <div class="lds-ellipsis">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+        <!-- Preloader End -->
+
+        <div id="main-wrapper" class="oxyy-login-register h-100 d-flex flex-column bg-transparent">
+            <div class="container my-auto">
+                <div class="row">
+                    <div class="col-md-9 col-lg-7 col-xl-5 mx-auto">
+                        <div class="bg-white shadow-md rounded p-4 px-sm-5 mt-4">
+                            <div class="logo"> <a class="d-flex justify-content-center"><h3>安全认证</h3></a> </div>
+                            <hr class="mx-n4 mx-sm-n5">
+                            <p class="lead text-center">您需要完成谷歌认证才能登录</p>
+                            <form id="auth-form" data-time="0.001" data-auto="true" method="post">
+                                <input name="action_type" type="hidden" value="{$action_type}">
+                                {if $google_token==""}
+                                <p class="text-center text-danger">手机打开Google Authenticator(谷歌身份验证器)，扫码二维码开启登录两步验证</p>
+
+                                <div class="text-center">
+                                    <img src="{$qrCodeUrl}" width="150px">
+                                </div>
+                                <div class="text-center mt-2 mb-2">
+                                    不能扫码？点击<a href="javascript:;" id="showkey">查看密钥</a>手动输入
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="code">验证码</label>
+                                    <input type="text" class="form-control" name="code" autofocus="autofocus" autocomplete="off" id="code" required placeholder="请输入验证码">
+                                </div>
+
+                                <button class="btn btn-primary btn-block my-4" type="button">立即绑定</button>
+                                {else/}
+                                <p style="color:red">手机打开Google Authenticator(谷歌身份验证器)，查看验证码</p>
+                                <div class="form-group">
+                                    <label for="code">身份验证码</label>
+                                    <input type="text" class="form-control" name="code" autofocus="autofocus" autocomplete="off" id="code" required placeholder="请输入身份验证码">
+                                </div>
+                                <div class="form-group">
+                                    <label for="captcha_code">验证码</label>
+                                    <div class="input-group">
+                                        <input  name="captcha_code" id="captcha_code" class="form-control col-lg-8" required="" type="text" placeholder="请输入验证码" autocomplete="off">
+                                        <img style="font-size:16px;padding:0px" src="{:url('index/user/verifycode',['t'=>time()])}" class="form-control col-lg-4" id="vercodeImg"  onclick="this.src = '{:url(\'admin/login/verifycode\')}?d=' + Math.random();"  title="点击刷新验证码">      
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary btn-block my-4" type="button">立即验证</button>
+                                {/if}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid py-3">
+                <p class="text-center text-2 text-muted mb-0">{:sysconf('site_info_copyright')}</p>
+            </div>
+        </div>
+
+
+        <!-- Script --> 
+        <script src="__RES__/merchant/login/jquery.min.js"></script> 
+        <script src="__RES__/merchant/login/bootstrap.bundle.min.js"></script> 
+        <!-- Style Switcher --> 
+        <script src="__RES__/merchant/login/switcher.min.js"></script> 
+        <script src="__RES__/merchant/login/theme.js"></script>
+        <script src="__RES__/plugs/layui/layui.js"></script>
+        <script>
+                                            layui.use('layer', function () {
+                                                var $ = layui.jquery, layer = layui.layer;
+                                            });
+
+                                            $('button').click(function () {
+                                                if (checker()) {
+                                                    var data = $('#auth-form').serialize()
+                                                    $.post("{:url('index/user/googleauth')}", data, function (res) {
+                                                        if (res.code == 1) {
+                                                            layer.msg(res.msg, {icon: 1}, function () {
+                                                                location.href = res.url;
+                                                            })
+                                                        } else {
+                                                            layer.msg(res.msg, {icon: 2});
+                                                        }
+                                                    }, 'json')
+                                                }
+                                                return false;
+                                            });
+                                            function checker() {
+                                                if (!/\d{4}/.test($('[name=code]').val())) {
+                                                    layer.msg('请输入验证码，验证码至少4位');
+                                                    return false;
+                                                }
+                                                return true;
+                                            }
+        </script>
+        {if $google_token == ""}
+        <script>
+            $('#showkey').click(function () {
+                layer.alert("{$secret}");
+            });
+        </script>
+        {/if}
+    </body>
+</html>

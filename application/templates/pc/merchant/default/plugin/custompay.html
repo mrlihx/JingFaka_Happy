@@ -1,0 +1,290 @@
+{extend name="base"}
+
+{block name="content"}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <h4 class="card-title mb-4">商户自定义通道</h4>
+                        {if $custompayauth_status==true}
+
+                        <div class="row">
+
+                            <div class="col-lg-12">
+                                <div class="alert alert-success" role="alert">
+                                    1.如售卖自营商品，资金直达自配的接口，手续费将会从预存款扣除。<br>
+                                    2.如果售卖代理商品，全部资金直达自配的接口，手续费和进货成本将会从预存款扣除，请预留足够的预存款。
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="alert alert-primary" role="alert">
+                                    1.如果投诉订单买家胜诉，系统将会扣除相应投诉保证金。<br>
+                                    2.请保证保证金余额充值，低于系统限制，系统将会下线自定义通道。
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="card mini-stats-wid">
+                                    <div class="card-body">
+                                        <div class="media">
+                                            <div class="media-body">
+                                                <p class="text-muted font-weight-medium">预存款余额</p>
+                                                <h4 class="mb-0">{$_user.fee_money}元</h4>
+                                            </div>
+
+                                            <div class="align-self-center">
+                                                <button onclick="$.x_show('充值预存款', '{:url(\'customChannelFeeAdd\')}', 460)" class="btn btn-light waves-effect waves-light text-primary">充值</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card mini-stats-wid">
+                                    <div class="card-body">
+                                        <div class="media">
+                                            <div class="media-body">
+                                                <p class="text-muted font-weight-medium">投诉保证金余额（至少保留{:plugconf('custompay','deposit_limit')}元）</p>
+                                                <h4 class="mb-0">{$_user.deposit_money}元</h4>
+                                            </div>
+
+                                            <div class="align-self-center">
+                                                <button onclick="$.x_show('充值保证金', '{:url(\'customChannelDepositAdd\')}', 460)" class="btn btn-light waves-effect waves-light text-primary">充值</button>
+                                                <button onclick="$.x_show('充值保证金', '{:url(\'customChannelDepositExtract\')}', 460)" class="btn btn-light waves-effect waves-light text-primary">提取</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        {if count($airpayx_channels)>0}
+                        <table class="table table-striped m-0">
+                            <thead>
+                                <tr>
+                                    <th>闪电安全结算专用渠道（确保已申请完成支付）</th>
+                                    <th class="text-center">平台收取（预存款扣除）</th>
+                                    <th class="text-center">当前状态</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {foreach $airpayx_channels as $k=> $v}
+
+                                {if $v.status==1}
+                                <tr>
+                                    <td><img style="width:21px;margin-right: 5px" src="{:get_paytype_info($v.paytype)['ico']}" />{$v.title}</td>
+                                    <td  class="text-center"><span class="badge badge-pill badge-soft-success font-size-12 font-weight-bold">{$v.rate*100}%</span></td>
+                                    <td class="text-center">
+                                        <div class="custom-control custom-switch custom-switch-md mb-3" dir="ltr">
+                                            <input  onchange="change_status(this, '{$v.channel_id}')" name="customSwitchsizemd{$v.channel_id}" {if $v.custom_status==1}checked{/if}  type="checkbox" class="custom-control-input" id="customSwitchsizemd{$v.channel_id}">
+                                                    <label class="custom-control-label" for="customSwitchsizemd{$v.channel_id}"></label>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                                {/if}
+
+                                {/foreach}
+                            </tbody>
+                        </table>
+                        <br>
+                        <br>
+                        <br>
+                        {/if}
+
+                        <p class="mt-3">
+                            <button onclick="$.x_show('添加新自定义渠道', '{:url(\'plugin/customChannel\')}', 650)" class="btn btn-primary waves-effect waves-light btn-sm"><i class="bx bx-plus mr-1"></i>添加新渠道</button>
+                        </p>
+
+                        <table class="table table-striped m-0">
+                            <thead>
+                                <tr>
+                                    <th>通道名称</th>
+                                    <th class="text-center">平台收取（预存款扣除）</th>
+                                    <th class="text-center">当前状态</th>
+                                    <th class="text-center">通道账号管理</th>
+                                    <th class="text-center">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {foreach $custom_channels as $k=> $v}
+
+                                {if $v.status==1}
+                                <tr>
+                                    <td><img style="width:21px;margin-right: 5px" src="{:get_paytype_info($v.paytype)['ico']}" />{$v.title}</td>
+                                    <td  class="text-center"><span class="badge badge-pill badge-soft-success font-size-12 font-weight-bold">{$v.rate*100}%</span></td>
+                                    <td class="text-center">
+                                        <div class="custom-control custom-switch custom-switch-md mb-3" dir="ltr">
+                                            <input  onchange="change_status(this, '{$v.channel_id}')" name="customSwitchsizemd{$v.channel_id}" {if $v.custom_status==1}checked{/if}  type="checkbox" class="custom-control-input" id="customSwitchsizemd{$v.channel_id}">
+                                                    <label class="custom-control-label" for="customSwitchsizemd{$v.channel_id}"></label>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <button onclick="$.x_show('添加账号', '{:url(\'plugin/customChannelAccountAdd\',[\'channel_id\'=>$v.channel_id])}', 650)" class="btn btn-light waves-effect waves-light text-primary btn-sm"><i class="bx bx-plus mr-1"></i>添加账号</button>
+                                        <button onclick="$.x_show('账号管理', '{:url(\'plugin/customChannelAccountList\',[\'channel_id\'=>$v.channel_id])}', 650)" class="btn btn-light waves-effect waves-light text-primary btn-sm">账号管理</button>
+                                    </td>
+                                    <td class="text-center"> 
+                                        <button onclick="channel_del(this, '{$v.channel_id}')" class="btn btn-light waves-effect waves-light text-danger btn-sm">删除</button>
+                                    </td>
+                                </tr>
+                                {/if}
+
+                                {/foreach}
+                            </tbody>
+                        </table>
+                        {else/}
+                        <!-- end page title -->
+                        <div class="row justify-content-center mt-lg-5">
+                            <div class="col-xl-5 col-sm-8">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="text-center">
+                                            <div class="row justify-content-center">
+                                                <div class="col-lg-10">
+                                                    <h4 class="mt-4 font-weight-semibold">温馨提示</h4>
+                                                    <p class="text-muted mt-3">{:plugconf('custompay','custompay_tip')}</p>
+                                                    <div class="mt-4">
+                                                        {if $custompayauth&&$custompayauth->status==0}
+                                                        <p class="text-danger mt-3">正在审核中，请耐心等待！</p>
+                                                        {elseif $custompayauth&&$custompayauth->status==-1/}
+                                                        <p class="text-danger mt-3">审核拒绝！</p>
+                                                        {else/}
+                                                        <button type="button" class="btn btn-primary" onclick="custompayauthApply()">立即申请</button>
+                                                        {/if}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-center mt-5 mb-2">
+                                                <div class="col-sm-6 col-8">
+                                                    <div>
+                                                        <img src="__STATIC__/merchant/default/images/verification-img.png" alt="" class="img-fluid">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end row -->
+                        {/if}
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+<!-- container-fluid -->
+
+<!-- End Page-content -->
+
+
+{/block}
+{block name="js"}
+<script>
+
+    function change_status(obj, channel_id)
+    {
+        var status = $(obj).prop('checked');
+        if (status) {
+            status = 1;
+        } else {
+            status = 0;
+        }
+        $.post("{:url('plugin/editChannel')}", {
+            channel_id: channel_id,
+            status: status
+        }, function (res) {
+            if (res.code != 1) {
+                $.alert(res.msg);
+            }
+        });
+    }
+
+    function channel_del(obj, channel_id)
+    {
+        $.confirm({
+            title: '确定删除吗？',
+            content: '删除的渠道可以重新添加！',
+            type: 'red',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: '确定',
+                    btnClass: 'btn-red',
+                    action: function () {
+                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                        $.post("{:url('plugin/customChannel')}", {
+                            act: 'del',
+                            channel_id: channel_id
+                        }, function (res) {
+                            if (res.code != 1) {
+                                $.alert(res.msg);
+                            } else {
+                                $.alert("删除成功");
+                                setTimeout(function () {
+                                    location.href = "{:url('plugin/custompay')}";
+                                }, 200);
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+        return false;
+    }
+
+
+
+    function custompayauthApply()
+    {
+        var loading = layer.load(1, {shade: [0.1, '#fff']});
+        $.post("{:url('plugin/custompayauthApply')}", {},
+                function (data) {
+                    if (data.code == 1) {
+                        layer.msg(data.msg, {time: 1000, icon: 6}, function () {
+                            location.href = "{:url('plugin/custompay')}";
+                        });
+                    } else {
+                        layer.msg(data.msg, {time: 1000, icon: 5});
+                    }
+                }, "json");
+    }
+
+</script>
+{/block}

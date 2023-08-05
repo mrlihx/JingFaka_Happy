@@ -1,0 +1,186 @@
+a,a:hover{
+    text-decoration: none;
+}
+.header{
+    margin-top: .44rem;
+}
+.header .back{
+    display: inline-block;
+    margin-left: .6rem;
+
+}
+.header .back img,.header .back span {
+    display: inline-block;
+    vertical-align: middle;
+}
+.header .back img {
+    width: .2rem;
+}
+.header .back span {
+    color: #454343;
+    font-size: .476667rem;
+    font-weight: 700;
+    margin-left: .133333rem;
+}
+.header   .kefu {
+    float: right;
+    width: 2.346667rem;
+    height: .706667rem;
+    background: linear-gradient(45deg,#fd5f0b,#ff7113);
+    box-shadow: 0 .093333rem .133333rem 0 rgba(255,113,19,.23);
+    border-radius: .36rem;
+    margin-right: .28rem;
+}
+.header  .kefu img {
+    width: .306667rem;
+    height: .3rem;
+    margin-left: .346667rem;
+    display: inline-block;
+    vertical-align: middle;
+}
+.header .kefu span {
+    color: #fff;
+    font-size: .293333rem;
+    font-weight: 700;
+    line-height: .706667rem;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.order{
+    padding-top: .56rem;
+    padding-bottom: .6rem;
+    text-align: center;
+}
+.order h4{
+    color: #454343;
+    font-size: .506667rem;
+    font-weight: 700;
+    vertical-align: top;
+    margin-top: .16rem;
+}
+.order .order_info{
+    color: #1f1f1f;
+    width: 80%;
+    margin: 15px auto 15px;
+    background: #fbfbfb;
+    border-radius: 6px;
+    line-height: 52px;
+    text-align: left;
+}
+.order .order_info span:first-child {
+    color: #999;
+    font-size: 15px;
+    margin-left: 15px;
+    display: inline-block;
+    vertical-align: middle;
+}
+.order .order_info span:nth-child(2) {
+    display: inline-block;
+    color: #3259ff;
+    font-size: 13px;
+    float: right;
+    margin-right: 15px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: pointer;
+}
+.order .goods_name {
+    font-weight: 500;
+    font-size: 12px;
+    color: #999;
+}
+.order .price_info{
+    padding-top: .56rem;
+    padding-bottom: .6rem;
+    border-bottom: .013333rem solid #ededed;
+    text-align: center;
+}
+.order .price_info  .pay_type img {
+    display: inline-block;
+    vertical-align: middle;
+    width: 20px;
+}
+.order .price_info  .pay_type span {
+    font-weight: 700;
+    font-size: 14px;
+    color: #545454;
+    margin-left: 3px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: 0rem;
+}
+.order .price_info .price {
+    width: 100%;
+    text-align: center;
+    font-weight: 700;
+    margin-top: .24rem;
+    margin-bottom: .24rem;
+}
+.order .price_info .price span:first-child {
+    font-size: 22px;
+    color: #386cfa;
+}
+.order .price_info  .price span:nth-child(2) {
+    font-size: 14px;
+    color: #386cfa;
+}
+.order .price_info .pay_qrcode_img{
+    padding:10px;
+    width: 3.773333rem;
+}
+.order .time .time_title{
+    display: block;
+    color: #999;
+    font-size: .37333rem;
+    margin-top: .233333rem;
+    margin-bottom: .233333rem;
+}
+.order .time p {
+    display: block;
+    color: #999;
+    font-size: .37333rem;
+    margin-top: .233333rem;
+    margin-bottom: .233333rem;
+}
+.order .time   .time_box img{
+    width: .32rem;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.order .time   .time_box  span {
+    margin-left: .213333rem;
+    color: #999;
+    font-size: .32rem;
+    display: inline-block;
+    vertical-align: middle;
+}
+.order .time  .time_box.caos span {
+    color: #fb636b;
+}
+.order .buttom_info{
+    padding-top: .56rem;
+    padding-bottom: .6rem;
+    border-bottom: .013333rem solid #ededed;
+    text-align: center;
+}
+
+.order .buttom_info .dakai {
+    line-height: .6rem;
+    padding: .15rem .373333rem;
+    background: linear-gradient(-45deg,#3369ff,#5cabf8);
+    border-radius: .306667rem;
+    color: #fff;
+    font-size: .293333rem;
+    top: 0;
+}
+.order .buttom_info p {
+    display: block;
+    color: #999;
+    font-size: .37333rem;
+    margin-top: .233333rem;
+    margin-bottom: .233333rem;
+}

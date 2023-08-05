@@ -1,0 +1,127 @@
+{extend name='./content'}
+
+{block name="content"}
+
+<!-- 表单搜索 开始 -->
+<form class="layui-form layui-form-pane form-search" action="__SELF__" onsubmit="return false" method="get">
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">商户账号</label>
+        <div class="layui-input-inline">
+            <input name="username" value="{$Think.get.username|default=''|htmlentities}" placeholder="请输入商户账号" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">任务状态</label>
+        <div class="layui-input-inline">
+            <select name="status">
+                <option value="">请选择</option>
+                <option value="1" {if $Think.get.status==='1'}selected{/if}>已完成</option>
+                <option value="0" {if $Think.get.status==='0'}selected{/if}>进行中</option>
+                <option value="-1" {if $Think.get.status==='-1'}selected{/if}>已放弃</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <button type="submit" class="layui-btn layui-btn-primary"><i class="fa fa-search"></i> 搜 索</button>
+    </div>
+</form>
+
+<div class="layui-form-item layui-inline">
+    <label class="layui-form-label">进行中</label>
+    <div class="layui-input-inline">
+        <input type="text" class="layui-input" value="{$pedding_count} 个" readonly="">
+    </div>
+</div>
+<div class="layui-form-item layui-inline">
+    <label class="layui-form-label">已完成</label>
+    <div class="layui-input-inline">
+        <input type="text" class="layui-input" value="{$success_count} 个" readonly="">
+    </div>
+</div>
+<div class="layui-form-item layui-inline">
+    <label class="layui-form-label">已放弃</label>
+    <div class="layui-input-inline">
+        <input type="text" class="layui-input" value="{$giveup_count} 个" readonly="">
+    </div>
+</div>
+
+<form onsubmit="return false;" data-auto="true" method="post">
+    <input type="hidden" value="resort" name="action"/>
+    <table class="layui-table" lay-skin="line" lay-size="sm">
+        <thead>
+            <tr>
+                <th class='text-center'>ID</th>
+                <th class='text-center'>商户账号</th>
+                <th class='text-center'>任务名称</th>
+                <th class='text-center'>状态</th>
+                <th class='text-center'>任务期间完成流水</th>
+                <th class='text-center'>领取时间</th>
+                <th class='text-center'>到期时间</th>
+                <th class='text-center'>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {foreach $list as $v}
+            <tr>
+                <td class='text-center'>{$v.id}</td>
+                <td class='text-center'>{$v.user.username}</td>
+                <td class='text-center'>{$v.task.name}</td>
+
+                <td class='text-center'>
+                    {if $v.status==1}
+                    <font color="green">已完成</font>
+                    {elseif $v.status==-1/}
+                    <font color="red">已放弃</font>
+                    {elseif $v.status==0/}
+                    {if $v.expire_at<time()}<font style="color:#999">已过期</font>{else/}<font style="color:#555">进行中</font>{/if}
+                        {/if}
+                </td>
+                <td class='text-center'>{$v.trade_money}元</td>
+                <td class='text-center'>{$v.create_at|date="Y-m-d H:i:s",###}</td>
+                <td class='text-center'>{$v.expire_at|date="Y-m-d H:i:s",###}</td>
+                <td class='text-center'>
+                    <a href="{:url('manage/user/login')}?user_id={$v.user_id}" target="_blank">登录</a>
+                    <a href="javascript:;" onclick="order_del(this, '{$v.id}')">删除</a>
+                </td>
+            </tr>
+            {/foreach}
+        </tbody>
+    </table>
+</form>
+{$page}
+
+<script>
+    layui.use('form', function () {
+        var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+        form.render();
+    });
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        //日期范围
+        laydate.render({
+            elem: '#date_range',
+            range: true
+        });
+    });
+
+    function order_del(obj, id) {
+        layer.confirm('确认要删除这个订单吗？该操作不可恢复', function (index) {
+            $.ajax({
+                url: "{:url('tradetaskOrder')}",
+                type: 'post',
+                data: 'act=del&id=' + id,
+                success: function (res) {
+                    if (res.code == 1) {
+                        $(obj).parents("tr").remove();
+                        layer.msg('已删除!', {icon: 1, time: 1000});
+                    } else {
+                        layer.msg('删除失败!', {icon: 1, time: 1000});
+                    }
+                }
+            });
+        });
+    }
+
+</script>
+{/block}

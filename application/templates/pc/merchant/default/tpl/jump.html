@@ -1,0 +1,38 @@
+{extend name="base"}
+
+{block name="content"}
+<div class="page-content">
+    <div class="container-fluid">
+
+        <div style="padding:50px 0;background:#fff;border-bottom:1px solid #ddd">
+            <p style="text-align:center;line-height:22px;font-size:18px">
+                <?php switch ($code) {?>
+                <?php case 1:?>
+                <span class="glyphicon glyphicon-ok-circle green"></span> <span class="green"><?php echo(strip_tags($msg));?></span>
+                <?php break;?>
+                <?php case 0:?>
+                <span class="glyphicon glyphicon-remove-circle red"></span> <span class="red"><?php echo(strip_tags($msg));?></span>
+                <?php break;?>
+                <?php } ?>
+            </p>
+            <p style="text-align:center;margin-top:20px;">
+                页面自动 <a id="href" href="<?php echo($url);?>">跳转</a> 等待时间： <b id="wait"><?php echo($wait);?></b>
+            </p>
+        </div>
+        <script type="text/javascript">
+            (function () {
+                var wait = document.getElementById('wait'),
+                        href = document.getElementById('href').href;
+                var interval = setInterval(function () {
+                    var time = --wait.innerHTML;
+                    if (time <= 0) {
+                        location.replace(href);
+                        clearInterval(interval);
+                    }
+                    ;
+                }, 1000);
+            })();
+        </script>
+    </div>
+</div>
+{/block}

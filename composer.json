@@ -1,0 +1,17 @@
+{
+    "name": "vendor/",
+    "description": "项目发卡的描述。",
+    "authors": [
+        {
+            "name": "Wangshoubin",
+            "email": "your@email.here"
+        }
+    ],
+    "require": {
+        "zoujingli/wechat-php-sdk": "* v1.3.18",
+        "5ini99/think-addons": "2.1.0",
+        "jeremykendall/php-domain-parser": "5.6.0"
+    },
+    "require-dev": {
+    }
+}

@@ -1,0 +1,74 @@
+{extend name="lite_base" /}
+
+{block name="content"}
+<div class="card mb-0">
+
+    <div class="card-content">
+        <div class="card-body">
+            <form id="form1" class="form form-vertical">
+                <div class="form-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="alert alert-success" role="alert">
+                                当前保证金余额：{$_user.deposit_money}元
+                            </div>
+                            <div class="alert alert-info" role="alert">
+                                提取的保证金将会自动解冻到余额
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="money">提取金额</label>
+                                <input type="text" id="money" class="form-control" name="money"  value="{$_user.deposit_money}">
+                            </div>
+                        </div>
+
+                        <div class="col-12 d-flex justify-content-center">
+                            <button  class="btn btn-success mr-1 mb-1 btn-submit">立即提取</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+{/block}
+
+{block name="js"}
+<!-- BEGIN: Page JS-->
+<script>
+    $(".btn-submit").click(function ()
+    {
+        var loading = layer.load(1, {shade: [0.1, '#fff']});
+        $.ajax({
+            url: "{:url('plugin/customChannelDepositExtract')}",
+            type: 'post',
+            data: $('#form1').serialize(),
+            success: function (info) {
+                layer.close(loading);
+
+                if (info.code == 1)
+                {
+                    parent.location.reload();
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
+                } else {
+                    $.alert({
+                        title: '提示!',
+                        content: info.msg
+                    });
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                layer.close(loading);
+            }
+        });
+        return false;
+    });
+
+</script>
+
+<!-- END: Page JS-->
+{/block}

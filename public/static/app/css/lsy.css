@@ -1,0 +1,191 @@
+body{
+    margin:0;
+    padding:0;
+    letter-spacing:1.2px;
+    font-family:Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Noto Sans CJK SC,WenQuanYi Micro Hei,Arial,sans-serif;
+    color:#33334f;
+    background:#fff;
+    font-size: 12px;
+}
+ul,li,p,dl,dt,dd{
+    list-style:none;
+    margin:0;
+    padding:0;
+}
+a{
+    text-decoration:none;
+    text-align:center;
+}
+.clear{
+    clear: both;
+}
+.top_bg{
+    height: 120px;
+    width: 100%;
+    background: #648ff7;
+    box-shadow: 0 0 20px rgba(100,143,247,0.14);
+}
+.top{
+    width: 94%;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 3%;
+    color: #fff;
+}
+.logo{
+    float: left;
+}
+.seller_name{
+    float: right;
+}
+.seller_name i{
+    vertical-align: middle;
+    font-size: 24px;
+}
+.top_menu{
+    width: 94%;
+    margin: 20px auto;
+}
+.top_menu li{
+    float: left;
+    text-align: center;
+    width: 33.3%;
+    color: #fff;
+    line-height: 24px;
+}
+.top_menu li i{
+    font-size: 30px;
+}
+.seller_gg{
+    width: calc(94% - 24px);
+    height: 38px;
+    margin: -25px auto 0 auto;
+    padding: 6px 12px;
+    line-height: 20px;
+    overflow: hidden;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(83,91,127,0.14);
+}
+.seller_form{
+    width: 100%;
+    margin: 12px auto;
+}
+.seller_form li{
+    padding: 0 12px;
+    height: 36px;
+    line-height: 36px;
+    margin-top: 12px;
+    border-bottom: 1px solid rgba(83,91,127,0.06);
+}
+.seller_form li select{
+    font-family: Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Noto Sans CJK SC,WenQuanYi Micro Hei,Arial,sans-serif;
+    border: none;
+    background: none;
+    width: calc(100% - 65px);
+    margin-left: 12px;
+    height: 100%;
+    font-size: 12px;
+    color: #33334f;
+}
+.seller_form li input[type=text]{
+    font-family: Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Noto Sans CJK SC,WenQuanYi Micro Hei,Arial,sans-serif;
+    background: none;
+    width: calc(100% - 72px);
+    margin-left: 12px;
+    height: 100%;
+    border: none;
+    font-size: 12px;
+    color: #33334f;
+}
+input::-webkit-input-placeholder {
+    color: #9da7ad;
+    letter-spacing:1px;
+}
+.box_inline{
+    display: inline-block;
+    margin-right: 24px;
+}
+.spdj{
+    display: inline;
+    margin-left: 3%;
+}
+.big_text{
+    color: rgba(247,66,111,1);
+    font-weight: bold;
+}
+.form_title{
+    color: rgba(83,91,127,0.6);
+}
+.seller_sm{
+    background: rgba(247,66,111,0.6);
+    color: #fff;
+    padding: 2% 3%;
+    line-height: 20px;
+}
+.payments{
+    width: 94%;
+    margin: 12px auto 66px auto;
+}
+.payments li{
+    position: relative;
+    width: 100%;
+    margin-top: 12px;
+    height: 44px;
+    border-bottom:1px solid rgba(83,91,127,0.06);
+    border-radius: 4px;
+    line-height: 44px;
+    background: #fff;
+}
+.payments li img{
+    height: 30px;
+    vertical-align: middle;
+    margin-right: 24px;
+}
+.payments li span{
+    position: absolute;
+    right: 8px;
+    top:10px;
+    height: 23px;
+    width: 23px;
+    border-radius: 12px;
+    border: 1px solid rgba(51,51,79,0.14);
+}
+.payments li input{
+    display: none;
+}
+.payments li .pay_choose{
+    border-color: rgba(247,66,111,1);
+    background: url("../images/choose_bg.png") center no-repeat rgba(247,66,111,1);
+}
+.pay_bottom{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 44px;
+    line-height: 44px;
+    border-top: 1px solid #e9eef1;
+    background: #fff;
+}
+.pay_bottom p{
+    float: left;
+    margin-left: 3%;
+}
+.pay_all{
+    font-size: 18px;
+    font-weight: bold;
+    color: rgba(247,66,111,1);
+}
+.pay_bottom button{
+    height: 44px;
+    width: 100px;
+    font-size: 14px;
+    float: right;
+    border: none;
+    color: #fff;
+    background: #648ff7;
+}
+.pf_btn{
+    margin-left: 12px;
+    color: #648ff7;
+}

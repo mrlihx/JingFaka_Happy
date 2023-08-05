@@ -1,0 +1,109 @@
+{extend name="simple_base"}
+{block name="css"}
+<link href="__RES__/merchant/default/libs/fileuploads/css/dropify.min.css" rel="stylesheet" type="text/css" />
+{/block}
+
+
+{block name="content"}
+
+<div class="container">
+    <div class="card">
+        <div class="card-body  p-3">
+
+            <form id="ajaxform" class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+
+
+                <div class="form-group row">
+                    <label for="cate_id" class=" form-label">选择商品分类</label>
+                    <div class="">
+                        <select name="cate_id"  class="form-select">
+                            <option value="0">全部</option>
+                            {foreach $categorys as $v}
+                            <option value="{$v.id}">{$v.name}</option>
+                            {/foreach}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="type" class=" form-label">折扣类型</label>
+                    <div class="">
+                        <select name="type" class="form-select">
+                            <option value="1" selected> 元</option>
+                            <option value="100">%</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="amount" class=" form-label">折扣面额</label>
+                    <div class="">
+                        <input name="amount" type="tel" class="form-control" value="1">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="quantity" class=" form-label">生成数量</label>
+                    <div class="">
+                        <input name="quantity" type="tel" placeholder="最多一次生成200张" class="form-control" value="1" min="1">
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <label for="expire_day" class=" form-label">有效期（天）</label>
+                    <div class="">
+                        <select name="expire_day"  class="form-select">
+                            <option value="1">1天</option>
+                            <option value="2">2天</option>
+                            <option value="3">3天</option>
+                            <option value="4">4天</option>
+                            <option value="5">5天</option>
+                            <option value="6">6天</option>
+                            <option value="7">7天</option>
+                            <option value="8">8天</option>
+                            <option value="9">9天</option>
+                            <option value="10">10天</option>
+                            <option value="15">15天</option>
+                            <option value="30">30天</option>
+                            <option value="60">60天</option>
+                            <option value="100">100天</option>
+                        </select>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group row">
+                    <label for="remark" class="form-label">备注信息</label>
+                    <div class="">
+                        <textarea name="remark" placeholder="" class="form-control" cols="30" rows="10" ></textarea>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group row">
+                    <label class="form-label"></label>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary waves-effect waves-light">保存</button>
+                    </div>
+                </div>
+
+            </form>
+
+
+        </div>
+    </div>
+</div>
+
+{/block}
+{block name="js"}
+
+<script src="__RES__/merchant/default/libs/fileuploads/js/dropify.min.js"></script>
+<script>
+
+</script>
+{/block}
+
+

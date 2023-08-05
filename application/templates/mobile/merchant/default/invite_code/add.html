@@ -1,0 +1,48 @@
+{extend name="simple_base"}
+
+
+{block name="content"}
+
+<div class="container">
+    <div class="card">
+        <div class="card-body  p-3">
+
+            <form id="ajaxform" class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+
+
+                <div class="form-group row">
+                    <label for="num" class=" form-label">生成数量</label>
+                    <div class="">
+                        <input type="number" id="num" name="num" class="form-control" value="" >
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="day" class=" form-label">有效期（天）</label>
+                    <div class="">
+                         <input type="number" id="day" name="day" class="form-control" value="">
+                    </div>
+                </div>
+
+
+
+                <div class="form-group row">
+                    <label class="form-label"></label>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary waves-effect waves-light">提交</button>
+                    </div>
+                </div>
+
+            </form>
+
+
+        </div>
+    </div>
+</div>
+
+{/block}
+{block name="js"}
+
+{/block}
+
+

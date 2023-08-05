@@ -1,0 +1,342 @@
+{extend name='./content'}
+
+{block name="content"}
+
+<!-- 表单搜索 开始 -->
+<form class="layui-form layui-form-pane form-search" action="__SELF__" onsubmit="return false" method="get">
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">商户ID</label>
+        <div class="layui-input-inline">
+            <input name="user_id" value="{$Think.get.user_id|default=''}" placeholder="请输入商户ID" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">商户账号</label>
+        <div class="layui-input-inline">
+            <input name="username" value="{$Think.get.username|default=''}" placeholder="请输入商户账号" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">支付订单号</label>
+        <div class="layui-input-inline">
+            <input name="trade_no" value="{$Think.get.trade_no|default=''}" placeholder="请输入支付订单号" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">处理状态</label>
+        <div class="layui-input-inline">
+            <select name="status">
+                <option value="">全部状态</option>
+                <option value="1" {if $Think.get.status==='1' }selected{/if}>已处理 </option> <option value="0" {if
+                                                                                                   $Think.get.status==='0' }selected{/if}>未处理 </option> <option value="-1" {if $Think.get.status==='1'
+                                                                                                   }selected{/if}>已撤诉 </option> </select> </div> </div> <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">读取状态</label>
+        <div class="layui-input-inline">
+            <select name="admin_read">
+                <option value="">全部状态</option>
+                <option value="1" {if $Think.get.admin_read==='1' }selected{/if}>已读取 </option> <option
+                    value="0" {if $Think.get.admin_read==='0' }selected{/if}>未读取 </option> </select> </div>
+    </div> <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">投诉类型</label>
+        <div class="layui-input-inline">
+            <select name="type">
+                <option value="">全部类型</option>
+                <option value="无效卡密" {if $Think.get.type=='无效卡密' }selected{/if}>无效卡密 </option>
+                <option value="虚假商品" {if $Think.get.type=='虚假商品' }selected{/if}>虚假商品 </option>
+                <option value="非法商品" {if $Think.get.type=='非法商品' }selected{/if}>非法商品 </option>
+                <option value="侵权商品" {if $Think.get.type=='侵权商品' }selected{/if}>侵权商品 </option>
+                <option value="不能购买" {if $Think.get.type=='不能购买' }selected{/if}>不能购买 </option>
+                <option value="恐怖色情" {if $Think.get.type=='恐怖色情' }selected{/if}>恐怖色情 </option>
+                <option value="其他投诉" {if $Think.get.type=='其他投诉' }selected{/if}>其他投诉 </option>
+            </select> </div> </div> <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">时间范围</label>
+        <div class="layui-input-inline">
+            <input name="date_range" id="date_range" value="{:urldecode($Think.get.date_range)}"
+                   placeholder="请选择时间范围" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <button type="submit" class="layui-btn layui-btn-primary"><i class="fa fa-search"></i>
+            搜 索</button>
+    </div>
+
+</form>
+<!-- 表单搜索 结束 -->
+<div class="layui-form-item layui-inline">
+    <label class="layui-form-label">投诉单数</label>
+    <div class="layui-input-inline">
+        <input type="text" class="layui-input" value="{$sum_order|default=" 0"} 单" readonly>
+    </div>
+
+</div>
+
+
+
+<div class="layui-form-item layui-inline">
+    <div class="layui-input-inline">
+        <form onsubmit="return false;" data-auto="true" method="post">
+            {if sysconf('complaint_refund')==1}
+            <span style="color:green"><i class="glyphicon glyphicon-ok"></i> 已开启买家胜诉自动API退款</span>
+            <a class="btn btn-danger btn-xs text-white" data-update="0" data-field='status' data-value='0' data-action='{:url("complaint_refund")}'
+               href="javascript:void(0)">关闭</a>
+            {else/}
+            <span style="color:red"><i class="glyphicon glyphicon-remove"></i> 已关闭买家胜诉自动API退款</span>
+            <a class="btn btn-warning btn-xs"  data-update="0" data-field='status' data-value='1' data-action='{:url("complaint_refund")}'
+               href="javascript:void(0)">开启</a>
+            {/if}
+        </form>
+    </div>
+</div>
+
+<div class="layui-form-item layui-inline">
+    <div class="layui-input-inline">
+        <form onsubmit="return false;" data-auto="true" method="post">
+            {if sysconf('complaint_qrcode')==1}
+            <p>   
+                <span style="color:green"><i class="glyphicon glyphicon-ok"></i> 已开启买家投诉需上传收款码</span>
+                <a class="btn btn-danger btn-xs text-white" data-update="0" data-field='status' data-value='0' data-action='{:url("complaint_qrcode")}'
+                   href="javascript:void(0)">关闭</a>
+            </p>
+            {else/}
+            <p> 
+                <span style="color:red"><i class="glyphicon glyphicon-remove"></i> 已关闭买家投诉需上传收款码</span>
+                <a class="btn btn-warning btn-xs"  data-update="0" data-field='status' data-value='1' data-action='{:url("complaint_qrcode")}'
+                   href="javascript:void(0)">开启</a>
+            </p>
+            {/if}
+        </form>
+    </div>
+</div>
+
+<div class="layui-form-item layui-inline">
+    <button id="heand_del_batch" type="button" class="layui-btn layui-btn-small layui-btn-danger"><i class="fa fa-remove"></i>批量删除</button>
+</div>
+
+<div class="layui-form-item layui-inline">
+    <button id="heand_merchant_batch" type="button" class="layui-btn layui-btn-small">批量商家胜诉</button>
+</div>
+<div class="layui-form-item layui-inline">
+    <button id="heand_buyer_batch" type="button" class="layui-btn layui-btn-small">批量买家胜诉</button>
+</div>
+
+<form onsubmit="return false;" data-auto="true" method="post">
+    <input type="hidden" value="resort" name="action" />
+    <table class="layui-table" lay-skin="line" lay-size="sm">
+        <thead>
+            <tr>
+                <th class='list-table-check-td'>
+                    <input data-none-auto="" data-check-target='.list-check-box' type='checkbox' />
+                </th>
+                <th>商户ID</th>
+                <th>商户账号</th>
+                <th>货源账号</th>
+                <th>投诉订单</th>
+                <th>投诉类型</th>
+                <th>投诉说明</th>
+                <th>QQ</th>
+                <th>手机</th>
+                <th>投诉密码</th>
+                <th>退款二维码</th>
+                <th>投诉处理状态</th>
+                <th>读取状态</th>
+                <th>投诉时间</th>
+                <th>投诉IP</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {foreach $complaints as $v}
+            <tr>
+                <td class='list-table-check-td'>
+                    <input class="list-check-box" value='{$v.id}' type='checkbox' />
+                </td>
+                <td>{$v.user.id}</td>
+                <td><a data-open="{:url('manage/user/index')}?field=1&keyword={$v.user.id}"  href="javascript:void(0)">{$v.user.username}</a></td>
+                <td>{if $v.proxy_parent_user_id==0}-{else/}<a data-open="{:url('manage/user/index')}?field=1&keyword={$v.proxy_parent_user_id}"  href="javascript:void(0)">{$v.parentUser.username}</a>{/if}</td>
+                <td><a data-title="详情" data-modal='{:url("order/detail")}?trade_no={$v.trade_no}' href="javascript:void(0)">{$v.trade_no}</a></td>
+                <td>{$v.type}</td>
+                <td>{$v.desc}</td>
+                <td>{$v.qq}</td>
+                <td>{$v.mobile}</td>
+                <td>{$v.pwd}</td>
+                <td>{if $v.buyer_qrcode!=""}<a target="blank" href="{$v.buyer_qrcode}">点击查看</a>{else/}-{/if}</td>
+                <td>
+                    {if $v.status==1}
+                    <a style="color:green" href="javascript:void(0)"><i class="glyphicon glyphicon-ok"></i> 已处理</a>
+                    {elseif $v.status==-1/}
+                    <a style="color:green" href="javascript:void(0)"><i class="glyphicon glyphicon-ok"></i> 已撤诉</a>
+                    {else/}
+                    <a style="color:red" href="javascript:void(0)"><i class="glyphicon glyphicon-remove"></i> 未处理</a>
+                    {if $v.merchant_status==1}
+                    <span style="color:red">【商家已同意待判断】</span>
+                    {/if}
+                    {/if}
+                </td>
+                <td>
+                    {if $v.admin_read==1}
+                    <a style="color:green" href="javascript:void(0)"><i class="glyphicon glyphicon-ok"></i> 已读取</a>
+                    {else/}
+                    <a style="color:red" href="javascript:void(0)"><i class="glyphicon glyphicon-remove"></i> 未读取</a>
+                    {/if}
+                </td>
+                <td>{$v.create_at|date="Y-m-d H:i:s",###}</td>
+                <td><a href="//www.baidu.com/s?wd={$v.create_ip}&amp;rsv_spt=1&amp;issp=1&amp;rsv_bp=0&amp;ie=utf-8&amp;tn=baiduhome_pg"
+                       title="点击查看IP来源" target="_blank">{$v.create_ip}</a></td>
+                <td>
+                    <a href="javascript:void(0);" onclick="detail(this, '{$v.id}')">详情</a>
+                    <a href="javascript:void(0);" onclick="del(this, '{$v.id}')">删除</a>
+                </td>
+            </tr>
+            {/foreach}
+        </tbody>
+    </table>
+</form>
+{$page}
+<script>
+    layui.use('form', function () {
+        var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+        form.render();
+    });
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        //日期范围
+        laydate.render({
+            elem: '#date_range',
+            range: true
+        });
+    });
+    function detail(obj, id) {
+        layer.open({
+            type: 2,
+            content: "{:url('manage/Complaint/detail')}?id=" + id,
+            area: ['80%', '80%']
+        })
+    }
+
+    /*删除*/
+    function del(obj, id) {
+        layer.confirm('确认要删除这单投诉吗？', function (index) {
+            $.ajax({
+                url: "/manage/complaint/del",
+                type: 'post',
+                data: 'id=' + id,
+                success: function (res) {
+                    if (res.code == 1) {
+                        $(obj).parents("tr").remove();
+                        layer.msg('已删除!', {
+                            icon: 1,
+                            time: 1000
+                        });
+                    } else {
+                        layer.msg('删除失败!', {
+                            icon: 1,
+                            time: 1000
+                        });
+                    }
+                }
+            });
+        });
+    }
+
+    $('#heand_del_batch').click(function () {
+        var ids = '';
+        $('.list-check-box').each(function () {
+            var _this = $(this);
+            if (_this.is(':checked')) {
+                ids = ids + _this.val() + ',';
+            }
+        });
+        layer.confirm('确定要批量删除吗？', function (index) {
+            if (ids == '') {
+                layer.msg('请选择选项！');
+                return false;
+            }
+            $.ajax({
+                url: "/manage/complaint/handBatchDel",
+                type: 'post',
+                data: {
+                    'ids': ids,
+                },
+                success: function (res) {
+                    if (res.code == 1) {
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1000);
+                        layer.msg('已删除!', {icon: 1, time: 1000});
+                    } else {
+                        layer.msg('删除失败!', {icon: 1, time: 1000});
+                    }
+                }
+            });
+        });
+    });
+    $('#heand_merchant_batch').click(function () {
+        var ids = '';
+        $('.list-check-box').each(function () {
+            var _this = $(this);
+            if (_this.is(':checked')) {
+                ids = ids + _this.val() + ',';
+            }
+        });
+        layer.confirm('确定要批量商家胜诉吗？', function (index) {
+            if (ids == '') {
+                layer.msg('请选择选项！');
+                return false;
+            }
+            $.ajax({
+                url: "/manage/complaint/handBatchMerchant",
+                type: 'post',
+                data: {
+                    'ids': ids,
+                },
+                success: function (res) {
+                    if (res.code == 1) {
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1000);
+                        layer.msg('已完成!', {icon: 1, time: 1000});
+                    } else {
+                        layer.msg('操作失败!', {icon: 1, time: 1000});
+                    }
+                }
+            });
+        });
+    });
+
+    $('#heand_buyer_batch').click(function () {
+        var ids = '';
+        $('.list-check-box').each(function () {
+            var _this = $(this);
+            if (_this.is(':checked')) {
+                ids = ids + _this.val() + ',';
+            }
+        });
+        layer.confirm('确定要批量买家胜诉吗？', function (index) {
+            if (ids == '') {
+                layer.msg('请选择选项！');
+                return false;
+            }
+            $.ajax({
+                url: "/manage/complaint/handBatchBuyer",
+                type: 'post',
+                data: {
+                    'ids': ids,
+                },
+                success: function (res) {
+                    if (res.code == 1) {
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1000);
+                        layer.msg('已完成!', {icon: 1, time: 1000});
+                    } else {
+                        layer.msg('操作失败!', {icon: 1, time: 1000});
+                    }
+                }
+            });
+        });
+    });
+
+
+</script>
+{/block}

@@ -1,0 +1,129 @@
+{extend name="base"}
+
+{block name="content"}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row mb-2">
+                            <div class="col-sm-12">
+                                <button  onclick="$.x_show('添加商品池', '{:url(\'agent/myPoolEdit\')}', 450)" class="btn btn-primary glow invoice-create" role="button" aria-pressed="true"><i class="bx bx-plus mr-1"></i>添加商品池</button>
+                                <a href="//wpa.qq.com/msgrd?v=3&uin={:sysconf('site_info_qq')}&Site=" class="btn btn-danger glow invoice-create" role="button" aria-pressed="true"><i class="bx bx-up-arrow mr-1"></i>置顶服务</a>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>商品池名称</th>
+                                        <th>创建时间</th>
+                                        <th>置顶标签</th>
+                                        <th>置顶到期时间</th>
+                                        <th>是否审核</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {foreach $list as $k=> $v}
+                                    <tr>
+                                        <th scope="row">{$v.title}</th>
+                                        <td>{$v.create_at|date="Y-m-d H:i:s",###}</td>
+                                        <td>{if $v.span}<span style="background:{$v.span.color}; border-radius:10px;font-size: 10px" class="text-white p-1">{$v.span.name}</span>{else/}---{/if}</td>
+                                        <td>{if $v.expire_at!=""}{if $v.expire_at<time()}已过期{else/}{$v.expire_at|date="Y-m-d H:i:s",###}{/if}{else/}---{/if}</td>
+                                        <td>
+                                            {if $v.status == 1}
+                                            <span class="badge badge-pill badge-success font-size-12">已审核</span>
+                                            {else}
+                                            <span class="badge badge-pill badge-light font-size-12">未审核</span>
+                                            {/if}
+                                        </td>
+                                        <td>
+                                            <div class="btn-group btn-group-sm " role="group" aria-label="Basic group">
+                                                <button  onclick="$.x_show('编辑商品池', '{:url(\'agent/myPoolEdit\',[\'id\'=>$v.id])}', 450)" href="" class="btn btn-light waves-effect waves-light text-primary">编辑</button>
+                                                <a href="javascript:void(0);" onclick="del(this, '{$v.id}')" class="btn btn-light waves-effect waves-light text-danger">删除</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {/foreach}
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <nav aria-label="...">
+                            {$page}
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+
+
+{/block}
+{block name="js"}
+<script>
+
+
+    function del(obj, id)
+    {
+
+        $.confirm({
+            title: '温馨提示',
+            content: '确定删除吗？你将无法恢复该操作！',
+            type: 'red',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: '确定',
+                    btnClass: 'btn-red',
+                    action: function () {
+                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                        $.post("{:url('agent/myPoolDel')}", {
+                            id: id
+                        }, function (res) {
+                            layer.closeAll();
+                            if (res.code != 1) {
+                                $.alert(res.msg);
+                            } else {
+                                $.alert("删除成功");
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 200);
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+    }
+</script>
+{/block}

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>用户注册 - {:sysconf('site_name')}</title>
+        <meta name="keywords" content="{:sysconf('site_keywords')}" />
+        <meta name="description" content="{:sysconf('site_desc')}" />
+        <link rel="shortcut icon" href="{:sysconf('browser_icon')}" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Bootstrap -->
+        <link href="__RES__/theme/landrick/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <!-- Icons -->
+        <link href="__RES__/theme/landrick/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
+        <!-- Main css -->
+        <link href="__RES__/theme/landrick/css/land1.css" rel="stylesheet" type="text/css" id="theme-opt" />
+        <link href="__RES__/theme/landrick/css/colors/default.css" rel="stylesheet" id="color-opt">
+    </head>
+
+    <body>
+        <!-- Loader -->
+        <div id="preloader">
+            <div id="status">
+                <div class="spinner">
+                    <div class="double-bounce1"></div>
+                    <div class="double-bounce2"></div>
+                </div>
+            </div>
+        </div>
+        <!-- Loader -->
+        <div class="back-to-home rounded d-none d-sm-block">
+            <a href="index.html" class="btn btn-icon btn-soft-primary"><i data-feather="home" class="icons"></i></a>
+        </div>
+
+        <!-- Hero Start -->
+        <section class="bg-home d-flex align-items-center">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-7 col-md-6">
+                        <div class="mr-lg-5">   
+                            <img src="__RES__/theme/landrick/images/user/signup.svg" class="img-fluid d-block mx-auto" alt="">
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-md-6">
+                        <div class="card login_page shadow rounded border-0">
+                            <div class="card-body">
+                                <h4 class="card-title text-center">商户注册</h4>  
+                                <form class="login-form mt-4" method="post" action="/register/regsave" id="reg" name="reg">
+                                    <div class="row">
+
+                                        <div class="col-md-12">
+                                            <div class="form-group position-relative">
+                                                <label>用户名</label>
+                                                <input id="newusername" name="reginfo[username]" type="text" class="form-control" placeholder="请输入用户名" required="">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-6">
+                                            <div class="form-group position-relative">                                               
+                                                <label>密码</label>
+                                                <input type="password" id="password1" name="reginfo[password]" class="form-control" placeholder="请输入密码"  required="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group position-relative">                                                
+                                                <label>确定密码</label>
+                                                <input type="password" id="password2" name="reginfo[confirmpassword]" class="form-control" placeholder="请输入确定密码"  required="">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="form-group position-relative">
+                                                <label>手机号</label>
+                                                <input type="text" id="newmobile" name="reginfo[mobile]" class="form-control" placeholder="请输入手机号"  required="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group position-relative">
+                                                <label>邮箱</label>
+                                                <input type="text" id="newemail" name="reginfo[email]" class="form-control" placeholder="请输入邮箱"  required="">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="form-group position-relative">
+                                                <label>QQ号</label>
+                                                <input type="text" id="newqq" name="reginfo[qq]" class="form-control" placeholder="请输入QQ号" required="">
+                                            </div>
+                                        </div>
+
+
+                                        {if sysconf('site_register_smscode_status')==1&&sysconf('site_register_code_type')=='sms'}
+                                        <div class="col-md-12">
+                                            <div class="form-group position-relative">                                                
+                                                <label>手机验证码</label>
+                                                <div class="input-group">
+                                                    <input type="text" name="reginfo[chkcode]" class="form-control" placeholder="请输入短信验证码" required="">
+                                                    <input class="form-control col-lg-4 ver_btn float-left" type="button" value="获取验证码"  id="click_checkcode_phone">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {/if}
+                                        {if sysconf('site_register_smscode_status')==1&&sysconf('site_register_code_type')=='email'}
+                                        <div class="col-md-12">
+                                            <div class="form-group position-relative">                                                
+                                                <label>邮箱验证码</label>
+                                                <div class="input-group">
+                                                    <input type="text" name="reginfo[chkcode]" class="form-control" placeholder="请输入邮箱验证码" required="">
+                                                    <input class="form-control col-lg-4 ver_btn float-left" type="button" value="获取验证码"  id="click_checkcode_email">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {/if}
+
+                                        {if sysconf('spread_invite_code')==1}
+                                        <div class="col-md-12">
+                                            <div class="form-group position-relative">                                                
+                                                <label>邀请码</label>
+                                                <div class="input-group">
+                                                    <input type="text" name="reginfo[invite_code]" class="form-control" placeholder="邀请码{if sysconf('is_need_invite_code')==1}（必填）{else}（选填）{/if}">
+                                                    {if sysconf('invite_code_get_url')!=""}
+                                                    <input class="form-control col-lg-4 ver_btn float-left" type="button" value="获取邀请码"  id="get_invite_code" >
+                                                    {/if}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {/if}
+
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="custom-control custom-checkbox" data-toggle="tooltip" title="阅读并同意服务条款与协议">
+                                                    <input type="checkbox" class="custom-control-input" id="customCheck1" checked>
+                                                    <label class="custom-control-label" for="customCheck1"> 阅读并同意 <a href="javascript:void(0)" data-toggle="modal" data-target="#LoginForm"  class="text-primary"> 服务条款和条件</a></label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <!-- Modal Content Start -->
+                                        <div class="modal fade" id="LoginForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content rounded shadow border-0">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalCenterTitle">用户注册协议和隐私政策 </h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="bg-white p-3 rounded box-shadow">
+                                                            <h6>【审慎阅读】您在申请注册流程中点击同意前，应当认真阅读以下协议。请您务必审慎阅读、充分理解协议中相关条款内容，其中包括：</h6>
+                                                            <p class="text-muted mb-0">1、与您约定免除或限制责任的条款；</p>       
+                                                            <p class="text-muted mb-0">2、与您约定法律适用和管辖的条款； </p>
+                                                            <p class="text-muted mb-0">3、其他以粗体下划线标识的重要条款。 </p>
+                                                            <p class="text-muted mb-0">如您对协议有任何疑问，可向平台客服咨询。当您按照注册页面提示填写信息、阅读并同意协议且完成全部注册程序后，即表示您已充分阅读、理解并接受协议的全部内容。如您因平台服务与发生争议的，适用《平台服务协议》处理。</p>
+                                                            <p class="text-muted mb-0">如您在使用平台服务过程中与其他用户发生争议的，依您与其他用户达成的协议处理。 </p>
+                                                            <p class="text-muted mb-0">阅读协议的过程中，如果您不同意相关协议或其中任何条款约定，您应立即停止注册程序。
+                                                            </p>
+                                                            <p class="text-muted mb-0"><a href="#">《自动发卡平台使用协议》</a></p>
+                                                            <p class="text-muted mb-0"><a href="#">《法律声明及隐私权政策》</a></p>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-primary" data-dismiss="modal">我已阅读，同意协议</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <button id="regBtn"  class="btn btn-primary mt-2 mr-2 w-100">注 册</button>
+                                        </div>
+
+                                        <div class="mx-auto">
+                                            <p class="mb-0 mt-3"><small class="text-dark mr-2">已有账号 ?</small> <a href="/login" class="text-dark font-weight-bold" style="font-size: 14px;">直接登录</a></p>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div> <!--end col-->
+                </div><!--end row-->
+            </div> <!--end container-->
+        </section><!--end section-->
+        <!-- Hero End -->
+            <script> console.log('\n' + ' %c  by CoCo  https://coco.0v7.cn/' + '\n\n\n', "color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;");
+
+            </script>
+        <!-- javascript -->
+        <script src="__RES__/theme/landrick/js/jquery-3.5.1.min.js"></script>
+        <script src="__RES__/theme/landrick/js/bootstrap.bundle.min.js"></script>
+        <script src="__RES__/theme/landrick/js/jquery.easing.min.js"></script>
+        <script src="__RES__/theme/landrick/js/scrollspy.min.js"></script>
+        <!-- Icons -->
+        <script src="__RES__/theme/landrick/js/feather.min.js"></script>
+        <script src="__RES__/theme/landrick/js/bundle.js"></script>
+        <!-- Main Js -->
+        <script src="__RES__/theme/landrick/js/app.js"></script>
+        <script src="/static/app/js/layer.js"></script>
+
+        <script type="text/javascript">
+
+            $('#agreement').click(function () {
+                layer.open({
+                    type: 1,
+                    title: '服务协议',
+                    area: ['60%', '50%'],
+                    anim: 1,
+                    content: ['/index/index/agreement']
+
+                });
+            })
+            var token = "{$sms_token}";
+
+            $(function () {
+                $("#click_checkcode_phone").click(function () {
+                    if (validCode) {
+                        send_sms();
+                    }
+                })
+                $("#click_checkcode_email").click(function () {
+                    if (validCode) {
+                        send_email();
+                    }
+                })
+                $("#get_invite_code").click(function () {
+
+                    window.open("{:sysconf('invite_code_get_url')}");
+                })
+            })
+
+            var validCode = true;
+            var token = "{$sms_token}";
+            function send_sms() {
+                var phone = $('#newmobile').val();
+                var reg = /\d{11}/;
+                if (phone == '' || !reg.test(phone)) {
+                    layer.msg('请填写正确的手机号码！');
+                    $('#mobile').focus();
+                    return false;
+                }
+                layer.prompt({
+                    title: '请输入验证码',
+                    formType: 3
+                }, function (chkcode) {
+                    $.post('/register/sms', {chkcode: chkcode, token: token, phone: phone, t: new Date().getTime()}, function (data) {
+                        if (data.code === 1) {
+                            layer.closeAll();
+                            layer.msg(data.msg);
+                            token = data.data.token;
+                            var time = 60;
+                            validCode = false;
+                            $("#click_checkcode_phone").val("已发送(60)");
+                            var t = setInterval(function () {
+                                time--;
+                                $("#click_checkcode_phone").val('已发送(' + time + ')');
+                                if (time == 0) {
+                                    clearInterval(t);
+                                    $("#click_checkcode_phone").val("重新获取");
+                                    validCode = true;
+                                }
+                            }, 1000);
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                    }, 'json');
+                });
+                $('.layui-layer-prompt .layui-layer-content').prepend($('<img style="cursor:pointer;height: 60px;" id="chkcode_img" src="{:url(\'index/user/verifycode\',[\'t\'=>time()])}" onclick="javascript:this.src=\'/index/user/verifycode\'+\'?time=\'+Math.random()">'))
+            }
+
+
+            function send_email() {
+                var email = $('#newemail').val();
+                var reg = /^([\w-.]+)@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.)|(([\w-]+.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(]?)$/;
+                if (email == '' || !reg.test(email)) {
+                    layer.msg('请填写正确的邮箱！');
+                    $('#newemail').focus();
+                    return false;
+                }
+
+                $.post('/register/email', {email: email, t: new Date().getTime()}, function (data) {
+                    if (data.code === 1) {
+                        layer.closeAll();
+                        layer.msg(data.msg);
+                        token = data.data.token;
+                        var time = 60;
+                        validCode = false;
+                        $("#click_checkcode_email").val("已发送(60)");
+                        var t = setInterval(function () {
+                            time--;
+                            $("#click_checkcode_email").val('已发送(' + time + ')');
+                            if (time == 0) {
+                                clearInterval(t);
+                                validCode = true;
+                                $("#click_checkcode_email").val("重新获取");
+                            }
+                        }, 1000);
+                    } else {
+                        layer.msg(data.msg);
+                    }
+
+                }, 'json');
+            }
+
+
+
+            $(function () {
+                $("#newusername").focus();
+
+                $("#r2").click(function () {
+                    $(".btn-code").attr("disabled", true);
+                    $(".btn-code").addClass('notallowsubmit');
+                });
+
+                $("#r1").click(function () {
+                    $(".btn-code").attr("disabled", false);
+                    $(".btn-code").removeClass('notallowsubmit');
+                });
+
+                $.formValidator.initConfig({
+                    formid: "reg", onerror: function (msg) {
+                        layer.msg(msg)
+                        return false;
+                    }, onsuccess: function () {
+                        return true;
+                    }
+                });
+                $("#newusername").formValidator({
+                    onshow: " ",
+                    onfocus: "请输入正确的用户名",
+                    onempty: "用户名是您登录账户的凭证，一定要填写哦",
+                    oncorrect: "<font color=green>√该用户名可以注册</font>"
+                }).ajaxValidator({
+                    type: "get",
+                    url: "/register/checkuser",
+                    success: function (data) {
+                        if (data == 0) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    },
+                    buttons: $(".btn_zc"),
+                    error: function () {
+                        layer.msg("服务器没有返回数据，可能服务器忙，请重试！");
+                    },
+                    onerror: "<font color=red> * 该用户名已被使用，请更换！</font>",
+                    onwait: "正在对用户名进行合法性校验，请稍候..."
+                });
+
+                $("#newemail").formValidator({
+                    onshow: " ",
+                    onfocus: "用于找回密码、接收校验信息等操作",
+                    oncorrect: "<font color=green> √ 邮箱地址填写完成</font>",
+                    defaultvalue: ""
+                }).inputValidator({
+                    min: 6,
+                    max: 100,
+                    onerror: "你填写的邮箱地址长度不正确,请确认"
+                }).regexValidator({
+                    regexp: "^([\\w-.]+)@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.)|(([\\w-]+.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(]?)$",
+                    onerror: "你填写的邮箱格式不正确"
+                });
+                $("#newqq").formValidator({
+                    onshow: " ",
+                    onfocus: "请填写联系QQ号码",
+                    oncorrect: "<font color=green> √ QQ填写完成</font>",
+                    onempty: "QQ一定填写哦"
+                }).inputValidator({min: 5, max: 12, onerror: "QQ号最少5位，最多11位数字"}).regexValidator({
+                    regexp: "qq",
+                    datatype: "enum",
+                    onerror: "您输入的QQ帐号不正确"
+                });
+                $("#password1").formValidator({
+                    onshow: " ",
+                    onfocus: "密码不能为空",
+                    oncorrect: "<font color=green> √ 密码填写完成</font>"
+                }).inputValidator({
+                    min: 8,
+                    empty: {leftempty: false, rightempty: false, emptyerror: "密码两边不能有空符号"},
+                    onerror: "密码长度为8-16位,请确认"
+                });
+                $("#password2").formValidator({
+                    onshow: " ",
+                    onfocus: "两次密码必须一致哦",
+                    oncorrect: "<font color=green> √ 密码一致</font>"
+                }).inputValidator({
+                    min: 8,
+                    empty: {leftempty: false, rightempty: false, emptyerror: "重复密码两边不能有空符号"},
+                    onerror: "密码长度为8-16位,请确认"
+                }).compareValidator({desid: "password1", operateor: "=", onerror: "2次密码不一致,请确认"});
+                $('#regBtn').click(function () {
+                    if ($(".onError").length > 0) {
+                        layer.msg($(".onError").first().text());
+                        return false;
+                    }
+                    if (false === $("#check").is(':checked')) {
+                        layer.msg('请先同意服务协议');
+                        return false;
+                    }
+                    $usernameLength = getStrLeng($('#newusername').val());
+                    if ($usernameLength < 4) {
+                        layer.msg('用户名长度错误，长度不得小于4个字符');
+                        return false;
+                    }
+                    if ($usernameLength > 20) {
+                        layer.msg('用户名长度错误，长度不得大于20个字符');
+                        return false;
+                    }
+                    var loading = '';
+                    $.ajax({
+                        type: 'post',
+                        url: '/index/user/doRegister',
+                        dataType: "json",
+                        data: $("form").serialize(),
+                        beforeSend: function (xhr) {
+                            loading = layer.load()
+                        },
+                        success: function (res) {
+                            layer.close(loading);
+                            if (res.code == 1) {
+                                layer.msg(res.msg);
+                                setTimeout(function () {
+                                    window.location.href = '/merchant';
+                                }, 2000);
+                            } else {
+                                layer.msg(res.msg);
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            layer.close(loading);
+                            layer.msg('连接错误');
+                        }
+                    });
+                })
+            });
+            function getStrLeng(str) {
+                var realLength = 0;
+                var len = str.length;
+                var charCode = -1;
+                for (var i = 0; i < len; i++) {
+                    charCode = str.charCodeAt(i);
+                    if (charCode >= 0 && charCode <= 128) {
+                        realLength += 1;
+                    } else {
+                        // 如果是中文则长度加3
+                        realLength += 3;
+                    }
+                }
+                return realLength;
+            }
+        </script>
+
+    </body>
+</html>

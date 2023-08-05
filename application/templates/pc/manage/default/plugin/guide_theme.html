@@ -1,0 +1,101 @@
+{extend name='./content'}
+
+{block name="content"}
+
+<style>
+    #account_id,#weight{
+        display: none;
+    }
+</style>
+
+<button type="button" class="layui-btn layui-btn-normal" style="margin:10px" data-modal="{:url('guideThemeEdit')}" data-title="添加主题">添加主题</button>
+<p class="help-block">温馨提示：自带外链主题仅供演示参考，建议使用自建视频存储外链</p>
+<form onsubmit="return false;" data-auto="" method="POST" data-listen="true" novalidate="novalidate">
+    <input type="hidden" value="resort" name="action">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th class="text-center">编号</th>
+                <th class="text-center">名称</th>
+                <th class="text-center">所属用户</th>
+                <th class="text-center">预览</th>
+                <th class="text-center">使用人数</th>
+                <th class="text-center">状态</th>
+                <th class="text-center">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {foreach $list as $v}
+            <tr>
+                <td class="text-center">{$v.id}</td>
+                <td class="text-center">{$v.name}</td>
+
+                <td class="text-center">
+                    {if $v.user_id==0}
+                    <span style="background:green; color:#fff; padding:3px 8px; border-radius:10px;font-size: 10px">官方</span>
+                    {else/}
+                    <a data-open="{:url('manage/user/index')}?field=1&keyword={$v.user_id}"  href="javascript:void(0)">{$v.user.username}专属</a>
+                    {/if}
+                </td>
+                <td class="text-center"><a href="{$v.video}" target="_blank">预览视频</a>&nbsp;&nbsp;<a href="{$v.background}"  target="_blank">预览图片</a></td>
+                <td class="text-center">
+                    {$v.usecount}
+                </td>
+                <td  class="text-center">
+                    {if $v.status==1}
+                    <span style="color:green"><i class="glyphicon glyphicon-ok"></i> 显示</span>
+                    {else/}
+                    <span style="color:red"><i class="glyphicon glyphicon-remove"></i> 禁用</span>
+                    {/if}
+                </td>
+                <td class="text-center">
+                    <div class="layui-btn-group">
+                        <button type="button" class="layui-btn layui-btn-small" data-modal="{:url('guideThemeEdit',['id'=>$v.id])}" data-title="编辑主题">编辑</button>
+                        <button type="button" class="layui-btn layui-btn-small layui-btn-danger" onclick="del('{$v.id}')">删除</button>
+                    </div>
+                </td>
+            </tr>
+            {/foreach}
+        </tbody>
+    </table>
+</form>
+{$page}
+
+<script>
+
+    function del(id)
+    {
+        layer.confirm('是否确认删除此主题？', function (index) {
+            var loading = '';
+            $.ajax({
+                url: "{:url('guideTheme',['act'=>'del'])}",
+                data: {
+                    id: id,
+                },
+                type: 'post',
+                dataType: 'json',
+                beforeSend: function () {
+                    loading = layer.load();
+                },
+                success: function (res) {
+                    layer.close(loading);
+                    if (res.code == 1) {
+                        layer.msg(res.msg, {icon: 1, time: 1000});
+                        location.reload();
+                    } else {
+                        layer.msg(res.msg, {time: 2000, icon: 'error'});
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    layer.close(loading);
+                    layer.msg('连接错误');
+                }
+            });
+        });
+
+    }
+
+
+
+</script>
+{/block}

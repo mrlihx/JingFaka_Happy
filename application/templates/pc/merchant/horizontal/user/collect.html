@@ -1,0 +1,295 @@
+{extend name="base"}
+
+{block name="css"}
+<link href="__RES__/merchant/default/libs/fileuploads/css/dropify.min.css" rel="stylesheet" type="text/css" />
+{/block}
+
+{block name="content"}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form role="form" action="{:url('user/changeCashType')}" method="post" >
+
+                            <div class="form-group row mb-4">
+                                <label for="shop_name" class="col-md-2 col-form-label font-weight-bold">收款设置</label>
+                                <div class="col-md-10 d-flex align-items-center">
+                                    <div class="custom-control custom-radio custom-control-inline mr-4 custom-radio-success">
+                                        <input {if $_user.cash_type==1}checked{/if} value="1" type="radio" id="cash_type1" name="cash_type" class="custom-control-input">
+                                            <label class="custom-control-label" for="cash_type1">系统默认</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline mr-4 custom-radio-success">
+                                        <input {if $_user.cash_type==2}checked{/if} value="2" type="radio" id="cash_type2" name="cash_type" class="custom-control-input">
+                                            <label class="custom-control-label" for="cash_type2">手工提现</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline mr-4 custom-radio-success">
+                                        <input {if $_user.cash_type==3}checked{/if} value="3" type="radio" id="cash_type3" name="cash_type" class="custom-control-input">
+                                            <label class="custom-control-label" for="cash_type3">自动提现</label>
+                                    </div>
+                                    <button class="btn btn-success btn-sm"><i class="bx bx-check-square mr-1"></i> 保存设置 </button>
+                                </div>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <h4 class="card-title mb-4">商户收款信息</h4>
+                        <form class="form-horizontal" role="form" action="{:url('user/collect')}" method="post" id="gathering_info" enctype="multipart/form-data">
+                            <div class="form-group row">
+                                <label class="col-md-2 col-form-label">收款方式</label>
+                                <div class="col-md-6">
+                                    <select name="type" class="form-control select2"  {if isset($_user.collect.info) && $_user.collect.allow_update == 0} disabled="disabled" {/if} >
+                                            {if in_array(1, (array)json_decode((string)sysconf('cash_type'), true))}
+                                            <option value="1" {if $_user.collect.type==1}selected{/if}>支付宝收款</option>
+                                        {/if}
+                                        {if in_array(2, (array)json_decode((string)sysconf('cash_type'), true))}
+                                        <option value="2" {if $_user.collect.type==2}selected{/if}>微信收款</option>
+                                        {/if}
+                                        {if in_array(3, (array)json_decode((string)sysconf('cash_type'), true))}
+                                        <option value="3" {if $_user.collect.type==3}selected{/if}>银行卡收款</option>
+                                        {/if}
+                                    </select>
+                                </div>
+                            </div>
+                            {if $type = json_decode(sysconf('cash_type'), true)}
+                            <div class="collect_type type_alipay" {if (!$_user.collect && $_user.collect.type!='1' && $type[0] != 1) || ($_user.collect && $_user.collect.type!='1')}style="display:none;"{/if}>
+                                 <div class="form-group row">
+                                    <label class="col-md-2 col-form-label">支付宝账号</label>
+                                    <div class="col-md-6">
+                                        <input name="alipay[account]" type="text" class="form-control"  {if isset($_user.collect.info.account) && $_user.collect.allow_update == 0} readonly="readonly" {/if}  value="{$_user.collect.info.account|default=''|htmlentities}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-2 col-form-label">收款人姓名</label>
+                                    <div class="col-md-6">
+                                        <input name="alipay[realname]" type="text" class="form-control" {if isset($_user.collect.info.realname) && $_user.collect.allow_update == 0} readonly="readonly" {/if}  value="{$_user.collect.info.realname|default=''|htmlentities}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-2 col-form-label">身份证号</label>
+                                    <div class="col-md-6">
+                                        <input name="alipay[idcard_number]" type="text" class="form-control idcard_number" {if isset($_user.collect.info.idcard_number) && $_user.collect.allow_update == 0} readonly="readonly" {/if}  onblur="if(this.value==''){this.value='{$_user.collect.info.idcard_number|idcardnoMask}'}" onfocus="if(this.value=='{$_user.collect.info.idcard_number|idcardnoMask}'){this.value=''}" value="{$_user.collect.info.idcard_number|idcardnoMask|htmlentities}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-2 col-form-label">收款二维码</label>
+                                    <div class="col-md-6">
+                                        {if $_user.collect.collect_img && $_user.collect.allow_update == 0}
+                                        <img src="{$_user.collect.collect_img|default=''}" style="width: 80%;margin:0 auto;" alt="">
+                                        {else}
+                                        <input type="file" name="ali_collect_img" class="dropify"/>
+                                        {/if}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="collect_type type_wxpay" {if (!$_user.collect && $_user.collect.type!='2' && $type[0] != 2) || ($_user.collect && $_user.collect.type!='2')}style="display:none;"{/if}>
+                                 <div class="form-group row">
+                                    <label class="col-md-2 col-form-label">微信账号</label>
+                                    <div class="col-md-6">
+                                        <input name="wxpay[account]" type="text" class="form-control"  {if isset($_user.collect.info.account) && $_user.collect.allow_update == 0} readonly="readonly" {/if}  value="{$_user.collect.info.account|default=''|htmlentities}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-2 col-form-label">收款人姓名</label>
+                                    <div class="col-md-6">
+                                        <input name="wxpay[realname]" type="text" class="form-control"  {if isset($_user.collect.info.realname) && $_user.collect.allow_update == 0} readonly="readonly" {/if}  value="{$_user.collect.info.realname|default=''|htmlentities}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-2 col-form-label">身份证号</label>
+                                    <div class="col-md-6">
+                                        <input name="wxpay[idcard_number]" type="text" class="form-control idcard_number"  {if isset($_user.collect.info.idcard_number) && $_user.collect.allow_update == 0} readonly="readonly" {/if}  value="{$_user.collect.info.idcard_number|default=''|htmlentities}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-2 col-form-label">收款二维码</label>
+                                    <div class="col-md-6">
+                                        {if $_user.collect.collect_img && $_user.collect.allow_update == 0}
+                                        <img src="{$_user.collect.collect_img|default=''}" style="width: 80%;margin:0 auto;" alt="">
+                                        {else}
+                                        <input type="file" name="collect_img" class="dropify"/>
+                                        {/if}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="collect_type type_bank" {if (!$_user.collect && $_user.collect.type!='3' && $type[0] != 3) || ($_user.collect && $_user.collect.type!='3')}style="display:none;"{/if}>
+                                 <div class="form-group row">
+                                    <label for="bank[bank_name]" class="col-md-2 col-form-label">开户银行</label>
+                                    <div class="col-md-6">
+                                        <select id="bank_name" name="bank[bank_name]" class="form-control"  {if isset($_user.collect.info.bank_name) && $_user.collect.allow_update == 0} readonly="readonly" {/if} >
+                                                <option value="中国工商银行" {if $_user.collect.type==3 && $_user.collect.info.bank_name=='中国工商银行'}selected{/if}>中国工商银行</option>
+                                            <option value="中国建设银行" {if $_user.collect.type==3 && $_user.collect.info.bank_name=='中国建设银行'}selected{/if}>中国建设银行</option>
+                                            <option value="中国农业银行" {if $_user.collect.type==3 && $_user.collect.info.bank_name=='中国农业银行'}selected{/if}>中国农业银行</option>
+                                            <option value="中国邮政储蓄银行" {if $_user.collect.type==3 && $_user.collect.info.bank_name=='中国邮政储蓄银行'}selected{/if}>中国邮政储蓄银行</option>
+                                            <option value="招商银行" {if $_user.collect.type==3 && $_user.collect.info.bank_name=='招商银行'}selected{/if}>招商银行</option>
+                                            <option value="农村信用合作社" {if $_user.collect.type==3 && $_user.collect.info.bank_name=='农村信用合作社'}selected{/if}>农村信用合作社</option>
+                                            <option value="兴业银行" {if $_user.collect.type==3 && $_user.collect.info.bank_name=='兴业银行'}selected{/if}>兴业银行</option>
+                                            <option value="广东发展银行" {if $_user.collect.type==3 && $_user.collect.info.bank_name=='广东发展银行'}selected{/if}>广东发展银行</option>
+                                            <option value="深圳发展银行" {if $_user.collect.type==3 && $_user.collect.info.bank_name=='深圳发展银行'}selected{/if}>深圳发展银行</option>
+                                            <option value="民生银行" {if $_user.collect.type==3 && $_user.collect.info.bank_name=='民生银行'}selected{/if}>民生银行</option>
+                                            <option value="交通银行" {if $_user.collect.type==3 && $_user.collect.info.bank_name=='交通银行'}selected{/if}>交通银行</option>
+                                            <option value="中信银行" {if $_user.collect.type==3 && $_user.collect.info.bank_name=='中信银行'}selected{/if}>中信银行</option>
+                                            <option value="光大银行" {if $_user.collect.type==3 && $_user.collect.info.bank_name=='光大银行'}selected{/if}>光大银行</option>
+                                            <option value="中国银行" {if $_user.collect.type==3 && $_user.collect.info.bank_name=='中国银行'}selected{/if}>中国银行</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-2 col-form-label">开户地址</label>
+                                    <div class="col-md-6">
+                                        <input name="bank[bank_branch]" type="text" class="form-control" value="{$_user.collect.info.bank_branch|default=''|htmlentities}" {if isset($_user.collect.info.bank_branch)&& $_user.collect.allow_update == 0} readonly="readonly" {/if}  placeholder="开户行请精确到市">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-2 col-form-label">银行卡号</label>
+                                    <div class="col-md-6">
+                                        <input name="bank[bank_card]" type="text" class="form-control" {if isset($_user.collect.info.bank_card) && $_user.collect.allow_update == 0} readonly="readonly" {/if}  value="{$_user.collect.info.bank_card|default=''|htmlentities}" placeholder="请认真核对银行卡号">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-2 col-form-label">收款人姓名</label>
+                                    <div class="col-md-6">
+                                        <input name="bank[realname]" type="text" class="form-control" {if isset($_user.collect.info.realname) && $_user.collect.allow_update == 0} readonly="readonly" {/if} value="{$_user.collect.info.realname|default=''|htmlentities}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-2 col-form-label">身份证号</label>
+                                    <div class="col-md-6">
+                                        <input name="bank[idcard_number]" type="text" class="form-control idcard_number" {if isset($_user.collect.info.idcard_number)&& $_user.collect.allow_update == 0} readonly="readonly" {/if} value="{$_user.collect.info.idcard_number|default=''|htmlentities}">
+                                    </div>
+                                </div>
+                            </div>
+                            {/if}
+                            {if !$_user.collect.info || $_user.collect.allow_update == 1}
+                            <div class="form-group row" style="display: flex; align-items: center; color: red;">
+                                <label class="col-md-2 col-form-label"></label>
+                                <div class="col-md-6">
+                                    慎重填写.再三确认.填写后不可修改.如需修改请联系平台客服。
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-2 col-form-label"></label>
+                                <div class="col-md-6 text-center">
+                                    <button type="submit" class="btn btn-primary waves-effect waves-light">保存设置</button>
+                                </div>
+                            </div>
+                            {else}
+                            <div class="form-group row" style="display: flex; align-items: center; color: red;">
+                                <label class="col-md-2 col-form-label"></label>
+                                <div class="col-md-6">
+                                    修改收款方式请联系客服
+                                </div>
+                            </div>
+                            {/if}
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+    <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+
+
+{/block}
+{block name="js"}
+<script src="__RES__/merchant/default/libs/fileuploads/js/dropify.min.js"></script>
+<script>
+   
+    $('[name="type"]').change(function () {
+        var selected = $(this).val() * 1;
+        $('.collect_type').slideUp();
+        switch (selected) {
+            case 1:  // 支付宝
+                $('.type_alipay').slideDown();
+                break;
+            case 2:  // 微信
+                $('.type_wxpay').slideDown();
+                break;
+            case 3:  // 银行
+                $('.type_bank').slideDown();
+                break;
+        }
+    });
+    $('[name="stock_display"]').change(function () {
+        var selected = $(this).val() * 1;
+        console.log(selected);
+        if (selected == 2) {
+            $('.stock_display_2_tips').show();
+        } else {
+            $('.stock_display_2_tips').hide();
+        }
+    });
+    $('#gathering_info').submit(function () {
+        var status = true;
+        $('.collect_type').each(function () {
+            if ($(this).is(':visible')) {
+                //验证二维码
+                var collect_img_value = $(this).find('.dropify').val();
+                if ($(this).find('.dropify').length > 0 && !collect_img_value) {
+                    layer.alert('请选择收款二维码！');
+                    status = false;
+                }
+                var idcard_number = $(this).find('input.idcard_number').last().val()
+                var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+                console.log(idcard_number);
+                if (!reg.test(idcard_number)) {
+                    layer.alert('请输入正确的身份证号码');
+                    status = false;
+                }
+
+            }
+        })
+        return status;
+    })
+    $('.dropify').dropify({
+        messages: {
+            'default': '点击上传二维码',
+            'replace': '点击替换二维码',
+            'remove': '删除',
+            'error': '上传错误'
+        },
+        error: {
+            'fileSize': '文件太大超过（1M）'
+        }
+    });
+
+
+</script>
+{/block}

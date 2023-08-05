@@ -1,0 +1,166 @@
+{extend name='./content'}
+
+{block name="content"}
+
+<!-- 表单搜索 开始 -->
+<form class="layui-form layui-form-pane form-search" action="__SELF__" onsubmit="return false" method="get">
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">商户账号</label>
+        <div class="layui-input-inline">
+            <input name="username" value="{$Think.get.username|default=''|htmlentities}" placeholder="请输入商户账号" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <button type="submit" class="layui-btn layui-btn-primary"><i class="fa fa-search"></i> 搜 索</button>
+    </div>
+    <div class="layui-form-item">
+        <span style="color:green">提示：白名单商户不会继续惩罚！</span>
+    </div>
+</form>
+
+<form onsubmit="return false;" data-auto="true" method="post">
+    <input type="hidden" value="resort" name="action"/>
+    <table class="layui-table" lay-skin="line" lay-size="sm">
+        <thead>
+            <tr>
+                <th class='text-center'>ID</th>
+                <th class='text-center'>商户账号</th>
+                <th class='text-center'>累计处罚费率金额</th>
+                <th class='text-center'>累计处罚订单数量</th>
+                <th class='text-center'>剩余待处罚数量</th>
+                <th class='text-center'>白名单</th>
+                <th class='text-center'>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {foreach $list as $v}
+            <tr>
+                <td class='text-center'>{$v.id}</td>
+                <td class='text-center'>{$v.user.username}</td>
+                <td class='text-center'>{$v.history_money}元</td>
+                <td class='text-center'>{$v.history_count}</td>
+                <td class='text-center'>{$v.order_count}</td>
+                <td class='text-center'>
+                    {switch name="$v.is_white"}
+                    {case value="0"}
+                    <font color="red">否</font>
+                    <a href="javascript:;" onclick="add_white(this, '{$v.id}')">加入</a>
+                    {/case}
+                    {case value="1"}
+                    <font color="green">已加入</font>
+                    <a href="javascript:;" onclick="del_white(this, '{$v.id}')">取消</a>
+                    {/case}
+                    {/switch}
+                </td>
+
+                <td class='text-center'>
+                    <a href="{:url('manage/user/login')}?user_id={$v.user_id}" target="_blank">登录</a>
+
+                    <a href="javascript:;" onclick="order_del(this, '{$v.id}')">清空待处罚数量</a>
+                    <a href="javascript:;" onclick="log_del(this, '{$v.id}')">删除记录</a>
+
+                </td>
+            </tr>
+            {/foreach}
+        </tbody>
+    </table>
+</form>
+{$page}
+
+<script>
+    layui.use('form', function () {
+        var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+        form.render();
+    });
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        //日期范围
+        laydate.render({
+            elem: '#date_range',
+            range: true
+        });
+    });
+
+    function add_white(obj, id) {
+        layer.confirm('确认要加入白名单？', function (index) {
+            $.ajax({
+                url: "{:url('punishLog')}",
+                type: 'post',
+                data: 'act=add_white&id=' + id,
+                success: function (res) {
+                    if (res.code == 1) {
+                        layer.msg("操作成功");
+                        setTimeout(function () {
+                            location.reload();
+                        }, 200);
+                    } else {
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+        });
+    }
+
+    function del_white(obj, id) {
+        layer.confirm('确认要取消白名单？', function (index) {
+            $.ajax({
+                url: "{:url('punishLog')}",
+                type: 'post',
+                data: 'act=del_white&id=' + id,
+                success: function (res) {
+                    if (res.code == 1) {
+                        layer.msg("操作成功");
+                        setTimeout(function () {
+                            location.reload();
+                        }, 200);
+                    } else {
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+        });
+    }
+
+    function order_del(obj, id) {
+        layer.confirm('确认要清空待处罚数量？', function (index) {
+            $.ajax({
+                url: "{:url('punishLog')}",
+                type: 'post',
+                data: 'act=order_del&id=' + id,
+                success: function (res) {
+                    if (res.code == 1) {
+                        layer.msg("操作成功");
+                        setTimeout(function () {
+                            location.reload();
+                        }, 200);
+                    } else {
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+        });
+    }
+
+    function log_del(obj, id) {
+        layer.confirm('确认要删除这个记录吗？该操作不可恢复', function (index) {
+            $.ajax({
+                url: "{:url('punishLog')}",
+                type: 'post',
+                data: 'act=log_del&id=' + id,
+                success: function (res) {
+                    if (res.code == 1) {
+                        layer.msg("操作成功");
+                        setTimeout(function () {
+                            location.reload();
+                        }, 200);
+                    } else {
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+        });
+    }
+
+</script>
+{/block}

@@ -1,0 +1,118 @@
+{extend name="lite_base" /}
+
+{block name="content"}
+<div class="card mb-0">
+
+    <div class="card-content">
+        <div class="card-body">
+            <div class="alert alert-success alert-dismissable">
+                提示：如果添加多个账号系统自动轮询
+            </div>
+            <div class="table-responsive">
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th class="text-center">账号备注</th>
+                            <th class="text-center">开启状态</th>
+                            <th class="text-center">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {foreach $accounts as $v}
+                        <tr>
+                            <td>{$v.id}</td>
+                            <td class="text-center">{$v.name}</td>
+
+                            <td class="text-center">
+                                <div class="custom-control custom-switch custom-switch-md mb-3" dir="ltr">
+                                    <input  onchange="change_status(this, '{$v.id}')" name="customSwitchsizemd{$v.id}" {if $v.status==1}checked{/if}  type="checkbox" class="custom-control-input" id="customSwitchsizemd{$v.id}">
+                                            <label class="custom-control-label" for="customSwitchsizemd{$v.id}"></label>
+                                </div>
+                            </td>
+
+                            <td class='text-center'>
+                                <div class="btn-group btn-group-sm " role="group" aria-label="Basic group">
+                                    <a href="{:url(\"customChannelAccountAdd\")}?account_id={$v.id}&channel_id={$v.channel_id}" class="btn btn-light waves-effect waves-light text-primary">编辑</a>
+                                    <button onclick="delAccount('{$v.id}')" class="btn btn-light waves-effect waves-light text-danger">删除</button>
+                                </div>
+                            </td>
+                        </tr>
+                        {/foreach}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+{/block}
+
+{block name="js"}
+<!-- BEGIN: Page JS-->
+
+<script>
+    function change_status(obj, account_id)
+    {
+        var status = $(obj).prop('checked');
+        if (status) {
+            status = 1;
+        } else {
+            status = 0;
+        }
+        $.post("{:url('customChannelAccountList')}", {
+            act: 'changestatus',
+            account_id: account_id,
+            status: status
+        }, function (res) {
+            if (res.code != 1) {
+                $.alert(res.msg);
+            }
+        });
+    }
+
+    function delAccount(account_id)
+    {
+        $.confirm({
+            title: '温馨提示？',
+            content: '确定删除吗！',
+            type: 'red',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: '确定',
+                    btnClass: 'btn-red',
+                    action: function () {
+                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                        $.ajax({
+                            url: "{:url('customChannelAccountList')}",
+                            data: {
+                                act: 'del',
+                                account_id: account_id,
+                            },
+                            type: 'post',
+                            dataType: 'json',
+                            success: function (res) {
+                                console.log(res);
+                                if (res.code == 1) {
+                                    // alert(res.msg);
+                                    location.reload();
+                                } else {
+                                    alert(res.msg);
+                                }
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+        return false;
+    }
+</script>
+
+<!-- END: Page JS-->
+{/block}

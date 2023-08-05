@@ -1,0 +1,81 @@
+{extend name="lite_base"}
+
+{block name="content"}
+<div class="container my-3">
+    <!-- Timeline Content-->
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex justify-content-between">
+                <div class="mb-2">
+                    {if $category.link_status==1}
+                    <span class="badge mb-2 rounded-pill bg-success">已开启</span>
+                    {else/}
+                    <span class="badge mb-2 rounded-pill bg-danger">已关闭</span>
+                    {/if}
+                </div>
+                <div class="mb-2">
+                    <i class="bx bx-link-alt"></i>
+                </div>
+            </div>
+            {if sysconf('site_domain_short')!=""}
+            <p class="mb-2">短链接: <a href="{$category.short_link}"  target="_blank">{$category.short_link}</a> <button onclick="reset_link('liebiao', '{$category.id}', 0)" class="btn btn-primary  btn-sm waves-effect waves-light">单独重置</button></p>
+            {/if}
+            <p class="mb-2">分类购买地址: <a href="{$category.link}"  target="_blank">{$category.link}</a></p>
+            <p class="mb-2">二维码地址（长按可保存）：<img src="{:generate_qrcode_link($category.link,10,150)}" alt=""></p>
+            <div>
+                <button onclick="reset_link('liebiao', '{$category.id}', 1)" class="btn btn-warning  btn-sm waves-effect waves-light">链接重置</button>
+                {if $category.link_status==1}
+                <button onclick="close_link('liebiao', '{$category.id}', 0)" class="btn btn-danger btn-sm waves-effect waves-light">关闭链接</button>
+                {else/}
+                <button onclick="close_link('liebiao', '{$category.id}', 1)"  class="btn btn-success btn-sm waves-effect waves-light">开启链接</button>
+                {/if}
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{/block}
+
+{block name="js"}
+<script>
+    function close_link(type, cate_id, status)
+    {
+        var loading = layer.load(1, {shade: [0.1, '#fff']});
+        $.post(
+                "{:url('user/closelink')}", {type: type, cate_id: cate_id, status: status},
+                function (data) {
+                    if (data.code == 1) {
+                        layer.msg(data.msg, {time: 1000, icon: 6}, function () {
+                            location.reload();
+                        });
+                    } else {
+                        layer.msg(data.msg, {time: 1000, icon: 5});
+                    }
+                }, "json");
+    }
+
+    function reset_link(type, cate_id, target) {
+
+        layer.confirm('确定要重置链接吗，重置链接后，之前的链接将不能访问！', {
+            btn: ['确定', '取消']
+        }, function () {
+            var loading = layer.load(1, {shade: [0.1, '#fff']});
+            $.post(
+                    "{:url('user/relink')}", {type: type, cate_id: cate_id, target: target},
+                    function (data) {
+                        if (data.code == 1) {
+                            layer.msg(data.msg, {time: 1000, icon: 6}, function () {
+                                location.reload();
+                            });
+                        } else {
+                            layer.msg(data.msg, {time: 1000, icon: 5});
+                        }
+                    }, "json");
+        });
+
+
+    }
+</script>
+
+{/block}

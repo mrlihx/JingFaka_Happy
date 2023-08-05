@@ -1,0 +1,523 @@
+{extend name="base"}
+
+{block name="css"}
+
+{/block}
+{block name="content"}
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row mb-2">
+
+                            <div class="col-sm-auto">
+                                <a href="{:url('goods_card/add')}" class="pull-right btn btn-primary waves-effect waves-light"><i class="bx bx-plus mr-1"></i>添加虚拟卡</a>
+                            </div>
+                            <div class="col-sm-auto">
+
+                                <form class="form-inline" role="form" action="" method="get">
+                                    <div class="form-group">
+                                        <select name="cate_id" class="form-control select2">
+                                            <option value="" {if $Think.get.cate_id=='' }selected{/if}>全部分类 </option>
+                                            {foreach $categorys as $v}
+                                            <option value="{$v.id}" {if $Think.get.cate_id==$v.id}selected{/if}>{$v.name}</option>
+                                            {/foreach}
+                                        </select> 
+                                    </div>
+
+                                    <div class="form-group ml-1">
+                                        <select name="goods_id" class="form-control select2">
+                                            <option value="" {if $Think.get.goods_id=='' }selected{/if}>全部商品 </option>  
+                                            {foreach $goodsList as $v}
+                                            <option value="{$v.id}" {if $Think.get.goods_id==$v.id}selected{/if}>{$v.name}</option> 
+                                            {/foreach} 
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group ml-1">
+                                        <select name="status" class="form-control select2">
+                                            <option value="" {if $Think.get.status=='' }selected{/if}>全部状态</option>
+                                            <option value="1" {if $Think.get.status=='1' }selected{/if}>未售出</option> 
+                                            <option value="2" {if $Think.get.status=='2' }selected{/if}>已售出</option> 
+                                        </select>
+                                    </div>
+                                    <div class="form-group ml-1">
+                                        <input name="keywords" class="form-control" placeholder="卡密关键词" value="{$Think.get.keywords}" />
+                                    </div>
+                                    {if $Think.get.status==2}
+                                    <div class="form-group ml-1">
+                                        <input name="trade_no" class="form-control" placeholder="请输入订单号" value="{$Think.get.trade_no}" />
+                                    </div>
+                                    <div class="form-group ml-1">
+                                        <input name="contact" class="form-control" placeholder="请输入联系方式" value="{$Think.get.contact}" />
+                                    </div>
+                                    {/if}
+                                    <button type="submit" class="btn btn-light waves-effect waves-light ml-1"><i class="bx bx-search mr-1"></i>搜索</button>
+                                </form>
+                            </div>
+                            <div class="col-sm-auto">
+                                <a href="javascript:;" data-toggle="modal" data-target="#exportCard" class="pull-right btn btn-info waves-effect waves-light"><i class="bx bx-export mr-1"></i>导出卡密</a>
+                                <a href="javascript:batch_del();" class="pull-right btn btn-danger"><i class="bx bx-trash mr-1"></i>批量删除</a>
+                            </div>
+
+                        </div>
+
+
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th> 
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="select_all">
+                                                <label class="custom-control-label" for="select_all"></label>
+                                            </div>
+                                        </th>
+                                        <th>商品分类</th>
+                                        <th>商品名称</th>
+                                        <th>商品价格</th>
+                                        <th>卡号</th>
+                                        <th>卡密</th>
+                                        <th>状态</th>
+                                        <th>创建时间</th>
+                                        {if $Think.get.status==2} 
+                                        <th>售出时间</th>
+                                        <th>取卡密码</th>
+                                        <th>联系方式</th>
+                                        {/if}
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {foreach $cards as $k=> $v}
+                                    <tr>
+                                        <td>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input select-checkbox" id="checkbox{$k}"  value="{$v.id}">
+                                                <label class="custom-control-label" for="checkbox{$k}"></label>
+                                            </div>
+                                        </td>
+
+                                        <td>{$v.goods.category.name}</td>
+                                        <td>
+                                            {if $v.is_first==1}
+                                            <span class="badge badge-pill badge-soft-success font-size-12">优先销售</span>
+                                            {/if}
+                                            {$v.goods.name}
+                                        </td>
+                                        <td>{$v.goods.price}</td>
+                                        <td>{$v.number}</td>
+                                        <td>{$v.secret}</td>
+                                        <td>
+                                            {if $v.status==2}
+                                            <span class="badge badge-pill badge-soft-success font-size-12">已售出</span>
+                                            {else/}
+                                            <span class="badge badge-pill badge-soft-warning font-size-12">未售出</span>
+                                            {/if}
+                                            {if $v.is_cross==1}
+                                            <span class="badge badge-pill badge-soft-success font-size-12">跨站</span>
+                                            {/if}
+                                        </td>
+                                        <td>{$v.create_at|date="Y-m-d H:i:s",###}</td>
+
+                                        {if $Think.get.status==2}
+                                        <!-- <?php $orderCard = \think\Db::name('order_card')->where(['card_id' => $v['id']])->find(); ?> -->
+                                        <!-- <?php $order = \think\Db::name('order')->where(['id' => $orderCard['order_id']])->find(); ?> -->
+                                        <td>
+                                            {if $v.status==2} 
+                                            {if $v.sell_time}
+                                            {$v.sell_time|date="Y-m-d H:i:s",###}
+                                            {else/} 
+                                            -
+                                            {/if}
+                                            {else/} 
+                                            未售出
+                                            {/if}
+                                        </td>
+                                        <td>
+                                            {if $v.status==2} 
+                                            {$order['take_card_password']}
+                                            {else/}
+                                            未售出
+                                            {/if} 
+                                        </td>
+                                        <td>
+                                            {if $v.status==2}
+                                            {$order['contact']}
+                                            {else/}
+                                            未售出
+                                            {/if} 
+                                        </td>
+                                        {/if} 
+                                        <td>
+
+                                            <div class="btn-group btn-group-sm " role="group" aria-label="Basic group">
+                                                <a onclick="$.x_show('查看卡密', '{:url(\"goods_card/show\",[\"id\"=>$v.id])}', 450)" href="javascript:void(0);"  class="btn btn-light waves-effect waves-light text-primary">查看</a>
+                                                {if $v.status==1}
+                                                <a class="btn btn-light waves-effect waves-light text-danger" href="javascript:void(0);" onclick="del(this, '{$v.id}')">删除</a>
+                                                {/if}
+                                                {if $v.is_first==1}
+                                                <a onclick="first(this, '{$v.id}', 0)" href="javascript:void(0);" class="btn btn-light waves-effect waves-light text-warning">取消优先</a>
+                                                {else/}
+                                                <a onclick="first(this, '{$v.id}', 1)" href="javascript:void(0);" class="btn btn-light waves-effect waves-light text-success">优先销售</a>
+                                                {/if}
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                    {/foreach}
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <nav aria-label="...">
+                            {$page}
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- container-fluid -->
+</div>
+<div class="modal fade" id="exportCard" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" >导出卡密</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form id="export_form" class="form-horizontal" method="POST" action="{:url('goods/dumpCards')}" target="_blank">
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <label class="control-label">指定分类</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <select class="form-control goods_category">
+                                <option value="">请选择商品分类</option>
+                                {foreach $categorys as $v}
+                                <option value="{$v.id}">{$v.name}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <label class="control-label">指定商品</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <select name="goods_id" class="form-control get_goods">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <label class="control-label">卡密状态</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="radio-inline">
+                                <input type="radio" name="status" value="1" {if $Think.get.status=='1'||$Think.get.status=='' }checked{/if}> 未售出 </label> <label class="radio-inline">
+                                <input type="radio" name="status" value="2" {if $Think.get.status=='2' }checked{/if}> 已售出 </label> </div> </div>
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <label class="control-label">导出范围</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="radio-inline">
+                                <input type="radio" name="range" value="0" checked> 全部库存的卡密
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="range" value="1"> 导出指定的数量
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group" id="exportNUm" style="display:none">
+                        <div class="col-sm-2">
+                            <label class="control-label">导出数量</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <input name="number" type="number" class="form-control" placeholder="请输入正整数">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <label class="control-label">是否删除</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="radio-inline">
+                                <input type="radio" name="del" value="0" checked> 仅导出不做删除
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="del" value="1"> 导出并删除卡密
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <label class="control-label">商品名称</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="radio-inline">
+                                <input type="radio" name="need_goods_name" value="1" checked> 导出商品名
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="need_goods_name" value="0"> 不需要商品名
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <label class="control-label">导出格式</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="radio-inline">
+                                <input type="radio" name="file_type" value="0" checked> EXCEL
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="file_type" value="1"> TXT
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" id="export">确定</button>
+                <button type="button" class="btn btn-light" data-dismiss="modal">关闭</button>
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+{/block}
+{block name="js"}
+<script>
+
+    $('#select_all').click(function () {
+        if ($(this).is(':checked')) {
+            $('tbody').find('.select-checkbox').each(function () {
+                $(this).prop("checked", true)
+            })
+        } else {
+            $('tbody').find('.select-checkbox').each(function () {
+                $(this).prop("checked", false)
+            })
+        }
+    });
+    function del(obj, id) {
+        $.confirm({
+            title: '确定删除吗？',
+            content: '你可以在回收站恢复该操作',
+            type: 'red',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: '确定',
+                    btnClass: 'btn-red',
+                    action: function () {
+                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                        $.post("{:url('goods_card/del')}", {
+                            id: id
+                        }, function (res) {
+                            if (res.code != 1) {
+                                $.alert('删除失败');
+                            } else {
+                                $.alert('删除成功');
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 200);
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+
+    }
+
+    function first(obj, id, status) {
+        var loading = layer.load(1, {shade: [0.1, '#fff']});
+        $.post("{:url('goods_card/first')}", {
+            id: id,
+            status: status
+        }, function (res) {
+            if (res.code != 1) {
+                $.alert('失败');
+            } else {
+                $.alert('设置成功');
+                setTimeout(function () {
+                    location.reload();
+                }, 200);
+            }
+        });
+    }
+
+    function batch_del() {
+        var ids = new Array();
+        $('tbody').find('input[type="checkbox"]').each(function () {
+            if ($(this).is(':checked')) {
+                ids.push($(this).val());
+            }
+        })
+        if (ids.length == 0) {
+            $.alert('选择要删除的数据');
+            return false;
+        }
+
+
+        $.confirm({
+            title: '确定要批量删除吗？',
+            content: '删除的商品将进入回收站！',
+            type: 'red',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: '确定',
+                    btnClass: 'btn-red',
+                    action: function () {
+                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                        $.post("{:url('goods_card/batch_del')}", {
+                            ids: ids
+                        }, function (res) {
+                            if (res.code != 1) {
+                                $.alert('删除失败');
+                            } else {
+                                $.alert('删除成功');
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 200);
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+
+    }
+    $(document).ready(function () {
+        $("input[name='range']").change(function () {
+            var selectedvalue = $("input[name='range']:checked").val();
+            if (selectedvalue == 1) {
+                $('#exportNUm').show();
+            } else {
+                $('#exportNUm').hide();
+            }
+        });
+
+        var $sel1 = $(".goods_category");
+        var $sel2 = $(".get_goods");
+        var option = "<option value='0'>选择商品</option>";
+
+        function createOption(value, text) {
+            var $option = $("<option></option>");
+            $option.attr("value", value);
+            $option.text(text);
+            return $option;
+        }
+
+        function ajaxSelect($select, id) {
+            if (id == "0") {
+                $sel2.html(option);
+                return;
+            }
+            var index = '';
+            $.ajax({
+                type: "GET",
+                url: "{:url('goods_card/ajax_get_category_goods')}",
+                data: {
+                    "cid": id
+                },
+                dataType: "json",
+                beforeSend: function () {
+                    index = layer.load(1, {
+                        shade: [0.1, '#fff']
+                    });
+                },
+                success: function (data) {
+                    layer.close(index);
+                    $select.html(option);
+                    for (var k in data) {
+                        $select.append(createOption(data[k].id, data[k].name));
+                    }
+                },
+                complete: function () {
+                    layer.close(index);
+                },
+                error: function () {
+                    layer.close(index);
+                }
+            });
+        }
+        ajaxSelect($sel2, "0");
+        $sel1.change(function () {
+            var id = $sel1.val();
+            if (id == "0") {
+                $sel2.html(option);
+            } else {
+                ajaxSelect($sel2, id);
+            }
+        });
+
+        $('#export').click(function () {
+            var category = $('.goods_category').val();
+            if (!category) {
+                $.alert("请选择商品分类");
+                return false;
+            }
+            var goods = $('.get_goods').val();
+            if (!goods) {
+                $.alert("请选择商品");
+                return false;
+            }
+            var range = $("input[name='range']");
+            var number = $("input[name='number']");
+            if (range == 1 && !number) {
+                $.alert("请输入导出数量");
+                return false;
+            }
+            $('#export_form').submit();
+        });
+    });
+
+    function dump() {
+        setTimeout(function () {
+            location.reload();
+        }, 1000);
+
+        return true;
+    }
+</script>
+{/block}

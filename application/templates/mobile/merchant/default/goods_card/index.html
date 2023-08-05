@@ -1,0 +1,272 @@
+{extend name="simple_base"}
+
+{block name="content"}
+
+<div class="container">
+    <div class="card">
+        <div class="card-body p-3">
+            <!-- Search Form Wrapper-->
+            <div class="search-form-wrapper mb-3">
+
+                <div class="row">
+
+                    <div class="col-10">
+                        <a href="{:url('goods_card/add')}" class="btn btn-primary w-100 d-flex align-items-center justify-content-center">
+                            <i class="bx bx-plus me-1"></i>添加库存
+                        </a>
+                    </div>
+                    <div class="col-2">
+                        <a href="{:url('goods_card/trash')}" class="btn btn-outline-primary w-100 d-flex align-items-center justify-content-center">
+                            <i class="bx bx-trash-alt fs-5"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <form class="mt-2" action="" method="get">
+
+                    <div class="input-group mb-2  input-group-sm">
+                        <span class="input-group-text input-group-sm">商品分类</span>
+                        <select name="cate_id" class="form-select  form-select-sm">
+                            <option value="" {if $Think.get.cate_id==''}selected{/if}>全部分类</option>
+                            {foreach $categorys as $v}
+                            <option value="{$v.id|htmlentities}" {if $Think.get.cate_id==$v.id}selected{/if}>{$v.name}</option>
+                            {/foreach}
+                        </select>
+                    </div>
+
+                    <div class="input-group mb-2  input-group-sm">
+                        <span class="input-group-text input-group-sm">商品类型</span>
+                        <select name="goods_id" class="form-select form-select-sm">
+                            <option value="" {if $Think.get.goods_id==''}selected{/if}>全部商品</option>
+                            {foreach $goodsList as $v}
+                            <option value="{$v.id}" {if $Think.get.goods_id==$v.id}selected{/if}>{$v.name}</option>
+                            {/foreach}
+                        </select>
+                    </div>
+
+                    <div class="input-group mb-2  input-group-sm">
+                        <span class="input-group-text input-group-sm">售出状态</span>
+                        <select name="status" class="form-select form-select-sm">
+                            <option value="" {if $Think.get.status==''}selected{/if}>全部状态</option>
+                            <option value="1" {if $Think.get.status=='1'}selected{/if}>未售出</option>
+                            <option value="2" {if $Think.get.status=='2'}selected{/if}>已售出</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group mb-2  input-group-sm">
+                        <span class="input-group-text input-group-sm" id="basic-addon1">卡密关键词</span>
+                        <input type="text" class="form-control form-control-sm" name="keywords" value="" maxlength="30" placeholder="卡密关键词">
+                    </div>
+
+                    <button class="btn btn-primary w-100 d-flex align-items-center justify-content-center" type="submit">
+                        <i class="bx bx-search me-2"></i>查询
+                    </button>
+
+                    <div class='mt-4 mb-1 d-flex align-items-center'>
+                        <input class="form-check-input me-2" type="checkbox" id="select_all">
+                        <button onclick="batch_del()" class="btn btn-outline-danger btn-sm d-flex align-items-center justify-content-center batch_del d-none" type="button">
+                            <i class="bx bx-trash-alt"></i>
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+            {foreach $cards as $k=> $v}
+
+            <div class="single-search-result mb-3 border-bottom pb-3 order-wrap">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <input class="form-check-input select-checkbox me-1" type="checkbox" value='{$v.id}' id="checkbox{$k}"><h6 class="mb-0 float-left d-inline justify-content-start">
+                            {if $v.is_first==1}
+                            <span class="badge rounded-pill bg-success">优先</span>
+                            {/if}
+                            {$v.goods.name}
+                        </h6>
+                    </div>
+                    <div class="float-end">
+                        {if $v.status==2}
+                        <span class="badge rounded-pill bg-success">已售出</span>
+                        {else/}
+                        <span class="badge rounded-pill bg-light">未售出</span>
+                        {/if}
+                        {if $v.is_cross==1}
+                        <span class="badge rounded-pill bg-success">跨站</span>
+                        {/if}
+                    </div>
+
+                </div>
+                <div class="d-flex align-items-center mt-1 justify-content-between">
+                    <div class="order-wrap-text">
+                        <span>添加时间：</span>
+                        <span>{$v.create_at|date="Y-m-d H:i:s",###}</span>
+                    </div>
+                    <div class="order-wrap-text">
+                        <span>商品价格：</span>
+                        <span>
+                            {$v.goods.price}元
+                        </span>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center mt-1 justify-content-between">
+                    <div class="order-wrap-text">
+                        <span>卡号：</span>
+                        <span>{$v.number}</span>
+                    </div>
+                    <div class="order-wrap-text">
+                        <span>卡密：</span>
+                        <span>
+                            {$v.secret|default="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="goods-warp d-flex align-items-center mt-1 justify-content-end">
+                    <a class="me-1" href="javascript:void(0);" onclick="$.x_show('查看卡密', '{:url(\"goods_card/show\",[\"id\"=>$v.id])}', '90%')"><span class="goods-warp-btn" >查看</span></a>
+                    <a href="javascript:void(0);" onclick="del(this, '{$v.id}')"><span class="goods-warp-btn goods-warp-btn-delete" >删除</span></a>
+
+                    {if $v.is_first==1}
+                    <a class="me-1" href="javascript:void(0);" onclick="first(this, '{$v.id}', 0)"><span class="goods-warp-btn" >取消优先</span></a>
+                    {else/}
+                    <a class="me-1" href="javascript:void(0);" onclick="first(this, '{$v.id}', 1)"><span class="goods-warp-btn" >优先销售</span></a>
+                    {/if}
+                </div>
+            </div>
+
+            {/foreach}
+
+            <nav aria-label="Page navigation">
+                {$page}
+            </nav>
+        </div>
+    </div>
+</div>
+
+{/block}
+{block name="js"}
+
+<script>
+
+    $('#select_all').click(function () {
+        $(".batch_del").addClass("d-none");
+        if ($(this).is(':checked')) {
+            $('.single-search-result').find('.select-checkbox').each(function () {
+                $(this).prop("checked", true);
+                $(".batch_del").removeClass("d-none");
+            })
+        } else {
+            $('.single-search-result').find('.select-checkbox').each(function () {
+                $(this).prop("checked", false)
+            })
+        }
+    });
+
+    $('.select-checkbox').click(function () {
+        $(".batch_del").addClass("d-none");
+        $('.single-search-result').find('.select-checkbox').each(function () {
+            if ($(this).is(':checked')) {
+                $(".batch_del").removeClass("d-none");
+            }
+        })
+    });
+
+    function del(obj, id) {
+        $.confirm({
+            title: '确定删除吗？',
+            content: '你可以在回收站恢复该操作',
+            type: 'red',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: '确定',
+                    btnClass: 'btn-red',
+                    action: function () {
+                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                        $.post("{:url('goods_card/del')}", {
+                            id: id
+                        }, function (res) {
+                            if (res.code != 1) {
+                                $.alert('删除失败');
+                            } else {
+                                $.alert('删除成功');
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 200);
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+
+    }
+
+    function first(obj, id, status) {
+        var loading = layer.load(1, {shade: [0.1, '#fff']});
+        $.post("{:url('goods_card/first')}", {
+            id: id,
+            status: status
+        }, function (res) {
+            if (res.code != 1) {
+                $.alert('失败');
+            } else {
+                $.alert('设置成功');
+                setTimeout(function () {
+                    location.reload();
+                }, 200);
+            }
+        });
+    }
+
+    function batch_del() {
+        var ids = new Array();
+        $('.single-search-result').find('input[type="checkbox"]').each(function () {
+            if ($(this).is(':checked')) {
+                ids.push($(this).val());
+            }
+        })
+        if (ids.length == 0) {
+            $.alert('选择要删除的数据');
+            return false;
+        }
+
+
+        $.confirm({
+            title: '确定要批量删除吗？',
+            content: '删除的商品将进入回收站！',
+            type: 'red',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: '确定',
+                    btnClass: 'btn-red',
+                    action: function () {
+                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                        $.post("{:url('goods_card/batch_del')}", {
+                            ids: ids
+                        }, function (res) {
+                            if (res.code != 1) {
+                                $.alert('删除失败');
+                            } else {
+                                $.alert('删除成功');
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 200);
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+
+    }
+</script>
+{/block}
+
+

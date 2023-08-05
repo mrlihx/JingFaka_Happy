@@ -1,0 +1,151 @@
+{extend name="base"}
+
+{block name="css"}
+
+{/block}
+{block name="content"}
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row mb-2">
+                            <div class="col-sm-auto d-flex align-items-center">
+                                未处理投诉数：<span class="text-danger font-weight-bold">{$count}</span>
+                            </div>
+                            <div class="col-sm-auto">
+
+                                <form class="form-inline" role="form" action="" method="get">
+                                    <div class="form-group">
+                                        <select name="status" class="form-control select2">
+                                            <option value="" {if $Think.get.status==''}selected{/if}>全部状态</option>
+                                            <option value="1" {if $Think.get.status=='1'}selected{/if}>已处理</option>
+                                            <option value="2" {if $Think.get.status=='2'}selected{/if}>未处理</option>
+                                            <option value="-1" {if $Think.get.status=='-1'}selected{/if}>已撤销</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group ml-1">
+                                        <select name="type" class="form-control select2">
+                                            <option value="">全部类型</option>
+                                            <option value="无效卡密" {if $Think.get.type=='无效卡密'}selected{/if}>无效卡密</option>
+                                            <option value="虚假商品" {if $Think.get.type=='虚假商品'}selected{/if}>虚假商品</option>
+                                            <option value="非法商品" {if $Think.get.type=='非法商品'}selected{/if}>非法商品</option>
+                                            <option value="侵权商品" {if $Think.get.type=='侵权商品'}selected{/if}>侵权商品</option>
+                                            <option value="不能购买" {if $Think.get.type=='不能购买'}selected{/if}>不能购买</option>
+                                            <option value="恐怖色情" {if $Think.get.type=='恐怖色情'}selected{/if}>恐怖色情</option>
+                                            <option value="其他投诉" {if $Think.get.type=='其他投诉'}selected{/if}>其他投诉</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-light waves-effect waves-light ml-1"><i class="bx bx-search mr-1"></i>搜索</button>
+                                </form>
+                            </div>
+
+                        </div>
+
+
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>投诉订单</th>
+                                        <th>商品</th>
+                                        {if $Think.get.from!='2'}<td>货源</td>{/if}
+                                        
+                                        <th>投诉类型</th>
+                                        <th>投诉说明</th>
+                                        <th>QQ</th>
+                                        <th>手机</th>
+                                        <th>投诉处理状态</th>
+                                        <th>投诉时间</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {foreach $complaints as $v}
+                                    <tr>
+                                        <td>
+                                            {if $v.proxy_parent_user_id==$_user.id}
+                                            <a href="{:url('agent/proxyorder',['type'=>0,'keywords'=>$v.trade_no])}">{$v.trade_no}</a>
+                                            {elseif $v.user_id==$_user.id/}
+                                            <a href="{:url('order/index',['type'=>0,'keywords'=>$v.trade_no])}">{$v.trade_no}</a>
+                                            {/if}
+                                        </td>
+                                        <td>
+                                            {if $v.proxy_parent_user_id==$_user.id}
+                                            {$v.order.proxy.name}
+                                            {elseif $v.user_id==$_user.id/}
+                                            {$v.order.goods_name}
+                                            {/if}
+                                        </td>
+                                        
+                                        {if $Think.get.from!='2'}
+                                           <td>
+                                               {if $v.proxy_parent_user_id==0}-{else/}{$v.parentUser.shop_name}&nbsp;<a href="//wpa.qq.com/msgrd?v=3&uin={$v.parentUser.qq}&Site=" target="_blank"><i class="iconfont icon-qq-white"></i>客服</a>{/if}
+                                        </td>
+                                        {/if}
+                                     
+
+                                        <td>{$v.type}</td>
+                                        <td>{$v.desc}</td>
+                                        <td>{$v.qq}</td>
+                                        <td>{$v.mobile}</td>
+                                        <td>
+                                            {if $v.status==0}
+                                            <span class="badge badge-pill badge-warning">处理中</span>
+                                            {if $v.new==1}<span class="badge badge-pill badge-danger">新</span>
+                                            {/if}
+                                            {elseif $v.status==1}
+                                            <span class="badge badge-pill badge-success">已处理</span>
+                                            {elseif $v.status == -1}
+                                            <span class="badge badge-pill badge-success">已撤销</span>
+                                            {/if}
+                                        </td>
+                                        <td>{$v.create_at|date="Y-m-d H:i:s",###}</td>
+                                        <td>
+                                            <div class="btn-group btn-group-sm " role="group" aria-label="Basic group">
+                                                <button  onclick="$.x_show('沟通处理', '{:url(\'complaint/detail\',[\'id\'=>$v.id])}', '600')"  class="btn btn-light waves-effect waves-light text-primary"><i class="bx bx-message-alt-dots align-middle mr-1"></i>沟通处理</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {/foreach}
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <nav aria-label="...">
+                            {$page}
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- container-fluid -->
+</div>
+
+{/block}
+{block name="js"}
+
+{/block}

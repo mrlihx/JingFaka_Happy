@@ -1,0 +1,108 @@
+{extend name='./content'}
+
+{block name="content"}
+
+
+
+<table class="layui-table" lay-skin="line" lay-size="sm">
+    <thead>
+        <tr>
+            <th class='text-center'>ID</th>
+            <th class='text-center'>订单号</th>
+            <th class='text-center'>订单标题</th>
+            <th class='text-center'>金额</th>
+            <th class='text-center'>用户名</th>
+            <th class='text-center'>创建时间</th>
+            <th class='text-center'>支付状态</th>
+            <th class='text-center'>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        {foreach $list as $v}
+        <tr>
+            <td class='text-center'>{$v.id}</td>
+            <td class='text-center'>{$v.trade_no}</td>
+            <td class='text-center'>{$v.goods_name}</td>
+            <td class='text-center'>{$v.total_price}</td>
+            <td class='text-center'><a data-open="{:url('manage/user/index')}?field=1&keyword={$v.user_id}"  href="javascript:void(0)">{$v.user.username}</a></td>
+
+            <td class='text-center'>{$v.create_at|date="Y-m-d H:i:s",###}</td>
+            <td class='text-center'>
+                {switch name="$v.status"}
+                {case value="0"}<font color="red">未支付</font>{/case}
+                {case value="1"}<font color="green">已支付</font>{/case}
+                {case value="2"}<font color="#999">已关闭</font>{/case}
+                {case value="3"}<font color="#999">已退款</font>{/case}
+                {/switch}
+            </td>
+
+            <td class='text-center'>
+                {switch name="$v.status"}
+                {case value="0"}<a href="javascript:;" class="text-s" onclick="agree(this, '{$v.id}')">补单</a>{/case}
+                {/switch}
+                <a href="javascript:;" onclick="del(this, '{$v.id}')">删除</a>
+            </td>
+        </tr>
+        {/foreach}
+    </tbody>
+</table>
+{$page}
+
+<script>
+    layui.use('form', function () {
+        var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+        form.render();
+    });
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        //日期范围
+        laydate.render({
+            elem: '#date_range',
+            range: true
+        });
+    });
+
+    function agree(obj, id)
+    {
+        layer.confirm('确认要标记为已支付吗？', function (index) {
+            $.ajax({
+                url: "{:url('custompayOrder')}",
+                type: 'post',
+                data: 'act=agree&id=' + id,
+                success: function (res) {
+                    if (res.code == 1) {
+                        layer.msg("操作成功");
+                        setTimeout(function () {
+                            location.reload();
+                        }, 200);
+                    } else {
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+        });
+    }
+
+
+    function del(obj, id) {
+        layer.confirm('确认要删除此项吗？', function (index) {
+            $.ajax({
+                url: "{:url('custompayOrder')}",
+                type: 'post',
+                data: 'act=del&id=' + id,
+                success: function (res) {
+                    if (res.code == 1) {
+                        layer.msg("操作成功");
+                        setTimeout(function () {
+                            location.reload();
+                        }, 200);
+                    } else {
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+        });
+    }
+
+</script>
+{/block}

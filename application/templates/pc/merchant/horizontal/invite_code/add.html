@@ -1,0 +1,73 @@
+{extend name="base"}
+{block name="css"}
+<link href="__RES__/merchant/default/libs/fileuploads/css/dropify.min.css" rel="stylesheet" type="text/css" />
+{/block}
+{block name="content"}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data" onsubmit="return beforeSubmit()">
+
+
+                            <div class="form-group row">
+                                <label for="num" class="col-md-2 col-form-label">生成数量</label>
+                                <div class="col-md-4">
+                                    <input type="number" id="num" name="num" class="form-control" value="" >
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="day" class="col-md-2 col-form-label">有效期（天）</label>
+                                <div class="col-md-4">
+                                    <input type="number" id="day" name="day" class="form-control" value="">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-2 col-form-label"></label>
+                                <div class="col-md-4 text-center">
+                                    <button type="submit" class="btn btn-primary waves-effect waves-light">提交</button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+
+
+{/block}
+{block name="js"}
+
+
+{/block}

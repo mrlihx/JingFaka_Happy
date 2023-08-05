@@ -1,0 +1,178 @@
+html,body{
+	font: 14px Microsoft YaHei,sans-serif,arial,tahoma;
+}
+input[type="text"],
+input[type="submit"],
+input[type="button"]{
+	font: 14px Microsoft YaHei,sans-serif,arial,tahoma;
+}
+body{
+	background:url(../imgs/bg.jpg) no-repeat top center #000; background-size:cover ;
+}
+
+a:hover{
+	text-decoration: none;
+}
+.wrapper{
+	width: 1200px; margin: 0 auto;
+}
+
+
+/*choose*/
+.choose-wrap{
+	height: auto; overflow: hidden; margin-top: 120px;
+}
+.choose{
+	font-size: 18px; color: #2e3346;position: relative;
+	height: 720px; width: 730px; float: left;
+	padding: 55px 0 0 90px;
+	background: rgba(255,255,255,0.9);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#c8ffffff,endColorstr=#c8ffffff);
+}
+
+
+
+.choose-title,
+.paytype-head{
+	font-size: 40px; line-height: 1;
+}
+.choose-tip{
+	margin: 40px 0 20px; width: 553px; line-height: 45px; border: 1px solid #fb6468; padding: 0 25px;color: #fb6468;
+}
+.choose-form{
+	min-height: 405px;
+}
+.choose-item{
+	padding: 5px 0; min-height: 50px;
+}
+.choose-left{
+	float: left; display: inline; width: 120px; line-height: 50px;
+}
+.choose-rigt{
+	float: left; display: inline; width: 485px;position: relative;
+}
+.choose-item-txt{
+	line-height: 50px;
+}
+.choose-item input[type="text"]{
+	width: 453px; border: 1px solid #919396; height: 48px; background: none;font-size: 18px; color: #2e3346; line-height: 48px; padding: 0 15px;
+}
+.choose-item input[type="text"]:focus{
+	border-color: #fb6468;
+}
+.choose-item-t{
+	height: 48px;line-height: 48px; padding: 0 15px; border: 1px solid #919396; display: inline-block; font-size: 18px;color: #a5a5a5; margin-right: 5px; cursor: pointer;
+}
+.choose-item-msg{
+	position: absolute; right: 0; top: 0; line-height: 50px; font-size: 18px; display: inline-block; padding: 0 25px;
+}
+.choose-item-t:hover,
+.choose-item-t.on{
+	border-color: #fb6468;color: #fb6468;
+}
+.choose-pay{
+	margin-top: 10px; font-size: 36px;
+}
+.f-fb6468{
+	color: #fb6468;
+}
+
+.choose-info{
+	float: right;
+	width: 305px; height: 715px;
+	padding: 30px 25px 30px 40px;
+	background: rgba(255,255,255,0.9);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#c8ffffff,endColorstr=#c8ffffff);
+	font-size: 18px; color: #6d6d6d;
+}
+.choose-info-item{
+	margin-bottom: 35px;
+}
+.choose-info-tit{
+	font-size: 24px; color: #fff; 
+}
+.choose-info-tit span{
+	background: #000; display: inline-block; padding: 0 10px; height: 37px; line-height: 37px;
+}
+.choose-info-desc{
+	padding-top: 20px; line-height: 1.5;
+}
+.choose-info-desc1{
+	line-height: 1.6;
+}
+.choose-qr{
+	font-size: 21px; color: #6c6c6c; padding-top: 15px;
+}
+.choose-qr-img{
+	padding-bottom: 3px;
+}
+
+
+/*paytype*/
+.paytype{
+	 height: auto;
+	 background: rgba(255,255,255,0.9);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#c8ffffff,endColorstr=#c8ffffff);
+	margin-top: 48px;
+	padding: 60px 105px 60px 95px;
+}
+
+.paytype-head{
+	padding-bottom: 60px;
+}
+
+.paytype-tab{
+	height: 70px; line-height: 70px; font-size: 26px; text-align: center;color: #484848; border: 1px solid #252a2e;
+}
+.paytype-tab-t{
+	float: left; display: inline;width: 250px; cursor: pointer;
+}
+.paytype-tab-t.on{
+	background: #ec7b78; color: #fff;
+}
+.paytype-tab-qr{
+	float: left; display: inline; 
+}
+.ico-qr{
+	background: url(../imgs/ico1.png) no-repeat left bottom; width: 33px; height: 33px; display: inline-block; margin-right: 14px;vertical-align: middle;
+}
+.ico-bk{
+	background: url(../imgs/ico2.png) no-repeat left bottom; width: 44px; height: 28px; display: inline-block; margin-right: 14px;vertical-align: middle;
+}
+.paytype-tab-t.on i{
+	background-position: left top;
+}
+.paytype-body{
+	padding: 35px 0 20px; height: auto; overflow: hidden;  margin-right: -40px; 
+
+}
+.paytype-item{
+	width: 302px; height: 92px; border: 1px solid #fff;margin-right: 40px; float: left;  margin-bottom: 28px; cursor: pointer;position: relative; vertical-align: middle;  text-align: center;line-height: 92px;
+	background-color: #fff;
+}
+
+.paytype-item img{
+	width: 195px; height: 62px; display: inline-block; vertical-align: middle;
+}
+.paytype-item:hover,
+.paytype-item.on{
+	border-color: #fb6468; background: url(../imgs/ico3.png) no-repeat right top #fff;
+}
+.paytype-item:hover:after,
+.paytype-item.on:after{
+	display: block;
+}
+.paytype-foot{
+	text-align: center; 
+}
+.paytype-foot input{
+	width: 400px; height: 80px; border: 0; background: #ec7b78; color: #fff; font-size: 24px; border-radius: 5px;cursor: pointer;
+}
+.paytype-foot input:hover{
+	background: #fb6468;
+}
+
+
+.footer{
+	background: #313131;color: #fff; font-size: 14px; text-align: center; padding: 30px 0 ; height: auto; overflow: hidden;max-width: 1920px; margin: 60px auto 0; 
+}

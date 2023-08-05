@@ -1,0 +1,154 @@
+{extend name="simple_base"}
+
+{block name="content"}
+
+<div class="container">
+    <div class="card">
+        <div class="card-body p-3">
+            <!-- Search Form Wrapper-->
+            <div class="search-form-wrapper">
+
+                <div class="row">
+
+                    <div class="col-10">
+                        <a href="{:url('goods_coupon/add')}" class="btn btn-primary w-100 d-flex align-items-center justify-content-center">
+                            <i class="bx bx-plus me-1"></i>添加优惠券
+                        </a>
+                    </div>
+                    <div class="col-2">
+                        <a href="{:url('goods_coupon/trash')}" class="btn btn-outline-primary w-100 d-flex align-items-center justify-content-center">
+                            <i class="bx bx-trash-alt fs-5"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <form class="mb-3 pb-4 mt-2" action="" method="get">
+
+                    <div class="input-group mb-2  input-group-sm">
+                        <span class="input-group-text input-group-sm">商品分类</span>
+                        <select name="cate_id" class="form-select  form-select-sm">
+                            <option value="" {if $Think.get.cate_id==''}selected{/if}>全部分类</option>
+                            {foreach $categorys as $v}
+                            <option value="{$v.id|htmlentities}" {if $Think.get.cate_id==$v.id}selected{/if}>{$v.name}</option>
+                            {/foreach}
+                        </select>
+                    </div>
+
+
+                    <div class="input-group mb-2  input-group-sm">
+                        <span class="input-group-text input-group-sm">使用状态</span>
+                        <select name="status" class="form-select  form-select-sm">
+                            <option value="" {if $Think.get.status==''}selected{/if}>全部状态</option>
+                            <option value="1" {if $Think.get.status=='1'}selected{/if}>未使用</option>
+                            <option value="2" {if $Think.get.status=='2'}selected{/if}>已使用</option>
+                        </select>
+                    </div>
+
+                    <button class="btn btn-primary w-100 d-flex align-items-center justify-content-center" type="submit">
+                        <i class="bx bx-search me-2"></i>查询
+                    </button>
+                </form>
+            </div>
+
+            {foreach $coupons as $v}
+
+            <div class="single-search-result mb-3 border-bottom pb-3 order-wrap">
+                <div class="d-flex align-items-center justify-content-between">
+                    <h6 class="text-truncate mb-0 float-left d-inline">{$v.code}</h6>
+                    {if $v.status==2}
+                    <span class="badge rounded-pill bg-success float-end">已使用</span>
+                    {else/}
+                    <span class="badge rounded-pill bg-light float-end">未使用</span>
+                    {/if}
+                </div>
+                <div class="d-flex align-items-center mt-1 justify-content-between">
+                    <div class="order-wrap-text">
+                        <span>适用商品：</span>
+                        <span>{if $v.cate_id==0}全部{else/}{$v.category.name}{/if}</span>
+                    </div>
+                    <div class="order-wrap-text">
+                        <span>面值：</span>
+                        <span>
+                            {$v.amount}{if $v.type==1}元{else/}%{/if}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center mt-1 justify-content-between">
+                    <div class="order-wrap-text">
+                        <span>生成时间：</span>
+                        <span>{$v.create_at|date="Y-m-d H:i:s",###}</span>
+                    </div>
+                    <div class="order-wrap-text">
+                        <span>到期时间：</span>
+                        <span>
+                            {$v.expire_day}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center mt-1 justify-content-between">
+                    <div class="order-wrap-text">
+                        <span>备注：</span>
+                        <span>{$v.remark}</span>
+                    </div>
+                </div>
+
+
+                <div class="goods-warp d-flex align-items-center mt-1 justify-content-end">
+                    <a href="javascript:void(0);" onclick="del(this, '{$v.id}')"><span class="goods-warp-btn goods-warp-btn-delete" >删除</span></a>
+                </div>
+            </div>
+
+            {/foreach}
+
+            <nav aria-label="Page navigation">
+                {$page}
+            </nav>
+        </div>
+    </div>
+</div>
+
+{/block}
+{block name="js"}
+
+<script>
+
+    function del(obj, id)
+    {
+        $.confirm({
+            title: '确定删除吗？',
+            content: '删除的优惠券将会进入回收站！',
+            type: 'red',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: '确定',
+                    btnClass: 'btn-red',
+                    action: function () {
+                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                        $.post("{:url('goods_coupon/del')}", {
+                            id: id
+                        }, function (res) {
+                            if (res.code != 1) {
+                                $.alert(res.msg);
+                            } else {
+                                $.alert("删除成功");
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 200);
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+    }
+
+</script>
+{/block}
+
+

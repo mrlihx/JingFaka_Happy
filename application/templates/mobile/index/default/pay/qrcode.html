@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no" />
+        <title>收银台 - {:sysconf('site_name')}</title>
+        <link rel="stylesheet" href="__RES__/app/theme/default/css/bootstrap-reboot.min.css">
+        <link rel="stylesheet" href="__RES__/app/theme/default/css/mobile_qrcode.css">
+    </head>
+    <body style="font-size: 12px; top: 0px;">
+
+        <header class="header d-flex justify-content-between align-content-center">
+            <div class="back d-flex">
+                <svg t="1610806784680" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="16794" width="28" height="28"><path d="M620 802H403.748s-0.222-5.83-0.018-57.546c-90.864 0-101.73-101-101.73-101V494h333.184" fill="#4988FE" p-id="16795"></path><path d="M620 832H403.748c-16.126 0-29.366-12.746-29.978-28.86-0.032-0.846-0.158-5.882-0.118-31.976-34.358-7.814-62.542-29.372-81.066-62.606-16.568-29.72-20.07-58.692-20.416-61.896a30.158 30.158 0 0 1-0.172-3.208V494c0-16.568 13.432-30 30-30h333.184c16.568 0 30 13.432 30 30s-13.432 30-30 30H332v117.436c0.73 4.682 3.998 22.394 13.76 39.26 13.152 22.714 32.114 33.758 57.97 33.758a30.004 30.004 0 0 1 30 30.12c-0.044 11.17-0.068 20.178-0.08 27.428H620c16.568 0 30 13.432 30 30S636.568 832 620 832z" fill="#4988FE" p-id="16796"></path><path d="M272 192h480c44.184 0 80 35.818 80 80v172c0 44.182-35.816 80-80 80H272c-44.182 0-80-35.818-80-80v-172c0-44.182 35.818-80 80-80z" fill="#D0E1FD" p-id="16797"></path><path d="M752 524H272c-44.112 0-80-35.888-80-80v-172c0-44.112 35.888-80 80-80h480c44.112 0 80 35.888 80 80v172c0 44.112-35.888 80-80 80zM272 252c-11.028 0-20 8.972-20 20v172c0 11.028 8.972 20 20 20h480c11.028 0 20-8.972 20-20v-172c0-11.028-8.972-20-20-20H272z" fill="#D0E1FD" p-id="16798"></path><path d="M511.146 407.156c-27.036 0-49.03-21.994-49.03-49.03 0-27.034 21.994-49.028 49.03-49.028 27.034 0 49.03 21.994 49.03 49.028 0 27.036-21.996 49.03-49.03 49.03z" fill="#FFFFFF" p-id="16799"></path><path d="M511.146 339.098c-10.494 0-19.03 8.536-19.03 19.028 0 10.494 8.536 19.03 19.03 19.03 10.492 0 19.03-8.536 19.03-19.03 0-10.492-8.54-19.028-19.03-19.028m0-60c43.646 0 79.03 35.382 79.03 79.028s-35.384 79.03-79.03 79.03-79.03-35.382-79.03-79.03 35.384-79.028 79.03-79.028zM352 436.856c-16.568 0-30-13.432-30-30v-96c0-16.568 13.432-30 30-30s30 13.432 30 30v96c0 16.568-13.432 30-30 30z" fill="#5B93FE" p-id="16800"></path><path d="M619.4 802s0.2-5.99 0-57.708c90.864 0 102.328-103.152 102.328-103.152V390.242s5.772-42.75-47.958-42.75-47.456 42.75-47.456 42.75v107.6s-109.4 3.79-110.314 128.362" fill="#4988FE" p-id="16801"></path><path d="M619.418 832c-0.338 0-0.674-0.006-1.016-0.016-16.504-0.548-29.45-14.33-28.99-30.814 0.008-0.374 0.176-8.218-0.012-56.762a30.004 30.004 0 0 1 30-30.116c25.814 0 44.86-11.364 58.222-34.736 9.896-17.31 13.306-35.458 14.106-40.506V390.242c0-1.832-0.106-2.038 0.184-3.576 0.004-1.44-0.34-4.17-1.548-5.46-1.606-1.712-6.914-3.712-16.594-3.712-10.438 0-15.204 2.292-16.374 3.646-1.15 1.332-1.404 4.72-1.4 4.748 0.212 1.444 0.318 2.9 0.318 4.358v107.6c0 16.31-12.546 29.614-28.836 29.978-1.72 0.116-22.492 1.736-42.236 14.258-25.748 16.332-38.954 44.708-39.242 84.346-0.122 16.492-13.532 29.778-29.996 29.78h-0.224c-16.568-0.124-29.9-13.652-29.778-30.22 0.574-78.25 38.404-117.356 70.036-136.382 14.308-8.604 28.49-13.808 40.278-16.954V391.62c-0.634-8.294-0.59-30.876 15.68-49.706 9.626-11.14 28.154-24.42 61.776-24.42 33.552 0 52.152 13.222 61.848 24.312 16.49 18.868 16.666 41.566 16.112 49.672V641.14c0 1.108-0.06 2.212-0.184 3.314-0.362 3.248-4.006 32.6-20.638 62.752-18.67 33.85-46.978 55.8-81.428 63.75 0.044 26.1-0.066 31.184-0.094 32.042-0.544 16.218-13.862 29.002-29.97 29.002z" fill="#4988FE" p-id="16802"></path></svg>
+                <span>收银台</span>
+            </div> 
+            <div class="kefu">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAXCAYAAADgKtSgAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQyIDc5LjE2MDkyNCwgMjAxNy8wNy8xMy0wMTowNjozOSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpGMDA1RUU4NzkzMDQxMUU5QkExMDlCNTY1QzY1NTU4OCIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpGMDA1RUU4ODkzMDQxMUU5QkExMDlCNTY1QzY1NTU4OCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkYwMDVFRTg1OTMwNDExRTlCQTEwOUI1NjVDNjU1NTg4IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkYwMDVFRTg2OTMwNDExRTlCQTEwOUI1NjVDNjU1NTg4Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+YrQEMgAAAe9JREFUeNqklTtIA0EQhmeDCIpEQVtflYooaBeJjY8QMRK1EysLsdA6Ygpr00dQc6WPThAFQ0ALjWijhY+ola9WIRFUEHLr7O1dvNztJRv94YPLZu+/3ZndGUIpBQe5kD5kHPEgTUgNkkYekVNkGzlEVKEDMxcQQG6onG70+TYf60A5skL/plX9/ZwfMYWlHNlB/MId3h3nnklDJ0BltWhaHAki39o8k/kaMm0zPdkAuhkC+Hr/HaxwAxkNAxmcFX1AMXwM82Fkz2Z8sQc0OsF/1DYA8U7yHdwn+Q7mtoB0B0QfGNH80NyFXIuCmF300OxUFVWT63nj6mZIG88u+Z3in2K+xnFrFx6llyu+wq781TmEw6w2pL9MP8dCkeACQF2jLXn0nieXsP+cNcbMe5zNw/bBzwzQxDJ/bu0tZO5hYWkEWaGxGhni4Wrx2sJlUTOUcktyCVZmpOa79FpRVOy8ayuu7wAyEZF5JcPMn6RC8nzJ8+CbdbqdVj249OomJxZnXLmkzljMB6SD/pEuJUU+44ampJN5vitjnLuhrNCHim7yVU/Nm1SK5jVfU/2NFVqKentE1URUJjSKqFmwQr9P/6e4uWGIOlHsj8aKtRMV6qEpSdOUUw8lRbp/v6n7NyNuhLWkB1P3P3Dq/j8CDAAKNKvKicHv1wAAAABJRU5ErkJggg==" /> 
+                <span>联系客服</span>
+            </div>
+        </header>
+
+        <section class="order">
+
+            <div class="order_info">
+                <span>{$order.trade_no}</span> 
+                <span data-clipboard-text="{$order.trade_no}" class="copy_oreder" id="clipboard_order">复制</span>
+            </div>
+
+            <div class="goods_name">
+                <span>{$order.goods_name} {if isset($order.quantity)}x{$order.quantity}{/if}</span> 
+            </div>
+
+            <div class="price_info">
+                <div class="pay_type">
+                    <img src="{$order.channel.paytypes.ico}"> <span>{$order.channel.show_name}</span>
+                </div>
+                <div class="price">
+                    <span>{$order.total_price}</span> <span>元</span>
+                </div>
+
+                <div class="qrcode">
+                    <img src="{:url('resource/generateQrcode',['str'=>urlencode($pay_url)])}" class="pay_qrcode_img" /> 
+                </div>
+
+                <div class="time ">
+                    <p class="time_title">1.请截屏或长按保存二维码</p>
+                    <div class="time_box">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAMAAABhEH5lAAAAnFBMVEXExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMT5bXJHAAAAM3RSTlMAKAMBx/mau+op1bQ/B29scEZE7EVDa9RxAr+Z2wbdounTK9wM8mlH2EJqaOsnBQv69NcGwX4oAAAAo0lEQVR4XlXP166CQBhF4fVPQUBBwN57P8f6/u+mmYlm+C5Xsi82zmkytXY66fEl43SYZFkyTMeC01ruFY5qd1oAElf8dGMBbdoE+kZTDdzq1cRRg4qoIEwUEZuknmSDzeppZtnNfPprfABby1F8coD1nEVBTb7gsFIE1KpEmz6Bs9EgcS88lPjblxHOyN8GxKT5//W2zlMjeOgymt8fz6jUAG+qXAq4t+qHHQAAAABJRU5ErkJggg==" /> 
+                        <span>支付倒计时：</span>
+                        <p class="time_out"></p>
+                    </div>
+                </div>
+
+            </div> 
+
+            <div class="buttom_info">
+
+                {switch $order.channel.paytypes.id}
+
+                {case value="1|2"}
+                <a href="{$pay_url}" class="dakai">唤醒支付宝支付</a>
+                <p>2.打开支付宝点击右上角"扫一扫"二维码完成支付</p> 
+                {/case}
+                {case value="3|4"}
+                <span>
+                    微信扫一扫
+                </span> 
+                <p>2.打开微信点击右上角"扫一扫"二维码完成支付</p> 
+                <a href="weixin://dl/chat" class="dakai">打开微信</a>
+                {/case}
+                {case value="5|6"}
+                <a href="{$pay_url}" class="dakai">唤醒QQ支付</a>
+                <p>2.打开QQ点击右上角"扫一扫"二维码完成支付</p> 
+                {/case}
+                {/switch}
+            </div> 
+
+        </section>
+
+
+        <script src="__RES__/app/theme/default/js/jquery-3.5.1.min.js"></script>
+        <script src="__RES__/app/js/clipboard.js"></script>
+        <script src="__RES__/app/layer/layer.js"></script>
+
+        <script type="text/javascript">
+            (function () {
+                var updateBaseFontSize = function () {
+                    var dWidth = document.documentElement.clientWidth;
+                    var baseFontSize = dWidth * 100 / 1000;
+                    $('html').css('font-size', baseFontSize + 'px');
+                };
+
+                window.addEventListener('resize', updateBaseFontSize);
+                updateBaseFontSize();
+            })();
+
+
+            var maxtime = 600 - (parseInt('{:time()-$order.create_at}'));
+            var timer = setInterval("CountDown()", 1000);
+            var check = setInterval("CheckStatus()", 2500);
+            function CountDown() {
+                if (maxtime >= 0) {
+                    minutes = Math.floor(maxtime / 60);
+                    seconds = Math.floor(maxtime % 60);
+                    msg = PrefixZero(minutes, 2) + ":" + PrefixZero(seconds, 2);
+                    $('.time_box p').text(msg);
+                    --maxtime;
+                } else {
+                    clearInterval(timer);
+                    clearInterval(check);
+                    $('.time_box').addClass("caos");
+                    $('.time_box span').text("支付超时，请重新选择商品支付 ");
+                    $('.time_box p').text("");
+                }
+            }
+
+            var i = 0;
+            function CheckStatus()
+            {
+                i++;
+                $.ajax({
+                    url: "{:url('pay/check_order_status')}",
+                    type: 'post',
+                    data: {out_trade_no: '{$order.trade_no}'},
+                    success: function (res) {
+                        if (res.code == 1) {
+                            clearInterval(check);
+                            layer.msg('恭喜您，付款成功。');
+                            setTimeout(function () {
+                                window.location.href = res.url;
+                            }, 500);
+                        }
+                    }
+                });
+
+            }
+            function PrefixZero(num, n) {
+                return (Array(n).join(0) + num).slice(-n);
+            }
+
+            $('#clipboard_order').click(function () {
+                var clipboard = new ClipboardJS('#clipboard_order');
+                clipboard.on('success', function (e) {
+                    layer.msg("复制成功！");
+                });
+                clipboard.on('error', function (e) {
+                    layer.msg("复制失败！");
+                });
+            });
+        </script>
+    </body>
+
+</html>

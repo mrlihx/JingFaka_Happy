@@ -1,0 +1,22 @@
+{extend name="./layout"}
+
+{block name="content"}
+
+<li><span class="form_title">商品分类</span>
+    <select name="cateid" id="cateid" onchange="selectcateid()" style="width:calc(93% - 72px);margin-left: 3%">
+        <option value="">请选择分类</option>
+        {foreach $categorys as $v}
+        <option value="{$v.id}">{$v.name}</option>
+        {/foreach}
+    </select>
+</li>
+<!--            如果是店铺链接结束-->
+<!--            如果是分类链接或者是店铺链接结束-->
+<!--            如果是单个商品链接开始-->
+<li>
+    <span class="form_title">商品名称</span>
+    <select style="width:calc(93% - 72px);margin-left: 3%" name="goodid" id="goodid" onchange="selectgoodid()">
+        <option value="">请选择商品</option>
+    </select>
+</li>
+{/block}

@@ -1,0 +1,51 @@
+<style>
+    #account_id,#weight{
+        display: none;
+    }
+</style>
+<form class="layui-form layui-box" style='padding:25px 30px 20px 0' action="__SELF__" data-auto="true" method="post">
+
+    <input type="hidden" name="id"  value="{$task.id|default=''}">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">任务名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="name" placeholder="任务名称" autocomplete="off" class="layui-input" value="{$task.name|default=''}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">目标金额（元）</label>
+        <div class="layui-input-block">
+            <input type="text" name="target" placeholder="目标金额" autocomplete="off" class="layui-input" value="{$task.target|default='0'}">
+        </div>
+
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">奖励金额（元）</label>
+        <div class="layui-input-block">
+            <input type="text" name="reward" placeholder="奖励金额" autocomplete="off" class="layui-input" value="{$task.reward|default='0'}">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">任务时长（天）</label>
+        <div class="layui-input-block">
+            <input type="text" name="duration" placeholder="任务时长（天）" autocomplete="off" class="layui-input" value="{$task.duration|default='0'}">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">任务描述</label>
+        <div class="layui-input-block">
+            <input type="text" name="desc" placeholder="任务描述" autocomplete="off" class="layui-input" value="{$task.desc|default=''}">
+        </div>
+    </div>
+
+    <div class="hr-line-dashed"></div>
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type="submit">保存</button>
+        <button class="layui-btn layui-btn-danger" type="button" data-confirm="确定要取消吗？" data-close="">取消</button>
+    </div>
+</form>
+<script>
+</script>

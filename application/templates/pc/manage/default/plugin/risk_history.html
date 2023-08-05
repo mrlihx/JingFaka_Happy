@@ -1,0 +1,143 @@
+{extend name='./content'}
+
+{block name="content"}
+
+
+<div class="layui-form-item layui-inline">
+    <label class="layui-form-label">已风控</label>
+    <div class="layui-input-inline">
+        <input type="text" class="layui-input" value="{$historyCount} 个" readonly="">
+    </div>
+</div>
+
+
+<form onsubmit="return false;" data-auto="true" method="post">
+    <input type="hidden" value="resort" name="action"/>
+    <table class="layui-table" lay-skin="line" lay-size="sm">
+        <thead>
+            <tr>
+                <th class='text-center'>ID</th>
+                <th class='text-center'>商户账号</th>
+                <th class='text-center'>风控原因</th>
+                <th class='text-center'>风控来源</th>
+                <th class='text-center'>风控时间</th>
+                <th class='text-center'>风控操作</th>
+                <th class='text-center'>风控提示</th>
+                <th class='text-center'>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {foreach $list as $v}
+            <tr>
+                <td class='text-center'>{$v.id}</td>
+                <td class='text-center'><a data-open="{:url('manage/user/index')}?field=1&keyword={$v.user_id}"  href="javascript:void(0)">{$v.user.username}</a></td>
+                <td class='text-center'>{$v.reason}</td>
+
+                <td class='text-center'>
+                    {switch name="$v.from_type"}
+                    {case value="0"}商品名 <a data-open="{:url('manage/goods/index',['id'=>$v.from_id])}" href="javascript:void(0)">查看</a>{/case}
+                    {case value="1"}<font color="blue">商品描述</font>{/case}
+                    {case value="2"}<font color="blue">投诉信息</font>{/case}
+                    {case value="3"}<font color="blue">投诉率</font>{/case}
+                    {case value="4"}<font color="red">手动添加</font>{/case}
+                    {/switch}
+                </td>
+                <td class='text-center'>{$v.update_at|date="Y-m-d H:i:s",###}</td>
+
+                <td class='text-center'>
+                    {switch name="$v.risk_type"}
+                    {case value="0"}<span style="background:#ffa700; color:#fff; padding:2px 6px; border-radius:10px;font-size: 10px">系统警告</span>{/case}
+                    {case value="1"}<span style="background:#0058ff; color:#fff; padding:2px 6px; border-radius:10px;font-size: 10px">下架警告</span>{/case}
+                    {case value="2"}<span style="background:#f00; color:#fff; padding:2px 6px; border-radius:10px;font-size: 10px">关闭交易</span>{/case}
+                    {case value="3"}<span style="background:#ad3737; color:#fff; padding:2px 6px; border-radius:10px;font-size: 10px">封禁</span>{/case}
+                    {/switch}
+                </td>
+                <td class='text-center'>{$v.desc}</td>
+                <td class='text-center'>
+                    <a href="javascript:;"  data-modal="{:url('riskManage',['id'=>$v.id,'modify'=>1])}" data-title="风控操作">更改风控操作</a>
+                    <a href="javascript:;"  onclick="derisk(this, '{$v.id}')">解除并加白</a>
+                    <a href="javascript:;" onclick="del(this, '{$v.id}')">删除</a>
+                </td>
+            </tr>
+            {/foreach}
+        </tbody>
+    </table>
+</form>
+{$page}
+
+<script>
+    layui.use('form', function () {
+        var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+        form.render();
+    });
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        //日期范围
+        laydate.render({
+            elem: '#date_range',
+            range: true
+        });
+    });
+
+
+
+    /*订单-删除*/
+    function search(obj) {
+        $.ajax({
+            url: "{:url('riskPedding')}",
+            type: 'post',
+            data: 'act=search',
+            success: function (res) {
+                if (res.code == 1) {
+                    layer.msg("刷新成功");
+                    setTimeout(function () {
+                        location.reload();
+                    }, 200);
+                } else {
+                    layer.alert(res.msg);
+                }
+            }
+        });
+    }
+    function derisk(obj, id) {
+        layer.confirm('确认要解除风控吗？', function (index) {
+            $.ajax({
+                url: "{:url('riskAction')}",
+                type: 'post',
+                data: 'act=derisk&id=' + id,
+                success: function (res) {
+                    if (res.code == 1) {
+                        layer.msg("操作成功");
+                        setTimeout(function () {
+                            location.reload();
+                        }, 200);
+                    } else {
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+        });
+    }
+
+    function del(obj, id) {
+        layer.confirm('确认要删除此项吗？', function (index) {
+            $.ajax({
+                url: "{:url('riskAction')}",
+                type: 'post',
+                data: 'act=del&id=' + id,
+                success: function (res) {
+                    if (res.code == 1) {
+                        layer.msg("操作成功");
+                        setTimeout(function () {
+                            location.reload();
+                        }, 200);
+                    } else {
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+        });
+    }
+
+</script>
+{/block}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <title>商户面板 - {:sysconf('site_name')}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="keywords" content="{:sysconf('site_keywords')}" />
+        <meta name="description" content="{:sysconf('site_desc')}" />
+        <link rel="shortcut icon" href="{:sysconf('browser_icon')}" />
+        <!-- App favicon -->
+        {block name="css"}
+        {/block}
+        <!-- Bootstrap Css -->
+        <link href="__RES__/merchant/default/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
+        <link href="__RES__/merchant/default/libs/jquery-confirm/css/jquery-confirm.css" rel="stylesheet" type="text/css">
+        <link href="__RES__/merchant/default/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css">
+        <!-- Icons Css -->
+        <link href="__RES__/merchant/default/css/icons.min.css" rel="stylesheet" type="text/css">
+        <!-- App Css-->
+        <link href="__RES__/merchant/default/css/app.min.css" id="app-style" rel="stylesheet" type="text/css">
+        <link href="__RES__/merchant/default/css/custom.css" id="app-style" rel="stylesheet" type="text/css">
+        <script>
+            document.onkeydown = function () {
+                if (window.event && window.event.keyCode == 123) {
+                    event.keyCode = 0;
+                    event.returnValue = false;
+                }
+            }
+        </script>
+    </head>
+
+
+    <body data-sidebar="dark">
+
+        <!-- <body data-layout="horizontal" data-topbar="dark"> -->
+
+        <!-- Begin page -->
+        <div id="layout-wrapper">
+
+            <div class="main-content">
+                {block name="content"}
+                {/block}
+            </div>
+
+        </div>
+        <!-- END layout-wrapper -->
+
+
+        <!-- Right bar overlay-->
+        <div class="rightbar-overlay"></div>
+
+        <!-- JAVASCRIPT -->
+        <script src="__RES__/merchant/default/libs/jquery/jquery.min.js"></script>
+        <script src="__RES__/merchant/default/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="__RES__/merchant/default/libs/metismenu/metisMenu.min.js"></script>
+        <script src="__RES__/merchant/default/libs/simplebar/simplebar.min.js"></script>
+        <script src="__RES__/merchant/default/libs/node-waves/waves.min.js"></script>
+        <script src="__RES__/merchant/default/libs/jquery-confirm/js/jquery-confirm.js"></script>
+        <script src="__RES__/merchant/default/libs/layer/layer.js"></script>
+        <script src="__RES__/merchant/default/libs/select2/js/select2.min.js"></script>
+        <script>
+            $(".select2").select2();
+        </script>
+        {block name="js"}
+        {/block}
+
+        <!-- App js -->
+
+        <script src="__RES__/merchant/default/js/app.js"></script>
+    </body>
+
+</html>

@@ -1,0 +1,117 @@
+{extend name="base"}
+
+{block name="content"}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            {if plugconf("oauth2", "qq_open_merchant")==1}
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">绑定QQ</h4>
+                        <p class="card-title-desc">绑定后，可以使用QQ快速登录</p>
+                        <div class="form-group row d-flex align-items-center">
+                            <div class="col-md-10">
+                                {if $_user.oauth2_qq_openid==''}
+                                <a href="{:url('plugin/bindOauth2',['type'=>'qq'])}" target="_blank" class="btn btn-primary btn-sm waves-effect waves-light">立即绑定</a>
+                                {else/}
+                                <p><span class="badge badge-pill badge-soft-success font-size-14">已绑定</span></p>
+                                <button onclick="unbind('qq')"  class="btn btn-danger btn-sm waves-effect waves-light">解除绑定</button>
+                                {/if}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/if}
+
+
+            {if plugconf("oauth2", "wechat_open_merchant")==1}
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">绑定微信</h4>
+                        <p class="card-title-desc">绑定后，可以使用微信快速登录</p>
+                        <div class="form-group row d-flex align-items-center">
+                            <div class="col-md-10">
+                                {if $_user.oauth2_wechat_openid==''}
+                                <a href="{:url('plugin/bindOauth2',['type'=>'wechat'])}" target="_blank" class="btn btn-primary btn-sm waves-effect waves-light">立即绑定</a>
+                                {else/}
+                                <p><span class="badge badge-pill badge-soft-success font-size-14">已绑定</span></p>
+                                <button onclick="unbind('wechat')"  class="btn btn-danger btn-sm waves-effect waves-light">解除绑定</button>
+                                {/if}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/if}
+
+        </div>
+
+    </div>
+    <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+
+
+{/block}
+{block name="js"}
+<script>
+    function unbind(type)
+    {
+        $.confirm({
+            title: '提示！',
+            content: '确定要解除绑定吗？',
+            type: 'red',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: '确定',
+                    btnClass: 'btn-red',
+                    action: function () {
+                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                        $.post("{:url('plugin/unbindOauth2')}", {type: type
+                        }, function (res) {
+                            if (res.code != 1) {
+                                $.alert("解绑失败");
+                            } else {
+                                $.alert(res.msg);
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 200);
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+    }
+
+
+</script>
+
+{/block}

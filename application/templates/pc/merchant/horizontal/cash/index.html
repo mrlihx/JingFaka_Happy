@@ -1,0 +1,92 @@
+{extend name="base"}
+
+{block name="css"}
+
+{/block}
+{block name="content"}
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                    
+
+
+                        <div class="row mb-2">
+
+                            <div class="col-sm-auto">
+                                <a href="{:url('cash/apply')}" class="btn btn-primary waves-effect waves-light">申请提现</a>
+                            </div>
+                        </div>
+
+
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>发起提现时间</th>
+                                        <th>提现金额</th>
+                                        <th>手续费</th>
+                                        <th>实际到账</th>
+                                        <th>结算状态</th>
+                                        <th>结算时间</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {foreach $cashs as $v}
+                                    <tr>
+                                        <td>{$v.id}</td>
+                                        <td>{$v.create_at|date="Y-m-d H:i:s",###}</td>
+                                        <td>{$v.money}</td>
+                                        <td>{$v.fee}</td>
+                                        <td>{$v.actual_money}</td>
+                                        <td>
+                                            {switch name="v.status"}
+                                            {case value="0"}<span class="badge badge-pill badge-warning">审核中</span>{/case}
+                                            {case value="1"}<span class="badge badge-pill badge-success">提现成功</span>{/case}
+                                            {case value="2"}<span class="badge badge-pill badge-danger">审核未通过</span>{/case}
+                                            {/switch}
+                                        </td>
+                                        <td>{if $v.status==1}{$v.complete_at|date="Y-m-d H:i:s",###}{/if}</td>
+                                    </tr>
+                                    {/foreach}
+                                </tbody>
+                            </table>
+                        </div>
+                        <nav aria-label="...">
+                            {$page}
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- container-fluid -->
+</div>
+
+{/block}
+{block name="js"}
+
+{/block}

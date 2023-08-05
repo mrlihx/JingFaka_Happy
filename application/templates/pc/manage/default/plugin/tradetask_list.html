@@ -1,0 +1,89 @@
+{extend name='./content'}
+
+{block name="content"}
+
+
+
+<style>
+    #account_id,#weight{
+        display: none;
+    }
+</style>
+
+<button type="button" class="layui-btn layui-btn-normal layui-btn-small" style="margin:10px" data-modal="{:url('tradetaskEdit')}" data-title="添加任务">添加任务</button>
+
+<form onsubmit="return false;" data-auto="" method="POST" data-listen="true" novalidate="novalidate">
+    <input type="hidden" value="resort" name="action">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th class="text-center">编号</th>
+                <th class="text-center">名称</th>
+                <th class="text-center">目标金额</th>
+                <th class="text-center">奖励金额</th>
+                <th class="text-center">任务时长</th>
+                <th class="text-center">描述</th>
+                <th class="text-center">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {foreach $list as $v}
+            <tr>
+                <td class="text-center">{$v.id}</td>
+                <td class="text-center">{$v.name}</td>
+                <td class="text-center">{$v.target}</td>
+                <td class="text-center">{$v.reward}</td>
+                <td class="text-center">{$v.duration}</td>
+                <td class="text-center">{$v.desc}</td>
+                <td class="text-center">
+                    <div class="layui-btn-group">
+                        <button type="button" class="layui-btn layui-btn-small" data-modal="{:url('tradetaskEdit',['id'=>$v.id])}" data-title="编辑支付接口">编辑</button>
+                        <button type="button" class="layui-btn layui-btn-small layui-btn-danger" onclick="delTask('{$v.id}')">删除</button>
+                    </div>
+                </td>
+            </tr>
+            {/foreach}
+        </tbody>
+    </table>
+</form>
+{$page}
+
+<script>
+
+    function delTask(id)
+    {
+        layer.confirm('是否确认删除此任务？已进行的任务将会清空！', function (index) {
+
+            var loading = '';
+            $.ajax({
+                url: "{:url('tradetaskList',['act'=>'del'])}",
+                data: {
+                    id: id,
+                },
+                type: 'post',
+                dataType: 'json',
+                beforeSend: function () {
+                    loading = layer.load();
+                },
+                success: function (res) {
+                    layer.close(loading);
+                    if (res.code == 1) {
+                        layer.msg(res.msg, {icon: 1, time: 1000});
+                        location.reload();
+                    } else {
+                        layer.msg(res.msg, {time: 2000, icon: 'error'});
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    layer.close(loading);
+                    layer.msg('连接错误');
+                }
+            });
+        });
+
+    }
+
+
+
+</script>
+{/block}

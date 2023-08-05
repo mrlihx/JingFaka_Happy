@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+        <title>{:sysconf('site_name')} - {:sysconf('site_subtitle')}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="keywords" content="{:sysconf('site_keywords')}" />
+        <meta name="description" content="{:sysconf('site_desc')}" />
+        <link rel="shortcut icon" href="{:sysconf('browser_icon')}" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="theme-color" content="#1E78FF">	
+		<meta name="msapplication-navbutton-color" content="#1E78FF">		
+		<meta name="apple-mobile-web-app-status-bar-style" content="#1E78FF">
+		<link rel="stylesheet" type="text/css" href="__RES__/theme/maowang51/css/style.css" media="all">		
+		<link rel="stylesheet" type="text/css" href="__RES__/theme/maowang51/css/responsive.css" media="all">	
+		
+		
+	</head>
+
+	<body>
+		<div class="main-page-wrapper">
+			
+			{include file="./default_her"}
+
+
+			<div class="offcanvas offcanvas-top theme-search-form justify-content-center" tabindex="-1" id="offcanvasTop">
+				<button type="button" class="close-btn tran3s" data-bs-dismiss="offcanvas" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+				<div class="form-wrapper">
+					<form action="orderquery">
+						<input type="text" name="orderid" placeholder="请输入您的订单号...">
+						<input type="hidden" name="querytype" value="3">      
+						<button class="btn-eight">开始查询</button>
+					</form>
+				</div> <!-- /.form-wrapper -->
+			</div>
+
+
+			
+			<header class="theme-main-menu sticky-menu theme-menu-two">
+				{include file="./default_header"}
+			</header>
+			<div class="hero-banner-four">
+				<div class="container">
+					<div class="row">
+						<div class="col-xl-8 col-xl-7 col-lg-8 col-md-11 m-auto">
+							<a href="#" class="slogan"><strong> 投 诉 查 询  </strong> ----轻松查询订单，即刻享受卡密自动交易 <i class="fas fa-chevron-right"></i></a>
+				
+							<p class="mb-50 lg-mb-30"></p>
+							<form  name='report' action="{:url('Index/order/complaintPass')}" method='get'  onsubmit="return checker()">
+								<input type="hidden" name="token" value="{$token}">
+								<input name="trade_no" type="text" value="{$Request.get.id}"  required="" placeholder="请输入订单编号">
+								
+								
+								
+								
+								
+								<button type="submit" onclick="orderid_or_contact()">查询投诉</button>
+							</form>
+							<div class="info">查询投诉 ！！</div>
+							
+							
+							
+							
+							
+						</div>
+					</div>
+				</div> <!-- /.container -->
+
+				<div class="illustration-holder-oneee">
+					<img src="__RES__/theme/maowang51/picture/ils_10.svg" alt="">
+					<img src="__RES__/theme/maowang51/picture/ils_10_1.svg" alt="" class="shapes shape-one">
+					<img src="__RES__/theme/maowang51/picture/ils_10_2.svg" alt="" class="shapes shape-two">
+				</div> <!-- /.illustration-holder-one -->
+				<div class="illustration-holder-tee">
+					<img src="__RES__/theme/maowang51/picture/ils_11.svg" alt="">
+					<img src="__RES__/theme/maowang51/picture/ils_10_1.svg" alt="" class="shapes shape-one">
+				</div>
+			</div> 
+
+
+
+
+				<div class="container">
+					
+
+					<div class="row">
+					
+				
+						
+						
+						
+					</div>
+					
+					
+				</div>  
+
+
+				
+		
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			<div class="fancy-short-banner-three position-relative mt-160 lg-mt-80">
+				<div class="container">
+					<div class="bg-wrapper">
+						<div class="row align-items-center">
+							<div class="col-lg-8 m-auto" data-aos="fade-up">
+								<div class="title-style-one text-center white-vr mb-30" data-aos="fade-up">
+									<h2 class="main-title">入驻我们，即刻赚钱 <br>24小时监控订单资金无忧</h2>
+								</div> <!-- /.title-style-one -->
+								<a href="contact-us.html" class="btn-six ripple-btn">立即入驻，成为商户 <i class="fas fa-chevron-right"></i></a>
+							</div>
+						</div>
+					</div> <!-- /.bg-wrapper -->
+				</div> <!-- /.container -->
+			</div> <!-- /.fancy-short-banner-three -->
+
+
+		
+
+			<!--
+			=====================================================
+				Footer
+			=====================================================
+			-->
+			<div class="footer-style-one theme-basic-footer">
+				<div class="container">
+					<div class="inner-wrapper">
+					
+					
+					
+						
+{include file="./default_footer"}
+						
+					</div> <!-- /.inner-wrapper -->
+				</div>
+			</div> <!-- /.footer-style-one -->
+
+
+			<button class="scroll-top">
+				<i class="bi bi-arrow-up-short"></i>
+			</button>
+			
+			
+
+
+		<!-- Optional JavaScript _____________________________  -->
+
+    	<!-- jQuery first, then Bootstrap JS -->
+    	<!-- jQuery -->
+		<script src="__RES__/theme/maowang51/js/jquery.min.js"></script>
+		<!-- Bootstrap JS -->
+		<script src="__RES__/theme/maowang51/js/bootstrap.bundle.min.js"></script>
+		<!-- AOS js -->
+		<script src="__RES__/theme/maowang51/js/aos.js"></script>
+		<!-- Slick Slider -->
+		<script src="__RES__/theme/maowang51/js/slick.min.js"></script>
+		<!-- js Counter -->
+		<script src="__RES__/theme/maowang51/js/jquery.counterup.min.js"></script>
+		<script src="__RES__/theme/maowang51/js/jquery.waypoints.min.js"></script>
+		<!-- Fancybox -->
+		<script src="__RES__/theme/maowang51/js/jquery.fancybox.min.js"></script>
+		<!-- Progress Bar js -->
+		<script src="__RES__/theme/maowang51/js/jquery.skills.js"></script>
+
+		<!-- Theme js -->
+		<script src="__RES__/theme/maowang51/js/theme.js"></script>
+		
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		</div> <!-- /.main-page-wrapper -->
+	</body>
+</html>

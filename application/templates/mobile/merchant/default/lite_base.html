@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="theme-color" content="#0134d4">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <!-- Title-->
+        <title>商户面板 - {:sysconf('site_name')}</title>
+        <meta name="keywords" content="{:sysconf('site_keywords')}" />
+        <meta name="description" content="{:sysconf('site_desc')}" />
+        <link rel="shortcut icon" href="{:sysconf('browser_icon')}" />
+
+        <!-- CSS Libraries-->
+        <link rel="stylesheet" href="__RES__/merchant/mobile_default/css/bootstrap.min.css">
+        <link rel="stylesheet" href="__RES__/merchant/default/libs/jquery-confirm/css/jquery-confirm.css">
+        <link rel="stylesheet" href="__RES__/merchant/mobile_default/css/animate.css">
+        <link rel="stylesheet" href="__RES__/merchant/mobile_default/css/owl.carousel.min.css">
+        <link rel="stylesheet" href="__RES__/merchant/default/css/icons.min.css">
+        <link rel="stylesheet" href="__RES__/merchant/mobile_default/css/magnific-popup.css">
+        <link rel="stylesheet" href="__RES__/merchant/mobile_default/css/ion.rangeSlider.min.css">
+        <link rel="stylesheet" href="__RES__/merchant/mobile_default/css/dataTables.bootstrap4.min.css">
+        <link rel="stylesheet" href="__RES__/merchant/mobile_default/css/apexcharts.css">
+        <link rel="stylesheet" href="__RES__/merchant/mobile_default/css/style.css">
+        <link rel="stylesheet" href="__RES__/merchant/mobile_default/layer/theme/default/layer.css" id="layuicss-layer">
+        {block name="css"}
+        {/block}
+        <script>
+            document.onkeydown = function () {
+                if (window.event && window.event.keyCode == 123) {
+                    event.keyCode = 0;
+                    event.returnValue = false;
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <!-- Preloader-->
+        <div class="preloader d-flex align-items-center justify-content-center" id="preloader">
+            <div class="spinner-grow text-primary" role="status">
+                <div class="sr-only">Loading...</div>
+            </div>
+        </div>
+        <!-- Header Area-->
+
+        <!-- Sidenav Black Overlay-->
+        <div class="sidenav-black-overlay"></div>
+
+        <!-- Side Nav Wrapper-->
+
+        <div class="page-content-wrapper my-0">
+            {block name="content"}{/block}
+        </div>
+        <!-- Footer Nav-->
+
+        <!-- All JavaScript Files-->
+        <script src="__RES__/merchant/mobile_default/js/bootstrap.bundle.min.js"></script>
+        <script src="__RES__/merchant/mobile_default/js/jquery.min.js"></script>
+        <script src="__RES__/merchant/mobile_default/js/waypoints.min.js"></script>
+        <script src="__RES__/merchant/mobile_default/js/jquery.easing.min.js"></script>
+        <script src="__RES__/merchant/mobile_default/js/wow.min.js"></script>
+        <script src="__RES__/merchant/mobile_default/js/owl.carousel.min.js"></script>
+        <script src="__RES__/merchant/mobile_default/js/jquery.counterup.min.js"></script>
+        <script src="__RES__/merchant/mobile_default/js/jquery.countdown.min.js"></script>
+        <script src="__RES__/merchant/mobile_default/js/imagesloaded.pkgd.min.js"></script>
+        <script src="__RES__/merchant/mobile_default/js/isotope.pkgd.min.js"></script>
+        <script src="__RES__/merchant/mobile_default/js/jquery.magnific-popup.min.js"></script>
+        <script src="__RES__/merchant/mobile_default/js/dark-mode-switch.js"></script>
+        <script src="__RES__/merchant/mobile_default/js/ion.rangeSlider.min.js"></script>
+        <script src="__RES__/merchant/mobile_default/js/jquery.dataTables.min.js"></script>
+        <script src="__RES__/merchant/default/libs/layer/layer.js"></script>
+        <script src="__RES__/merchant/default/libs/jquery-confirm/js/jquery-confirm.js"></script>
+        <script src="__RES__/merchant/mobile_default/js/active.js"></script>
+        <script src="__RES__/merchant/mobile_default/js/clipboard.js"></script>
+        {block name="js"}
+        {/block}
+    </body>
+</html>

@@ -1,0 +1,125 @@
+{extend name="simple_base"}
+
+{block name="content"}
+
+<div class="container">
+    <div class="card">
+        <div class="card-body p-3">
+            <!-- Search Form Wrapper-->
+            <div class="search-form-wrapper">
+                <div class="row">
+                    <div class="col-12">
+                        <a href="{:url('invite_code/add')}" class="btn btn-primary w-100 d-flex align-items-center justify-content-center">
+                            <i class="bx bx-plus me-1"></i>生成邀请码
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            {foreach $codes as $v}
+
+            <div class="single-search-result my-3 border-bottom pb-3 order-wrap">
+                <div class="d-flex align-items-center justify-content-between">
+                    <h6 class="text-truncate mb-0 float-left d-inline">{$v.code}</h6>
+
+                    {switch name="v.status"}
+                    {case value="0"}<span class="badge rounded-pill bg-light float-end">未使用</span>{/case}
+                    {case value="1"}<span class="badge rounded-pill bg-success float-end">已使用</span>{/case}
+                    {case value="2"}<span class="badge rounded-pill bg-warning float-end">已过期</span>{/case}
+                    {/switch}
+
+                </div>
+                <div class="d-flex align-items-center mt-1 justify-content-between">
+                    <div class="order-wrap-text">
+                        <span>添加时间：</span>
+                        <span>{$v.create_at|date="Y-m-d H:i:s",###}</span>
+                    </div>
+                    <div class="order-wrap-text">
+                        <span>邀请时间：</span>
+                        <span>
+                            {if $v.status==1}
+                            {$v.invite_at|date="Y-m-d H:i:s",###}
+                            {else/}
+                            -
+                            {/if}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center mt-1 justify-content-between">
+                    <div class="order-wrap-text">
+                        <span>有效期：</span>
+                        <span>  
+                            {if $v.status==1}
+                            <span class="badge bg-light">已使用</span>
+                            {else/}
+                            {$v.expire_day}
+                            {if $v.expire_at!=0}
+                            {if $v.create_at>=$v.expire_at}
+                            <div class="badge bg-danger badge-sm">已过期</div>
+                            {else/}
+                            <div class="badge bg-success badge-sm">{$v.expire_days}天</div>
+                            {/if}
+                            {/if}
+                            {/if}
+                        </span>
+                    </div>
+
+                </div>
+
+                {if $v.status!=1}
+                <div class="goods-warp d-flex align-items-center mt-1 justify-content-end">
+                    <a href="javascript:void(0);" onclick="del(this,'{$v.id}')"><span class="goods-warp-btn goods-warp-btn-delete" >删除</span></a>
+                </div>
+                {/if}
+            </div>
+
+            {/foreach}
+
+            <nav aria-label="Page navigation">
+                {$page}
+            </nav>
+        </div>
+    </div>
+</div>
+
+{/block}
+{block name="js"}
+
+<script>
+    function del(obj,id)
+    {
+        $.confirm({
+            title: '提示！',
+            content: '确认删除该邀请码？',
+            type: 'red',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: '确定',
+                    btnClass: 'btn-red',
+                    action: function () {
+                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                        $.post("{:url('invite_code/del')}", {id: id}, function (res) {
+                            if (res.code != 1) {
+                                $.alert(res.msg);
+                            } else {
+                                $.alert("删除成功");
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 200);
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+    }
+
+</script>
+{/block}
+
+

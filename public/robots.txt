@@ -1,0 +1,4 @@
+# Robots For FAKA
+User-agent: *
+Disallow: /details/
+Disallow: /liebiao/

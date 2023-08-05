@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>自助选号</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta name="keywords" content="{:sysconf('site_keywords')}" />
+        <meta name="description" content="{:sysconf('site_desc')}" />
+        <link rel="shortcut icon" href="{:sysconf('browser_icon')}" />
+        <link href="__RES__/merchant/default/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
+        <link href="__RES__/merchant/default/css/components.css" id="bootstrap-style" rel="stylesheet" type="text/css">
+        <link href="__RES__/merchant/default/css/bootstrap-extended.css" id="bootstrap-style" rel="stylesheet" type="text/css">
+        <link href="__RES__/merchant/default/libs/jquery-confirm/css/jquery-confirm.css" rel="stylesheet" type="text/css">
+        <link href="__RES__/merchant/default/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css">
+        <!-- Icons Css -->
+        <link href="__RES__/merchant/default/css/icons.min.css" rel="stylesheet" type="text/css">
+        <!-- App Css-->
+        <link href="__RES__/merchant/default/css/app.min.css" id="app-style" rel="stylesheet" type="text/css">
+        <link href="__RES__/merchant/default/css/custom.css" id="app-style" rel="stylesheet" type="text/css">
+    </head>
+
+
+    <body data-sidebar="dark" >
+
+        <!-- Begin page -->
+        <div id="layout-wrapper">
+
+            <div class="main-content">
+                <section id="floating-label-layouts">
+                    <div class="row ">
+
+                        <div class="col-12">
+                            <div class="card mb-0">
+                                <div class="card-content">
+                                    <div class="card-body">
+                                        <div class="form-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <p>
+                                                        <span class="badge badge-pill bg-primary font-size-13 text-bold-700 px-2 py-1">### {$goods.name}</span>
+                                                    </p>
+                                                    <p>
+                                                        <span class="badge badge-pill bg-success font-size-13 text-bold-700 px-2 py-1">选号费合计<span class="fee">0</span>元，{$goods.selectcard_fee}元/个</span>
+                                                    </p>
+                                                    <p class="text-bold-700 text-muted">商品已开启自助选号，可选号购买，不选择则随机发货。</p>
+                                                    <ul class="list-group" style="max-height: 320px;overflow: hidden;overflow-y: scroll;">
+                                                        {foreach $cards as $k=>$v}
+                                                        <li class="list-group-item">
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="id_{$k}" name="card_id" value="{$v.id|htmlentities}" data-title="{$v.number|htmlentities}">
+                                                                <label class="custom-control-label" for="id_{$k}">{$v.number}</label>
+                                                            </div>
+                                                        </li>
+                                                        {/foreach}
+                                                    </ul>
+                                                </div>
+                                                <div class="col-12 d-flex justify-content-center mt-4">
+                                                    <button id="no_select_btn" class="btn btn-light mr-1 mb-1">不选择随机</button>
+                                                    <button id="select_btn" class="btn btn-success mr-1 mb-1">确定选号</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+        <!-- END layout-wrapper -->
+
+
+        <!-- Right bar overlay-->
+        <div class="rightbar-overlay"></div>
+
+        <!-- JAVASCRIPT -->
+        <script src="__RES__/merchant/default/libs/jquery/jquery.min.js"></script>
+        <script src="__RES__/merchant/default/libs/node-waves/waves.min.js"></script>
+        <script src="__RES__/merchant/default/libs/jquery-confirm/js/jquery-confirm.js"></script>
+        <script src="__RES__/merchant/default/libs/layer/layer.js"></script>
+
+        <script>
+            var selectcard_fee = {$goods.selectcard_fee};
+
+            $('#no_select_btn').click(function () {
+                var ids = new Array();
+                var titles = new Array();
+                parent.selectLable(ids, titles, selectcard_fee * ids.length);
+                parent.closeSelectForm();
+            });
+
+            $('#select_btn').click(function () {
+                var ids = new Array();
+                var titles = new Array();
+                $('.card-content').find('input[name="card_id"]').each(function () {
+                    if ($(this).is(':checked')) {
+                        ids.push($(this).val());
+                        titles.push($(this).data('title'));
+                    }
+                });
+
+                parent.selectLable(ids, titles, selectcard_fee * ids.length);
+                parent.closeSelectForm();
+            });
+            $(function () {
+
+                $('input:checkbox').click(function () {
+                    var count = 0;
+                    $('.card-content').find('input[name="card_id"]').each(function () {
+                        if ($(this).is(':checked')) {
+                            count++;
+                        }
+                    });
+                    $(".fee").text(selectcard_fee * count);
+                });
+            });
+
+        </script>
+    </body>
+
+</html>

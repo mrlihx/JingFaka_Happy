@@ -1,0 +1,108 @@
+{extend name='./content'}
+
+{block name="content"}
+<form onsubmit="return false;" data-auto="" method="POST">
+    <input type="hidden" value="resort" name="action" />
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th class='text-center'>编号</th>
+                <th class='text-center'>账号备注</th>
+                <th class='text-center'>接口代码</th>
+                <th class='text-center'>状态</th>
+                <th class='text-center'>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {foreach $accounts as $v}
+            <tr>
+                <td class='text-center'>{$v.id}</td>
+                <td class='text-center'>{$v.name}</td>
+                <td class='text-center'>{$v.channel.code}</td>
+                <td class='text-center'>
+                    <div class="layui-btn-group">
+                        <button type="button" class='layui-btn {if $v.status==1}layui-btn-normal{else/}layui-btn-primary{/if} layui-btn-small btn-status-open'
+                            onclick="changeStatus({$v.id},1)">开启</button>
+                        <button type="button" class='layui-btn {if $v.status==0}layui-btn-normal{else/}layui-btn-primary{/if} layui-btn-small btn-status-close'
+                            onclick="changeStatus({$v.id},0)">关闭</button>
+                    </div>
+                </td>
+                <td class='text-center'>
+                    <div class="layui-btn-group">
+                        <button type="button" class='layui-btn layui-btn-small' data-modal='{:url("edit")}?account_id={$v.id}&channel_id={$v.channel_id}'
+                            data-title="编辑账号">编辑</button>
+                        <button type="button" class='layui-btn layui-btn-small' onclick="delAccount({$v.id})">删除</button>
+                    </div>
+                </td>
+            </tr>
+            {/foreach}
+        </tbody>
+    </table>
+</form>
+<script>
+    function changeStatus(id, status) {
+        $.ajax({
+            url: '{:url("change_status")}',
+            data: {
+                account_id: id,
+                status: status
+            },
+            dataType: 'json',
+            success: function (res) {
+                if (res.code == 1) {
+                    location.reload();
+                } else {
+                    alert(res.msg);
+                }
+                console.log(res);
+            }
+        });
+    }
+
+    function delAccount(account_id) {
+        if (!confirm('确认删除？')) {
+            return;
+        }
+        $.ajax({
+            url: '/manage/cash_channel_account/del',
+            data: {
+                account_id: account_id,
+            },
+            type: 'post',
+            dataType: 'json',
+            success: function (res) {
+                console.log(res);
+                if (res.code == 1) {
+                    // alert(res.msg);
+                    location.reload();
+                } else {
+                    alert(res.msg);
+                }
+            }
+        });
+    }
+
+    function clearAccount(account_id) {
+        if (!confirm('确认清除当前额度？')) {
+            return;
+        }
+        $.ajax({
+            url: '/manage/channel_account/clear',
+            data: {
+                account_id: account_id,
+            },
+            type: 'post',
+            dataType: 'json',
+            success: function (res) {
+                console.log(res);
+                if (res.code == 1) {
+                    // alert(res.msg);
+                    location.reload();
+                } else {
+                    alert(res.msg);
+                }
+            }
+        });
+    }
+</script>
+{/block}

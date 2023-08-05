@@ -1,0 +1,18 @@
+{extend name="simple_base"}
+
+{block name="content"}
+
+<div class="container">
+    <div class="card">
+        <div class="card-body  p-3">
+            <h6>{$article.title}</h6>
+            {$article.content|htmlspecialchars_decode|removeXSS}
+            {$article.create_at|date="Y-m-d H:i:s",###}
+
+        </div>
+    </div>
+</div>
+
+{/block}
+
+

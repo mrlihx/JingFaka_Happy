@@ -1,0 +1,450 @@
+{extend name="base"}
+
+{block name="css"}
+<style>
+    body{
+        background: #fff;
+    }
+    .page-content-wrapper{
+        margin-top: 0px !important;
+        padding-top: 0px !important;
+        padding-bottom: 0px !important;
+    }
+    #headerArea{
+        display:none
+    }
+</style>
+{/block}
+
+{block name="content"}
+<div class="complaint_toast">
+    <a href='{:url("merchant/complaint/index")}'>
+        <div class="toast toast-autohide toast-auto custom-toast-1" style="position: fixed;bottom: 100px;right: 15px;z-index: 1000;max-width: 18.5rem;" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000" data-bs-autohide="true">
+            <div class="toast-body">
+                <svg width="30" height="30" viewbox="0 0 16 16" class="bi bi-bookmark-check text-primary" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"></path>
+                    <path fill-rule="evenodd" d="M10.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z"></path>
+                </svg>
+                <div class="toast-text ms-3 me-2">
+                    <p class="mb-1">您有投诉订单待回复，请及时查看！</p>
+                </div>
+            </div>
+        </div>
+    </a>
+</div>
+
+<div id="home_header" class="card bg-header-primary  shadow-sm page-card wow fadeInUp" data-wow-duration="1s">
+    <div class="card-body px-3 py-4">
+
+        <div class="d-flex justify-content-between" >
+            <div class="d-flex align-items-center">
+                <img class="header-avatar" alt="" src="//q1.qlogo.cn/g?b=qq&nk={$_user.qq}&s=100&t=">
+                    <span class="header-username text-white">{$_user.username}</span>
+            </div>
+
+            <div class="d-flex header-info-wrap">
+                <a href="/"><i class="bx bx-home-alt"></i></a>
+                <a href="{:url('message/index')}" class="message_box"><i class="bx bx-bell"></i>
+                    {if $_messages_count!=0}
+                    <span class="message_count badge bg-danger rounded-pill">{$_messages_count}</span>
+                    {/if}
+                </a>
+                <a href="javascript:void(0);"  class='affanNavbarToggler'><i class="bx bx-cog"></i></a>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-between mt-4">
+            <div class="">
+                <p class="text-white fs-7 mb-1">账号余额（元）</p>
+                <h3 class="text-white">{$_user.money + 0|sprintf="%.2f",###}</h3>
+            </div>
+            <div class="d-block">
+                <a class="btn m-1 btn-round btn-white border-0 px-4 py-1 mt-2" href="{:url('cash/apply')}">提现</a>
+            </div>
+        </div>
+        <div class=" row mt-2">
+
+            <div class="col-3">
+                <div class="text-center header-data">
+                    <h6 class="mb-1 text-white">{$today['count'] + 0}</h6>
+                    <p class="mb-0 text-white">今日订单</p>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="text-center header-data">
+                    <h6 class="mb-1 text-white">{$today['profit']|sprintf="%.2f",###}</h6>
+                    <p class="mb-0 text-white">今日利润</p>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="text-center header-data">
+                    <h6 class="mb-1 text-white">{$ip_analysis['today_pv']}</h6>
+                    <p  class="mb-0  text-white">今日流量</p>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="text-center header-data">
+                    <h6 class="mb-1 text-white">{$_user.freeze_money|sprintf="%.2f",###}</h6>
+                    <p class="mb-0 text-white ">待结算</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="home-box-wrap py-3">
+    <div class="container">
+
+        <div class="ico_clic wow fadeInUp">
+            <i></i> 
+            <span class="fw-bold">商品管理</span>
+        </div>
+
+        <div class="row mt-2 gy-3">
+            <div class="col-3">
+                <div class="box-item text-center wow fadeInUp" data-wow-duration="1s">
+                    <a href="{:url('goods_category/index')}">
+                        <div class="d-flex align-items-center flex-column">
+                            <div class="icon">
+                                <i class="bx bx-grid-alt"></i>
+                            </div>
+                            <h6 class="mt-2">商品分类</h6>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="box-item text-center wow fadeInUp" data-wow-duration="1s">
+                    <a href="{:url('goods/index')}">
+                        <div class="d-flex align-items-center flex-column">
+                            <div class="icon">
+                                <i class="bx bx-archive "></i>
+                            </div>
+                            <h6 class="mt-2">商品列表</h6>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="box-item text-center wow fadeInUp" data-wow-duration="1s">
+                    <a href="{:url('goods/add')}">
+                        <div class="d-flex align-items-center flex-column">
+                            <div class="icon">
+                                <i class="bx bx-duplicate "></i>
+                            </div>
+                            <h6 class="mt-2">添加商品</h6>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="box-item text-center wow fadeInUp" data-wow-duration="1s">
+                    <a href="{:url('goods_card/add')}">
+                        <div class="d-flex align-items-center flex-column">
+                            <div class="icon">
+                                <i class="bx bx-customize "></i>
+                            </div>
+                            <h6 class="mt-2">添加库存</h6>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+
+            <div class="col-3">
+                <div class="box-item text-center wow fadeInUp" data-wow-duration="1s">
+                    <a href="{:url('goods_card/index')}">
+                        <div class="d-flex align-items-center flex-column">
+                            <div class="icon">
+                                <i class="bx bx-hive"></i>
+                            </div>
+                            <h6 class="mt-2">库存列表</h6>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="box-item text-center wow fadeInUp" data-wow-duration="1s">
+                    <a href="{:url('goods_card/trash')}">
+                        <div class="d-flex align-items-center flex-column">
+                            <div class="icon">
+                                <i class="bx bx-trash"></i>
+                            </div>
+                            <h6 class="mt-2">卡密回收站</h6>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="box-item text-center wow fadeInUp" data-wow-duration="1s">
+                    <a href="{:url('goods_coupon/index')}">
+                        <div class="d-flex align-items-center flex-column">
+                            <div class="icon">
+                                <i class="bx bx-purchase-tag-alt "></i>
+                            </div>
+                            <h6 class="mt-2">优惠券管理</h6>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="home-box-wrap py-3">
+    <div class="container">
+
+        <div class="ico_clic wow fadeInUp">
+            <i></i> 
+            <span class="fw-bold">交易管理</span>
+        </div>
+
+        <div class="row mt-2 gy-3">
+
+            <div class="col-3">
+                <div class="box-item text-center wow fadeInUp" data-wow-duration="1s">
+                    <a href="{:url('order/index')}">
+                        <div class="d-flex align-items-center flex-column">
+                            <div class="icon">
+                                <i class="bx bx-receipt"></i>
+                            </div>
+                            <h6 class="mt-2">我的订单</h6>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="box-item text-center wow fadeInUp" data-wow-duration="1s">
+                    <a href="{:url('charts/money')}">
+                        <div class="d-flex align-items-center flex-column">
+                            <div class="icon">
+                                <i class="bx bx-bar-chart-square"></i>
+                            </div>
+                            <h6 class="mt-2">交易统计</h6>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="box-item text-center wow fadeInUp" data-wow-duration="1s">
+                    <a href="{:url('cash/index')}">
+                        <div class="d-flex align-items-center flex-column">
+                            <div class="icon">
+                                <i class="bx bx-dollar-circle"></i>
+                            </div>
+                            <h6 class="mt-2">结算管理</h6>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="box-item text-center wow fadeInUp" data-wow-duration="1s">
+                    <a href="{:url('complaint/index')}">
+                        <div class="d-flex align-items-center flex-column">
+                            <div class="icon">
+                                <i class="bx bx-conversation "></i>
+                            </div>
+                            <h6 class="mt-2">投诉管理</h6>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<div class="home-box-wrap py-3">
+    <div class="container">
+
+        <div class="ico_clic wow fadeInUp">
+            <i></i> 
+            <span class="fw-bold">店铺管理</span>
+        </div>
+
+        <div class="row mt-2 gy-3">
+            <div class="col-3">
+                <div class="box-item text-center wow fadeInUp" data-wow-duration="1s">
+                    <a href="{:url('user/link')}">
+                        <div class="d-flex align-items-center flex-column">
+                            <div class="icon">
+                                <i class="bx bx-link-alt"></i>
+                            </div>
+                            <h6 class="mt-2">店铺链接</h6>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="box-item text-center wow fadeInUp" data-wow-duration="1s">
+                    <a href="{:url('user/settings')}">
+                        <div class="d-flex align-items-center flex-column">
+                            <div class="icon">
+                                <i class="bx bx-box  "></i>
+                            </div>
+                            <h6 class="mt-2">店铺设置</h6>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+
+            <div class="col-3">
+                <div class="box-item text-center wow fadeInUp" data-wow-duration="1s">
+                    <a href="{:url('user/collect')}">
+                        <div class="d-flex align-items-center flex-column">
+                            <div class="icon">
+                                <i class="bx bx-wallet-alt"></i>
+                            </div>
+                            <h6 class="mt-2">结算设置</h6>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="box-item text-center wow fadeInUp" data-wow-duration="1s">
+                    <a href="{:url('spread/index')}">
+                        <div class="d-flex align-items-center flex-column">
+                            <div class="icon">
+                                <i class="bx bx-share-alt"></i>
+                            </div>
+                            <h6 class="mt-2">推广返利</h6>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="box-item text-center wow fadeInUp" data-wow-duration="1s">
+                    <a href="{:url('invite_code/index')}">
+                        <div class="d-flex align-items-center flex-column">
+                            <div class="icon">
+                                <i class="bx bx-user-plus"></i>
+                            </div>
+                            <h6 class="mt-2">邀请码</h6>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="box-item text-center wow fadeInUp" data-wow-duration="1s">
+                    <a href="{:url('agent/setting')}">
+                        <div class="d-flex align-items-center flex-column">
+                            <div class="icon">
+                                <i class="bx bx-group"></i>
+                            </div>
+                            <h6 class="mt-2">供货和代理</h6>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="box-item text-center wow fadeInUp" data-wow-duration="1s">
+                    <a href="{:url('cross/index')}">
+                        <div class="d-flex align-items-center flex-column">
+                            <div class="icon">
+                                <i class="bx bx-globe"></i>
+                            </div>
+                            <h6 class="mt-2">跨平台对接</h6>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="box-item text-center wow fadeInUp" data-wow-duration="1s">
+                    <a href="{:url('user/wechat')}">
+                        <div class="d-flex align-items-center flex-column">
+                            <div class="icon">
+                                <i class="bx bx-message-alt-dots"></i>
+                            </div>
+                            <h6 class="mt-2">微信通知</h6>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            {foreach :include_once APP_PATH . DS . "common" . DS . "menu" . DS . "plugin_mobile" . EXT as $v}
+            <div class="col-3">
+                <div class="box-item text-center wow fadeInUp" data-wow-duration="1s">
+                    <a href="{:url($v['url'])}">
+                        <div class="d-flex align-items-center flex-column">
+                            <div class="icon">
+                                <i class="{$v['icon']}"></i>
+                            </div>
+                            <h6 class="mt-2">{$v['title']}</h6>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            {/foreach}
+
+        </div>
+    </div>
+</div>
+
+<div class="affan-notice-wrap py-3">
+    <div class="container">
+        <div class="card shadow-sm  wow fadeInUp " data-wow-duration="1s">
+            <div class="card-body">
+                <h5>系统公告</h5>
+                <div class="testimonial-slide owl-carousel testimonial-style3">
+
+                    {foreach $articles as $v}
+                    <div class="single-testimonial-slide">
+                        <div class="text-content">
+                            <span class="d-inline-block badge bg-danger mb-2 show-time">{$v.create_at|date="m/d",###}</span>
+                            <p class="mb-2">{$v.title} </p>
+                            <span class="d-block show-more">
+                                <a href="{:url('merchant/index/notice',['article_id'=>$v.id])}" >查看详情<i class="bx bx-right-arrow-alt align-middle"></i></a>
+                            </span>
+                        </div>
+                    </div>
+                    {/foreach}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{/block}
+{block name="js"}
+<script>
+    $(".complaint_toast").show();
+    function complaintToast()
+    {
+        $.ajax({
+            type: 'get',
+            url: "{:url('Plugin/complaintToast')}",
+            dataType: 'json',
+            success: function (info) {
+                if (info.code == 1 && info.data.count > 0)
+                {
+                    var affanToast = [].slice.call(document.querySelectorAll('.toast'));
+                    var toastList = affanToast.map(function (toast) {
+                        return new bootstrap.Toast(toast);
+                    });
+                    toastList.map(function (toast) {
+                        return toast.show();
+                    });
+                }
+            }
+        });
+    }
+    complaintToast();
+    setInterval(function () {
+        complaintToast();
+    }, 30000);
+</script>
+{/block}
+
+

@@ -1,0 +1,232 @@
+{extend name='./content'}
+{block name="button"}
+<div class="nowrap pull-right" style="margin-top:10px">
+    {if $development}
+    <button data-modal="{:url('add')}" data-title="添加支付接口" class='layui-btn layui-btn-small'>添加支付接口</button>
+    {/if}
+</div>
+{/block}
+{block name="content"}
+
+<div class="col-sm-12">
+    {if glock_status()==true}
+    <div class="layui-form-item">
+        <span style="color:green"><i class="glyphicon glyphicon-ok"></i> 当前已开启网关锁【提示：对接接口前需先关闭网关锁！】</span>
+        <a data-title="网关锁" data-open="{:url('manage/plugin/glock')}" href="javascript:void(0)">去关闭</a>
+    </div>
+    {else/}
+    <div class="layui-form-item">
+        <span style="color:red"><i class="glyphicon glyphicon-remove"></i> 当前未开启网关锁【网关锁可防止篡改接口参数，防止篡改接口文件】</span>
+        <a data-title="网关锁" data-open="{:url('manage/plugin/glock')}" href="javascript:void(0)">去开启</a>
+    </div>
+    {/if}
+</div>
+
+
+
+<form onsubmit="return false;" data-auto="" method="POST">
+    <input type="hidden" value="resort" name="action"/>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th class='text-center'>编号</th>
+                <th class='text-center'>接口名称</th>
+                <th class='text-center'>接口代码</th>
+                <th class='text-center'>显示名称</th>
+                <th class='text-center'>充值费率</th>
+                <th class='text-center'>排序(越大越靠前)</th>
+                <?php if(input('is_install/d',1) == 1) { ?>
+                <th class='text-center'>平台代收状态</th>
+                <th class='text-center'>商户充值状态</th>
+                <th class='text-center'>接口可用</th>
+                <?php }?>
+                <th class='text-center'>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {foreach $channelList as $v}
+            <tr>
+                <td class='text-center'>{$v.id}</td>
+                <td class='text-center'>{$v.title}</td>
+                <td class='text-center'>{$v.code}</td>
+                <td class='text-center'>{$v['show_name']}</td>
+                <td class='text-center'>{$v.lowrate*1000}‰</td>
+                <td class='text-center'>{$v.sort}</td>
+                <?php if(input('is_install/d',1) == 1) { ?>
+                <td class='text-center'>
+                    <div class="layui-btn-group">
+                        <button type="button" class='layui-btn {if $v.status==1}layui-btn-normal{else/}layui-btn-primary{/if} layui-btn-small btn-status-open' onclick="changeStatus({$v.id}, 1)">开启</button>
+                        <button type="button" class='layui-btn {if $v.status==0}layui-btn-normal{else/}layui-btn-primary{/if} layui-btn-small btn-status-close' onclick="changeStatus({$v.id}, 0)">关闭</button>
+                    </div>
+                </td>
+                 <td class='text-center'>
+                    <div class="layui-btn-group">
+                        <button type="button" class='layui-btn {if $v.is_deposit==1}layui-btn-normal{else/}layui-btn-primary{/if} layui-btn-small btn-status-open' onclick="changeDeposit({$v.id}, 1)">开启</button>
+                        <button type="button" class='layui-btn {if $v.is_deposit==0}layui-btn-normal{else/}layui-btn-primary{/if} layui-btn-small btn-status-close' onclick="changeDeposit({$v.id}, 0)">关闭</button>
+                    </div>
+                </td>
+                <td class='text-center'>
+                    <div class="layui-btn-group">
+                        <button type="button" class='layui-btn {if $v.is_available==1}layui-btn-normal{else/}layui-btn-primary{/if} layui-btn-small btn-status-open' onclick="change_available({$v.id}, 1)">手机</button>
+                        <button type="button" class='layui-btn {if $v.is_available==2}layui-btn-normal{else/}layui-btn-primary{/if} layui-btn-small btn-status-close' onclick="change_available({$v.id}, 2)">电脑</button>
+                        <button type="button" class='layui-btn {if $v.is_available==0}layui-btn-normal{else/}layui-btn-primary{/if} layui-btn-small btn-status-close' onclick="change_available({$v.id}, 0)">通用</button>
+                    </div>
+                </td>
+                <?php }?>
+                <td class='text-center'>
+                    <div class="layui-btn-group">
+                        <?php if(!empty($v['applyurl'])){ ?>
+                        <a href="{$v.applyurl}" class='layui-btn layui-btn-small' >申请地址</a>
+                        <?php } ?>
+                        <?php if($v['is_install'] == '1'){ ?>
+                        <button type="button" class='layui-btn layui-btn-small' data-modal='{:url("edit")}?channel_id={$v.id}' data-title="编辑支付接口">编辑</button>
+                        <button type="button" class='layui-btn layui-btn-small' data-modal='{:url("ChannelAccount/add")}?channel_id={$v.id}' data-title="添加账号">添加账号</button>
+                        <button type="button" class='layui-btn layui-btn-small' data-open='{:url("ChannelAccount/index")}?channel_id={$v.id}' data-title="账号列表">账号列表</button>
+                        <button type="button" class='layui-btn layui-btn-small layui-btn-danger' onclick="uninstall({$v.id})">卸载</button>
+                        <?php }else{ ?>
+                        <button type="button" class='layui-btn layui-btn-small layui-btn-danger' onclick="install({$v.id})">安装</button>
+                        <?php } ?>
+                        <button type="button" class='layui-btn layui-btn-small layui-btn-danger' onclick="delChannel({$v.id})">删除</button>
+                    </div>
+                </td>
+            </tr>
+            {/foreach}
+        </tbody>
+    </table>
+</form>
+<script>
+    //更新接口状态
+    function changeStatus(id, status){
+    $.ajax({
+    url:'{:url("change_status")}',
+            type:'post',
+            data:{channel_id:id, status:status},
+            success:function(res){
+            if (res.code == 1){
+            location.reload();
+            } else{
+            alert(res.msg);
+            }
+            }
+    });
+    }
+    
+    
+        function changeDeposit(id, status){
+    $.ajax({
+    url:'{:url("change_deposit")}',
+            type:'post',
+            data:{channel_id:id, is_deposit:status},
+            success:function(res){
+            if (res.code == 1){
+            location.reload();
+            } else{
+            alert(res.msg);
+            }
+            }
+    });
+    }
+    
+    //更新接口可用类型
+    function change_available(id, type){
+    $.ajax({
+    url:'{:url("change_available")}',
+            type:'post',
+            data:{channel_id:id, type:type},
+            success:function(res){
+            if (res.code == 1){
+            location.reload();
+            } else{
+            alert(res.msg);
+            }
+            }
+    });
+    }
+    //删除接口
+    function delChannel(channel_id)
+    {
+    if (!confirm('是否确认删除接口？')){
+    return;
+    }
+    var loading = '';
+    $.ajax({
+    url:'/manage/channel/del',
+            data:{
+            channel_id:channel_id,
+            },
+            type:'post',
+            dataType:'json',
+            beforeSend: function(){
+            loading = layer.load();
+            },
+            success:function(res){
+            layer.close(loading);
+            if (res.code == 1){
+            layer.msg(res.msg, {icon:1, time:1000});
+            $.form.reload();
+            } else {
+            layer.msg(res.msg, {time: 2000, icon:'error'});
+            }
+            },
+            error:function(XMLHttpRequest, textStatus, errorThrown){
+            layer.close(loading);
+            layer.msg('连接错误');
+            }
+    });
+    }
+
+    function uninstall(id){
+    $.ajax({
+    url:'/manage/channel/uninstall',
+            data:{
+            id:id,
+            },
+            type:'post',
+            dataType:'json',
+            beforeSend: function(){
+            loading = layer.load();
+            },
+            success:function(res){
+            layer.close(loading);
+            if (res.code == 1){
+            layer.msg(res.msg, {icon:1, time:1000});
+            $.form.reload();
+            } else {
+            layer.msg(res.msg, {time: 2000, icon:'error'});
+            }
+            },
+            error:function(XMLHttpRequest, textStatus, errorThrown){
+            layer.close(loading);
+            layer.msg('连接错误');
+            }
+    });
+    }
+
+    function install(id){
+    $.ajax({
+    url:'/manage/channel/install',
+            data:{
+            id:id,
+            },
+            type:'post',
+            dataType:'json',
+            beforeSend: function(){
+            loading = layer.load();
+            },
+            success:function(res){
+            layer.close(loading);
+            if (res.code == 1){
+            layer.msg(res.msg, {icon:1, time:1000});
+            $.form.reload();
+            } else {
+            layer.msg(res.msg, {time: 2000, icon:'error'});
+            }
+            },
+            error:function(XMLHttpRequest, textStatus, errorThrown){
+            layer.close(loading);
+            layer.msg('连接错误');
+            }
+    });
+    }
+</script>
+{/block}

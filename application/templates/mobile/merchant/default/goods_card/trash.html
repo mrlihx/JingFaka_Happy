@@ -1,0 +1,131 @@
+{extend name="simple_base"}
+{block name="css"}
+
+{/block}
+
+
+{block name="content"}
+
+<div class="container">
+    <div class="card">
+        <div class="card-body  p-3">
+
+            {foreach $cards as $k=> $v}
+            <div class="single-search-result mb-3 border-bottom pb-3 order-wrap">
+                <div class="">
+                    <h6 class="text-truncate mb-1">商品名称：&nbsp;&nbsp;{$v.goods.name}</h6>
+                </div>
+                <div class="d-flex align-items-center mt-1 justify-content-between">
+                    <div class="order-wrap-text">
+                        <span>卡号：</span>
+                        <span>{$v.number}</span>
+                    </div>
+                    <div class="order-wrap-text">
+                        <span>卡密：</span>
+                        <span>
+                            {$v.secret|default="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"}
+                        </span>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center mt-1 justify-content-between">
+                    <div class="order-wrap-text">
+                        <span>删除：</span>
+                        <span>{$v.delete_at|date="Y-m-d H:i:s",###}</span>
+                    </div>
+                </div>
+
+                <div class="goods-warp d-flex align-items-center mt-3 justify-content-end">
+                    <a class="me-1" href="javascript:void(0);" onclick="$.x_show('查看卡密', '{:url(\"goods_card/show\",[\"id\"=>$v.id])}', '90%')"><span class="goods-warp-btn" >查看</span></a>
+                    <a class="me-1" href="javascript:void(0);" onclick="restore(this, '{$v.id}')"><span class="goods-warp-btn" >恢复</span></a>
+                    <a href="javascript:void(0);" onclick="del(this, '{$v.id}')"><span class="goods-warp-btn goods-warp-btn-delete">删除</span></a>
+                </div>
+            </div>
+            {/foreach}
+
+
+            <nav aria-label="Page navigation">
+                {$page}
+            </nav>
+        </div>
+    </div>
+</div>
+
+{/block}
+{block name="js"}
+
+<script>
+    function del(obj, id)
+    {
+
+        $.confirm({
+            title: '确定删除吗？',
+            content: '你无法恢复该操作！',
+            type: 'red',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: '确定',
+                    btnClass: 'btn-red',
+                    action: function () {
+                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                        $.post("{:url('goods_card/trash_delete')}", {
+                            id: id
+                        }, function (res) {
+                            if (res.code != 1) {
+                                $.alert(res.msg);
+                            } else {
+                                $.alert('删除成功');
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 200);
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+
+    }
+
+    function restore(obj, id)
+    {
+
+        $.confirm({
+            title: '提示！',
+            content: '确定恢复吗？',
+            type: 'green',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: '确定',
+                    btnClass: 'btn-green',
+                    action: function () {
+                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                        $.post("{:url('goods_card/trash_restore')}", {
+                            id: id
+                        }, function (res) {
+                            if (res.code != 1) {
+                                $.alert(res.msg);
+                            } else {
+                                $.alert('恢复成功');
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 200);
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+
+    }
+</script>
+{/block}
+
+

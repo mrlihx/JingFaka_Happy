@@ -1,0 +1,138 @@
+<form class="layui-form layui-box" style='padding:25px 30px 20px 0' action="__SELF__" data-auto="true" method="post">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">商户ID</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{$order.user_id}" class="layui-input" readonly>
+        </div>
+        <label class="layui-form-label">商户账号</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{$order.user.username}" class="layui-input" readonly>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">订单号</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{$order.trade_no}" class="layui-input" readonly>
+        </div>
+        <label class="layui-form-label">流水号</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{$order.transaction_id}" class="layui-input" readonly>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">商品名称</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{$order.goods_name}" class="layui-input" readonly>
+        </div>
+        <label class="layui-form-label">商品数量</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{$order.quantity}" class="layui-input" readonly>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">商品单价</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{$order.goods_price}" class="layui-input" readonly>
+        </div>
+        <label class="layui-form-label">商品成本价</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{$order.goods_cost_price}" class="layui-input" readonly>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">优惠券</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{if $order.coupon_type==1}优惠{$order.coupon_price}元{else/}未使用{/if}" class="layui-input" readonly>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">总价</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{$order.total_price}" class="layui-input" readonly>
+        </div>
+        <label class="layui-form-label">总成本价</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{$order.total_cost_price}" class="layui-input" readonly>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">取卡密码</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{if $order.take_card_password!=''}{$order.take_card_password}{else/}未设置{/if}" class="layui-input" readonly>
+        </div>
+        <label class="layui-form-label">联系方式</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{$order.contact}" class="layui-input" readonly>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">邮件通知</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{if $order.email_notify==1}{$order.email}{else/}未设置{/if}" class="layui-input" readonly>
+        </div>
+        <label class="layui-form-label">短信通知</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{if $order.sms_notify==1}{$order.contact}{else/}未设置{/if}" class="layui-input" readonly>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">支付类型</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{:get_paytype_name($order.paytype)}" class="layui-input" readonly>
+        </div>
+        <label class="layui-form-label">交易通道</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{$order.channel.title}" class="layui-input" readonly>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">手续费率</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{$order['rate']*1000}‰" class="layui-input" readonly>
+        </div>
+        <label class="layui-form-label">手续费</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{$order.fee}" class="layui-input" readonly>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">状态</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{$order.status_text}" class="layui-input" readonly>
+        </div>
+        <label class="layui-form-label">取卡状态</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{if $order.cards_count>0}{if $order.cards_count>=$order.quantity}已取{else/}已取部分{/if}{else/}未取{/if}" class="layui-input" readonly>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">提交时间</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{$order.create_at|date='Y-m-d H:i:s',###}" class="layui-input" readonly>
+        </div>
+        <label class="layui-form-label">提交IP</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{$order.create_ip}" class="layui-input" readonly>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">完成时间</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{if condition="$order.success_at gt 0"}{$order.success_at|date='Y-m-d H:i:s',###}{/if}" class="layui-input" readonly>
+        </div>
+    </div>
+
+</form>

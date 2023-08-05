@@ -1,0 +1,20 @@
+{extend name="./layout"}
+
+{block name="content"}
+<li><span class="form_title">商品分类</span>
+    <p class="spdj">{$category.name}</p>
+    <script>
+        $(function () {
+            selectcateid();
+        })
+    </script>
+    <input type="hidden" name="cateid" id="cateid" value="{$category.id}">
+    <!--如果是分类链接结束-->
+    <!--如果是店铺链接开始-->
+</li>
+<li>
+<span class="form_title">商品名称</span>
+    <select style="width: calc(93% - 72px); margin-left: 3%; display: inline-block;" name="goodid" id="goodid" onchange="selectgoodid()"><option value="">请选择商品</option>
+</select>
+</li>
+{/block}

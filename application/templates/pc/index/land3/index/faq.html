@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>{:sysconf('site_name')} - {:sysconf('site_subtitle')}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="keywords" content="{:sysconf('site_keywords')}" />
+        <meta name="description" content="{:sysconf('site_desc')}" />
+        <link rel="shortcut icon" href="{:sysconf('browser_icon')}" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="theme-color" content="#1E78FF">	
+        <meta name="msapplication-navbutton-color" content="#1E78FF">		
+        <meta name="apple-mobile-web-app-status-bar-style" content="#1E78FF">
+        <link rel="stylesheet" type="text/css" href="__RES__/theme/maowang51/css/style.css" media="all">		
+        <link rel="stylesheet" type="text/css" href="__RES__/theme/maowang51/css/responsive.css" media="all">	
+    </head>
+
+    <body>
+        <div class="main-page-wrapper">
+            <!-- ===================================================
+                    Loading Transition
+            ==================================================== -->
+            {include file="./default_her"}
+
+
+            <!-- 
+            =============================================
+                    Search
+            ============================================== 
+            -->
+            <div class="offcanvas offcanvas-top theme-search-form bg-three justify-content-center" tabindex="-1" id="offcanvasTop">
+                <button type="button" class="close-btn tran3s" data-bs-dismiss="offcanvas" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+                <div class="form-wrapper">
+                    <form action="#">
+                        <input type="text" placeholder="Search Keyword....">
+                    </form>
+                </div> <!-- /.form-wrapper -->
+            </div>
+
+
+            <!-- 
+            =============================================
+                    Theme Main Menu
+            ============================================== 
+            -->
+            <header class="theme-main-menu sticky-menu theme-menu-four">
+                {include file="./default_header"}
+            </header> <!-- /.theme-main-menu -->
+
+
+
+            <!-- 
+            =============================================
+                    Theme Inner Banner
+            ============================================== 
+            -->
+            <div class="theme-inner-banner">
+                <div class="container">
+                    <h2 class="intro-title text-center">常见问题 & 在线解答</h2>
+                    <ul class="page-breadcrumb style-none d-flex justify-content-center">
+                        <li><a href="/">平台商业</a></li>
+                        <li class="current-page">常见问题</li>
+                    </ul>
+                </div>
+                <img src="__RES__/theme/maowang51/picture/shape_38.svg" alt="" class="shapes shape-one">
+                <img src="__RES__/theme/maowang51/picture/shape_39.svg" alt="" class="shapes shape-two">
+            </div> <!-- /.theme-inner-banner -->
+
+
+
+            <!--
+            =====================================================
+                    FAQ Section One
+            =====================================================
+            -->
+            <div class="faq-section-one mt-130 mb-150 lg-mt-80 lg-mb-80">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xxl-10 col-xl-11 m-auto">
+                            <div class="row">
+                                <div class="col-xl-4 col-lg-3">
+                                    <ul class="faq-list-item style-none md-mb-60">
+                                        <li ><h3 class="faq-title">快速入口</h3></li>
+                                        <li class="active"><a href="/company/notice">1. <span>系统公告</span></a></li>
+                                        <li class="active"><a href="/company/news">2. <span>行业新闻</span></a></li>
+                                        <li class="active"><a href="/company/settlement">3. <span>结算公告</span></a></li>
+                                        <li class="active"><a href="/login">4. <span>用户登录</span></a></li>
+                                        <li class="active"><a href="/register">5. <span>用户注册</span></a></li>
+                                    </ul>
+                                </div>
+
+                                <div class="col-xl-8 col-lg-9" data-aos="fade-left">
+                                    <h3 class="faq-title">常见问题</h3>
+                                    <div class="accordion accordion-style-one" id="accordionOne">
+
+                                        {foreach $articles as $v}
+                                        <div class="accordion-item">
+                                            <div class="accordion-header" id="headingOne{$v.id}">
+                                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne{$v.id}" aria-expanded="false" aria-controls="collapseOne{$v.id}">
+                                                    {$v.title}
+                                                </button>
+                                            </div>
+                                            <div id="collapseOne{$v.id}" class="accordion-collapse collapse" aria-labelledby="headingOne{$v.id}" data-bs-parent="#accordionOne">
+                                                <div class="accordion-body">
+                                                    <p>{$v.content|htmlspecialchars_decode|removeXSS} </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {/foreach}
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- /.container -->
+            </div> <!-- /.faq-section-one -->
+
+
+
+            <!--
+            =====================================================
+                    Footer
+            =====================================================
+            -->
+            <div class="footer-style-four theme-basic-footer">
+                <div class="container">
+                    <div class="inner-wrapper">
+                        <div class="subscribe-area">
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <div class="title-style-four sm-pb-20">
+                                        <h4 class="main-title">合作伙伴计划<span>商业合作</span> & 请联系平台客服.</h4>
+                                    </div> <!-- /.title-style-four -->
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="subscribe-form">
+                                        <form action="#">
+                                            <input type="email" placeholder="请填写您的邮箱...">
+                                            <button class="ripple-btn tran3s">提交申请</button>
+                                        </form>
+                                        <p>合作计划会通过邮箱方式发送给您.</p>
+                                    </div> <!-- /.subscribe-form -->
+                                </div>
+                            </div>
+                        </div> <!-- /.subscribe-area -->
+                        {include file="./default_footer"}
+                    </div> <!-- /.inner-wrapper -->
+                </div>
+            </div> <!-- /.footer-style-four -->
+
+
+            <button class="scroll-top">
+                <i class="bi bi-arrow-up-short"></i>
+            </button>
+
+
+
+
+            <!-- Optional JavaScript _____________________________  -->
+
+            <!-- jQuery first, then Bootstrap JS -->
+            <!-- jQuery -->
+            <script src="__RES__/theme/maowang51/js/jquery.min.js"></script>
+            <!-- Bootstrap JS -->
+            <script src="__RES__/theme/maowang51/js/bootstrap.bundle.min.js"></script>
+            <!-- AOS js -->
+            <script src="__RES__/theme/maowang51/js/aos.js"></script>
+            <!-- Slick Slider -->
+            <script src="__RES__/theme/maowang51/js/slick.min.js"></script>
+            <!-- js Counter -->
+            <script src="__RES__/theme/maowang51/js/jquery.counterup.min.js"></script>
+            <script src="__RES__/theme/maowang51/js/jquery.waypoints.min.js"></script>
+            <!-- Fancybox -->
+            <script src="__RES__/theme/maowang51/js/jquery.fancybox.min.js"></script>
+            <!-- isotop -->
+            <script src="__RES__/theme/maowang51/js/isotope.pkgd.min.js"></script>
+
+            <!-- Theme js -->
+            <script src="__RES__/theme/maowang51/js/theme.js"></script>
+        </div> <!-- /.main-page-wrapper -->
+    </body>
+</html>

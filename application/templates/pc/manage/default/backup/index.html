@@ -1,0 +1,55 @@
+{extend name='./content'}
+
+{block name="button"}
+<div class="nowrap pull-right" style="margin-top:10px">
+    <button data-modal='{:url("backall")}' data-title="添加备份" class='layui-btn layui-btn-small'><i
+            class='fa fa-plus'></i> 添加备份
+    </button>
+</div>
+{/block}
+
+{block name="content"}
+
+<form onsubmit="return false;" data-auto="true" method="post">
+    <input type="hidden" value="resort" name="action"/>
+    <table class="layui-table" lay-skin="line" lay-size="sm">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>文件名</th>
+            <th>创建时间</th>
+            <th>大小</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $list as $k => $v}
+        <tr>
+            <td>{$k+1}</td>
+            <td>{$v.name}</td>
+            <td>{$v.time}</td>
+            <td>{$v.size}</td>
+            <td>
+                <a data-update="-1" data-field='file' data-value='{$v.name}' data-action='/manage/backup/deletebak?file={$v.name}' href="javascript:void(0)">删除</a>
+                <a href="javascript:void(0)" onclick="recover(this,'{$v.name}')">恢复</a>
+                <a style="display:none" id="btn-recover" data-title="恢复" data-modal='/manage/backup/recover?file={$v.name}' href="javascript:void(0)">恢复</a>
+                <a href="/manage/backup/downloadBak?file={$v.name}">下载</a>
+            </td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+</form>
+<script>
+    layui.use('form', function(){
+        var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+        form.render();
+    });
+    /*删除*/
+    function recover(obj, file) {
+        layer.confirm('确认要恢复这个备份吗？', function (index) {
+            $('#btn-recover').trigger('click');
+        });
+    }
+</script>
+{/block}

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>{:sysconf('site_name')} - {:sysconf('site_subtitle')}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="keywords" content="{:sysconf('site_keywords')}" />
+        <meta name="description" content="{:sysconf('site_desc')}" />
+        <link rel="shortcut icon" href="{:sysconf('browser_icon')}" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="theme-color" content="#1E78FF">	
+        <meta name="msapplication-navbutton-color" content="#1E78FF">		
+        <meta name="apple-mobile-web-app-status-bar-style" content="#1E78FF">
+        <link rel="stylesheet" type="text/css" href="__RES__/theme/maowang51/css/style.css" media="all">		
+        <link rel="stylesheet" type="text/css" href="__RES__/theme/maowang51/css/responsive.css" media="all">	
+    </head>
+
+    <body>
+        <div class="main-page-wrapper">
+            <!-- ===================================================
+                    Loading Transition  
+            ==================================================== -->
+            {include file="./default_her"}
+
+
+            <!-- 
+            =============================================
+                    Search
+            ============================================== 
+            -->
+            <div class="offcanvas offcanvas-top theme-search-form bg-three justify-content-center" tabindex="-1" id="offcanvasTop">
+                <button type="button" class="close-btn tran3s" data-bs-dismiss="offcanvas" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+                <div class="form-wrapper">
+                    <form action="#">
+                        <input type="text" placeholder="Search Keyword....">
+                    </form>
+                </div> <!-- /.form-wrapper -->
+            </div>
+
+
+            <!-- 
+            =============================================
+                    Theme Main Menu
+            ============================================== 
+            -->
+            <header class="theme-main-menu sticky-menu theme-menu-four">
+                {include file="./default_header"}
+            </header> <!-- /.theme-main-menu -->
+
+            <!-- 
+            =============================================
+                    Theme Inner Banner
+            ============================================== 
+            -->
+            <div class="theme-inner-banner">
+
+                <div class="fancy-short-banner-five theme-basic-footer">
+                    <div class="container">
+                        <div class="bg-wrapper">
+
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <div class="title-style-four sm-pb-20">
+                                        <h3 class="pe-xxl-5 md-pb-20">搜索查询商家</h3>
+                                    </div> <!-- /.title-style-four -->
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="subscribe-form">
+                                        <form action="/youxiu">
+                                            <input type="text" name="id"  placeholder="输入商家名...">
+                                            <button type="submit" class="ripple-btn tran3s">查询</button>
+                                        </form>
+                                        <p>请输入需要查询的商家名</p>
+                                    </div> <!-- /.subscribe-form -->
+                                </div>
+                            </div>
+
+
+
+                        </div> <!-- /.inner-wrapper -->
+                    </div>
+                </div>
+                <br>
+                <img src="__RES__/theme/maowang51/picture/shape_38.svg" alt="" class="shapes shape-one">
+                <img src="__RES__/theme/maowang51/picture/shape_39.svg" alt="" class="shapes shape-two">
+            </div> <!-- /.theme-inner-banner -->
+
+
+
+
+            <!-- 
+            =============================================
+                    Contact Section One
+            ============================================== 
+            -->
+
+            <div class="contact-section-one mb-100 lg-mb-120">
+
+
+
+                <div class="container">
+
+                    <div class="row align-items-center">
+                        <div class="col-xl-7 col-lg-6 col-md-8 m-auto">
+                            <div class="title-style-one text-center mb-20 aos-init aos-animate" data-aos="fade-up">
+                                <div class="sc-title-five">优秀商家 &amp; 官方认证</div>
+                                <h2 class="main-title">优秀商家展示</h2>
+
+                            </div> <!-- /.title-style-one -->
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        {foreach $articles as $v}
+                        <div class="col-md-4">
+                            <div class="address-block-two text mb-40 sm-mb-20">
+                                <div class="d-flex align-items-center justify-content-center m-auto"><img src="{$v.title_img}" alt="" style="width: 100px;height: 100px;border-radius:20% 20% 20% 20%;"></div>
+                                <h5 class="title text-center">{$v.title}</h5>
+                                <p>入驻时间：{:date('Y-m-d',$v.create_at)} <br>销售类型：{$v.description}<br>已缴押金：{$v.content} 元</p>
+                            </div> <!-- /.address-bloc title_img  k-two -->
+                        </div>
+                        {/foreach}
+
+
+                    </div>
+                    <div class="page-pagination-one">
+                        <ul class="d-flex align-items-center justify-content-center style-none">
+                            <li class="active">仅显示部分商家，更多请搜索</li>
+
+                        </ul>
+                    </div>
+                </div>
+
+            </div> <!-- /.contact-section-one -->
+
+
+
+
+            <!-- 
+            =============================================
+                    Fancy Short Banner Five
+            ============================================== 
+            -->
+            <div class="fancy-short-banner-five">
+                <div class="container">
+                    <div class="bg-wrapper">
+                        <div class="row align-items-center">
+                            <div class="col-lg-6 text-center text-lg-start" data-aos="fade-right">
+                                <h3 class="pe-xxl-5 md-pb-20">商业合作，请联系我们</h3>
+                            </div>
+                            <div class="col-lg-6 text-center text-lg-end" data-aos="fade-left">
+                                <a href="/login" class="msg-btn tran3s">联系我们</a>
+                            </div>
+                        </div>
+                    </div> <!-- /.bg-wrapper -->
+                </div> <!-- /.container -->
+            </div> <!-- /.fancy-short-banner-five -->
+
+            <br><div class="footer-style-two theme-basic-footer">
+                <img src="__RES__/theme/maowang51/picture/shape_16.svg" alt="" class="shapes shape-one">
+                <img src="__RES__/theme/maowang51/picture/shape_17.svg" alt="" class="shapes shape-two">
+                <div class="container">
+                    <div class="inner-wrapper">
+                        {include file="./default_footer"}
+                    </div> <!-- /.inner-wrapper -->
+                </div>
+            </div> <!-- /.footer-style-two -->
+
+
+            <button class="scroll-top">
+                <i class="bi bi-arrow-up-short"></i>
+            </button>
+
+
+
+
+            <!-- Optional JavaScript _____________________________  -->
+
+            <!-- jQuery first, then Bootstrap JS -->
+            <!-- jQuery -->
+            <script src="__RES__/theme/maowang51/js/jquery.min.js"></script>
+            <!-- Bootstrap JS -->
+            <script src="__RES__/theme/maowang51/js/bootstrap.bundle.min.js"></script>
+            <!-- AOS js -->
+            <script src="__RES__/theme/maowang51/js/aos.js"></script>
+            <!-- Slick Slider -->
+            <script src="__RES__/theme/maowang51/js/slick.min.js"></script>
+            <!-- js Counter -->
+            <script src="__RES__/theme/maowang51/js/jquery.counterup.min.js"></script>
+            <script src="__RES__/theme/maowang51/js/jquery.waypoints.min.js"></script>
+            <!-- Fancybox -->
+            <script src="__RES__/theme/maowang51/js/jquery.fancybox.min.js"></script>
+            <!-- validator js -->
+            <script src="__RES__/theme/maowang51/js/validator.js"></script>
+
+            <!-- Theme js -->
+            <script src="__RES__/theme/maowang51/js/theme.js"></script>
+        </div> <!-- /.main-page-wrapper -->
+    </body>
+</html>

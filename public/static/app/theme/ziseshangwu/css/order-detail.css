@@ -1,0 +1,29 @@
+﻿.layui-layer .layui-layer-content{
+    padding:20px;
+}
+.layui-layer .layui-layer-btn{
+    text-align: center;
+}
+.layui-layer .layui-layer-content h1{
+    text-align: center;
+    font-size: 24px;
+}
+.layui-layer .order-detail .order-tit{
+    text-align: center;
+    font-size: 24px;
+}
+.layui-layer .order-detail .order-container{
+    margin-top:30px;
+}
+.layui-layer .order-detail .order-container .order-item{
+    display: flex;
+    align-items: center;
+    padding:10px 0;
+    border-bottom:1px solid #ddd;
+}
+.layui-layer .order-detail .order-container .order-item>span:first-child{
+    flex: 1;
+}
+.layui-layer .order-detail .order-container .order-item>span:last-child{
+    flex: 2;
+}

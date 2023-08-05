@@ -1,0 +1,133 @@
+{extend name="simple_base"}
+{block name="css"}
+
+{/block}
+
+{block name="content"}
+
+<div class="container">
+    <div class="card">
+        <div class="card-body  p-3">
+            <!-- Search Form Wrapper-->
+            <div class="search-form-wrapper">
+
+                <form class="mb-3 pb-4" action="" method="get">
+                    <div class="input-group mb-2 input-group-sm">
+                        <span class="input-group-text input-group-sm" id="basic-addon1">支付渠道</span>
+                        <select name="paytype" class="form-select form-select-sm">
+                            <option value="" {if $Think.get.paytype==''}selected{/if}>全部方式</option>
+                            {foreach $pay_product as $k => $v}
+                            <option value="{$v.id|htmlentities}" {if $Think.get.paytype==$v.id}selected{/if}>{$v.name}</option>
+                            {/foreach}
+                        </select>
+                    </div>
+                    <div class="input-group mb-2  input-group-sm">
+                        <span class="input-group-text input-group-sm">支付状态</span>
+                        <select class="form-select  form-select-sm" name="status">
+                            <option value="" {if $Think.get.status==''}selected{/if}>全部状态</option>
+                            <option value="1" {if $Think.get.status=='1'}selected{/if}>已付款</option>
+                            <option value="0" {if $Think.get.status=='0'}selected{/if}>未付款</option>
+                            <option value="2" {if $Think.get.status=='2'}selected{/if}>已关闭</option>
+                            <option value="3" {if $Think.get.status=='3'}selected{/if}>已退款</option>
+                        </select>
+                    </div>
+                    <div class="input-group mb-2  input-group-sm">
+                        <span class="input-group-text input-group-sm" id="basic-addon1">订单编号</span>
+                        <input type="hidden" value="0" name="type">
+                        <input class="form-control  form-control-sm" name="keywords" type="search" placeholder="请输入订单编号" value="{$Think.get.keywords|default=''|htmlentities}">
+                    </div>
+                    <button class="btn btn-primary w-100 d-flex align-items-center justify-content-center" type="submit">
+                        <i class="bx bx-search me-2"></i>查询
+                    </button>
+                </form>
+            </div>
+
+
+
+            {foreach $orders as $v}
+            <div class="single-search-result mb-3 border-bottom pb-3 order-wrap">
+                <div class="d-flex align-items-center justify-content-between">
+                    <h6 class="text-truncate mb-0 float-left d-inline">订单编号:&nbsp;&nbsp;{$v.trade_no}</h6>
+                    {if $v.status==1}
+                    <span class="badge rounded-pill bg-success float-end">{$v.status_text}</span>
+                    {elseif $v.status==0/}
+                    <span class="badge rounded-pill bg-danger float-end">{$v.status_text}</span>
+                    {else/}
+                    <span class="badge rounded-pill bg-light float-end">{$v.status_text}</span>
+                    {/if}
+                </div>
+
+                <div class="d-flex align-items-center mt-1 justify-content-between">
+                    <div class="order-wrap-text">
+                        <span>产品名称：</span>
+                        <span>{$v.goods_name}(<span class="red">{$v.quantity}</span>张)</span>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center mt-1 justify-content-between">
+                    <div class="order-wrap-text">
+                        <span>购买者信息：</span>
+                        <span>{$v.contact}</span>
+                    </div>
+                </div>
+
+
+                <div class="d-flex align-items-center mt-1 justify-content-between">
+                    <div class="order-wrap-text">
+                        <span>实付款：</span>
+                        <span>{$v.total_price}元</span>
+                    </div>
+                    <div class="order-wrap-text">
+                        <span>支付方式：</span>
+                        <span>{:get_paytype_name($v.paytype)}</span>
+                    </div>
+                </div>
+
+
+                <div class="d-flex align-items-center mt-1 justify-content-between">
+                    <div class="order-wrap-text">
+                        <span>订单时间：</span>
+                        <span>{$v.create_at|date="Y-m-d H:i:s",###}</span>
+                    </div>
+
+                    <div class="order-wrap-text">
+                        <span>取卡状态：</span>
+                        <span>
+                            {if $v.cards_count>0}
+                            {if $v.cards_count>=$v.quantity}
+                            已取
+                            {else/}
+                            已取部分
+                            {/if}
+                            {else/}
+                            未取
+                            {/if}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center mt-1 justify-content-between">
+                    <div class="order-wrap-text">
+                        <span>取卡密码：</span>
+                        <span>{$v.take_card_password|default="未设置"}</span>
+                    </div>
+                    <div class="order-wrap-text">
+                        <a href="{:url('order/signQuery',['id'=>$v.id])}">查看详情<i class="bx bx-right-arrow-alt"></i></a>
+                    </div>
+                </div>
+            </div>
+            {/foreach}       
+
+            <nav aria-label="Page navigation">
+                {$page}
+            </nav>
+        </div>
+    </div>
+</div>
+
+{/block}
+{block name="js"}
+
+{/block}
+
+

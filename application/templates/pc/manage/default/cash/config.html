@@ -1,0 +1,180 @@
+{extend name="./content"}
+
+{block name="content"}
+<form onsubmit="return false;" action="__SELF__" data-auto="true" method="post" class='form-horizontal' style='padding-top:20px'>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">商户结算方式</label>
+        <div class='col-sm-8'>
+            <select name="settlement_type" class="layui-input" required>
+                <!--{if sysconf('settlement_type')=='1'}-->
+                <option value="1" selected>T1结算</option>
+                <!--{else/}-->
+                <option value="1">T1结算</option>
+                <!--{/if}-->
+                <!--{if sysconf('settlement_type')=='0'}-->
+                <option value="0" selected>T0结算</option>
+                <!--{else/}-->
+                <option value="0">T0结算</option>
+                <!--{/if}-->
+            </select>
+            <span class="help-block"> 开启 T0 结算后，商户订单即时结算，可能出现负数！ </span>
+            <span class="help-block"> 优先级： </span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">提现开关</label>
+        <div class='col-sm-8'>
+            <select name="cash_status" class="layui-input" required>
+                <option value="0" {if sysconf('cash_status')==0}selected{/if}>关闭</option>
+                <option value="1" {if sysconf('cash_status')==1}selected{/if}>开启</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">自动提现开关</label>
+        <div class='col-sm-8'>
+            <select name="auto_cash" class="layui-input" required>
+                <option value="0" {if sysconf('auto_cash')==0}selected{/if}>关闭</option>
+                <option value="1" {if sysconf('auto_cash')==1}selected{/if}>开启</option>
+            </select>
+            <span class="help-block">开启之后，每天对达到条件的用户自动提现</span>
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label class="col-sm-2 control-label">自动提现触发时间</label>
+        <div class='col-sm-8'>
+            <select name="auto_cash_time" class="layui-input" required>
+            	{for start="0" end="24"}
+                <option value="{$i}" {if sysconf('auto_cash_time')==$i}selected{/if}>{$i}点</option>
+                {/for}
+            </select>
+            <span class="help-block">达到时间之后，再执行任务计划则会触发自动提现</span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">开启提现方式</label>
+        <div class='col-sm-8' style="line-height: 18px;">
+            <input type="checkbox" name="cash_type[]" {if in_array(1, (array)json_decode((string)sysconf('cash_type'), true))}checked="checked"{/if} title="" value="1">支付宝收款
+            <input type="checkbox" name="cash_type[]" {if in_array(2, (array)json_decode((string)sysconf('cash_type'), true))}checked="checked"{/if} title="" value="2">微信收款
+            <input type="checkbox" name="cash_type[]" {if in_array(3, (array)json_decode((string)sysconf('cash_type'), true))}checked="checked"{/if} title="" value="3">银行卡收款
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">最低自动提现金额</label>
+        <div class='col-sm-8'>
+            <input type="number" name="auto_cash_money" required="required" title="请输入最低自动提现金额" placeholder="请输入最低自动提现金额" value="{:sysconf('auto_cash_money')}" class="layui-input">
+            <p class="help-block">最低提现金额</p>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">提现关闭提示</label>
+        <div class='col-sm-8'>
+            <textarea name="cash_close_tips" id="" cols="30" rows="5" class="layui-textarea">{:sysconf('cash_close_tips')}</textarea>
+            <p class="help-block">提现关闭提示</p>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">允许提现时间</label>
+        <div class='col-sm-8'>
+            <select name="cash_limit_time_start" class="layui-input" required>
+                {for start="0" end="24"}
+                <option value="{$i}" {if sysconf('cash_limit_time_start')==$i}selected{/if}>{$i}点</option>
+                {/for}
+            </select>
+            至
+            <select name="cash_limit_time_end" class="layui-input" required>
+                {for start="0" end="24"}
+                <option value="{$i}" {if sysconf('cash_limit_time_end')==$i}selected{/if}>{$i}点</option>
+                {/for}
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">最低提现金额</label>
+        <div class='col-sm-8'>
+            <input type="number" name="cash_min_money" required="required" title="请输入最低提现金额" placeholder="请输入最低提现金额" value="{:sysconf('cash_min_money')}" class="layui-input">
+            <p class="help-block">最低提现金额</p>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">手动提现手续费类型</label>
+        <div class='col-sm-8'>
+            <select name="cash_fee_type" class="layui-input" required>
+                <option value="1" {if sysconf('cash_fee_type')==1}selected{/if}>固定金额</option>
+                <option value="100" {if sysconf('cash_fee_type')==100}selected{/if}>百分比</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">手动提现手续费</label>
+        <div class='col-sm-8'>
+            <input type="number" name="cash_fee" required="required" title="请输入提现手续费" placeholder="请输入提现手续费" value="{:sysconf('cash_fee')}" class="layui-input">
+            <p class="help-block">提现手续费</p>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">自动提现手续费类型</label>
+        <div class='col-sm-8'>
+            <select name="auto_cash_fee_type" class="layui-input" required>
+                <option value="1" {if sysconf('auto_cash_fee_type')==1}selected{/if}>固定金额</option>
+                <option value="100" {if sysconf('auto_cash_fee_type')==100}selected{/if}>百分比</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">自动提现手续费</label>
+        <div class='col-sm-8'>
+            <input type="number" name="auto_cash_fee" required="required" title="请输入提现手续费" placeholder="请输入提现手续费" value="{:sysconf('auto_cash_fee')}" class="layui-input">
+            <p class="help-block">提现手续费</p>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">提现次数限制</label>
+        <div class='col-sm-8'>
+            <select name="cash_limit_num" class="layui-input" required>
+                {for start="1" end="6"}
+                <option value="{$i}" {if sysconf('cash_limit_num')==$i}selected{/if}>{$i}次</option>
+                {/for}
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">超过限制提示</label>
+        <div class='col-sm-8'>
+            <textarea name="cash_limit_num_tips" id="" cols="30" rows="5" class="layui-textarea">{:sysconf('cash_limit_num_tips')}</textarea>
+            <p class="help-block">超过限制提示</p>
+        </div>
+    </div>
+
+    <div class="hr-line-dashed"></div>
+
+    <div class="col-sm-4 col-sm-offset-2">
+        <div class="layui-form-item text-center">
+            <button class="layui-btn" type="submit">保存配置</button>
+        </div>
+    </div>
+
+</form>
+<script>
+    layui.use('form', function(){
+        var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+        form.render();
+    });
+</script>
+{/block}

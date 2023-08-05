@@ -1,0 +1,233 @@
+{extend name="base"}
+
+{block name="css"}
+
+{/block}
+{block name="content"}
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row mb-2">
+                            <div class="col-sm-auto">
+
+                                <form class="form-inline" role="form" action="" method="get">
+                                    <div class="form-group">
+                                        <select name="paytype" class="form-control select2">
+                                            <option value="" {if $Think.get.paytype==''}selected{/if}>全部方式</option>
+                                            {foreach $pay_product as $k => $v}
+                                            <option value="{$v.id|htmlentities}" {if $Think.get.paytype==$v.id}selected{/if}>{$v.name}</option>
+                                            {/foreach}
+                                        </select>
+                                    </div>
+                                    <div class="form-group ml-1">
+                                        <select name="status" class="form-control select2">
+                                            <option value="" {if $Think.get.status==''}selected{/if}>全部状态</option>
+                                            <option value="1" {if $Think.get.status=='1'}selected{/if}>已付款</option>
+                                            <option value="0" {if $Think.get.status=='0'}selected{/if}>未付款</option>
+                                            <option value="2" {if $Think.get.status=='2'}selected{/if}>已关闭</option>
+                                            <option value="3" {if $Think.get.status=='3'}selected{/if}>已退款</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group ml-1">
+                                        <select name="cid" class="form-control select2">
+                                            <option value="0" >商品类别</option>
+                                            {foreach $categorys as $row}
+                                            <option value="{$row['id']|htmlentities}" {if $Think.get.cid==$row['id']}selected{/if} >{$row['name']}</option>
+                                            {/foreach}
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group ml-1">
+                                        <select name="order_type" class="form-control select2">
+                                            <option value="" {if $Think.get.order_type==''}selected{/if}>全部类型 </option>
+                                            <option value="0" {if $Think.get.order_type=='0'}selected{/if}>普通订单</option>
+                                            <option value="1" {if $Think.get.order_type=='1'}selected{/if}>对接订单 </option>
+                                            <option value="2" {if $Think.get.order_type=='2'}selected{/if}>跨平台订单 </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group ml-1">
+                                        <select name="type" class="form-control select2">
+                                            <option value="0" {if $Think.get.type=='0'}selected{/if}>订单编号搜索</option>
+                                            <option value="1" {if $Think.get.type=='1'}selected{/if}>商品名称搜索</option>
+                                            <option value="2" {if $Think.get.type=='2'}selected{/if}>联系方式搜索</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group ml-1">
+                                        <input class="form-control" type="text" name="keywords" value="{$Think.get.keywords|htmlentities}" placeholder="请输入关键字">
+                                    </div>
+
+                                    <div class="form-group ml-1">
+                                        <select name="has_send" class="form-control select2">
+                                            <option value="" {if $Think.get.has_send==''}selected{/if}>取卡状态(全部) </option>
+                                            <option value="0" {if $Think.get.has_send=='0'}selected{/if}>未取卡</option>
+                                            <option value="1" {if $Think.get.has_send=='1'}selected{/if}>已取卡 </option>
+                                            <option value="2" {if $Think.get.has_send=='2'}selected{/if}>已取部分 </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group ml-1">
+                                        <input class="form-control input-daterange-datepicker"  type="text" name="date_range" value="{:urldecode($Think.get.date_range)}" placeholder="点击选择查询日期">
+                                    </div>
+
+                                    <button type="submit" class="btn btn-light waves-effect waves-light ml-1"><i class="bx bx-search mr-1"></i>搜索</button>
+                                </form>
+                            </div>
+                        </div>
+
+
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>订单号</th>
+                                        <th>订单类型</th>
+                                        <th>商品名称</th>
+                                        <th>支付方式</th>
+                                        <th>总价</th>
+                                        <th>实付款</th>
+                                        <th>购买者信息</th>
+                                        <th>状态</th>
+                                        <th>取卡状态</th>
+                                        <th>取卡密码</th>
+                                        <th>交易时间</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {foreach $orders as $v}
+                                    <tr>
+                                        <th><a href="{:url('order/signQuery',['id'=>$v.id])}" target="_blank">{$v.trade_no}</a></th>
+                                        <td>
+                                            {if $v.is_proxy ==1}
+                                            <span class="badge badge-pill badge-warning">对接订单</span>
+                                            {elseif $v.is_cross ==1}
+                                            <span class="badge badge-pill badge-success">跨平台订单</span>
+                                            {else/}
+                                            <span class="badge badge-pill badge-primary">普通订单</span>
+                                            {/if}
+                                        </td>
+                                        <td>
+                                            {$v.goods_name}
+                                            {eq name="v.status" value="1"}
+                                            <a class="fetch" href="{:url('order/fetchcard',['id'=>$v.id])}">（{$v.quantity}张）</a>
+                                            {else}
+                                            （{$v.quantity}张）
+                                            {/eq}
+                                            {if $v.coupon_type==1}
+                                            <span class="badge badge-pill badge-success font-size-12" data-toggle="tooltip" data-placement="top" title="支持优惠券" data-original-title="支持优惠券">券</span>
+                                            {/if}
+                                            {if $v.take_card_type==1}
+                                            {eq name="v.status" value="1"}
+                                            <a href="{:url('order/fetchcard',['id'=>$v.id])}">  <span class="badge badge-pill badge-primary font-size-12"  data-toggle="tooltip" data-placement="top" title="提卡必填或选填取卡密码" data-original-title="提卡必填或选填取卡密码">取</span></a>
+                                            {else}
+                                            <span class="badge badge-pill badge-primary font-size-12"  data-toggle="tooltip" data-placement="top" title="提卡必填或选填取卡密码" data-original-title="提卡必填或选填取卡密码">取</span>
+                                            {/eq}
+                                            {/if}
+                                        </td>
+                                        <td>{:get_paytype_name($v.paytype)}</td>
+                                        <td>{$v.total_product_price}</td>
+                                        <td>{$v.total_price}</td>
+                                        <td>{$v.contact}</td>
+                                        <td>
+                                            {if $v.status==1}
+                                            <span class="badge badge-pill badge-success">{$v.status_text}</span>
+                                            {elseif $v.status==0/}
+                                            <span class="badge badge-pill badge-danger">{$v.status_text}</span>
+
+                                            {if $v.channel.is_custom==1}
+                                            <a href="javascript:void(0);" onclick="notify(this, '{$v.id}')">补发</a>
+                                            {/if}
+
+                                            {else/}
+                                            <span class="badge badge-pill badge-light">{$v.status_text}</span>
+                                            {/if}
+                                        </td>
+                                        <td>
+                                            {if $v.cards_count>0}
+                                            {if $v.cards_count>=$v.quantity}
+                                            已取
+                                            {else/}
+                                            已取部分
+                                            {/if}
+                                            {else/}
+                                            未取
+                                            {/if}
+                                        </td>
+                                        <td>{$v.take_card_password}</td>
+                                        <td>{$v.create_at|date="Y-m-d H:i:s",###}</td>
+                                        <td>
+                                            {if $v.status==1 && $v.cards_count==0}
+                                            <a class="fetch" href="{:url('order/fetchcard',['id'=>$v.id])}">提卡</a>
+                                            <a href="{:url('order/dumpCards',['trade_no'=>$v.trade_no])}" target="_blank">导出</a>
+                                            {/if}
+                                        </td>
+                                    </tr>
+                                    {/foreach}
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <nav aria-label="...">
+                            {$page}
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- container-fluid -->
+</div>
+
+{/block}
+{block name="js"}
+<script>
+    function notify(e, id)
+    {
+        layer.confirm('确认要设置这个订单已支付吗？该操作不可恢复', function (index) {
+            var loading = layer.load(1, {shade: [0.1, '#fff']});
+            $.ajax({
+                url: "{:url('order/notify')}",
+                type: 'post',
+                data: {id: id},
+                success: function (res) {
+                    layer.close(loading);
+                    if (res.code == 1) {
+                        layer.msg(res.msg, {icon: 1, time: 3000});
+                        setTimeout(function () {
+                            location.reload();
+                        }, 3000);
+                    } else {
+                        layer.msg(res.msg, {icon: 2, time: 3000});
+                    }
+                }
+            });
+        });
+    }
+</script>
+{/block}

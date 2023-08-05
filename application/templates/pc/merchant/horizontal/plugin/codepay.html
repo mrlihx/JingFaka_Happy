@@ -1,0 +1,271 @@
+{extend name="base"}
+
+{block name="content"}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <h4 class="card-title mb-4">码支付</h4>
+                        {if $codepayauth_status==true}
+
+                        <div class="row">
+
+                            <div class="col-lg-12">
+                                <div class="alert alert-success" role="alert">
+                                    1.无需公司资质免签约，即时到账，个人微信支付宝账号即可收款，即开即用，高并发，超稳定不漏。<br>
+                                    2.自研码支付平台，强大的技术支持。<br>
+                                    3.资金D0实时到账，资金安全，通道稳定高效，不需要三方资金进行清算。
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-12">
+                                <div class="alert alert-primary" role="alert">
+                                    提示：此功能需配合自定义支付渠道使用<br>
+                                </div>
+                            </div>
+
+
+                            {if $app}
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+
+                                        <h4 class="card-title mb-4">对接参数</h4>
+                                        <div class="table-responsive">
+                                            <table class="table table-nowrap mb-0">
+                                                <tbody>
+                                                    <tr>
+                                                        <th scope="row">APPID</th>
+                                                        <td>
+                                                            {$app.appid}
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <th scope="row">APPKEY</th>
+                                                        <td>
+                                                            {$app.appkey}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">支付宝状态</th>
+                                                        <td>
+                                                            {if $app.alipay_open==1}
+
+                                                            {switch name="$app.alipay_type"}
+                                                            {case value="0"} <span class="badge badge-pill badge-soft-success font-size-12">支付宝挂机监听</span>{/case}
+                                                            {case value="1"}
+                                                            {if $app.alipay_online==2}
+                                                            <span class="badge badge-pill badge-soft-danger font-size-12">支付宝CK失效</span>
+                                                            {elseif $app.alipay_online==1/}
+                                                            <span class="badge badge-pill badge-soft-success font-size-12">支付宝CK正常</span>
+                                                            {elseif $app.alipay_online==0/}
+                                                            <span class="badge badge-pill badge-soft-warning font-size-12">支付宝CK待判定</span>
+                                                            {/if}
+
+                                                            {/case}
+                                                            {/switch}
+
+                                                            {else/}
+                                                            <span class="badge badge-pill badge-soft-warning font-size-12">支付宝未开启</span>
+                                                            {/if}
+
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <th scope="row">微信状态</th>
+                                                        <td>
+
+                                                            {if $app.weixin_open==1}
+
+                                                            {switch name="$app.weixin_type"}
+                                                            {case value="0"}<span class="badge badge-pill badge-soft-success font-size-12">微信挂机监听</span>{/case}
+                                                            {case value="1"}
+                                                            {if $app.weixin_online==2}
+                                                            <span class="badge badge-pill badge-soft-danger font-size-12">微信CK失效</span>
+                                                            {elseif $app.weixin_online==1/}
+                                                            <span class="badge badge-pill badge-soft-success font-size-12">微信CK正常</span>
+                                                            {elseif $app.weixin_online==0/}
+                                                            <span class="badge badge-pill badge-soft-warning font-size-12">微信CK待判定</span>
+                                                            {/if}
+
+                                                            {/case}
+                                                            {/switch}
+
+                                                            {else/}
+                                                            <span class="badge badge-pill badge-soft-warning font-size-12">微信未开启</span>
+                                                            {/if}
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <th scope="row">QQ状态</th>
+                                                        <td>
+                                                            {if $app.qq_open==1}
+
+                                                            {switch name="$app.qq_type"}
+                                                            {case value="0"}<span class="badge badge-pill badge-soft-success font-size-12">QQ挂机监听</span>{/case}
+                                                            {case value="1"}
+                                                            {if $app.qq_online==2}
+                                                            <span class="badge badge-pill badge-soft-danger font-size-12">QQCK失效</span>
+                                                            {elseif $app.qq_online==1/}
+                                                            <span class="badge badge-pill badge-soft-success font-size-12">QQCK正常</span>
+                                                            {elseif $app.qq_online==0/}
+                                                            <span class="badge badge-pill badge-soft-warning font-size-12">QQCK待判定</span>
+                                                            {/if}
+
+                                                            {/case}
+                                                            {/switch}
+
+                                                            {else/}
+                                                            <span class="badge badge-pill badge-soft-warning font-size-12">QQ未开启</span>
+                                                            {/if}
+
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <th scope="row"></th>
+                                                        <td>
+                                                            <button  onclick="$.x_show('配置参数', '{:url(\'plugin/codepayAppedit\',[\'id\'=>$app.id])}', 650)" class="btn btn-primary glow invoice-create" role="button" aria-pressed="true"><i class="bx bx-cog mr-1"></i>配置参数</button>
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            {else/}
+                            <div class="col-lg-12">
+                                <p class="mt-3">
+                                    <button onclick="createApp()" class="btn btn-primary waves-effect waves-light"><i class="bx bx-plus mr-1"></i>立即开通账号</button>
+                                </p>
+                            </div>
+                            {/if}
+
+                        </div>
+
+
+                        {else/}
+                        <!-- end page title -->
+                        <div class="row justify-content-center mt-lg-5">
+                            <div class="col-xl-5 col-sm-8">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="text-center">
+                                            <div class="row justify-content-center">
+                                                <div class="col-lg-10">
+                                                    <h4 class="mt-4 font-weight-semibold">温馨提示</h4>
+                                                    <p class="text-muted mt-3">{:plugconf('codepay','codepay_tip')}</p>
+                                                    <div class="mt-4">
+                                                        {if $codepayauth&&$codepayauth->status==0}
+                                                        <p class="text-danger mt-3">正在审核中，请耐心等待！</p>
+                                                        {elseif $codepayauth&&$codepayauth->status==-1/}
+                                                        <p class="text-danger mt-3">审核拒绝！</p>
+                                                        {else/}
+                                                        <button type="button" class="btn btn-primary" onclick="codepayauthApply()">立即申请</button>
+                                                        {/if}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-center mt-5 mb-2">
+                                                <div class="col-sm-6 col-8">
+                                                    <div>
+                                                        <img src="__STATIC__/merchant/default/images/verification-img.png" alt="" class="img-fluid">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end row -->
+                        {/if}
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+<!-- container-fluid -->
+
+<!-- End Page-content -->
+
+
+{/block}
+{block name="js"}
+<script>
+
+
+    function codepayauthApply()
+    {
+        var loading = layer.load(1, {shade: [0.1, '#fff']});
+        $.post("{:url('plugin/codepayauthApply')}", {},
+                function (data) {
+                    if (data.code == 1) {
+                        layer.msg(data.msg, {time: 1000, icon: 6}, function () {
+                            location.href = "{:url('plugin/codepay')}";
+                        });
+                    } else {
+                        layer.msg(data.msg, {time: 1000, icon: 5});
+                    }
+                }, "json");
+    }
+    function createApp()
+    {
+        var loading = layer.load(1, {shade: [0.1, '#fff']});
+
+
+        $.ajax({
+            url: "{:url('plugin/codepay')}",
+            type: 'post',
+            data: {act: 'createapp'},
+            success: function (res) {
+                if (res.code == 1) {
+                    location.reload();
+                } else {
+                    alert(res.msg);
+                }
+            }
+        });
+
+
+    }
+
+</script>
+{/block}

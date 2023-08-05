@@ -1,0 +1,29 @@
+{extend name="./layout"}
+{block name="content"}
+<style>
+select{
+	width: 100%;
+    height: 40px;
+}
+</style>
+<div class="choose-item">
+    <div class="choose-left left">商品分类：</div>
+    <div class="choose-rigt left choose-rigt-lianxi">
+        <select class="iphone-s" name="cateid" id="cateid" onchange="selectcateid()">
+            <option value="">请选择分类</option>
+                        {foreach $categorys as $v}
+                        <option value="{$v.id}" class="choose-item-type on">{$v.name}</option>{/foreach}
+                    </select>
+    </div>
+</div>
+
+<div class="choose-item">
+    <div class="choose-left left">商品名称：</div>
+    <div class="choose-rigt left choose-rigt-lianxi">
+        <select class="iphone-s" name="goodid" id="goodid" onchange="selectgoodid()">
+            <option value="">请选择商品</option>
+        </select>
+    </div>
+</div>
+
+{/block}

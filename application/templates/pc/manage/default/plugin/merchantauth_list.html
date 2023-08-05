@@ -1,0 +1,87 @@
+{extend name='./content'}
+
+{block name="content"}
+
+
+<!-- 表单搜索 开始 -->
+<div class="layui-form-item">
+    <button type="button" class="layui-btn layui-btn-normal" data-modal="{:url('merchantauthListAdd')}" data-title="手动添加">手动添加</button>
+</div>
+
+
+<table class="layui-table" lay-skin="line" lay-size="sm">
+    <thead>
+        <tr>
+            <th class='text-center'>ID</th>
+            <th class='text-center'>商户账号</th>
+            <th class='text-center'>认证方式</th>
+            <th class='text-center'>姓名</th>
+            <th class='text-center'>身份证号</th>
+            <th class='text-center'>认证时间</th>
+            <th class='text-center'>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        {foreach $list as $v}
+        <tr>
+            <td class='text-center'>{$v.id}</td>
+            <td class='text-center'><a data-open="{:url('manage/user/index')}?field=1&keyword={$v.user_id}"  href="javascript:void(0)">{$v.user.username}</a></td>
+            <td class='text-center'>
+                {switch name="$v.auth_type"}
+                {case value="1"}<font color="blue">手机三要素认证</font>{/case}
+                {case value="2"}<font color="red">身份证认证</font>{/case}
+                {/switch}
+            </td>
+            <td class='text-center'>
+                {$v.card_name}
+            </td>
+            <td class='text-center'>
+                {$v.card_number}
+            </td>
+            <td class='text-center'>{$v.create_at|date="Y-m-d H:i:s",###}</td>
+            <td class='text-center'>
+                <a href="javascript:;" onclick="del(this, '{$v.id}')">删除认证</a>
+            </td>
+        </tr>
+        {/foreach}
+    </tbody>
+</table>
+{$page}
+
+<script>
+    layui.use('form', function () {
+        var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+        form.render();
+    });
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        //日期范围
+        laydate.render({
+            elem: '#date_range',
+            range: true
+        });
+    });
+
+
+    function del(obj, id) {
+        layer.confirm('确认要删除此项吗？', function (index) {
+            $.ajax({
+                url: "{:url('merchantauthList')}",
+                type: 'post',
+                data: 'act=del&id=' + id,
+                success: function (res) {
+                    if (res.code == 1) {
+                        layer.msg("操作成功");
+                        setTimeout(function () {
+                            location.reload();
+                        }, 200);
+                    } else {
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+        });
+    }
+
+</script>
+{/block}

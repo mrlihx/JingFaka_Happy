@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>结算公告 - {:sysconf('site_subtitle')}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="keywords" content="{:sysconf('site_keywords')}" />
+        <meta name="description" content="{:sysconf('site_desc')}" />
+        <link rel="shortcut icon" href="{:sysconf('browser_icon')}" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="theme-color" content="#1E78FF">	
+        <meta name="msapplication-navbutton-color" content="#1E78FF">		
+        <meta name="apple-mobile-web-app-status-bar-style" content="#1E78FF">
+        <link rel="stylesheet" type="text/css" href="__RES__/theme/maowang51/css/style.css" media="all">		
+        <link rel="stylesheet" type="text/css" href="__RES__/theme/maowang51/css/responsive.css" media="all">	
+    </head>
+
+    <body>
+        <div class="main-page-wrapper">
+
+
+            <div class="offcanvas offcanvas-top theme-search-form justify-content-center" tabindex="-1" id="offcanvasTop">
+                <button type="button" class="close-btn tran3s" data-bs-dismiss="offcanvas" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+                <div class="form-wrapper">
+                    <form action="#">
+                        <input type="text" placeholder="Search Keyword....">
+                    </form>
+                </div>
+            </div>
+            <header class="theme-main-menu sticky-menu theme-menu-two">
+                {include file="./default_header"}
+            </header> <!-- /.theme-main-menu -->
+
+
+
+            <div class="theme-inner-banner">
+                <div class="container">
+                    <h2 class="intro-title text-center">结算公告</h2>
+                </div>
+                <img src="__RES__/theme/maowang51/picture/shape_38.svg" alt="" class="shapes shape-one">
+                <img src="__RES__/theme/maowang51/picture/shape_39.svg" alt="" class="shapes shape-two">
+            </div>
+            <div class="blog-section-three pt-90 mb-150 lg-pt-40 lg-mb-100">
+                <div class="container">
+                    <div class="row gx-xxl-5">
+
+
+                        {foreach $articles as $v}
+                        <div class="col-lg-4 col-sm-6 d-flex" data-aos="fade-up">
+                            <article class="blog-meta-one color-two tran3s mt-45">
+                                <figure class="post-img m0"><a href="/article/{$v.id}.html" class="w-100 d-block"><img src="{$v.title_img}" alt="" class="w-100 tran4s"></a></figure>
+                                <div class="post-data">
+                                    <div class="post-tag"><a href="/article/{$v.id}.html">发布时间：</a>{:date('Y-m-d',$v.create_at)}</div>
+                                    <a href="/article/{$v.id}.html" class="blog-title"><h5>{$v.title}</h5></a>
+                                </div> 
+                            </article>
+                        </div>
+                        {/foreach}
+                    </div>
+                    <div class="page-pagination-one pt-90">
+                        <ul class="d-flex align-items-center justify-content-center style-none">
+                            {$page}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="footer-style-four space-fix-one theme-basic-footer">
+                <div class="container">
+                    <div class="inner-wrapper">
+                        {include file="./default_footer"}
+                    </div> <!-- /.inner-wrapper -->
+                </div>
+            </div> <!-- /.footer-style-four -->
+
+
+            <button class="scroll-top">
+                <i class="bi bi-arrow-up-short"></i>
+            </button>
+            <script src="__RES__/theme/maowang51/js/jquery.min.js"></script>
+            <!-- Bootstrap JS -->
+            <script src="__RES__/theme/maowang51/js/bootstrap.bundle.min.js"></script>
+            <!-- AOS js -->
+            <script src="__RES__/theme/maowang51/js/aos.js"></script>
+            <!-- Slick Slider -->
+            <script src="__RES__/theme/maowang51/js/slick.min.js"></script>
+            <!-- js Counter -->
+            <script src="__RES__/theme/maowang51/js/jquery.counterup.min.js"></script>
+            <script src="__RES__/theme/maowang51/js/jquery.waypoints.min.js"></script>
+            <!-- Fancybox -->
+            <script src="__RES__/theme/maowang51/js/jquery.fancybox.min.js"></script>
+            <!-- isotop -->
+            <script src="__RES__/theme/maowang51/js/isotope.pkgd.min.js"></script>
+
+            <!-- Theme js -->
+            <script src="__RES__/theme/maowang51/js/theme.js"></script>
+        </div> <!-- /.main-page-wrapper -->
+    </body>
+</html>

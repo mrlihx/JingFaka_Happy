@@ -1,0 +1,18 @@
+{extend name="./layout"}
+
+{block name="content"}
+<div class="my_box">
+	<div class="my_left">商品名称：</div>
+	<div class="my_right">
+		<span class="choose-item-txt">{$goods['name']}
+		<script>
+            $(function() {
+                selectgoodid2();
+            });
+        </script>
+        <input type="hidden" name="goodid" id="goodid" value="{$goods.id}">
+        <input type="hidden" name="cateid" id="cateid" value="{$goods.cate_id}">
+		</span>
+	</div>
+</div>
+{/block}

@@ -1,0 +1,162 @@
+{extend name='./content'}
+
+{block name="content"}
+
+<!-- 表单搜索 开始 -->
+<div class="layui-form-item">
+    <button  type="button" class="layui-btn" onclick="createApp()">创建子商户号</button>
+</div>
+
+<form onsubmit="return false;" data-auto="true" method="post">
+    <table class="layui-table" lay-skin="line" lay-size="sm">
+        <thead>
+            <tr>
+                <th class='text-center'>ID</th>
+                <th class='text-center'>APPID</th>
+                <th class='text-center'>APPKEY</th>
+                <th class='text-center'>通道状态</th>
+                <th class='text-center'>创建时间</th>
+                <th class='text-center'>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {foreach $list as $v}
+            <tr>
+                <td class='text-center'>{$v.id}</td>
+                <td class='text-center'>{$v.appid}</td>
+                <td class='text-center'>{$v.appkey}</td>
+
+                <td class='text-center'>
+
+                    {if $v.alipay_open==1}
+
+                    {switch name="$v.alipay_type"}
+                    {case value="0"} <span style="background:#1f8c16; color:#fff; padding:2px 6px; border-radius:10px;font-size: 10px">支付宝挂机监听</span>{/case}
+                    {case value="1"}
+                    {if $v.alipay_online==2}
+                    <span style="background:#ad3737; color:#fff; padding:2px 6px; border-radius:10px;font-size: 10px">支付宝CK失效</span>
+                    {elseif $v.alipay_online==1/}
+                    <span style="background:#1f8c16; color:#fff; padding:2px 6px; border-radius:10px;font-size: 10px">支付宝CK正常</span>
+                    {elseif $v.alipay_online==0/}
+                    <span style="background:#c18719; color:#fff; padding:2px 6px; border-radius:10px;font-size: 10px">支付宝CK待判定</span>
+                    {/if}
+
+                    {/case}
+                    {/switch}
+
+                    {else/}
+                    <span style="background:#ad3737; color:#fff; padding:2px 6px; border-radius:10px;font-size: 10px">支付宝未开启</span>
+                    {/if}
+
+
+
+
+                    {if $v.weixin_open==1}
+
+                    {switch name="$v.weixin_type"}
+                    {case value="0"}<span style="background:#1f8c16; color:#fff; padding:2px 6px; border-radius:10px;font-size: 10px">微信挂机监听</span>{/case}
+                    {case value="1"}
+                    {if $v.weixin_online==2}
+                    <span style="background:#ad3737; color:#fff; padding:2px 6px; border-radius:10px;font-size: 10px">微信CK失效</span>
+                    {elseif $v.weixin_online==1/}
+                    <span style="background:#1f8c16; color:#fff; padding:2px 6px; border-radius:10px;font-size: 10px">微信CK正常</span>
+                    {elseif $v.weixin_online==0/}
+                    <span style="background:#c18719; color:#fff; padding:2px 6px; border-radius:10px;font-size: 10px">微信CK待判定</span>
+                    {/if}
+
+                    {/case}
+                    {/switch}
+
+                    {else/}
+                    <span style="background:#ad3737; color:#fff; padding:2px 6px; border-radius:10px;font-size: 10px">微信未开启</span>
+                    {/if}
+
+
+                    {if $v.qq_open==1}
+
+                    {switch name="$v.qq_type"}
+                    {case value="0"}<span style="background:#1f8c16; color:#fff; padding:2px 6px; border-radius:10px;font-size: 10px">QQ挂机监听</span>{/case}
+                    {case value="1"}
+                    {if $v.qq_online==2}
+                    <span style="background:#ad3737; color:#fff; padding:2px 6px; border-radius:10px;font-size: 10px">QQCK失效</span>
+                    {elseif $v.qq_online==1/}
+                    <span style="background:#1f8c16; color:#fff; padding:2px 6px; border-radius:10px;font-size: 10px">QQCK正常</span>
+                    {elseif $v.qq_online==0/}
+                    <span style="background:#c18719; color:#fff; padding:2px 6px; border-radius:10px;font-size: 10px">QQCK待判定</span>
+                    {/if}
+
+                    {/case}
+                    {/switch}
+
+                    {else/}
+                    <span style="background:#ad3737; color:#fff; padding:2px 6px; border-radius:10px;font-size: 10px">QQ未开启</span>
+                    {/if}
+
+                </td>
+
+
+                <td class='text-center'>{$v.create_at|date="Y-m-d H:i:s",###}</td>
+                <td class='text-center'>
+                    <a href="javascript:;"  data-modal="{:url('codepayAppedit',['id'=>$v.id])}" data-title="编辑">编辑</a>
+                    <a href="javascript:;" onclick="del(this, '{$v.id}')">删除</a>
+                </td>
+            </tr>
+            {/foreach}
+        </tbody>
+    </table>
+</form>
+{$page}
+
+<script>
+    layui.use('form', function () {
+        var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+        form.render();
+    });
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        //日期范围
+        laydate.render({
+            elem: '#date_range',
+            range: true
+        });
+    });
+    function createApp() {
+        layer.confirm('确认要创建子商户号吗？', function (index) {
+            $.ajax({
+                url: "{:url('codepayApplist')}",
+                type: 'post',
+                data: 'act=createapp',
+                success: function (res) {
+                    if (res.code == 1) {
+                        layer.msg("操作成功");
+                        setTimeout(function () {
+                            location.reload();
+                        }, 200);
+                    } else {
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+        });
+    }
+    function del(obj, id) {
+        layer.confirm('确认要删除此项吗？', function (index) {
+            $.ajax({
+                url: "{:url('codepayApplist')}",
+                type: 'post',
+                data: 'act=del&id=' + id,
+                success: function (res) {
+                    if (res.code == 1) {
+                        layer.msg("操作成功");
+                        setTimeout(function () {
+                            location.reload();
+                        }, 200);
+                    } else {
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+        });
+    }
+</script>
+{/block}

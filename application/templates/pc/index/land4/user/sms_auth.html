@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no">
+        <link href="images/favicon.png" rel="icon" />
+        <title>{:sysconf('site_name')}{:sysconf('site_subtitle')}</title>
+        <meta name="keywords" content="{:sysconf('site_keywords')}" />
+        <meta name="description" content="{:sysconf('site_desc')}" />
+        <link rel="shortcut icon" href="{:sysconf('browser_icon')}" />
+
+        <!-- Stylesheet
+        ========================= -->
+        <link rel="stylesheet" href="__RES__/merchant/login/bootstrap.min.css"/>
+        <link rel="stylesheet" href="__RES__/merchant/login/login_new.css"/>
+        <!-- Colors Css -->
+        <link id="color-switcher" type="text/css" rel="stylesheet" href="#" />
+    </head>
+    <body>
+
+        <!-- Preloader -->
+        <div class="preloader">
+            <div class="lds-ellipsis">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+        <!-- Preloader End -->
+
+        <div id="main-wrapper" class="oxyy-login-register h-100 d-flex flex-column bg-transparent">
+            <div class="container my-auto">
+                <div class="row">
+                    <div class="col-md-9 col-lg-7 col-xl-5 mx-auto">
+                        <div class="bg-white shadow-md rounded p-4 px-sm-5 mt-4">
+                            <div class="logo"> <a class="d-flex justify-content-center" href="index.html" title="Oxyy">  <h3>安全认证</h3></a> </div>
+                            <hr class="mx-n4 mx-sm-n5">
+                            <p class="lead text-center">您需要完成短信认证才能登录</p>
+                            <form id="auth-form" method="post">
+                                <div class="form-group">
+                                    <label for="code">短信验证码</label>
+                                    <div class="input-group">
+                                        <input  name="code" id="code" class="form-control col-lg-8" required type="text" placeholder="请输入短信验证码" autocomplete="off">
+                                        <input class="form-control col-lg-4 ver_btn"  type="button" value="获取验证码"  id="send" style="float:left">
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary btn-block my-4" type="button">提交</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid py-3">
+                <p class="text-center text-2 text-muted mb-0">{:sysconf('site_info_copyright')}</p>
+            </div>
+        </div>
+
+
+        <!-- Script --> 
+        <script src="__RES__/merchant/login/jquery.min.js"></script> 
+        <script src="__RES__/merchant/login/bootstrap.bundle.min.js"></script> 
+        <!-- Style Switcher --> 
+        <script src="__RES__/merchant/login/switcher.min.js"></script> 
+        <script src="__RES__/merchant/login/theme.js"></script>
+        <script src="__RES__/plugs/layui/layui.js"></script>
+        <script>
+
+            layui.use('layer', function () {
+                var $ = layui.jquery, layer = layui.layer;
+            });
+
+            $(function () {
+                $("#send").click(function () {
+                    if (validCode) {
+                        send_sms();
+                    }
+                })
+            })
+
+            var validCode = true;
+            function send_sms() {
+                $.ajax({
+                    type: "POST",
+                    url: "/index/user/sendAuthSms",
+                    dataType: 'json',
+                    error: function (request) {
+                        layer.msg("连接错误！");
+                    },
+                    success: function (data) {
+                        if (data.code == 1) {
+                            var time = 60;
+                            validCode = false;
+                            $("#send").val("已发送(60)");
+                            var t = setInterval(function () {
+                                time--;
+                                $("#send").val('已发送(' + time + ')');
+                                if (time == 0) {
+                                    clearInterval(t);
+                                    $("#send").val("重新获取");
+                                    validCode = true;
+                                }
+                            }, 1000);
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                    }
+                });
+            }
+
+            $('button').click(function () {
+                if (checker()) {
+                    var data = $('#auth-form').serialize()
+                    $.post("{:url('index/user/smsAuth')}", data, function (res) {
+                        if (res.code == 1) {
+                            layer.msg(res.msg, {icon: 1}, function () {
+                                location.href = res.url
+                            })
+                        } else {
+                            layer.msg(res.msg, {icon: 2})
+                        }
+                    }, 'json')
+                }
+                return false;
+            })
+
+            function checker() {
+                if (!/\d{4}/.test($('[name=code]').val())) {
+                    layer.msg('请输入验证码，验证码至少4位');
+                    return false;
+                }
+                return true;
+            }
+
+
+        </script>
+    </body>
+</html>

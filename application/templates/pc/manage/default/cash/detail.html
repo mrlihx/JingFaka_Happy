@@ -1,0 +1,26 @@
+<form class="layui-form layui-box" style='padding:25px 30px 20px 0' action="__SELF__" data-auto="true" method="post">
+    <div class="layui-form-item text-center">
+        <input type="hidden" name="cash_id" value="{$cash.id}">
+        <input type="hidden" name="action" value="">
+        {if $cash.status==0}
+        <button class="layui-btn" type="submit" onclick="do_action('pass')">已打款</button>
+        <button class="layui-btn" type="submit" onclick="do_action('notpass')">驳回</button>
+        {/if}
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消吗？" data-close>取消</button>
+    </div>
+</form>
+<script>
+function do_action(action){
+    if(action=='pass'){
+        if(!confirm('是否打款？')){
+            return;
+        }
+        $('[name="action"]').val('pass');
+    }else if(action=='notpass'){
+        if(!confirm('是否驳回？')){
+            return;
+        }
+        $('[name="action"]').val('notpass');
+    }
+}
+</script>

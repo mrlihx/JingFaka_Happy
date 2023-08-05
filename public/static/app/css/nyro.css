@@ -1,0 +1,152 @@
+div#nyroModalFull {
+    z-index:99;
+    font-size: 12px;
+    color: #777;
+}
+div#nyroModalLoading {
+    border: 4px solid #777;
+    width: 150px;
+    height: 150px;
+    text-indent: -9999em;
+    background: #fff url(../images/ajaxLoader.gif) no-repeat;
+    background-position: center;
+}
+div#nyroModalLoading.error {
+    border: 4px solid #f66;
+    line-height: 20px;
+    padding: 20px;
+    width: 300px;
+    height: 100px;
+    text-indent: 0;
+    background: #fff;
+}
+div#nyroModalWrapper {
+    background: #fff;
+    border: 2px solid #e3e3e3;
+    border-radius: 5px;
+}
+a#closeBut {
+    position: absolute;
+    display: block;
+    top: -13px;
+    right: -13px;
+    width: 12px;
+    height: 12px;
+    text-indent: -9999em;
+    background: url(../images/close.gif) no-repeat;
+    outline: 0;
+}
+h1#nyroModalTitle {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: -22px;
+    left: 5px;
+    font-size: 12px;
+    color: #ddd;
+}
+div#nyroModalContent {
+    overflow: auto;
+}
+div.wrapper div#nyroModalContent {
+    padding: 5px;
+}
+div.wrapperImg div#nyroModalContent {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+}
+div.wrapperImg img {
+    vertical-align: baseline;
+}
+div.wrapperImg div#nyroModalContent div {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: black;
+    padding: 10px;
+    margin: 10px;
+    border: 1px white dotted;
+    overflow: hidden;
+    opacity: 0.2;
+    filter: alpha(opacity=20);
+}
+div.wrapperImg div#nyroModalContent div:hover {
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+    cursor: help;
+}
+a.nyroModalPrev, a.nyroModalNext {
+    z-index: 105;
+    outline: none;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 40%;
+    cursor: pointer;
+    text-indent: -9999em;
+    background: left 20% no-repeat;
+    background-image: url(data:image/gif;base64,AAAA); /* Trick IE6 */
+}
+div.wrapperSwf a.nyroModalPrev, div.wrapperSwf a.nyroModalNext, div.wrapper a.nyroModalPrev, div.wrapper a.nyroModalNext {
+    height: 60%;
+    width: 20%;
+}
+a.nyroModalPrev {
+    left: 0;
+}
+a.nyroModalPrev:hover {
+    background-image: url(../images/prev.gif);
+}
+a.nyroModalNext {
+    right: 0;
+    background-position: right 20%;
+}
+a.nyroModalNext:hover {
+    background-image: url(../images/next.gif);
+}
+
+
+/*//lauyi*/
+.layui-layer-title{
+    font-weight: 700  !important;
+    color: #68728c  !important;
+    font-size: 16px  !important;
+    height: 50px !important;
+    line-height: 50px !important;
+    border-radius: 5px 5px 0 0 !important;
+    background-color: #F2F4F4 !important;
+}
+.layui-layer-setwin{
+    top: 18px !important;
+    right: 18px !important;
+}
+.layui-layer,.layui-layer-iframe iframe{
+    border-radius: 5px !important;
+}
+
+.layui-layer-loading .layui-layer-loading1 {
+    border: 3px solid #eeeeee;
+    border-radius: 50%;
+    border-top: 3px solid #3498db;
+    background: none !important;
+    -webkit-animation: spin 0.6s linear infinite;
+    animation: spin 0.6s linear infinite;
+}
+.layui-layer-btn .layui-layer-btn0{
+    background: linear-gradient(0deg,#2a62ff,#4e7dff);
+    box-shadow: 0 5px 6px 0 rgba(73,105,230,.22);
+    border:none;
+}
+
+
+.layui-layer-page .layui-layer-content{
+    position: relative;
+    padding: 20px;
+    line-height: 24px;
+    word-break: break-all;
+    overflow: hidden;
+    font-size: 14px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}

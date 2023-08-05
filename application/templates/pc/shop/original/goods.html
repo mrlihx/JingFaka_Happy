@@ -1,0 +1,26 @@
+{extend name="./layout"}
+
+{block name="content"}
+<li><span class="span_up">商品名称</span>
+    <p class="big_txt" title="{$goods.name}">{$goods.name}</p>
+    <script>
+        $(function() {
+            selectgoodid();
+        })
+    </script>
+    <input type="hidden" name="goodid" id="goodid" value="{$goods.id}">
+    <input type="hidden" name="cateid" id="cateid" value="{$goods.cate_id}">
+    <a class="spsm" onclick="layer_remark()">[ 卖家公告 ]</a>
+    <span id="notice" style="display: none">{$shop.shop_notice}</span>
+    <script>
+        function layer_remark() {
+            var gonggao = $('#notice').text();
+            layer.open({
+                time: 5000,
+                content: gonggao,
+                shadeClose: true
+            });
+        }
+    </script>
+</li>
+{/block}

@@ -1,0 +1,259 @@
+{extend name="base"}
+{block name="content"}
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row mb-2">
+
+                            <div class="col-sm-auto">
+                                <button class="pull-right btn btn-success waves-effect waves-light" onclick="batch_restore()"><i class="bx bx-history mr-1"></i>批量恢复</button>
+                            </div>
+                            <div class="col-sm-auto">
+
+                                <form class="form-inline" role="form" action="" method="get">
+                                    <div class="form-group">
+                                        <select name="cate_id" class="form-control select2">
+                                            <option value="" {if $Think.get.goods_id==''}selected{/if}>全部分类</option>
+                                            {foreach $categorys as $v}
+                                            <option value="{$v.id}" {if $Think.get.cate_id==$v.id}selected{/if}>{$v.name}</option>
+                                            {/foreach}
+                                        </select>
+                                    </div>
+                                    <div class="form-group ml-1">
+                                        <select name="status" class="form-control select2">
+                                            <option value="" {if $Think.get.status==''}selected{/if}>全部状态</option>
+                                            <option value="1" {if $Think.get.status=='1'}selected{/if}>未使用</option>
+                                            <option value="2" {if $Think.get.status=='2'}selected{/if}>已使用</option>
+                                        </select>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-light waves-effect waves-light ml-1"><i class="bx bx-search mr-1"></i>搜索</button>
+                                </form>
+                            </div>
+
+                        </div>
+
+
+
+
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th> 
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="select_all">
+                                                <label class="custom-control-label" for="select_all"></label>
+                                            </div>
+                                        </th>
+                                        <th>商品分类</th>
+                                        <th>优惠券号码</th>
+                                        <th>面额</th>
+                                        <th>生成时间</th>
+                                        <th>有效期</th>
+                                        <th>备注</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {foreach $coupons as $k=>$v}
+                                    <tr>
+                                        <td>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input select-checkbox" name="coupon_id" id="checkbox{$k}"  value="{$v.id}">
+                                                <label class="custom-control-label" for="checkbox{$k}"></label>
+                                            </div>
+                                        </td>
+                                        <td>{if $v.cate_id==0}全部{else/}{$v.category.name}{/if}</td>
+                                        <td>{$v.code}</td>
+                                        <td>{$v.amount}{if $v.type==1}元{else/}%{/if}</td>
+                                        <td>{$v.create_at|date="Y-m-d H:i:s",###}</td>
+                                        <td>{$v.expire_day}</td>
+                                        <td>{$v.remark}</td>
+                                        <td>
+                                            <a href="javascript:void(0);" onclick="restore(this, '{$v.id}')">恢复</a>
+                                        </td>
+                                    </tr>
+                                    {/foreach}
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <nav aria-label="...">
+                            {$page}
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+{/block}
+{block name="js"}
+<script>
+    $('#select_all').click(function () {
+        if ($(this).is(':checked')) {
+            $('tbody').find('input[type="checkbox"]').each(function () {
+                $(this).prop("checked", true)
+            })
+        } else {
+            $('tbody').find('input[type="checkbox"]').each(function () {
+                $(this).prop("checked", false)
+            })
+        }
+    })
+    function restore(obj, id)
+    {
+        $.confirm({
+            title: '提示！',
+            content: '确定恢复吗？',
+            type: 'green',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: '确定',
+                    btnClass: 'btn-green',
+                    action: function () {
+                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                        $.post("{:url('goods_coupon/restore')}", {
+                            id: id
+                        }, function (res) {
+                            if (res.code != 1) {
+                                $.alert(res.msg);
+                            } else {
+                                $.alert('恢复成功');
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 200);
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+
+    }
+
+    function batch_restore()
+    {
+        var ids = new Array();
+        $('tbody').find('input[name="coupon_id"]').each(function () {
+            if ($(this).is(':checked')) {
+                ids.push($(this).val());
+            }
+        })
+        if (ids.length == 0) {
+            $.alert('选择要恢复的数据');
+            return false;
+        }
+
+        $.confirm({
+            title: '提示！',
+            content: '确定要批量恢复吗？',
+            type: 'green',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: '确定',
+                    btnClass: 'btn-green',
+                    action: function () {
+                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                        $.post("{:url('goods_coupon/batch_restore')}", {
+                            ids: ids
+                        }, function (res) {
+                            if (res.code != 1) {
+                                $.alert(res.msg);
+                            } else {
+                                $.alert('恢复成功');
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 200);
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+
+
+    }
+
+    function trash_clear(obj)
+    {
+        $.confirm({
+            title: '确定清空回收站吗？',
+            content: '你无法恢复该操作！',
+            type: 'red',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: '确定',
+                    btnClass: 'btn-red',
+                    action: function () {
+                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                        $.post("{:url('goods_card/trash_clear')}", {}, function (res) {
+                            if (res.code != 0) {
+                                $.alert('清空失败');
+                            } else {
+                                $.alert('清空成功');
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 200);
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+
+    }
+
+    $(function () {
+        $('#select_all').click(function () {
+            if ($(this).is(':checked')) {
+                $('tbody').find('input[type="checkbox"]').each(function () {
+                    $(this).prop("checked", true)
+                })
+            } else {
+                $('tbody').find('input[type="checkbox"]').each(function () {
+                    $(this).prop("checked", false)
+                })
+            }
+        })
+    })
+
+</script>
+{/block}

@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8" />
+        <title>订单查询 - {:sysconf('site_name')}</title>
+        <meta name="keywords" content="{:sysconf('site_keywords')}" />
+        <meta name="description" content="{:sysconf('site_desc')}" />
+        <link rel="shortcut icon" href="{:sysconf('browser_icon')}" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Bootstrap -->
+        <link href="__RES__/theme/landrick/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <!-- Icons -->
+        <link href="__RES__/theme/landrick/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
+        <!-- Slider -->               
+        <link rel="stylesheet" href="__RES__/theme/landrick/css/owl.carousel.min.css"/> 
+        <link rel="stylesheet" href="__RES__/theme/landrick/css/owl.theme.default.min.css"/> 
+        <!-- Main Css -->
+        <link href="__RES__/theme/landrick/css/land1.css" rel="stylesheet" type="text/css" id="theme-opt" />
+        <link href="__RES__/theme/landrick/css/colors/default.css" rel="stylesheet" id="color-opt">
+        <script src="__RES__/theme/landrick/js/jquery-3.5.1.min.js"></script>
+    </head>
+
+    <body>
+        {include file="./default_header"}
+        <!-- Hero Start -->
+        <section class="bg-half bg-light d-table w-100">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-12 text-center">
+                        <div class="page-next-level">
+                            <div class="alert alert-light alert-pills shadow" role="alert">
+                                <span class="badge badge-pill badge-danger mr-1">订单查询</span>
+                                <span class="content"> 请输入取卡密码继续查询</span>
+                            </div>
+
+
+                            <div class="subcribe-form mt-4 pt-2">
+                                <form method="POST" role="form" name="pw" action="/orderquery?orderid={$trade_no}&chkcode={$chkcode}">
+                                    <div class="form-group mb-0">
+                                        <input type="hidden" name="token" value="{$token|htmlentities}">
+                                        <input type="text" value="" name='pwd' class="border bg-white rounded-pill shadow" placeholder="请输入取卡密码" id="orderid_input" autocomplete="off">
+                                        <button type="submit" onclick="orderid_or_contact()" class="btn btn-pills btn-light">继续查询</button>
+                                    </div>
+                                </form>
+                            </div>
+
+
+                        </div>
+                    </div><!--end col-->
+                </div><!--end row-->
+            </div> <!--end container-->
+        </section><!--end section-->
+        <!-- Hero End -->
+
+
+        {include file="./default_footer"}
+        <!-- javascript -->
+        <script src="__RES__/theme/landrick/js/bootstrap.bundle.min.js"></script>
+        <script src="__RES__/theme/landrick/js/jquery.easing.min.js"></script>
+        <script src="__RES__/theme/landrick/js/scrollspy.min.js"></script>
+        <!-- SLIDER -->
+        <script src="__RES__/theme/landrick/js/owl.carousel.min.js "></script>
+        <script src="__RES__/theme/landrick/js/owl.init.js "></script>
+        <!-- Icons -->
+        <script src="__RES__/theme/landrick/js/feather.min.js"></script>
+        <script src="__RES__/theme/landrick/js/bundle.js"></script>
+        <!-- Main Js -->
+        <script src="__RES__/theme/landrick/js/app.js"></script>
+        <script src="__RES__/app/js/clipboard.js"></script>
+        <script src="__RES__/app/js/layer.js"></script>
+    
+    </body>
+</html>
+

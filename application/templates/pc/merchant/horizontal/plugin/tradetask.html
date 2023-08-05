@@ -1,0 +1,264 @@
+{extend name="base"}
+
+{block name="css"}
+
+{/block}
+{block name="content"}
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            {if $pedding}
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-body border-bottom">
+                        <div>
+                            <div class="mb-4 me-3">
+                                <i class="mdi mdi-account-circle text-primary h1"></i>
+                            </div>
+                            <div>
+                                <h5 class="">{$pedding.task.name}&nbsp;&nbsp;{if $pedding.trade_money>=$pedding.task.target}<span class="badge badge-pill badge-success">已完成</span>{else/}<span class="badge badge-pill badge-warning">进行中</span>{/if}</h5>
+                                <p class="text-muted mb-1">目标流水：￥{$pedding.task.target}&nbsp;&nbsp;任务奖励：￥{$pedding.task.reward}</p>
+                                <p class="text-muted mb-0">任务时间：{$pedding.create_at|date='Y-m-d H:i:s',###} - {$pedding.expire_at|date='Y-m-d H:i:s',###}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body border-bottom">
+                        <div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div>
+                                        <p class="text-muted mb-2">已完成流水</p>
+                                        <h5>{$pedding.trade_money}元</h5>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="text-sm-right mt-4 mt-sm-0">
+                                        <span class="badge bg-success text-white p-2 font-size-12">剩余时间：{$pedding.expire_day}</span>
+                                        {if $pedding.trade_money>=$pedding.task.target}
+                                        <button onclick="receivereward(this, '{$pedding.id}')" class="btn btn-outline-success btn-sm">领取奖励</button>
+                                        {else/}
+                                        <button onclick="giveuptask(this, '{$pedding.id}')" class="btn btn-outline-danger btn-sm">放弃</button>
+                                        {/if}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/if}
+
+
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">任务列表</h4>
+
+                        <div class="row">
+                            {foreach $tradeTask as $v}
+                            <div class="col-lg-3">
+                                <div class="border p-3 rounded mt-4">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="avatar-xs mr-3">
+                                            <span class="avatar-title rounded-circle bg-warning bg-soft text-warning font-size-18">
+                                                <i class="mdi mdi-bitcoin"></i>
+                                            </span>
+                                        </div>
+                                        <h5 class="font-size-14 font-weight-bold mb-0">{$v.name}</h5>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-9">
+                                            <div class="text-muted mt-3">
+                                                <p>目标金额：{$v.target}&nbsp;任务时长：{$v.duration}天</p>
+                                                <h5><b>奖励：￥{$v.reward}</b></h5>
+                                                <p class="mb-0">{$v.desc}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 align-self-end">
+                                            <div class="float-right mt-3">
+                                                <button onclick="applytask(this, '{$v.id}')" class="btn btn-outline-primary btn-sm">领取</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {/foreach}
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">任务记录</h4>
+
+                        <div class="table-responsive">
+                            <table class="table table-nowrap align-middle mb-0">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">任务名称</th>
+                                        <th>目标金额</th>
+                                        <th>奖励金额</th>
+                                        <th>状态</th>
+                                        <th>完成时间</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {foreach $order as $o}
+                                    <tr>
+                                        <th scope="row">
+                                            <div class="d-flex align-items-center">
+                                                <span>{$o.task.name}</span>
+                                            </div>
+                                        </th>
+                                        <td>
+                                            ￥{$o.task.target}
+                                        </td>
+                                        <td>
+                                            ￥{$o.task.reward}
+                                        </td>
+                                        <td>
+                                            {switch name="o.status"}
+                                            {case value="0"}<span class="badge badge-pill badge-warning">未完成</span>{/case}
+                                            {case value="1"}<span class="badge badge-pill badge-success">已完成</span>{/case}
+                                            {case value="-1"}<span class="badge badge-pill badge-danger">已放弃</span>{/case}
+                                            {/switch}
+                                        </td>
+                                        <td>
+                                            {if $o.status==1}
+                                            {$o.success_at|date="Y-m-d H:i:s",###}
+                                            {else}
+                                            ---
+                                            {/if}
+                                        </td>
+                                    </tr>
+                                    {/foreach}
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <!-- container-fluid -->
+</div>
+
+{/block}
+{block name="js"}
+<script>
+
+    function applytask(obj, id)
+    {
+        $.confirm({
+            title: '确定要申请当前任务吗？',
+            content: '任务只能同时领取一个',
+            type: 'green',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: '确定',
+                    btnClass: 'btn-success',
+                    action: function () {
+                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                        $.post("{:url('tradetask')}", {
+                            act: "applytask",
+                            id: id
+                        }, function (res) {
+                            layer.closeAll();
+                            if (res.code != 1) {
+                                $.alert(res.msg);
+                            } else {
+                                $.alert("领取成功");
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 200);
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+    }
+    function giveuptask(obj, id)
+    {
+        $.confirm({
+            title: '确定要放弃当前任务吗？',
+            content: '已完成流水将会清空',
+            type: 'red',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: '确定',
+                    btnClass: 'btn-red',
+                    action: function () {
+                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                        $.post("{:url('tradetask')}", {
+                            act: "giveuptask",
+                            id: id
+                        }, function (res) {
+                            layer.closeAll();
+                            if (res.code != 1) {
+                                $.alert(res.msg);
+                            } else {
+                                $.alert("放弃成功");
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 200);
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+    }
+
+    function receivereward(obj, id)
+    {
+        var loading = layer.load(1, {shade: [0.1, '#fff']});
+        $.post("{:url('tradetask')}", {
+            act: "receivereward",
+            id: id
+        }, function (res) {
+            layer.closeAll();
+            $.alert(res.msg);
+            if (res.code == 1) {
+                setTimeout(function () {
+                    location.reload();
+                }, 200);
+            }
+        });
+    }
+
+</script>
+{/block}

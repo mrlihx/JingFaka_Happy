@@ -1,0 +1,132 @@
+{extend name="simple_base"}
+
+
+{block name="content"}
+
+<div class="container">
+    <div class="card">
+        <div class="card-body  p-3">
+
+            <div class="row mb-3">
+                <div class="col-sm-12">
+                    <form class="form-inline" role="form" action="" method="get">
+                        <div class="form-group ml-1">
+                            <input name="username" type="text" class="form-control" placeholder="代理用户名" value="{$Think.get.username|default=''|htmlentities}"  autocomplete="off" >
+                        </div>
+                        <button class="btn btn-primary w-100 d-flex align-items-center justify-content-center" type="submit">
+                            <i class="bx bx-search me-2"></i>查询
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+
+            {foreach $proxylist as $v}
+            <div class="single-search-result mb-3 border-bottom pb-3 order-wrap">
+                <div class="d-flex align-items-center justify-content-between">
+                    <h6 class="text-truncate mb-0 float-left d-inline">用户名:&nbsp;&nbsp;{$v.child.username}</h6>
+                    {switch name="v.status"}
+                    {case value="-1"}<span class="badge rounded-pill bg-danger float-end">已拒绝</span>{/case}
+                    {case value="0"}<span class="badge rounded-pill bg-primary float-end">申请中</span>{/case}
+                    {case value="1"}<span class="badge rounded-pill bg-success float-end">正常</span>{/case}
+                    {/switch}
+                </div>
+
+                <div class="d-flex align-items-center mt-1 justify-content-between">
+                    <div class="order-wrap-text">
+                        <span>QQ：</span>
+                        <span><a href="//wpa.qq.com/msgrd?v=3&uin={$v.child.qq}&Site=" target="_blank"><i class="iconfont icon-qq-white"></i>{$v.child.qq}</a></span>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center mt-1 justify-content-between">
+                    <div class="order-wrap-text">
+                        <span>代理ID：</span>
+                        <span>{$v.child_user_id}</span>
+                    </div>
+                    <div class="order-wrap-text">
+                        <span>店铺名：</span>
+                        <span>{$v.child.shop_name|default='未设置'}</span>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center mt-1 justify-content-between">
+                    <div class="order-wrap-text">
+                        <span>今日出卡：</span>
+                        <span>{$v.day_card_count}张</span>
+                    </div>
+                    <div class="order-wrap-text">
+                        <span>累计出卡：</span>
+                        <span>{$v.all_card_count}张</span>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center mt-1 justify-content-between">
+                    <div class="order-wrap-text">
+                        <span>申请时间：</span>
+                        <span>{$v.create_at|date="Y-m-d H:i:s",###}</span>
+                    </div>
+                </div>
+
+                <div class="goods-warp d-flex align-items-center mt-1 justify-content-end">
+                    {switch name="v.status"}
+                    {case value="-1"}<a class="me-1" href="javascript:void(0);" onclick="verify(this, '{$v.id}', 1, '确定要变更同意？')"><span class="goods-warp-btn" >变更同意</span></a>{/case}
+                    {case value="0"}
+                    <a class="me-1" href="javascript:void(0);" onclick="verify(this, '{$v.id}', 1, '确定要同意申请？')"><span class="goods-warp-btn" >同意</span></a>
+                    <a class="me-1" href="javascript:void(0);" onclick="verify(this, '{$v.id}', -1, '确定要拒绝申请？')"><span class="goods-warp-btn" >拒绝</span></a>
+                    {/case}
+                    {case value="1"}<a class="me-1" href="javascript:void(0);" onclick="verify(this, '{$v.id}', -1, '请谨慎操作！代理已对接的商品将会下架，确定要变更拒绝？')"><span class="goods-warp-btn" >变更拒绝</span></a>{/case}
+                    {/switch}
+                    <a href="{:url('agent/proxyGoods',['id'=>$v.id])}"><span class="goods-warp-btn" >对接商品管理</span></a>
+                </div>
+            </div>
+            {/foreach}       
+            <nav aria-label="Page navigation">
+                {$page}
+            </nav>
+        </div>
+    </div>
+</div>
+
+{/block}
+{block name="js"}
+<script>
+
+    function verify(obj, id, status, msg)
+    {
+        $.confirm({
+            title: '温馨提示',
+            content: msg,
+            type: 'red',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: '确定',
+                    btnClass: 'btn-red',
+                    action: function () {
+                        var loading = layer.load(1, {shade: [0.1, '#fff']});
+                        $.post("{:url('Agent/verifyProxy')}", {
+                            id: id,
+                            status: status
+                        }, function (res) {
+                            layer.close(loading);
+                            if (res.code == 1) {
+                                $.alert(res.msg);
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 200);
+                            } else {
+                                $.alert(res.msg);
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+    }
+</script>
+{/block}
+

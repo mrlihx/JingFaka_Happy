@@ -1,0 +1,90 @@
+{extend name="lite_base" /}
+
+{block name="content"}
+<div class="card mb-0">
+
+    <div class="card-content">
+        <div class="card-body">
+            <form id="form1" class="form form-vertical">
+                <div class="form-body">
+                    <div class="row">
+                        <input type="hidden" name="id" value="{$theme.id|default=''}">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="name">主题名称</label>
+                                <input id="name" type="text"  class="form-control" name="name" placeholder="请输入主题名称" value="{$theme.name|default=''}">
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label class="col-md-2 form-label">素材类型</label>
+                                <div class="col-md-10 d-flex align-items-center">
+                                    <div class="form-check">
+                                        <input {if $theme.resource_type==0}checked{/if} value="0" type="radio" id="resource_type0" name="resource_type" class="form-check-input mt-0">
+                                            <label class="form-label mb-0 " for="resource_type0">视频</label>
+                                    </div>
+                                    <div class="form-check ms-3">
+                                        <input {if $theme.resource_type==1}checked{/if} value="1" type="radio" id="resource_type1" name="resource_type" class="form-check-input mt-0">
+                                            <label class="form-label mb-0 " for="resource_type1">图片</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="resource">素材链接（视频素材为MP4格式，图片素材为JPG、png格式）</label>
+                                <input type="text" class="form-control" name="resource"  placeholder="请输入素材链接" value="{$theme.resource|default=''}">
+                            </div>
+                        </div>
+
+                        <div class="col-12 d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary mr-1 mb-1 btn-submit">保存主题</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+{/block}
+
+{block name="js"}
+<!-- BEGIN: Page JS-->
+
+<script>
+
+    $(".btn-submit").click(function ()
+    {
+        var loading = layer.load(1, {shade: [0.1, '#fff']});
+        $.ajax({
+            url: "{:url('plugin/shopdiyThemeEdit')}",
+            type: 'post',
+            data: $('#form1').serialize(),
+            success: function (info) {
+                layer.close(loading);
+                if (info.code == 1)
+                {
+                    parent.$.alert(info.msg);
+                    setTimeout(function () {
+                        parent.location.reload();
+                    }, 200);
+                } else {
+                    $.alert({
+                        title: '提示!',
+                        content: info.msg
+                    });
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                layer.close(loading);
+            }
+        });
+        return false;
+    });
+</script>
+
+<!-- END: Page JS-->
+{/block}

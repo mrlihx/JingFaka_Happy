@@ -1,0 +1,244 @@
+{extend name="simple_base"}
+
+{block name="css"}
+<link href="__RES__/merchant/default/libs/fileuploads/css/dropify.min.css" rel="stylesheet" type="text/css" />
+{/block}
+
+{block name="content"}
+
+<div class="container">
+
+
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body p-3">
+                <div class="row mb-2">
+                    <div class="col-lg-12">
+                        {if $merchantauth}
+                        <div class="alert alert-success" role="alert">
+                            <p>当前认证状态： <span class="badge rounded-pill bg-success font-size-12">已认证</span></p>
+                            <p class="mb-1"><b>真实姓名：</b>{$merchantauth.card_name}</p>
+                            <p class="mb-1"><b>身份证号：</b>{$merchantauth.card_number|user_name_hide=###}</p>
+                        </div>
+                        {else/}
+                        {if plugconf('merchantauth', 'auth_people') == 2 && $_user->create_at < plugconf('merchantauth', 'start_at')}
+                        <div class="alert alert-success" role="alert">
+                            当前认证状态： <span class="badge rounded-pill bg-success font-size-12">老用户无需认证</span>
+                        </div>
+                        {else/}
+                        <div class="alert alert-danger" role="alert">
+                            当前认证状态： <span class="badge rounded-pill bg-danger font-size-12">未认证</span>
+                        </div>
+                        {/if}
+                        {/if}
+                    </div>
+                </div>
+
+                {if $lastorder&&json_decode($lastorder['params'],true)['auth_type']==3&&$lastorder.status==1&&$lastorder.auth_status==0}
+                <div class="col-12 text-center">
+                    <p><span class="badge badge-pill bg-primary font-size-14">请使用支付宝APP扫码认证</span></p>
+                    <img src="{:generate_qrcode_link(url('index/plugin/openFaceCertify', ['certify_id' => $certify_id,'trade_no'=>$lastorder.trade_no]))}" alt="">
+                    <script>
+                        var check = setInterval("CheckStatus()", 2500);
+                        function CheckStatus()
+                        {
+                            $.ajax({
+                                url: "{:url('index/plugin/queryFaceCertify')}",
+                                type: 'post',
+                                data: {certify_id: '{$certify_id}', trade_no: '{$lastorder.trade_no}'},
+                                success: function (res) {
+                                    if (res.code == 1) {
+                                        clearInterval(check);
+                                        layer.msg('恭喜您，认证成功。');
+                                        setTimeout(function () {
+                                            window.location.reload();
+                                        }, 500);
+                                    }
+                                }
+                            });
+                        }
+                    </script>
+                </div>
+                {else/}
+                {if !$merchantauth}
+                <form id="form1" class="form form-vertical" target="_blank"  method="post" enctype="multipart/form-data">
+                    <div class="form-body">
+                        <div class="row">
+                            <input type="hidden" name="auth_type"  value="{:plugconf('merchantauth', 'auth_type')}">
+
+                            {if plugconf('merchantauth', 'auth_type')==1}
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="card_name">真实姓名</label>
+                                    <input type="text" class="form-control" name="card_name" placeholder="请输入真实姓名">
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="card_number">身份证号</label>
+                                    <input type="text" class="form-control" name="card_number"  placeholder="请输入身份证号">
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="mobile">手机号</label>
+                                    <input type="text" class="form-control" name="mobile"  placeholder="请输入手机号">
+                                </div>
+                            </div>
+
+                            {elseif plugconf('merchantauth', 'auth_type')==2/}
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="card_name">真实姓名</label>
+                                    <input type="text" class="form-control" name="card_name" placeholder="请输入真实姓名">
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="card_number">身份证号</label>
+                                    <input type="text" class="form-control" name="card_number"  placeholder="请输入身份证号">
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="card_img">身份证正面</label>
+                                    <input type="file" name="card_img"  class="dropify" data-max-file-size="1M"/>
+                                </div>
+                            </div>
+                            
+                            {elseif plugconf('merchantauth', 'auth_type')==3/}
+
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="card_name">真实姓名</label>
+                                    <input type="text" class="form-control" name="card_name" placeholder="请输入真实姓名">
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="card_number">身份证号</label>
+                                    <input type="text" class="form-control" name="card_number"  placeholder="请输入身份证号">
+                                </div>
+                            </div>
+
+                            {/if}
+
+                            {if plugconf('merchantauth', 'auth_money')==0}
+                            <div class="col-12">
+                                <p><span class="badge badge-pill bg-success font-size-14">认证费用：免费</span></p>
+                            </div>
+                            {else/}
+                            <div class="col-12">
+                                <p><span class="badge badge-pill bg-success font-size-14">认证费用：{:plugconf('merchantauth', 'auth_money')}元</span></p>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>选择支付方式</label>
+                                    <div class="col-md-10 d-flex align-items-center mt-2">
+                                        {foreach $userChannels as $k=>$v}
+                                        {if $v.status==1}
+                                        <div class="form-check mr-4">
+                                            <input {if $k==0}checked{/if} value="{$v.channel_id}" type="radio" id="channel_id{$k}" name="channel_id" class="form-check-input mt-0">
+                                                <label class="custom-control-label" for="channel_id{$k}"> <img style="width:21px" src="{:get_paytype_info($v.paytype)['ico']}" /> {$v.show_name}</label>
+                                        </div>
+                                        {/if}
+                                        {/foreach}
+                                    </div>
+                                </div>
+                            </div>
+                            {/if}
+
+                            <div class="col-12 d-flex justify-content-center">
+                                <button type="submit" class="btn btn-success mr-1 mb-1 btn-submit">立即认证</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                {/if}
+                {/if}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-12">
+        <div class="card  mt-3">
+            <div class="card-body">
+                <h6 class="card-title mb-4">认证记录</h6>
+
+                {foreach $order as $o}
+                <div class="single-search-result mb-3 border-bottom pb-3 order-wrap">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <h6 class="text-truncate mb-0 float-left d-inline">{$o.create_at|date="Y-m-d H:i:s",###}</h6>
+                        {switch name="o.status"}
+                        {case value="0"}<span class="badge rounded-pill bg-warning float-end">未支付</span>{/case}
+                        {case value="1"}<span class="badge rounded-pill bg-success float-end">已完成</span>{/case}
+                        {case value="2"}<span class="badge rounded-pill bg-danger float-end">已放弃</span>{/case}
+                        {case value="3"}<span class="badge rounded-pill bg-danger float-end">已退款</span>{/case}
+                        {/switch}
+                    </div>
+
+                    <div class="d-flex align-items-center mt-1 justify-content-between">
+                        <div class="order-wrap-text">
+                            <span>订单号：</span>
+                            <span>  
+                                {$o.trade_no}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center mt-1 justify-content-between">
+                        <div class="order-wrap-text">
+                            <span>认证状态：</span>
+                            <span>  
+                                {switch name="o.auth_status"}
+                                {case value="0"}-{/case}
+                                {case value="1"}<span class="badge rounded-pill bg-success">认证成功</span>{/case}
+                                {case value="2"}<span class="badge rounded-pill bg-danger">认证失败</span>{/case}
+                                {/switch}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center mt-1 justify-content-between">
+                        <span>
+                            {$o.auth_result}
+                        </span>
+                    </div>
+                </div>
+
+                {/foreach}
+                <nav aria-label="Page navigation">
+                    {$page}
+                </nav>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{/block}
+{block name="js"}
+<script src="__RES__/merchant/default/libs/fileuploads/js/dropify.min.js"></script>
+<script>
+                        $('.dropify').dropify({
+                            messages: {
+                                'default': '点击上传LOGO',
+                                'replace': '点击替换LOGO',
+                                'remove': '删除',
+                                'error': '上传错误'
+                            },
+                            error: {
+                                'fileSize': '文件太大超过（1M）'
+                            }
+                        });
+
+</script>
+{/block}
+
+

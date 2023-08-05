@@ -1,0 +1,92 @@
+{extend name='./content'}
+
+{block name="content"}
+<!-- 表单搜索 开始 -->
+<form class="layui-form layui-form-pane form-search" action="__SELF__" onsubmit="return false" method="get">
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">商户ID</label>
+        <div class="layui-input-inline">
+            <input name="user_id" value="{$Think.get.user_id|default=''}" placeholder="请输入商户ID" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">商户账号</label>
+        <div class="layui-input-inline">
+            <input name="username" value="{$Think.get.username|default=''}" placeholder="请输入商户账号" class="layui-input">
+        </div>
+    </div>
+
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">IP</label>
+        <div class="layui-input-inline">
+            <input name="ip" value="{$Think.get.ip|default=''}" placeholder="请输入IP" class="layui-input">
+        </div>
+    </div>
+
+	<div class="layui-form-item layui-inline">
+		<label class="layui-form-label">登录时间</label>
+		<div class="layui-input-inline">
+			<input name="date_range" id="date_range" value="{:urldecode($Think.get.date_range)}" placeholder="请选择时间范围" class="layui-input">
+		</div>
+	</div>
+
+    <div class="layui-form-item layui-inline">
+        <button type="submit" class="layui-btn layui-btn-primary"><i class="fa fa-search"></i> 搜 索</button>
+    </div>
+</form>
+<!-- 表单搜索 结束 -->
+<div class="layui-form-item layui-inline">
+    <label class="layui-form-label">记录数</label>
+    <div class="layui-input-inline">
+        <input type="text" class="layui-input" value="{$log_count}" readonly>
+    </div>
+</div>
+
+<form onsubmit="return false;" data-auto="true" method="post">
+    <input type="hidden" value="resort" name="action"/>
+    <table class="layui-table" lay-skin="line" lay-size="sm">
+        <thead>
+        <tr>
+            <th>商户ID</th>
+			<th>商户账号</th>
+			<th>登录时间</th>
+			<th>登录IP</th>
+			<th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+			{foreach $logs as $v}
+	        <tr>
+				<td>{$v.user_id}</td>
+				<td>{$v.user.username}</td>
+				<td>{$v.create_at|date="Y-m-d H:i:s",###}</td>
+				<td>
+					<a href="//www.baidu.com/s?wd={$v.ip}&amp;rsv_spt=1&amp;issp=1&amp;rsv_bp=0&amp;ie=utf-8&amp;tn=baiduhome_pg" title="点击查看IP来源" target="_blank">{$v.ip}</a>
+				</td>
+				<td>
+	                <a href="{:url("login")}?user_id={$v.user_id}" target="_blank">登录</a>
+				</td>
+			</tr>
+			{/foreach}
+        </tbody>
+    </table>
+</form>
+{$page}
+<script>
+    layui.use('form', function(){
+        var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+        form.render();
+    });
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+        //日期范围
+        laydate.render({
+            elem: '#date_range',
+            range: true
+        });
+    });
+</script>
+{/block}

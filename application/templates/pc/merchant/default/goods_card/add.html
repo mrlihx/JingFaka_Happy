@@ -1,0 +1,188 @@
+{extend name="base"}
+{block name="css"}
+<link href="__RES__/merchant/default/libs/fileuploads/css/dropify.min.css" rel="stylesheet" type="text/css" />
+{/block}
+{block name="content"}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data" onsubmit="return beforeSubmit()">
+
+
+                            <div class="form-group row">
+                                <label for="goods_id" class="col-md-2 col-form-label">选择商品</label>
+                                <div class="col-md-4">
+                                    <select name="goods_id" class="form-control select2">
+                                        {foreach $goodsList as $v}
+                                        <option value="{$v.id|htmlentities}" {if $Think.get.goods_id==$v.id}selected{/if}>{$v.name}</option>
+                                        {/foreach}
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label for="order_type" class="col-md-2 col-form-label">插入方式</label>
+                                <div class="col-md-4 d-flex align-items-center">
+                                    <div class="custom-control custom-radio custom-control-inline mr-4">
+                                        <input value="1" type="radio" id="order_type1" name="order_type" class="custom-control-input" checked>
+                                        <label class="custom-control-label" for="order_type1">顺序插入</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline mr-4">
+                                        <input  value="2" type="radio" id="order_type2" name="order_type" class="custom-control-input">
+                                        <label class="custom-control-label" for="order_type2">随机插入</label>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label for="import_type" class="col-md-2 col-form-label">导入方式</label>
+                                <div class="col-md-4 d-flex align-items-center">
+                                    <div class="custom-control custom-radio custom-control-inline mr-4">
+                                        <input value="1" type="radio" id="import_type1" name="import_type" class="custom-control-input" checked>
+                                        <label class="custom-control-label" for="import_type1">手动输入</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline mr-4">
+                                        <input  value="2" type="radio" id="import_type2" name="import_type" class="custom-control-input">
+                                        <label class="custom-control-label" for="import_type2">TXT文件导入</label>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label for="split_type" class="col-md-2 col-form-label">导入格式</label>
+                                <div class="col-md-4">
+                                    <select name="split_type" class="form-control select2">
+                                        <option value="0">自动识别</option>
+                                        <option value=" ">用“ ”分隔</option>
+                                        <option value=",">用“,”分隔</option>
+                                        <option value="|">用“|”分隔</option>
+                                        <option value="----">用“----”分隔</option>
+                                        <option value="">不分隔</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 d-flex align-items-center">
+                                    <p class="text-muted mb-0">格式演示:AAAAAAAAAAA&nbsp;BBBBBBBBBBBB</p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row import_type_1">
+                                <label for="content" class="col-md-2 col-form-label">虚拟卡内容</label>
+                                <div class="col-md-4">
+                                    <textarea name="content" placeholder="" class="form-control" rows="5"></textarea>
+                                </div>
+                                <div class="col-md-6 d-flex align-items-center">
+                                    <p class="text-muted mb-0"><b>普通格式</b>：卡号+空格+密码，一行一张卡<br>如：A1B2C3D4F5E8 9876543210<br>最多一次添加500张(500行)<br><br><b>自助选号格式</b>：描述+空格+账号和密码，一行一个号<br>如：德玛西亚,等级:323,英雄数量:145 账号:123,密码:123</p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row import_type_2"  style="display:none">
+                                <label for="file" class="col-md-2 col-form-label">虚拟卡内容</label>
+                                <div class="col-md-4">
+                                    <input type="file" accept="text/plain" name="file" class="dropify" data-max-file-size="20M">
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group row">
+                                <label for="check_card" class="col-md-2 col-form-label">检查重复卡</label>
+                                <div class="col-md-4 d-flex align-items-center">
+                                    <div class="custom-control custom-radio custom-control-inline mr-4">
+                                        <input  value="0" type="radio" id="check_card2" name="check_card" class="custom-control-input" checked>
+                                        <label class="custom-control-label" for="check_card2">否</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline mr-4">
+                                        <input value="1" type="radio" id="check_card1" name="check_card" class="custom-control-input">
+                                        <label class="custom-control-label" for="check_card1">是</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-2 col-form-label"></label>
+                                <div class="col-md-4 text-center">
+                                    <button type="submit" class="btn btn-primary waves-effect waves-light">执行导入</button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+
+
+{/block}
+{block name="js"}
+<script src="__RES__/merchant/default/libs/fileuploads/js/dropify.min.js"></script>
+<script>
+                            $('[name="import_type"]').change(function () {
+                                var type = $(this).val();
+                                $('.import_type_1').hide();
+                                $('.import_type_2').hide();
+                                $('.import_type_' + type).fadeIn();
+                            });
+                            $('[name="split_type"]').change(function () {
+                                var type = $(this).val();
+                                $('.card_split').text(type);
+                            });
+                            $('.dropify').dropify({
+                                messages: {
+                                    'default': '拖拽文件至此或点击上传文件',
+                                    'replace': '拖拽文件至此或点击上传文件',
+                                    'remove': '取消',
+                                    'error': '文件大小不能超出10M'
+                                },
+                                error: {
+                                    'fileSize': '文件大小不能超出10M'
+                                }
+                            });
+
+                            var canSubmit = true;
+
+                            function beforeSubmit() {
+                                if (canSubmit) {
+                                    canSubmit = false;
+                                    return true;
+                                } else {
+                                    $.alert('服务器开小差了，请刷新重试');
+                                    return false;
+                                }
+                            }
+</script>
+
+{/block}

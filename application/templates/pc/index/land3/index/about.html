@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>{:sysconf('site_name')} - {:sysconf('site_subtitle')}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="keywords" content="{:sysconf('site_keywords')}" />
+        <meta name="description" content="{:sysconf('site_desc')}" />
+        <link rel="shortcut icon" href="{:sysconf('browser_icon')}" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="theme-color" content="#1E78FF">	
+        <meta name="msapplication-navbutton-color" content="#1E78FF">		
+        <meta name="apple-mobile-web-app-status-bar-style" content="#1E78FF">
+        <link rel="stylesheet" type="text/css" href="__RES__/theme/maowang51/css/style.css" media="all">		
+        <link rel="stylesheet" type="text/css" href="__RES__/theme/maowang51/css/responsive.css" media="all">	
+    </head>
+
+    <body>
+        <div class="main-page-wrapper">
+            <!-- ===================================================
+                    Loading Transition
+            ==================================================== -->
+            {include file="./default_her"}
+
+
+            <!-- 
+            =============================================
+                    Search
+            ============================================== 
+            -->
+            <div class="offcanvas offcanvas-top theme-search-form justify-content-center" tabindex="-1" id="offcanvasTop">
+                <button type="button" class="close-btn tran3s" data-bs-dismiss="offcanvas" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+                <div class="form-wrapper">
+                    <form action="#">
+                        <input type="text" placeholder="Search Keyword....">
+                    </form>
+                </div> <!-- /.form-wrapper -->
+            </div>
+
+
+            <!-- 
+            =============================================
+                    Theme Main Menu
+            ============================================== 
+            -->
+            <header class="theme-main-menu sticky-menu theme-menu-one">
+                {include file="./default_header"}
+            </header> <!-- /.theme-main-menu -->
+
+
+
+            <!-- 
+            =============================================
+                    Theme Inner Banner
+            ============================================== 
+            -->
+            <div class="theme-inner-banner">
+                <div class="container">
+                    <h2 class="intro-title text-center">公司介绍</h2>
+                    <ul class="page-breadcrumb style-none d-flex justify-content-center">
+                        <li><a href="/">平台首页</a></li>
+                        <li class="current-page">公司介绍</li>
+                    </ul>
+                </div>
+                <img src="__RES__/theme/maowang51/picture/shape_38.svg" alt="" class="shapes shape-one">
+                <img src="__RES__/theme/maowang51/picture/shape_39.svg" alt="" class="shapes shape-two">
+            </div> <!-- /.theme-inner-banner -->
+
+
+
+            <!-- 
+            =============================================
+                    Feature Section Two
+            ============================================== 
+            -->
+            <div class="fancy-feature-two position-relative mt-140 lg-mt-100">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xxl-5 col-lg-6 col-md-7 ms-auto">
+                            <div class="block-style-two" data-aos="fade-left">
+                                <div class="title-style-one">
+                                    <div class="sc-title-four">我们是谁</div>
+                                    <h2 class="main-title">{:sysconf('app_name')}</h2>
+                                </div> <!-- /.title-style-one -->
+                                <p class="pt-10 pb-20 lg-pb-10">{:sysconf('app_name')}({:sysconf('site_info_copyright')})创立于2020年，是一家集软硬件研发、系统集成、平台运营为一体的互联网科技公司，致力于开发电商行业应用的综合服务平台，业务布局从个人电商延伸到整个行业生态链。在多个场景进行扩张，充分满足各群体需求，从而使产品和服务的价值最大化。公司拥有成熟的研发经验和强大团队实力，汇聚算法工程师、软件工程师、硬件工程师、测试工程师等各领域精英，肩负着公司硬软件产品的核心技术开发工作，团队秉持“技术为生产服务”理念，以创新的角度，提供软硬件一体化的行业解决方案。 目前，有铺猫已拥有多项自主知识产权的核心技术及专利认证，同时关注互联网前沿技术迭代，提供长期稳定的产品更新升级服务，以保证用户体验和前瞻性。</p>
+                                <ul class="style-none list-item color-rev">
+                                    <li>一分钟极速入驻,迅速卖货</li>
+                                    <li>支持高并发数据,轻松无卡顿</li>
+                                    <li>支持所有购买场景,让客户轻松购</li>
+                                    <li>不间断更新,持续为你店铺续航</li>
+                                </ul>
+                                <a href="/merchant" class="btn-one mt-30">加入我们</a>
+                            </div> <!-- /.block-style-two -->
+                        </div>
+                    </div>
+                </div> <!-- /.container -->
+                <div class="illustration-holder-two sm-mt-40">
+                    <img src="__RES__/theme/maowang51/picture/ils_05.svg" alt="" class="main-illustration w-100">
+                    <img src="__RES__/theme/maowang51/picture/ils_05_1.svg" alt="" class="shapes shape-one">
+                    <img src="__RES__/theme/maowang51/picture/ils_05_2.svg" alt="" class="shapes shape-two" data-aos="fade-up" data-aos-anchor=".fancy-feature-two" data-aos-delay="100" data-aos-duration="2000">
+                    <img src="__RES__/theme/maowang51/picture/ils_05_3.svg" alt="" class="shapes shape-three" data-aos="fade-up" data-aos-anchor=".fancy-feature-two" data-aos-delay="150" data-aos-duration="2000">
+                    <img src="__RES__/theme/maowang51/picture/ils_05_4.svg" alt="" class="shapes shape-four">
+                    <img src="__RES__/theme/maowang51/picture/ils_05_5.svg" alt="" class="shapes shape-five">
+                </div> <!-- /.illustration-holder-two -->
+            </div> <!-- /.fancy-feature-two -->
+
+
+
+            <!-- 
+            =============================================
+                    Feature Section Twenty Two
+            ============================================== 
+            -->
+            <div class="fancy-feature-twentyTwo mt-150 lg-mt-60">
+                <div class="container">
+                    <div class="row gx-xxl-5">
+                        <div class="col-lg-4 col-sm-6 d-flex" data-aos="fade-up">
+                            <div class="block-style-fourteen mt-35">
+                                <h5>我们的历史</h5>
+                                <p>将数据噪声转换为智能洞察，以进行竞争性差异质量检查。</p>
+                            </div> <!-- /.block-style-fourteen -->
+                        </div>
+                        <div class="col-lg-4 col-sm-6 d-flex" data-aos="fade-up" data-aos-delay="100">
+                            <div class="block-style-fourteen mt-35">
+                                <h5>我们的任务</h5>
+                                <p>除了从中获得一些好处？但是，谁有权对竞争差异质量的后果进行指责。</p>
+                            </div> <!-- /.block-style-fourteen -->
+                        </div>
+                        <div class="col-lg-4 d-flex" data-aos="fade-up" data-aos-delay="200">
+                            <div class="block-style-fourteen mt-35">
+                                <h5>我们的愿景</h5>
+                                <p>除了从中获得一些好处？但是，谁有权对智能洞察的数据噪音的后果进行挑剔。</p>
+                            </div> <!-- /.block-style-fourteen -->
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- /.fancy-feature-twentyTwo -->
+
+
+
+
+            <!--
+            =====================================================
+                    Counter Section One
+            =====================================================
+            -->
+            <div class="counter-section-one">
+                <div class="inner-container bg-color style-two rounded-0 w-100">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-md-4 col-sm-6" data-aos="fade-up">
+                                <div class="counter-block-one text-center mb-20">
+                                    <div class="main-count"><span class="counter">200</span>万+</div>
+                                    <p>服务商家 <br> 提升您的用户转化率</p>
+                                </div> <!-- /.counter-block-one -->
+                            </div>
+                            <div class="col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="100">
+                                <div class="counter-block-one text-center mb-20">
+                                    <div class="main-count"><span class="counter">90</span>%</div>
+                                    <p>降低运营维护成本<br>产品智能化升级</p>
+                                </div> <!-- /.counter-block-one -->
+                            </div>
+                            <div class="col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="200">
+                                <div class="counter-block-one text-center mb-20">
+                                    <div class="main-count"><span class="counter">98</span>%</div>
+                                    <p>有提升您的业务增长 <br>产品智能化升级</p>
+                                </div> <!-- /.counter-block-one -->
+                            </div>
+                        </div>
+                    </div>
+                    <img src="__RES__/theme/maowang51/picture/shape_40.svg" alt="" class="shapes shape-three">
+                    <img src="__RES__/theme/maowang51/picture/shape_41.svg" alt="" class="shapes shape-four">
+                </div>  <!-- /.inner-container -->
+            </div> <!-- /.counter-section-one -->
+
+
+
+            <!-- 
+            =============================================
+                    Feature Section Five
+            ============================================== 
+            -->
+            <div class="fancy-feature-five position-relative mt-50">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-xxl-4 col-lg-5 col-md-6">
+                            <div class="block-style-five pt-60 md-pt-20" data-aos="fade-right">
+                                <div class="title-style-one">
+                                    <div class="sc-title-four">为什么选择我们</div>
+                                    <h2 class="main-title">为什么你应该选择我们？</h2>
+                                </div> <!-- /.title-style-one -->
+                                <p class="pt-10 pb-70">为客户提供全方位价值服务, 为您的发卡之旅保驾护航, 如有需要了解请联系我们客服</p>
+                                <div class="skills-progress skills">
+                                    <div class="habilidades_contenedor">
+                                        <div class="codeconSkills">
+                                            <div class="codeconSkillbar mb-80 md-mb-60">
+                                                <div class="skill-text">
+                                                    <span class="codeconSkillArea">提升您的用户转化率</span>
+                                                </div>
+                                                <div class="skillBar" data-percent="85%" style="background: #F25DFF;">
+                                                    <span class="PercentText">85%</span>
+                                                </div>
+                                            </div>
+                                            <div class="codeconSkillbar">
+                                                <div class="skill-text">
+                                                    <span class="codeconSkillArea ">有提升您的业务增长</span>
+
+                                                </div>
+                                                <div class="skillBar" data-percent="91%" style="background: #00E8FA;">
+                                                    <span class="PercentText">91%</span>
+                                                </div>
+                                            </div>
+                                        </div> <!-- /.codeconSkills -->
+                                    </div> <!-- /.habilidades_contenedor -->
+                                </div> <!-- /.skills-progress -->
+                            </div> <!-- /.block-style-five -->
+                        </div>
+
+                        <div class="col-xxl-8 col-lg-7 col-md-6 text-end">
+                            <div class="illustration-holder d-inline-block position-relative xs-mt-20">
+                                <img src="__RES__/theme/maowang51/picture/ils_06.svg" alt="" class="main-illustration w-100">
+                                <img src="__RES__/theme/maowang51/picture/ils_06_1.svg" alt="" class="shapes shape-one">
+                                <img src="__RES__/theme/maowang51/picture/ils_06_2.svg" alt="" class="shapes shape-two">
+                                <img src="__RES__/theme/maowang51/picture/ils_06_3.svg" alt="" class="shapes shape-three" data-aos="fade-down" data-aos-duration="1800">
+                                <img src="__RES__/theme/maowang51/picture/ils_06_4.svg" alt="" class="shapes shape-four" data-aos="fade-left" data-aos-duration="1800">
+                                <img src="__RES__/theme/maowang51/picture/ils_06_5.svg" alt="" class="shapes shape-five">
+                            </div><!--  /.illustration-holder -->
+                        </div>
+                    </div>
+                </div> <!-- /.container -->
+            </div> <!-- /.fancy-feature-five -->
+
+
+            <!--
+            =====================================================
+                    Team Section One
+            =====================================================
+            -->
+            <div class="team-section-one mt-110 pt-110 pb-170 lg-mt-80 lg-pt-80 lg-pb-80">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-sm-6">
+                            <div class="title-style-one text-center text-sm-start xs-pb-20" data-aos="fade-right">
+                                <div class="sc-title-four">我们的队伍</div>
+                                <h2 class="main-title">我们的核心成员</h2>
+                            </div> <!-- /.title-style-one -->
+                        </div>
+                        <div class="col-sm-6 ms-auto d-flex justify-content-center justify-content-sm-end" data-aos="fade-left">
+                            <a href="/company/contact" class="btn-one xs ripple-btn">联系我们 <i class="fas fa-chevron-right"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="row pt-20">
+                        <div class="col-xl-3 col-sm-6" data-aos="fade-up">
+                            <div class="team-block-one tran3s mt-35">
+                                <div class="img-meta"><img src="__RES__/theme/maowang51/picture/img_011.jpg" alt="" class="w-100"></div>
+                                <a href="team-details.html" class="team-info">
+                                    <span class="designation-text">公司负责人</span>
+                                    <span class="name tran3s">猫王</span>
+                                </a>
+                            </div> <!-- /.team-block-one -->
+                        </div>
+                        <div class="col-xl-3 col-sm-6" data-aos="fade-up" data-aos-delay="100">
+                            <div class="team-block-one tran3s mt-35">
+                                <div class="img-meta"><img src="__RES__/theme/maowang51/picture/img_021.jpg" alt="" class="w-100"></div>
+                                <a href="team-details.html" class="team-info">
+                                    <span class="designation-text">技术开发</span>
+                                    <span class="name tran3s">猫王</span>
+                                </a>
+                            </div> <!-- /.team-block-one -->
+                        </div>
+                        <div class="col-xl-3 col-sm-6" data-aos="fade-up" data-aos-delay="200">
+                            <div class="team-block-one tran3s mt-35">
+                                <div class="img-meta"><img src="__RES__/theme/maowang51/picture/img_031.jpg" alt="" class="w-100"></div>
+                                <a href="team-details.html" class="team-info">
+                                    <span class="designation-text">售后客服</span>
+                                    <span class="name tran3s">猫王</span>
+                                </a>
+                            </div> <!-- /.team-block-one -->
+                        </div>
+                        <div class="col-xl-3 col-sm-6" data-aos="fade-up" data-aos-delay="300">
+                            <div class="team-block-one tran3s mt-35">
+                                <div class="img-meta"><img src="__RES__/theme/maowang51/picture/img_041.jpg" alt="" class="w-100"></div>
+                                <a href="team-details.html" class="team-info">
+                                    <span class="designation-text">商业合作</span>
+                                    <span class="name tran3s">猫王</span>
+                                </a>
+                            </div> <!-- /.team-block-one -->
+                        </div>
+                    </div>
+                </div>
+                <img src="__RES__/theme/maowang51/picture/shape_42.svg" alt="" class="shapes shape-one">
+                <img src="__RES__/theme/maowang51/picture/shape_43.svg" alt="" class="shapes shape-two">
+            </div> <!-- /.team-section-one -->
+
+
+
+
+            <div class="partner-section-two mt-130 lg-mt-70 lg-pb-20">
+                <div class="container">
+                    <div class="title-style-one text-center" data-aos="fade-up">
+                        <div class="sc-title-four">支持渠道</div>
+                        <h2 class="main-title md">平 台 支 持 渠 道</h2>
+                    </div> <!-- /.title-style-one -->
+
+                    <div class="row">
+                        <div class="col-12 m-auto">
+                            <ul class="style-none text-center">
+                                <li class="partner-logo-block-one d-inline-block" data-aos="fade-up"><a href="#" class="d-flex align-items-center justify-content-center"><img src="__RES__/theme/maowang51/picture/Plogo-13.png" alt=""></a></li>
+                                <li class="partner-logo-block-one d-inline-block" data-aos="fade-up" data-aos-delay="100"><a href="#" class="d-flex align-items-center justify-content-center"><img src="__RES__/theme/maowang51/picture/Plogo-12.png" alt=""></a></li>
+                                <li class="partner-logo-block-one d-inline-block" data-aos="fade-up" data-aos-delay="200"><a href="#" class="d-flex align-items-center justify-content-center"><img src="__RES__/theme/maowang51/picture/Plogo-9.png" alt=""></a></li>
+                                <li class="partner-logo-block-one d-inline-block" data-aos="fade-up" data-aos-delay="400"><a href="#" class="d-flex align-items-center justify-content-center"><img src="__RES__/theme/maowang51/picture/Plogo-8.png" alt=""></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div> <!-- /.container -->
+            </div> <!-- /.partner-section-two -->
+
+
+
+            <!--
+            =====================================================
+                    Address Section One
+            =====================================================
+            -->
+            <div class="address-section-one">
+                <div class="container">
+                    <div class="inner-content bg-white" data-aos="fade-up" data-aos-delay="100">
+                        <div class="row g-0">
+                            <div class="col-md-6 d-flex">
+                                <div class="address-block-one d-flex border-right">
+                                    <div class="icon"><img src="__RES__/theme/maowang51/picture/icon_06.svg" alt=""></div>
+                                    <div class="text-meta">
+                                        <h4 class="title">合作伙伴计划</h4>
+                                        <p>为客户提供全方位价值服务, 为您的发卡之旅保驾护航, 如有需要了解请联系我们客服</p>
+                                    </div> <!-- /.text-meta -->
+                                </div> <!-- /.address-block-one -->
+                            </div>
+                            <div class="col-md-6 d-flex">
+                                <div class="address-block-one d-flex">
+                                    <div class="icon"><img src="__RES__/theme/maowang51/picture/icon_07.svg" alt=""></div>
+                                    <div class="text-meta">
+                                        <h4 class="title">商业合作热线</h4>
+                                        <p>7*24小时在线客服<br><a href="#">400-911-3581</a></p>
+                                    </div> <!-- /.text-meta -->
+                                </div> <!-- /.address-block-one -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- /.address-section-one -->
+
+
+
+            <!--
+            =====================================================
+                    Footer
+            =====================================================
+            -->
+            <div class="footer-style-one bg-color theme-basic-footer">
+                <div class="container">
+                    <div class="inner-wrapper">
+                        {include file="./default_footer"}
+                    </div> <!-- /.inner-wrapper -->
+                </div>
+                <img src="__RES__/theme/maowang51/picture/shape_44.svg" alt="" class="shapes shape-one">
+                <img src="__RES__/theme/maowang51/picture/shape_45.svg" alt="" class="shapes shape-two">
+            </div> <!-- /.footer-style-one -->
+
+
+            <button class="scroll-top">
+                <i class="bi bi-arrow-up-short"></i>
+            </button>
+
+
+
+
+            <!-- Optional JavaScript _____________________________  -->
+
+            <!-- jQuery first, then Bootstrap JS -->
+            <!-- jQuery -->
+            <script src="__RES__/theme/maowang51/js/jquery.min.js"></script>
+            <!-- Bootstrap JS -->
+            <script src="__RES__/theme/maowang51/js/bootstrap.bundle.min.js"></script>
+            <!-- AOS js -->
+            <script src="__RES__/theme/maowang51/js/aos.js"></script>
+            <!-- Slick Slider -->
+            <script src="__RES__/theme/maowang51/js/slick.min.js"></script>
+            <!-- js Counter -->
+            <script src="__RES__/theme/maowang51/js/jquery.counterup.min.js"></script>
+            <script src="__RES__/theme/maowang51/js/jquery.waypoints.min.js"></script>
+            <!-- Fancybox -->
+            <script src="__RES__/theme/maowang51/js/jquery.fancybox.min.js"></script>
+            <!-- Progress Bar js -->
+            <script src="__RES__/theme/maowang51/js/jquery.skills.js"></script>
+
+            <!-- Theme js -->
+            <script src="__RES__/theme/maowang51/js/theme.js"></script>
+        </div> <!-- /.main-page-wrapper -->
+    </body>
+</html>

@@ -1,0 +1,182 @@
+{extend name="base"}
+
+{block name="content"}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <form class="form-inline" role="form" action="" method="get">
+                                    <div class="form-group">
+                                        <select name="type" class="form-control select2">
+                                            <option value="1" {if $Think.get.type=='1'}selected{/if}>按对接码搜索</option>
+                                            <option value="2" {if $Think.get.type=='2'}selected{/if}>按商品名称搜索</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group ml-1">
+                                        <input name="key" type="text" class="form-control" placeholder="请输入搜索关键词" value="{$Think.get.key|default=''|htmlentities}"  autocomplete="off" >
+                                    </div>
+                                    <button type="submit" class="btn btn-primary waves-effect waves-light"><i class="bx bx-search"></i>查询商品</button>
+                                </form>
+                            </div>
+                        </div>
+
+
+                        <div class="table-responsive mt-2">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>商品名称</th>
+                                        <th>商品分类</th>
+                                        <th>店铺名称</th>
+                                        <th>代理审核</th>
+                                        <th>上架时间</th>
+                                        <th>库存</th>
+                                        <th>供货价格</th>
+                                        <th>联系方式</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {foreach $lists as $v}
+                                    <tr>
+                                        <td>
+                                            {$v.name}
+                                        </td>
+                                        <td>{$v.category.name|default="未分类"}</td>
+                                        <td>{$v.user.shop_name}</td>
+                                        <td>
+
+                                            {switch name=":proxyStatus($v->user->id, $_user->id)"}
+                                            {case value="-2"}
+                                            {if $v.user.need_check_agent==1}
+                                            <span class="badge badge-pill badge-danger">需要审核</span>
+                                            {else/}
+                                            <span class="badge badge-pill badge-success">免审</span>
+                                            {/if}
+                                            {/case}
+                                            {case value="-1"}<span class="badge badge-pill badge-danger">申请拒绝</span>{/case}
+                                            {case value="0"}<span class="badge badge-pill badge-info">申请中</span>{/case}
+                                            {case value="1"}<span class="badge badge-pill badge-success">已通过</span>{/case}
+                                            {/switch}
+
+                                        </td>
+                                        <td>{$v.create_at|date="Y-m-d H:i:s",###}
+                                        </td>
+                                        <td>
+                                            {if $v->cards_stock_count > 0}
+                                            {$v->cards_stock_count}张
+                                            {else}
+                                            <span style="color: #ff0000;">断货</span>
+                                            {/if}
+                                        </td>
+                                        <td>{$v.proxy_price}</td>
+                                        <td> <a href="//wpa.qq.com/msgrd?v=3&uin={$v.user.qq}&Site=" target="_blank"><i class="iconfont icon-qq-white"></i>咨询客服</a></td>
+                                        <td >
+                                            {if hasAgentAdd($_user->id, $v->id)==1 }
+                                            <span class="text-danger">已对接</span>
+                                            {else}
+                                            <a href="javascript:void(0)" onclick="add('{:url(\'agent/add\',[\'proxy_code\'=>$v.proxy_code])}', '{:proxyStatus($v->user->id, $_user->id)}', '{$v.user.need_check_agent}', '{$v.user.id}')">正常对接</a>
+                                            <a href="javascript:void(0)" onclick="$.x_show('快速对接', '{:url(\'agent/addLite\',[\'proxy_code\'=>$v.proxy_code])}', 450)">快速对接</a>
+                                            {/if}
+                                        </td>
+                                    </tr>
+                                    {/foreach}
+                                </tbody>
+                            </table>
+                        </div>
+                        <nav aria-label="...">
+                            {$page}
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+
+
+{/block}
+{block name="js"}
+<script>
+    function add(url, status, need_check_agent, user_id)
+    {
+        if (status == "-2")
+        {
+            if (need_check_agent == "1")
+            {
+                //需要审核
+                $.confirm({
+                    title: '温馨提示',
+                    content: '成为此商家代理需要申请，确定要申请吗？',
+                    type: 'red',
+                    typeAnimated: true,
+                    buttons: {
+                        tryAgain: {
+                            text: '确定',
+                            btnClass: 'btn-red',
+                            action: function () {
+                                var loading = layer.load(1, {shade: [0.1, '#fff']});
+                                $.post("{:url('Agent/applyProxy')}", {
+                                    user_id: user_id
+                                }, function (res) {
+                                    layer.close(loading);
+                                    if (res.code != 1) {
+                                        $.alert(res.msg);
+                                    } else {
+                                        $.alert(res.msg);
+                                        setTimeout(function () {
+                                            location.reload();
+                                        }, 200);
+                                    }
+                                });
+                            }
+                        },
+                        cancel: {
+                            text: '取消'
+                        }
+                    }
+                });
+            } else {
+                location.href = url;
+            }
+        } else if (status == "-1")
+        {
+            layer.msg("申请代理拒绝，您无法对接！");
+        } else if (status == "0")
+        {
+            layer.msg("申请代理审核中，请耐心等待!");
+        } else if (status == "1")
+        {
+            location.href = url;
+        }
+    }
+</script>
+{/block}

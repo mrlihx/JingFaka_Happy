@@ -1,0 +1,121 @@
+{extend name="base"}
+
+{block name="content"}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="row">
+
+                            <div class="col-lg-12">
+                                <h4 class="card-title mb-4">平台设置</h4>
+
+                                <form id="form1" class="form-horizontal" role="form" action="" method="post">
+                                    <input type="hidden" name="act" value="edit"/> 
+                                    <div class="form-group row mb-4">
+                                        <label for="status" class="col-md-2 col-form-label">是否在售卡页开启</label>
+                                        <div class="col-md-10 d-flex align-items-center">
+                                            <div class="custom-control custom-radio custom-control-inline mr-4">
+                                                <input {if $chat.status==0}checked{/if} value="0" type="radio" id="status2" name="status" class="custom-control-input">
+                                                    <label class="custom-control-label" for="status2">关闭</label>
+                                            </div>
+                                            <div class="custom-control custom-radio custom-control-inline mr-4">
+                                                <input {if $chat.status==1}checked{/if} value="1" type="radio" id="status1" name="status" class="custom-control-input">
+                                                    <label class="custom-control-label" for="status1">开启</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row mb-4">
+                                        <label for="style" class="col-md-2 col-form-label">聊天框样式</label>
+                                        <div class="col-md-10 d-flex align-items-center">
+                                            <div class="custom-control custom-radio custom-control-inline mr-4">
+                                                <input {if $chat.style==0}checked{/if} value="0" type="radio" id="style0" name="style" class="custom-control-input">
+                                                    <label class="custom-control-label" for="style0">标准窗口</label>
+                                            </div>
+                                            <div class="custom-control custom-radio custom-control-inline mr-4">
+                                                <input {if $chat.style==1}checked{/if} value="1" type="radio" id="style1" name="style" class="custom-control-input">
+                                                    <label class="custom-control-label" for="style1">迷你窗口</label>
+                                            </div>
+                                            <div class="custom-control custom-radio custom-control-inline mr-4">
+                                                <input {if $chat.style==2}checked{/if} value="2" type="radio" id="style2" name="style" class="custom-control-input">
+                                                    <label class="custom-control-label" for="style2">自定义窗口</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row mb-4">
+                                        <label for="style" class="col-md-2 col-form-label"></label>
+                                        <button type="button" onclick="save()" class="btn btn-primary waves-effect waves-light"><i class="bx bx-check-square mr-1"></i>保存设置</button>
+                                        <a target="_blank" href="{$url}" class="btn btn-primary  waves-effect waves-light ml-5"><i class="bx bx-send mr-1"></i>登录客服平台</a>
+                                    </div>
+                                </form>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+<!-- container-fluid -->
+
+<!-- End Page-content -->
+
+
+{/block}
+{block name="js"}
+<script>
+
+    function save()
+    {
+        var loading = layer.load(1, {shade: [0.1, '#fff']});
+
+
+        $.ajax({
+            url: "{:url('plugin/chat')}",
+            type: 'post',
+            data: $('#form1').serialize(),
+            success: function (res) {
+                layer.close(loading);
+                if (res.code == 1) {
+                    location.reload();
+                }
+            }
+        });
+
+        return false;
+    }
+
+</script>
+{/block}

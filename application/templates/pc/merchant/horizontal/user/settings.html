@@ -1,0 +1,366 @@
+{extend name="base"}
+
+
+
+{block name="content"}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="checkout-tabs">
+            <div class="row">
+                <div class="col-xl-2 col-sm-3">
+                    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                        <a class="nav-link {if $Think.get.show=='base'||$Think.get.show==''}active{/if}" id="v-pills-shipping-tab" data-toggle="pill" href="#v-pills-shipping" role="tab" aria-controls="v-pills-shipping" aria-selected="true">
+                            <i class="bx bx-box d-block check-nav-icon mt-4 mb-2"></i>
+                            <p class="font-weight-bold mb-4">基础设置</p>
+                        </a>
+                        <a class="nav-link {if $Think.get.show=='payment'}active{/if}" id="v-pills-payment-tab" data-toggle="pill" href="#v-pills-payment" role="tab" aria-controls="v-pills-payment" aria-selected="false"> 
+                            <i class="bx bx-money d-block check-nav-icon mt-4 mb-2"></i>
+                            <p class="font-weight-bold mb-4">支付方式</p>
+                        </a>
+
+                    </div>
+                </div>
+                <div class="col-xl-10 col-sm-9">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="tab-content" id="v-pills-tabContent">
+                                <div class="tab-pane fade {if $Think.get.show=='base'||$Think.get.show==''}show active {/if}" id="v-pills-shipping" role="tabpanel" aria-labelledby="v-pills-shipping-tab">
+                                    <div>
+                                        <h4 class="card-title">店铺信息</h4>
+                                        <p class="card-title-desc">Store information</p>
+                                        <form  role="form" action="" method="post">
+                                            <div class="form-group row mb-4">
+                                                <label for="shop_name" class="col-md-2 col-form-label">店铺开关</label>
+                                                <div class="col-md-10 d-flex align-items-center">
+                                                    <div class="custom-control custom-radio custom-control-inline mr-4">
+                                                        <input {if $_user.is_close==0}checked{/if} value="0" type="radio" id="is_close0" name="is_close" class="custom-control-input">
+                                                            <label class="custom-control-label" for="is_close0">开启</label>
+                                                    </div>
+                                                    <div class="custom-control custom-radio custom-control-inline mr-4">
+                                                        <input {if $_user.is_close==1}checked{/if} value="1" type="radio" id="is_close1" name="is_close" class="custom-control-input">
+                                                            <label class="custom-control-label" for="is_close1">关闭</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row mb-4">
+                                                <label for="shop_name" class="col-md-2 col-form-label">店铺名称</label>
+                                                <div class="col-md-10">
+                                                    <input id="shop_name" type="text" class="form-control" name="shop_name"  value="{$_user.shop_name|htmlentities}" placeholder="请输入店铺名称">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row mb-4">
+                                                <label for="qq" class="col-md-2 col-form-label">商户QQ</label>
+                                                <div class="col-md-10">
+                                                    <input id="qq" type="text" class="form-control" name="qq" value="{$_user.qq|htmlentities}"  placeholder="请输入商户QQ">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row mb-4">
+                                                <label for="qqqun" class="col-md-2 col-form-label">商户群链接</label>
+                                                <div class="col-md-10">
+                                                    <input id="qqqun" type="text" class="form-control" name="qqqun" value="{$_user.qqqun|htmlspecialchars_decode|removeXSS}"  placeholder="请输入加商户群链接">
+                                                    <p class="mb-0">提示：不填不显示</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row mb-4">
+                                                <label for="shop_notice" class="col-md-2 col-form-label">店铺公告</label>
+                                                <div class="col-md-10">
+                                                    <textarea id="shop_notice" class="form-control" name="shop_notice" rows="3" placeholder="请输入店铺公告">{$_user.shop_notice}</textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row mb-4">
+                                                <label for="shop_notice_auto_pop" class="col-md-2 col-form-label">后台系统公告自动弹出</label>
+
+                                                <div class="col-md-10 d-flex align-items-center">
+                                                    <div class="custom-control custom-radio custom-control-inline mr-4">
+                                                        <input {if $_user.shop_notice_auto_pop==1}checked{/if} value="1" type="radio" id="shop_notice_auto_pop1" name="shop_notice_auto_pop" class="custom-control-input">
+                                                            <label class="custom-control-label" for="shop_notice_auto_pop1">是</label>
+                                                    </div>
+                                                    <div class="custom-control custom-radio custom-control-inline mr-4">
+                                                        <input {if $_user.shop_notice_auto_pop==0}checked{/if} value="0" type="radio" id="shop_notice_auto_pop2" name="shop_notice_auto_pop" class="custom-control-input">
+                                                            <label class="custom-control-label" for="shop_notice_auto_pop2">否</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row mb-4">
+                                                <label for="user_notice_auto_pop" class="col-md-2 col-form-label">商家公告自动弹出</label>
+
+                                                <div class="col-md-10 d-flex align-items-center">
+                                                    <div class="custom-control custom-radio custom-control-inline mr-4">
+                                                        <input {if $_user.user_notice_auto_pop==1}checked{/if} value="1" type="radio" id="user_notice_auto_pop1" name="user_notice_auto_pop" class="custom-control-input">
+                                                            <label class="custom-control-label" for="user_notice_auto_pop1">是</label>
+                                                    </div>
+                                                    <div class="custom-control custom-radio custom-control-inline mr-4">
+                                                        <input {if $_user.user_notice_auto_pop==0}checked{/if} value="0" type="radio" id="user_notice_auto_pop2" name="user_notice_auto_pop" class="custom-control-input">
+                                                            <label class="custom-control-label" for="user_notice_auto_pop2">否</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+<!--                                            <div class="form-group row mb-4">
+                                                <label for="shop_gouka_protocol_pop" class="col-md-2 col-form-label">购卡协议自动弹出</label>
+
+                                                <div class="col-md-10 d-flex align-items-center">
+                                                    <div class="custom-control custom-radio custom-control-inline mr-4">
+                                                        <input {if $_user.shop_gouka_protocol_pop==1}checked{/if} value="1" type="radio" id="shop_gouka_protocol_pop1" name="shop_gouka_protocol_pop" class="custom-control-input">
+                                                            <label class="custom-control-label" for="shop_gouka_protocol_pop1">是</label>
+                                                    </div>
+                                                    <div class="custom-control custom-radio custom-control-inline mr-4">
+                                                        <input {if $_user.shop_gouka_protocol_pop==0}checked{/if} value="0" type="radio" id="shop_gouka_protocol_pop2" name="shop_gouka_protocol_pop" class="custom-control-input">
+                                                            <label class="custom-control-label" for="shop_gouka_protocol_pop2">否</label>
+                                                    </div>
+                                                </div>
+
+                                            </div>-->
+
+                                            <div class="form-group row mb-4">
+                                                <label for="pay_theme" class="col-md-2 col-form-label">PC支付页面风格</label>
+                                                <div class="col-md-10">
+                                                    <select class="form-control select2" id="pay_theme" name="pay_theme">
+                                                        {foreach :config('pay_themes') as $theme}
+                                                        <option value="{$theme.alias|htmlentities}" {if $_user.pay_theme==$theme.alias}selected{/if}>{$theme.name}</option>
+                                                        {/foreach} 
+                                                    </select>
+
+                                                    <p class="diy-tip mb-0 mt-1" {if $_user.pay_theme!="diy"}style="display:none"{/if}>
+                                                       <a href="{:url('plugin/shopdiy')}">前往设置背景素材</a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row mb-4">
+                                                <label for="pay_theme_mobile" class="col-md-2 col-form-label">移动端支付页面风格</label>
+                                                <div class="col-md-10">
+                                                    <select class="form-control select2" id="pay_theme_mobile" name="pay_theme_mobile">
+                                                        {foreach :config('pay_themes_mobile') as $theme}
+                                                        <option value="{$theme.alias|htmlentities}" {if $_user.pay_theme_mobile==$theme.alias}selected{/if}>{$theme.name}</option>
+                                                        {/foreach} 
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row mb-4">
+                                                <label for="music" class="col-md-2 col-form-label">支付页背景音乐</label>
+                                                <div class="col-md-10">
+                                                    <input name="music" id="music" type="text" class="form-control" value="{$_user.music}"  placeholder="输入ID 452986351">
+                                                    <p class="mb-0">只需输入（红色ID)https://music.163.com/#/song?id=<span style="color:red;">452986351</span>网易云音乐找到音乐链接后边的数字替换即可！只支持单曲.若不播放说明音乐有版权保护不可用。
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="form-group row mb-4">
+                                                <label for="stock_display" class="col-md-2 col-form-label">库存展示方式</label>
+                                                <div class="col-md-10">
+
+                                                    <div class="d-flex align-items-center mt-2 mb-2">
+                                                        <div class="custom-control custom-radio custom-control-inline mr-4">
+                                                            <input {if $_user.stock_display==1}checked{/if} value="1" type="radio" id="stock_display1" name="stock_display" class="custom-control-input">
+                                                                <label class="custom-control-label" for="stock_display1">实际库存</label>
+                                                        </div>
+                                                        <div class="custom-control custom-radio custom-control-inline mr-4">
+                                                            <input {if $_user.stock_display==2}checked{/if} value="2" type="radio" id="stock_display2" name="stock_display" class="custom-control-input">
+                                                                <label class="custom-control-label" for="stock_display2">范围库存</label>
+                                                        </div>
+                                                    </div>
+                                                    <p class="mb-0" {if $_user.stock_display==1}style="display:none"{/if}>
+                                                       1. 库存大于100，显示 库存非常多<br>
+                                                        2. 库存小于100、大于30，显示 库存很多<br>
+                                                        3. 库存小于30、大于10，显示 库存一般<br>
+                                                        4. 库存小于10，显示 库存少量<br>
+                                                    </p>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group  row mb-4">
+                                                <label for="fee_payer" class="col-md-2 col-form-label">费率承担方</label>
+
+                                                <div class="col-md-10 d-flex align-items-center">
+                                                    <div class="custom-control custom-radio custom-control-inline mr-4">
+                                                        <input {if $_user.fee_payer==0}checked{/if} value="0" type="radio" id="fee_payer0" name="fee_payer" class="custom-control-input">
+                                                            <label class="custom-control-label" for="fee_payer0">跟随系统</label>
+                                                    </div>
+                                                    <div class="custom-control custom-radio custom-control-inline mr-4">
+                                                        <input {if $_user.fee_payer==1}checked{/if} value="1" type="radio" id="fee_payer1" name="fee_payer" class="custom-control-input">
+                                                            <label class="custom-control-label" for="fee_payer1">商家承担</label>
+                                                    </div>
+                                                    <div class="custom-control custom-radio custom-control-inline mr-4">
+                                                        <input {if $_user.fee_payer==2}checked{/if} value="2" type="radio" id="fee_payer2" name="fee_payer" class="custom-control-input">
+                                                            <label class="custom-control-label" for="fee_payer2">买家承担</label>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            {if plugconf('lockcard','status')=='1'}
+                                            <div class="form-group row mb-4">
+                                                <label for="lock_card" class="col-md-2 col-form-label">开启下单锁卡</label>
+                                                <div class="col-md-10 d-flex align-items-center">
+                                                    <div class="custom-control custom-radio custom-control-inline mr-4">
+                                                        <input {if $_user.lock_card==0}checked{/if} value="0" type="radio" id="lock_card2" name="lock_card" class="custom-control-input">
+                                                            <label class="custom-control-label" for="lock_card2">关闭</label>
+                                                    </div>
+                                                    <div class="custom-control custom-radio custom-control-inline mr-4">
+                                                        <input {if $_user.lock_card==1}checked{/if} value="1" type="radio" id="lock_card1" name="lock_card" class="custom-control-input">
+                                                            <label class="custom-control-label" for="lock_card1">开启</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {/if}
+
+                                            {if sysconf('login_auth') == 1}
+                                            <div class="form-group  row mb-4">
+                                                <label class="col-md-2 col-form-label">开启安全登录</label>
+                                                <div class="col-md-10">
+                                                    <select name="login_auth" class="form-control select2" required>
+                                                        <option value="0" {if $_user.login_auth==0}selected{/if}>关闭</option>
+                                                        <option value="1" {if $_user.login_auth==1}selected{/if}>开启</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group  row mb-4">
+                                                <label class="col-md-2 col-form-label">安全登录方式</label>
+                                                <div class="col-md-10">
+                                                    <select name="login_auth_type" class="form-control select2" required>
+                                                        {if sysconf('login_auth_type') == 0}
+                                                        <option value="1" {if $_user.login_auth_type==1}selected{/if}>短信验证</option>
+                                                        <option value="2" {if $_user.login_auth_type==2}selected{/if}>邮件验证</option>
+                                                        <option value="3" {if $_user.login_auth_type==3}selected{/if}>谷歌密码验证</option>
+                                                        {elseif sysconf('login_auth_type') == 1}
+                                                        <option value="2" {if $_user.login_auth_type==2}selected{/if}>邮件验证</option>
+                                                        <option value="3" {if $_user.login_auth_type==3}selected{/if}>谷歌密码验证</option>
+                                                        {elseif sysconf('login_auth_type') ==2}
+                                                        <option value="1" {if $_user.login_auth_type==1}selected{/if}>短信验证</option>
+                                                        <option value="3" {if $_user.login_auth_type==3}selected{/if}>谷歌密码验证</option>
+                                                        {/if}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            {/if}
+                                            <div class="row mt-4">
+                                                <div class="col-sm-12">
+                                                    <div class="text-sm-center">
+                                                        <button class="btn btn-success"><i class="bx bx-check-square mr-1"></i> 保存设置 </button>
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade {if $Think.get.show=='payment'}show active{/if}" id="v-pills-payment" role="tabpanel" aria-labelledby="v-pills-payment-tab">
+                                    <div>
+                                        <h4 class="card-title">支付方式</h4>
+                                        <p class="card-title-desc">Payment method</p>
+
+                                        <div class="row">
+
+                                            <div class="col-md-12">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <h4 class="card-title mb-4">系统自营通道</h4>
+                                                        <table class="table table-striped m-0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>通道名称</th>
+                                                                    <th  class="text-center">平台收取</th>
+                                                                    <th  class="text-center">当前状态</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {foreach $userChannels as $k=> $v}
+
+                                                                {if $v.status==1}
+                                                                <tr>
+                                                                    <td><img style="width:21px;margin-right: 5px" src="{:get_paytype_info($v.paytype)['ico']}" />{$v.title}</td>
+                                                                    <td class="text-center"><span class="badge badge-pill badge-soft-success font-size-12 font-weight-bold">{$v.rate*100}%</span></td>
+                                                                    <td  class="text-center">
+                                                                        <div class="custom-control custom-switch custom-switch-md mb-3" dir="ltr">
+                                                                            <input  onchange="change_status(this, '{$v.channel_id}')" name="customSwitchsizemd{$v.channel_id}"  {if $v.custom_status==1}checked{/if}  type="checkbox" class="custom-control-input" id="customSwitchsizemd{$v.channel_id}">
+                                                                                    <label class="custom-control-label" for="customSwitchsizemd{$v.channel_id}"></label>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                {/if}
+
+                                                                {/foreach}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+
+
+{/block}
+{block name="js"}
+<script>
+    $('[name="pay_theme"]').change(function () {
+        if ($(this).val() == "diy") {
+            $('.diy-tip').slideDown();
+        } else {
+            $('.diy-tip').slideUp();
+        }
+    });
+
+    function change_status(obj, channel_id)
+    {
+        var status = $(obj).prop('checked');
+        if (status) {
+            status = 1;
+        } else {
+            status = 0;
+        }
+        $.post("{:url('plugin/editChannel')}", {
+            channel_id: channel_id,
+            status: status
+        }, function (res) {
+            if (res.code != 1) {
+                $.alert(res.msg);
+            }
+        });
+    }
+</script>
+{/block}

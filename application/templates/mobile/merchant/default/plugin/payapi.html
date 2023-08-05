@@ -1,0 +1,226 @@
+{extend name="simple_base"}
+
+{block name="content"}
+
+<div class="container">
+    <div class="card">
+
+        <div class="row">
+            <div class="col-lg-12">
+
+                {if $_user->payapi}
+                <div class="card">
+                    <div class="card-body">
+
+                        <h4 class="card-title mb-4">对接参数</h4>
+                        <div class="table-responsive">
+                            <table class="table table-nowrap mb-0">
+                                <tbody>
+                                    <tr>
+                                        <th>商户PID</th>
+                                        <td>
+                                            <b>{$_user->id+10000}</b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>商户秘钥</th>
+                                        <td>
+                                            <b>{$_user->paykey}</b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">API文档</th>
+                                        <td>
+                                            <a href="{:url('plugin/payapiDoc')}" class="btn btn-primary btn-sm waves-effect waves-light"><i class="bx bx-bookmark-minus mr-1"></i>浏览文档</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+
+
+                        <div class="search-form-wrapper">
+                            <form class="mb-3 pb-4" action="" method="get">
+                                <div class="input-group mb-2  input-group-sm">
+                                    <span class="input-group-text input-group-sm" id="basic-addon1">商户订单号</span>
+                                    <input class="form-control  form-control-sm" name="out_trade_no" type="text" placeholder="请输入商户订单号" value="{$Think.get.out_trade_no|default=''|htmlentities}">
+                                </div>
+                                <div class="input-group mb-2  input-group-sm">
+                                    <span class="input-group-text input-group-sm" id="basic-addon1">系统流水号</span>
+                                    <input class="form-control  form-control-sm" name="trade_no" type="text" placeholder="请输入系统流水号" value="{$Think.get.trade_no|default=''|htmlentities}">
+                                </div>
+                                <button class="btn btn-primary w-100 d-flex align-items-center justify-content-center" type="submit">
+                                    <i class="bx bx-search me-2"></i>查询
+                                </button>
+                            </form>
+                        </div>
+
+
+
+                        {foreach $lists as $v}     
+                        <div class="single-search-result mb-3 border-bottom pb-3 order-wrap">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <h6 class="text-truncate mb-0 float-left d-inline">商户单号:{$v.out_trade_no}</h6>
+                                {if $v.status==1}
+                                <span class="badge rounded-pill bg-success float-end">已支付</span>
+                                {elseif $v.status==0/}
+                                <span class="badge rounded-pill bg-danger float-end">未支付</span>
+                                {else/}
+                                {/if}
+                            </div>
+
+                            <div class="d-flex align-items-center mt-1 justify-content-between">
+                                <div class="order-wrap-text">
+                                    <span>系统流水号：</span>
+                                    <span>{$v.trade_no}</span>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-center mt-1 justify-content-between">
+                                <div class="order-wrap-text">
+                                    <span>商品名：</span>
+                                    <span>{$v.goods_name}</span>
+                                </div>
+
+                                <div class="order-wrap-text">
+                                    <span>网站名称：</span>
+                                    <span>{$v.sitename}</span>
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="d-flex align-items-center mt-1 justify-content-between">
+                                <div class="order-wrap-text">
+                                    <span>金额：</span>
+                                    <span>{$v.total_price}</span>
+                                </div>
+                                <div class="order-wrap-text">
+                                    <span>手续费：</span>
+                                    <span>{$v.fee}</span>
+                                </div>
+                            </div>
+
+
+
+
+
+                            <div class="d-flex align-items-center mt-1 justify-content-between">
+                                <div class="order-wrap-text">
+                                    <span>销售价格：</span>
+                                    <span>{$v.total_price}</span>
+                                </div>
+                                <div class="order-wrap-text">
+                                    <span>通知状态：</span>
+                                    <span>
+                                        {if $v.notify_status == 1}
+                                        <span class="text-success">成功</span>
+                                        {else}
+                                        <span class="text-warning">未成功</span>
+                                        {/if}
+                                        <a href="javascript:void(0);" onclick="repost(this, '{$v.id}')">补发</a>
+                                    </span>
+                                </div>
+                            </div>
+
+
+                            <div class="d-flex align-items-center mt-1 justify-content-between">
+                                <div class="order-wrap-text">
+                                    <span>创建时间：</span>
+                                    <span>{$v.create_at|date="Y-m-d H:i:s",###}</span>
+                                </div>
+
+                            </div>
+                            <div class="d-flex align-items-center mt-1 justify-content-between">
+
+                                <div class="order-wrap-text">
+                                    <span>支付成功时间：</span>
+                                    <span>{if $v.success_at==""}-{else/}{$v.success_at|date="Y-m-d H:i:s",###}{/if}</span>
+                                </div>
+                            </div>
+                        </div>
+                        {/foreach}       
+
+                        <nav aria-label="Page navigation">
+                            {$page}
+                        </nav>
+
+                    </div>
+                </div>
+                {else/}
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row justify-content-center mt-lg-5">
+                            <div class="col-xl-5 col-sm-8">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="text-center">
+                                            <div class="row justify-content-center">
+                                                <div class="col-lg-10">
+                                                    <h4 class="mt-4 font-weight-semibold">温馨提示</h4>
+                                                    <p class="text-muted mt-3">{:plugconf('payapi','tip')}</p>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-center mt-5 mb-2">
+                                                <div class="col-sm-6 col-8">
+                                                    <div>
+                                                        <img src="__STATIC__/merchant/default/images/verification-img.png" alt="" class="img-fluid">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {/if}
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{/block}
+{block name="js"}
+<script>
+
+    function repost(e, id)
+    {
+        var loading = layer.load(1, {shade: [0.1, '#fff']});
+
+
+        $.ajax({
+            url: "{:url('plugin/payapiRepost')}",
+            type: 'post',
+            data: {id: id},
+            success: function (data) {
+                layer.close(loading);
+                if (data.code == 1) {
+                    layer.msg(data.msg, {time: 1000, icon: 6}, function () {
+                        location.reload();
+                    });
+                } else {
+                    layer.msg(data.msg, {time: 1000, icon: 5});
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                layer.close(loading);
+            }
+        });
+
+    }
+
+
+
+</script>
+{/block}
+
+

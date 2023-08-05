@@ -1,0 +1,74 @@
+{extend name="lite_base" /}
+
+{block name="content"}
+<div class="card mb-0">
+
+    <div class="card-content">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th>通道名称</th>
+                            <th class="text-center">费率</th>
+                            <th class="text-center">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {foreach $allChannels as $k=> $v}
+                        {if $v.status==1}
+                        <tr>
+                            <th scope="row"><img style="width:21px;margin-right: 5px" src="{:get_paytype_info($v.paytype)['ico']}" />{$v.title}</th>
+                            <td class="text-center"><span class="badge badge-pill badge-soft-success font-size-12 font-weight-bold">{$v.rate*100}%</span></td>
+                            <td class="text-center">
+                                {if $v.has_add}
+                                <span class="text-danger font-size-12 font-weight-bold">已添加</span>
+                                {else/}
+                                <button onclick="channel_add(this, '{$v.channel_id}')" class="btn btn-primary waves-effect waves-light btn-sm">立即添加</button>
+                                {/if}
+                            </td>
+                        </tr>
+                        {/if}
+
+                        {/foreach}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+{/block}
+
+{block name="js"}
+<!-- BEGIN: Page JS-->
+
+<script>
+
+
+    function channel_add(obj, channel_id)
+    {
+        var loading = layer.load(1, {shade: [0.1, '#fff']});
+        $.post("{:url('plugin/customChannel')}", {
+            act: 'add',
+            channel_id: channel_id
+        }, function (res) {
+            if (res.code != 1) {
+                $.alert(res.msg);
+            } else {
+                $.alert("添加成功");
+                setTimeout(function () {
+                    parent.location.href = "{:url('plugin/custompay')}";
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
+                }, 200);
+            }
+        });
+        return false;
+    }
+</script>
+
+<!-- END: Page JS-->
+{/block}

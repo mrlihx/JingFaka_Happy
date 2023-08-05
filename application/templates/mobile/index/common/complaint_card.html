@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>自助选号</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta name="keywords" content="{:sysconf('site_keywords')}" />
+        <meta name="description" content="{:sysconf('site_desc')}" />
+        <link rel="shortcut icon" href="{:sysconf('browser_icon')}" />
+        <link href="__RES__/merchant/default/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css">
+        <link href="__RES__/merchant/default/css/components.css" id="bootstrap-style" rel="stylesheet" type="text/css">
+        <link href="__RES__/merchant/default/css/bootstrap-extended.css" id="bootstrap-style" rel="stylesheet" type="text/css">
+        <link href="__RES__/merchant/default/libs/jquery-confirm/css/jquery-confirm.css" rel="stylesheet" type="text/css">
+        <link href="__RES__/merchant/default/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css">
+        <!-- Icons Css -->
+        <link href="__RES__/merchant/default/css/icons.min.css" rel="stylesheet" type="text/css">
+        <!-- App Css-->
+        <link href="__RES__/merchant/default/css/app.min.css" id="app-style" rel="stylesheet" type="text/css">
+        <link href="__RES__/merchant/default/css/custom.css" id="app-style" rel="stylesheet" type="text/css">
+    </head>
+
+
+    <body data-sidebar="dark" >
+
+        <!-- Begin page -->
+        <div id="layout-wrapper">
+
+            <div class="main-content">
+                <section id="floating-label-layouts">
+                    <div class="row ">
+
+                        <div class="col-12">
+                            <div class="card mb-0">
+                                <div class="card-content">
+                                    <div class="card-body">
+                                        <div class="form-body">
+
+                                            {if $inputcode==1}
+                                            <form action="#">
+                                                <div class="row">
+                                                    <input name="trade_no" type="hidden" value="{$trade_no}">
+                                                    <div class="col-12 text-center">
+                                                        <img style="cursor:pointer;height: 60px;" id="chkcode_img" src="https://jing2021.itcn.net/index/user/verifycode.html?t=1636356468" onclick="javascript:this.src = '/index/user/verifycode' + '?time=' + Math.random()">
+                                                    </div> 
+
+
+                                                    <div class="col-12">
+                                                        <div class="form-group position-relative">
+                                                            <label>验证码</label>
+                                                            <input name="chkcode" type="text" placeholder="请输入验证码" class="form-control">
+                                                        </div>
+                                                    </div> 
+
+                                                    <div class="col-12">
+                                                        <div class="form-group position-relative">
+                                                            <label>下单预留联系方式</label>
+                                                            <input name="contact" type="text" placeholder="请输入预留联系方式" class="form-control">
+                                                        </div>
+                                                    </div>
+
+                                                    {if $take_card_type==1}
+                                                    <div class="col-12">
+                                                        <div class="form-group position-relative">
+                                                            <label>取卡密码</label>
+                                                            <input name="take_card_password" type="text" placeholder="请输入取卡密码" class="form-control">
+                                                        </div>
+                                                    </div> 
+                                                    {/if}
+
+                                                    <div class="col-12 d-flex justify-content-center mt-4">
+                                                        <button type="submit"  class="btn btn-success mr-1 mb-1">提交验证</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            {else/}
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <p class="text-bold-700 text-muted">请正确选择需要售后的卡密，错选或多选可能会导致售后驳回！</p>
+                                                    <ul class="list-group" style="max-height: 320px;overflow: hidden;overflow-y: scroll;">
+                                                        {foreach $cards as $k=>$v}
+                                                        <li class="list-group-item">
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="id_{$k}" name="card_id" value="{$v.id|htmlentities}" data-num="{$v.num|htmlentities}">
+                                                                <label class="custom-control-label" for="id_{$k}">{$v.cardmsg}</label>
+                                                            </div>
+                                                        </li>
+                                                        {/foreach}
+                                                    </ul>
+                                                </div>
+                                                <div class="col-12 d-flex justify-content-center mt-4">
+                                                    <button id="select_btn" class="btn btn-success mr-1 mb-1">确定选择</button>
+                                                </div>
+                                            </div>
+                                            {/if}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+        <!-- END layout-wrapper -->
+
+
+        <!-- Right bar overlay-->
+        <div class="rightbar-overlay"></div>
+
+        <!-- JAVASCRIPT -->
+        <script src="__RES__/merchant/default/libs/jquery/jquery.min.js"></script>
+        <script src="__RES__/merchant/default/libs/node-waves/waves.min.js"></script>
+        <script src="__RES__/merchant/default/libs/jquery-confirm/js/jquery-confirm.js"></script>
+        <script src="__RES__/merchant/default/libs/layer/layer.js"></script>
+
+        <script>
+                                                            $('#select_btn').click(function () {
+                                                                var ids = new Array();
+                                                                var num = 0;
+                                                                $('.card-content').find('input[name="card_id"]').each(function () {
+                                                                    if ($(this).is(':checked')) {
+                                                                        ids.push($(this).val());
+                                                                        num = num + $(this).data('num');
+                                                                    }
+                                                                });
+                                                                parent.selectLable(ids, num);
+                                                                parent.closeSelectForm();
+                                                            });
+
+        </script>
+    </body>
+
+</html>

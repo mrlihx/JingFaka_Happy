@@ -1,0 +1,96 @@
+{extend name="base"}
+
+{block name="css"}
+{/block}
+{block name="content"}
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{$_title}</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">后台管理</a></li>
+                            <li class="breadcrumb-item active">{$_title}</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>商品名</th>
+                                        <th>原商品名</th>
+                                        <th>原分类名</th>
+                                        <th>代理成本价</th>
+                                        <th>销售价</th>
+                                        <th>状态</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {foreach $goodslist as $v}
+                                    <tr>
+                                        <th>{$v.id}</th>
+                                        <th>{$v.name}</th>
+                                        <th>{$v.pgoods.name}</th>
+                                        <th>{$v.pgoods.category.name|default='未设置'}</th>
+                                        <td>
+                                            {switch name="v.proxy_price_diy"}
+                                            {case value="0"}<span class="ml-1 badge badge-pill badge-success">正常代理价</span>{/case}
+                                            {case value="1"}<span class="ml-1 badge badge-pill badge-primary">自定义价</span>{/case}
+                                            {/switch}
+                                            {$v.cost_price}
+                                            {if $v.proxy_price_diy==1}
+                                            【原￥{$v.pgoods.proxy_price}】
+                                            {/if}
+                                        </td>
+                                        <td>{$v.price}</td>
+                                        <td>
+                                            {switch name="v.status"}
+                                            {case value="0"}<span class="text-danger">下架</span>{/case}
+                                            {case value="1"}<span class="text-success">正常</span>{/case}
+                                            {/switch}
+                                        </td>
+
+                                        <td>
+                                            <div class="btn-group btn-group-sm" role="group" aria-label="Basic group">
+                                                <a onclick="$.x_show('自定义成本价', '{:url(\'agent/proxyPrice\',[\'id\'=>$v.id])}', 450)" class="btn waves-effect waves-light btn-primary" href="javascript:void(0);">自定义成本价</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {/foreach}
+                                </tbody>
+                            </table>
+                        </div>
+                        <nav aria-label="...">
+                            {$page}
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- container-fluid -->
+</div>
+
+{/block}
+{block name="js"}
+<script>
+
+
+</script>
+{/block}

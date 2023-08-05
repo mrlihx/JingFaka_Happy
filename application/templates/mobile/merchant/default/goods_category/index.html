@@ -1,0 +1,89 @@
+{extend name="simple_base"}
+{block name="css"}
+
+{/block}
+
+
+{block name="content"}
+
+<div class="container">
+    <div class="card">
+        <div class="card-body  p-3">
+            <!-- Search Form Wrapper-->
+            <div class="search-form-wrapper">
+                <div class="row">
+                    <div class="col-12">
+                        <button onclick="$.x_show('添加分类', '{:url(\'goods_category/add\')}', '90%');"  class="btn btn-primary w-100 d-flex align-items-center justify-content-center">
+                            <i class="bx bx-plus me-1"></i>添加分类
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider border-light"></div>
+
+            {foreach $categorys as $v}
+
+            <div class="single-search-result mb-3 border-bottom pb-3 order-wrap">
+                <div class="d-flex align-items-center justify-content-between">
+                    <h6 class="text-truncate mb-0 float-left d-inline">分类名称：&nbsp;&nbsp;{$v.name}</h6>
+                    <span style='font-size:.75rem'>排序：{$v.sort}</span>
+                </div>
+
+                <div class="goods-warp d-flex align-items-center mt-3 justify-content-end">
+                    <a class="me-1" href="javascript:void(0);" onclick="$.x_show('分类链接', '{:url(\'goods_category/link\',[\'id\'=>$v.id])}', '90%');"><span class="goods-warp-btn">链接</span></a>
+                    <a class="me-1" href="{:url('goods/index',['cate_id'=>$v.id,'do'=>'search'])}"><span class="goods-warp-btn">商品</span></a>
+                    <a class="me-1" onclick="$.x_show('编辑分类', '{:url(\'goods_category/edit\',[\'id\'=>$v.id])}', '90%');" ><span class="goods-warp-btn">编辑</span></a>
+                    <a href="javascript:void(0);" onclick="delData('{$v.id}')"><span class="goods-warp-btn goods-warp-btn-delete" >删除</span></a>
+                </div>
+            </div>
+
+
+            {/foreach}
+
+
+            <nav aria-label="Page navigation">
+                {$page}
+            </nav>
+        </div>
+    </div>
+</div>
+
+{/block}
+{block name="js"}
+
+<script>
+
+    var delData = function (id) {
+        layer.confirm('确定要删除此商品分类吗？', {
+            btn: ['确定', '取消']
+        }, function () {
+            $.get("{:url('goods_category/del')}", {
+                id: id
+            }, function (res) {
+                if (res.code == 1) {
+                    layer.msg('删除成功', {
+                        icon: 1
+                    });
+                    setTimeout(function () {
+                        location.reload();
+                    }, 200);
+                } else {
+                    layer.msg(res.msg, {
+                        icon: 2
+                    });
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2000);
+                }
+
+            });
+        });
+    };
+
+
+
+</script>
+{/block}
+
+

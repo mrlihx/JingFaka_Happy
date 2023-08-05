@@ -1,0 +1,157 @@
+{extend name='./content'}
+
+{block name="content"}
+
+<!-- 表单搜索 开始 -->
+<form class="layui-form layui-form-pane form-search" action="__SELF__" onsubmit="return false" method="get">
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">筛选N天无交易</label>
+        <div class="layui-input-inline">
+            <input name="day" value="{$Think.get.day|default=''|htmlentities}" placeholder="请输入天数" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <button type="submit" class="layui-btn layui-btn-primary"><i class="fa fa-search"></i> 搜 索</button>
+    </div>
+    <div class="layui-form-item">
+        <button id="heand_del_batch" type="button" class="layui-btn layui-btn-small layui-btn-danger"><i class="fa fa-remove"></i>批量删除</button>
+    </div>
+</form>
+
+<form onsubmit="return false;" data-auto="true" method="post">
+    <input type="hidden" value="resort" name="action"/>
+    <table class="layui-table" lay-skin="line" lay-size="sm">
+        <thead>
+            <tr>
+                <th class='list-table-check-td'>
+                    <input data-none-auto="" data-check-target='.list-check-box' type='checkbox' />
+                </th>
+                <th class='text-center'>ID</th>
+                <th>账号</th>
+                <th>下级商户数</th>
+                <th>店铺名</th>
+                <th>手机</th>
+                <th>身份证号码</th>
+                <th>QQ</th>
+                <th>余额</th>
+                <th>冻结金额</th>
+                <th>佣金</th>
+                <th>状态</th>
+                <th>冻结</th>
+                <th>被投诉次数</th>
+                <th class='text-center'>注册时间</th>
+                <th class='text-center'>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {foreach $users as $v}
+            <tr>
+                <td class='list-table-check-td'>
+                    <input class="list-check-box" value='{$v.id}' type='checkbox' />
+                </td>
+                <td class='text-center'>{$v.id}</td>
+                <td>{$v.username}</td>
+                <td class='text-center'>{$v.sub_user_count}</td>
+                <td>{$v.shop_name}</td>
+                <td>{$v.mobile}</td>
+                <td>{$v.idcard_number}</td>
+                <td>{$v.qq}</td>
+                <td>{$v.money}</td>
+                <td>{$v.freeze_money}</td>
+                <td>{$v.rebate}</td>
+                <td>
+                    {if $v.status==1}
+                    <i class="glyphicon glyphicon-ok"></i>
+                    {else/}
+                    <i class="glyphicon glyphicon-remove" style="color: red"></i>
+                    {/if}
+                </td>
+                <td>
+                    {if $v.is_freeze==1}
+                    <a style="color:red" data-tips="确定取消冻结吗？ " data-update="{$v.id}" data-field='status' data-value='0' data-action='{:url("change_freeze_status")}'
+                       href="javascript:void(0)">已冻结</a>
+                    {else/}
+                    <a style="color:green" data-tips="确定冻结吗？" data-update="{$v.id}" data-field='status' data-value='1' data-action='{:url("change_freeze_status")}'
+                       href="javascript:void(0)">未冻结</a>
+                    {/if}
+                </td>
+                <td class='text-center'>{$v.complaint_count}</td>
+                <td class='text-center'>{$v.create_at|date="Y-m-d H:i:s",###}</td>
+                <td class='text-center nowrap'>
+                    <a data-title="删除"  href="javascript:void(0)" onclick="user_del(this, '{$v.id}')">删除</a>
+                </td>
+            </tr>
+            {/foreach}
+        </tbody>
+    </table>
+</form>
+{$page}
+
+<script>
+    layui.use('form', function () {
+        var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+        form.render();
+    });
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        //日期范围
+        laydate.render({
+            elem: '#date_range',
+            range: true
+        });
+    });
+    /*用户-删除*/
+    function user_del(obj, id) {
+        layer.confirm('确认要删除这个用户吗？', function (index) {
+            $.ajax({
+                url: "/manage/user/del",
+                type: 'post',
+                data: 'id=' + id,
+                success: function (res) {
+                    if (res.code == 1) {
+                        $(obj).parents("tr").remove();
+                        layer.msg('已删除!', {icon: 1, time: 1000});
+                    } else {
+                        layer.msg('删除失败!', {icon: 1, time: 1000});
+                    }
+                }
+            });
+        });
+    }
+
+    $('#heand_del_batch').click(function () {
+        var ids = '';
+        $('.list-check-box').each(function () {
+            var _this = $(this);
+            if (_this.is(':checked')) {
+                ids = ids + _this.val() + ',';
+            }
+        });
+        layer.confirm('确定要批量删除吗？', function (index) {
+            if (ids == '') {
+                layer.msg('请选择选项！');
+                return false;
+            }
+            $.ajax({
+                url: "/manage/user/handBatchDel",
+                type: 'post',
+                data: {
+                    'ids': ids,
+                },
+                success: function (res) {
+                    if (res.code == 1) {
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1000);
+                        layer.msg('已删除!', {icon: 1, time: 1000});
+                    } else {
+                        layer.msg('删除失败!', {icon: 1, time: 1000});
+                    }
+                }
+            });
+        });
+    });
+
+</script>
+{/block}

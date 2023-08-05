@@ -1,0 +1,91 @@
+﻿.header{width: 100%; height: 135px; display: flex; align-items: center; justify-content: space-between; box-sizing: border-box;}
+.header img{width: 261px;}
+.header .right .cha_dingdan{width: 120px; height: 46px; line-height: 46px; font-size: 18px; color: #4290ca; background: #fff; border-radius: 6px; display: block; text-align: center;}
+.nav_list{font-size: 17px; color: #fff;}
+.nav_list a{width: 82px; text-align: center; color: #fff; display: inline-block; margin-left: 60px; position: relative; }
+.nav_list a.current:after{width: 82px; height: 3px; background: #fff; position: absolute; bottom: -15px; left: 0; content: ''; }
+
+
+.mainBox{width: 1200px; background: #fff;box-shadow: 0 0px 30px 10px rgba(0,0,0,.15); overflow: hidden; position: relative;min-height: 718px;}
+.zz_sp{width: 900px;  text-align: center; background: #fff; border-radius: 8px; position: relative; padding: 25px; box-sizing: border-box;}
+.zzsp_box{ width: 100%; margin: 0 auto 29px; overflow: hidden; box-sizing: border-box;}
+.zzsp_box .li{width:100%; margin-bottom: 16px; float: left;}
+.zzsp_box .li .li_follow{width: 100%; line-height: 40px; float: left; position: relative;}
+.zzsp_box .li .li_follow span{width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: right; padding-right: 10px; box-sizing: border-box;}
+.zzsp_box .li .li_follow .left{color: #000; font-size: 14px;}
+.zzsp_box .li .li_follow .input_a{width: 345px; height: 36px; line-height: 36px; background: #eeeeee; border: none; outline: none; border-radius: 4px; padding: 0 15px; box-sizing: border-box; color: #999999;}
+.spsm{width:calc(100% - 110px); background: #eee; border-radius: 4px;  border-radius: 10px; padding: 10px 15px; box-sizing: border-box; color: #999999; font-size: 14px; line-height: 20px;height: 36px;color:#000;font-weight: 600;}
+.tishi{position: absolute; bottom: -31px; left: 80px; font-size: 12px; color: #ff4351}
+.dianpu_top{width: 293px; height: 100%; text-align: center;  background: #7f65ff; padding:0px 23px; box-sizing: border-box;position: absolute;top:0;right:0;}
+.dianpu_top .tit{font-size: 28px; font-family: "微软雅黑"; color: #444444;margin-left: 20px;}
+
+.dianpu_list .title{font-size: 16px; font-weight: bold; color: #fff; padding-left: 12px; margin-bottom: 10px; position: relative;}
+.dianpu_list .title:after{content: ''; width: 3px; height: 25px; background: #fff; position: absolute; left: 0px; top: 0;}
+.dianpu_list p{font-size: 14px; line-height: 24px; color: #fff; margin-left: 12px;}
+.dianpu_list{width: 100%; margin: 52px 0 0; overflow: hidden;}
+.dianpu_list span{width:100%; float: left;  color: #fff;  font-size: 14px;}
+.dianpu_list span label{color: #fff;}
+.lxkf{width: 80%; background: #4290ca; color: #fff; margin:30px auto 0; height: 46px; line-height: 46px; border-radius: 8px; }
+.lxkf  a span{display: flex; align-items: center; color: #fff;  margin-top: 10px; padding-left: 26px; box-sizing: border-box;  }
+.lxkf span img{margin-right: 4px;}
+.ya_gg{width: 100%; margin-top: 10px; color: #fff;font-size: 14px; width: 410px; height: 104px; padding: 10px 20px; box-sizing: border-box; background: #f5f2fc; border-radius: 10px;}
+.ewm{width: 100%; text-align: center; color: #666;}
+
+.ewm p.name{width: 100%; text-align: center;font-size: 17px; color: #fff; margin-top: 15px; }
+.ewm p.qq{font-size: 14px;color: #fff; text-align: center; margin: 8px 0;}
+.ewm p.sm{font-size: 12px;color: #fff; text-align: center;}
+.ewm img{width: 106px; height: 106px; display: block; margin: 60px auto 0; border-radius: 100px; border: 1px solid #fff;box-shadow: 0 0px 10px 0px rgba(0,0,0,.15); }
+.title_sp{color: #4292ca; width: 100%; display: flex; align-items: center; border-bottom: 1px solid #e2e2e2; padding-bottom: 13px; margin-bottom: 25px;}
+.title_sp .name{font-size: 16px; color: #9882fc; width: 110px; display: flex; align-items: center;}
+.title_sp .name img{margin-right: 5px;}
+.title_sp p{width:calc(100% - 110px); color: #000000; line-height: 22px; font-size: 14px; font-weight: normal;}
+
+
+.zhifu_box{width: 100%;}
+.zhifu_box .zhifu_list{width: calc(100% - 110px); margin: 0 auto 30px; overflow: hidden; }
+.zhifu_box .zhifu_list li{width: 154px; height: 49px; float: left; margin-right: 20px;border: 1px solid #dddddd; position: relative;}
+.zhifu_box .zhifu_list li img{width: 152px; display: block; margin: 0 auto; }
+.zhifu_box .zhifu_list li .duihao{display: none; position: absolute; top: 0; right: 0; width: 22px;}
+.zhifu_box .zhifu_list li.current{border: 1px solid #9882fc;}
+.zhifu_box .zhifu_list li.current .duihao{display: block;}
+.queren{width: 201px; height: 48px; line-height: 48px; background: linear-gradient(to right,#7f65ff,#b19ef9); font-size: 18px; color: #fff; margin-left: 110px; border-radius: 6px; outline: none; border: none; display: block;}
+.bianhao{position: absolute; top: 0; left: 0;}
+.title_sm{width: 100%; height: 50px; background: #f3f3f3; border-radius: 6px; margin-bottom: 30px;}
+.title_sm span{display: block; width: 130px; height: 50px; line-height: 50px; color: #fff; text-align: center; font-size: 16px; background: #2e84c4; border-top-left-radius: 6px; border-bottom-left-radius: 6px;}
+
+.rightBox{width: calc(100% - 110px)}
+.rightBox .jian,.rightBox .jia{width: 30px; float: left;}
+.zzsp_box .li .li_follow .rightBox .input_a{width: 59px; margin: 0 15px; text-align: center; padding: 0;}
+.rightBox .gmsm{font-size: 14px; margin-left: 40px;}
+.rightBox .gmsm span{color: #9882fc;}
+.rightBox .Top{margin-bottom: 10px; overflow: hidden;}
+.li_follow .tese{ margin-right: 10px; text-align: center; letter-spacing: normal;width: 107px; border: none; color: #fff; background: #f5b402; background: #fff;color: #999999; border: 1px solid #999999;height: 36px; line-height: 36px; box-sizing: border-box; border-radius: 4px; font-size: 12px;  float: left;}
+.li_follow .current{border: none; color: #fff; background: #f5b402; }
+.kucun{font-size: 14px; color: #000;}
+.kucun label{ color: #ff4351;}
+
+.jiesuan {width: 800px; font-size:16px; margin: 25px auto; color: #ff4351; font-weight: bold;}
+
+footer{width: 100%; padding: 20px 0; color: #fff; line-height: 20px; text-align: center; font-size: 12px;}
+footer p{text-align: center;}
+.wrapperIframe{ background:#fff;}
+.radio-box{
+    color: rgb(153, 153, 153);
+    width: 191px;
+    padding: 0px 20px;
+    text-align: center;
+    cursor: pointer;
+    display: inline-block;
+    border: 1px solid #eee;
+    background: #eee;
+    border-radius: 20px;
+}
+.li_follow .radio-box:first-child {
+    margin-right: 83px;
+}
+.dot{
+    background: #9882fc;
+}
+.checked{
+    background: purple;
+}

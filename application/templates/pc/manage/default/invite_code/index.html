@@ -1,0 +1,191 @@
+{extend name='./content'}
+
+{block name="button"}
+<div class="nowrap pull-right" style="margin-top:10px">
+    <button data-modal='{:url("add")}' data-title="生成邀请码" class='layui-btn layui-btn-small'><i
+            class='fa fa-plus'></i> 生成邀请码
+    </button>
+</div>
+{/block}
+
+{block name="content"}
+<!-- 表单搜索 开始 -->
+<form class="layui-form layui-form-pane form-search" action="__SELF__" onsubmit="return false" method="get">
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">邀请码</label>
+        <div class="layui-input-inline">
+            <input name="code" value="{$Think.get.code|default=''}" placeholder="请输入邀请码" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">持有者ID</label>
+        <div class="layui-input-inline">
+            <input name="user_id" value="{$Think.get.user_id|default=''}" placeholder="请输入持有者ID" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">激活者ID</label>
+        <div class="layui-input-inline">
+            <input name="invite_uid" value="{$Think.get.invite_uid|default=''}" placeholder="请输入激活者ID" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">状态</label>
+        <div class="layui-input-inline">
+            <select name="status">
+                <option value="">全部</option>
+                <option value="2" {if $Think.get.status === '2'}selected{/if}>已过期</option>
+                <option value="1" {if $Think.get.status === '1'}selected{/if}>已使用</option>
+                <option value="0" {if $Think.get.status === '0'}selected{/if}>未使用</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">添加时间</label>
+        <div class="layui-input-inline">
+            <input name="create_at" id="create_at" value="{:urldecode($Think.get.create_at)}" placeholder="请选择时间范围" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">过期时间</label>
+        <div class="layui-input-inline">
+            <input name="expire_at" id="expire_at" value="{:urldecode($Think.get.expire_at)}" placeholder="请选择时间范围" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <button type="submit" class="layui-btn layui-btn-primary"><i class="fa fa-search"></i> 搜 索</button>
+    </div>
+</form>
+<!-- 表单搜索 结束 -->
+<div class="layui-form-item layui-inline">
+    <label class="layui-form-label">邀请码数</label>
+    <div class="layui-input-inline">
+        <input type="text" class="layui-input" value="{$counts|default="0"} 个" readonly>
+    </div>
+</div>
+<div class="layui-form-item layui-inline">
+    <div class="layui-input-inline">
+       <form onsubmit="return false;" data-auto="true" method="post">
+        {if sysconf('merchant_invitecode_open')==1}
+        <span style="color:green"><i class="glyphicon glyphicon-ok"></i> 允许商户生成邀请码</span>
+        <a class="btn btn-danger btn-xs text-white" data-tips="确定允许商户生成邀请码？ "  data-update="0" data-field='status' data-value='0' data-action='{:url("merchant_invitecode_open")}'
+           href="javascript:void(0)">关闭</a>
+        {else/}
+        <span style="color:red"><i class="glyphicon glyphicon-remove"></i> 不允许商户生成邀请码</span>
+        <a class="btn btn-warning btn-xs" data-tips="确定不允许商户生成邀请码？" data-update="0" data-field='status' data-value='1' data-action='{:url("merchant_invitecode_open")}'
+           href="javascript:void(0)">开启</a>
+        {/if}
+       </form>
+    </div>
+</div>
+<form onsubmit="return false;" data-auto="true" method="post">
+    <input type="hidden" value="resort" name="action"/>
+    <table class="layui-table" lay-skin="line" lay-size="sm">
+        <thead>
+            <tr>
+                <th>邀请码ID</th>
+                <th>持有者</th>
+                <th>邀请码</th>
+                <th>状态</th>
+                <th>受邀者ID</th>
+                <th>邀请时间</th>
+                <th>添加时间</th>
+                <th>有效期</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {foreach $codes as $v}
+            <tr>
+                <td>{$v.id}</td>
+                <td>{if $v.user_id==0}系统{else/}{$v.user.username}{/if}</td>
+                <td>{$v.code}</td>
+                <td>
+                    {switch name="v.status"}
+                        {case value="0"}<font color="gray">未使用</font>{/case}
+                        {case value="1"}<font color="green">已使用</font>{/case}
+                        {case value="2"}<font color="red">已过期</font>{/case}
+                    {/switch}
+                </td>
+                <td>
+                    {if $v.status==1}
+                    {$v.invite_uid}
+                    {else/}
+                    -
+                    {/if}
+                </td>
+                <td>
+                    {if $v.status==1}
+                    {$v.invite_at|date="Y-m-d H:i:s",###}
+                    {else/}
+                    -
+                    {/if}
+                </td>
+                <td>
+                    {$v.create_at|date="Y-m-d H:i:s",###}
+                </td>
+                <td>
+                    {if $v.status==1}
+                        已使用
+                    {else/}
+                        {$v.expire_day}
+                        {if $v.expire_at!=0}
+                            {if $v.create_at>=$v.expire_at}
+                                [ 已过期 ]
+                            {else/}
+                                [ {$v.expire_days}天 ]
+                            {/if}
+                        {/if}
+                    {/if}
+                </td>
+                <td>
+                    {if $v.status!=1}
+                    <a href="javascript:void(0);" onclick="delCode({$v.user_id},{$v.id})">删除</a>
+                    {/if}
+                </td>
+            </tr>
+            {/foreach}
+        </tbody>
+    </table>
+
+</form>
+{$page}
+<script>
+    layui.use('form', function(){
+        var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+        layer = layui.layer;
+        form.render();
+    });
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+        //日期范围
+        laydate.render({
+            elem: '#create_at',
+            range: true
+        });
+        //日期范围
+        laydate.render({
+            elem: '#expire_at',
+            range: true
+        });
+    });
+    function delCode(user_id,id)
+    {
+        layer.confirm('确认删除该邀请码？', {icon: 3, title:'提示'}, function(index){
+            $.get("{:url('del')}",{
+                user_id:user_id,
+                id:id
+            },function(res){
+                console.log(res);
+                if(res.code==1){
+                    $.form.reload();
+                }else{
+                    alert(res.msg);
+                }
+            },'json');
+            layer.close(index);
+        });
+    }
+</script>
+{/block}
